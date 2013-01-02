@@ -1,0 +1,10 @@
+<module rename-to='pet'>
+  <inherits name='playn.PlayN'/>
+
+  <source path='core'/>
+  <source path='html'/>
+
+  <public path="resources" />
+
+  <entry-point class='com.pulapirata.html.PetHtml'/>
+</module>
