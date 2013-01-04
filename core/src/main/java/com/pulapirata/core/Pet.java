@@ -25,21 +25,21 @@ public class Pet implements Game {
     graphics().rootLayer().add(layer);
     
     // create and add the status title layer using drawings for faster loading
-    CanvasImage bgtile = graphics().createImage(480, 115);
+    CanvasImage bgtile = graphics().createImage(480, 119);
     bgtile.canvas().setFillColor(0xFFFFFFFF);
     bgtile.canvas().fillRect(0, 0, 480, 115);
     bgtile.canvas().setFillColor(0xFF333366);
-    bgtile.canvas().fillRect(4, 4, 476, 112);
+    bgtile.canvas().fillRect(4, 4, 472, 109);
 
     ImageLayer statlayer = graphics().createImageLayer(bgtile);
     statlayer.setWidth(graphics().width());
-    statlayer.setHeight(graphics().height());
+    statlayer.setHeight(115);
     layer.add(statlayer);
 
     // create and add background image layer
     Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
     ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    layer.addAt(bgLayer,0,116);
+    layer.addAt(bgLayer,0,120);
 
     // sprites
     Pingo pingo = new Pingo(layer, graphics().width() / 2, graphics().height() / 2);
