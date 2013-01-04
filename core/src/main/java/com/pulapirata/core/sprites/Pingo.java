@@ -21,9 +21,9 @@ import playn.core.GroupLayer;
 import playn.core.ResourceCallback;
 
 public class Pingo {
-  public static String IMAGE = "pet/sprites/peasprites.png";
-  public static String JSON = "pet/sprites/peasprite.json";
-  public static String JSON_WITH_IMAGE = "pet/sprites/peasprite2.json";
+  public static String IMAGE = "pet/sprites/pingo_bebe_pulando.png";
+  public static String JSON = "pet/sprites/pingo_bebe_pulando.json";
+  // public static String JSON_WITH_IMAGE = "pet/sprites/peasprite2.json";
   private Sprite sprite;
   private int spriteIndex = 0;
   private boolean hasLoaded = false; // set to true when resources have loaded and we can update
