@@ -1,5 +1,8 @@
 package com.pulapirata.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -7,12 +10,11 @@ import playn.core.GroupLayer;
 import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.Pointer;
-
-import com.pulapirata.core.sprites;
+import com.pulapirata.core.sprites.Pingo;
 
 public class Pet implements Game {
   private GroupLayer layer;
-  private pingo = new Pingo();  
+  private List<Pingo> pingos = new ArrayList<Pingo>(0);
 
   @Override
   public void init() {
@@ -26,7 +28,8 @@ public class Pet implements Game {
     ImageLayer bgLayer = graphics().createImageLayer(bgImage);
     layer.add(bgLayer);
 
-    pingo = (graphics().width() / 2, graphics().height() / 2);
+    Pingo pingo = new Pingo(layer, graphics().width() / 2, graphics().height() / 2);
+    pingos.add(pingo);
   }
 
 
@@ -39,7 +42,9 @@ public class Pet implements Game {
 
   @Override
   public void update(float delta) {
-    pingo.update(delta);
+    for (Pingo pingo : pingos) {
+      pingo.update(delta);
+    }
   }
 
   @Override

@@ -28,7 +28,7 @@ public class Pingo {
   private int spriteIndex = 0;
   private boolean hasLoaded = false; // set to true when resources have loaded and we can update
 
-  public Pea(final GroupLayer peaLayer, final float x, final float y) {
+  public Pingo(final GroupLayer pingoLayer, final float x, final float y) {
     // Sprite method #1: use a sprite image and json data describing the sprites
     sprite = SpriteLoader.getSprite(IMAGE, JSON);
 
@@ -44,7 +44,7 @@ public class Pingo {
         sprite.setSprite(spriteIndex);
         sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
         sprite.layer().setTranslation(x, y);
-        peaLayer.add(sprite.layer());
+        pingoLayer.add(sprite.layer());
         hasLoaded = true;
       }
 
