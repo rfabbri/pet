@@ -12,7 +12,7 @@ public class PetJava {
 
     JavaPlatform.Config conf = new JavaPlatform.Config();
     conf.width = 480;
-    conf.height = 440;
+    conf.height = 800;
 
     JavaPlatform platform = JavaPlatform.register(conf);
 
