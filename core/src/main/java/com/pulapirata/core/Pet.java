@@ -28,6 +28,19 @@ public class Pet implements Game {
     ImageLayer bgLayer = graphics().createImageLayer(bgImage);
     layer.add(bgLayer);
 
+    // create and add the status title layer using drawings
+    CanvasImage bgtile = graphics().createImage(480, 115);
+    bgtile.canvas().setFillColor(0xFFFFFF00);
+    bgtile.canvas().fillRect(0, 0, 480, 115);
+    bgtile.canvas().setFillColor(0x33336600);
+    bgtile.canvas().fillRect(4, 4, 472, 112);
+
+    ImageLayer stat = graphics().createImageLayer(bgtile);
+    stat.setWidth(graphics().width());
+    stat.setHeight(graphics().height());
+    layer.add(bg);
+
+    // sprites
     Pingo pingo = new Pingo(layer, graphics().width() / 2, graphics().height() / 2);
     pingos.add(pingo);
   }
