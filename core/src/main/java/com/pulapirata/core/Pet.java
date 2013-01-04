@@ -49,6 +49,6 @@ public class Pet implements Game {
 
   @Override
   public int updateRate() {
-    return 25;
+    return 100;
   }
 }
