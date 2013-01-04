@@ -13,20 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package playn.showcase.core.sprites;
+package com.pulapirata.core.sprites;
 
 import static playn.core.PlayN.log;
 
 import playn.core.GroupLayer;
 import playn.core.ResourceCallback;
 
-public class Pea {
-  public static String IMAGE = "sprites/peasprites.png";
-  public static String JSON = "sprites/peasprite.json";
-  public static String JSON_WITH_IMAGE = "sprites/peasprite2.json";
+public class Pingo {
+  public static String IMAGE = "pet/sprites/peasprites.png";
+  public static String JSON = "pet/sprites/peasprite.json";
+  public static String JSON_WITH_IMAGE = "pet/sprites/peasprite2.json";
   private Sprite sprite;
   private int spriteIndex = 0;
-  private float angle;
   private boolean hasLoaded = false; // set to true when resources have loaded and we can update
 
   public Pea(final GroupLayer peaLayer, final float x, final float y) {
@@ -58,12 +57,9 @@ public class Pea {
 
   public void update(float delta) {
     if (hasLoaded) {
-      if (Math.random() > 0.95) {
-        spriteIndex = (spriteIndex + 1) % sprite.numSprites();
-        sprite.setSprite(spriteIndex);
-      }
-      angle += delta;
-      sprite.layer().setRotation(angle);
+      spriteIndex = (spriteIndex + 1) % sprite.numSprites();
+      sprite.setSprite(spriteIndex);
+      // sprite.layer().setRotation(angle);
     }
   }
 }
