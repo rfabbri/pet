@@ -16,9 +16,12 @@ import com.pulapirata.core.sprites.Pingo;
 public class Pet implements Game {
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
+  private int BEAT = 0;
+  private int BEATS_COELHODIA = 10; // Em 30 coelho-dias, pingo morre
 
   @Override
   public void init() {
+
 
     // create a group layer to hold everything
     layer = graphics().createGroupLayer();
@@ -58,6 +61,14 @@ public class Pet implements Game {
   public void update(float delta) {
     for (Pingo pingo : pingos) {
       pingo.update(delta);
+      BEAT = BEAT + 1;
+      if( BEAT / BEATS_COELHODIA >=30 ){
+          // pingo morre
+          BEAT = BEAT; // pass
+          pingos.delete(pingo);
+        PingoMorto pingo = new PingoMorto(layer, graphics().width() / 2, graphics().height() / 2);
+
+      }
     }
   }
 
