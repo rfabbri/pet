@@ -16,6 +16,10 @@ import com.pulapirata.core.sprites.Pingo;
 public class Pet implements Game {
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
+  // FIXME graphics.width() is weird in html, not respecting #playn-root
+  // properties
+  private int width = 480;
+  private int height = 800;
 
   @Override
   public void init() {
@@ -32,7 +36,11 @@ public class Pet implements Game {
     bgtile.canvas().fillRect(4, 4, 472, 112);
 
     ImageLayer statlayer = graphics().createImageLayer(bgtile);
-    statlayer.setWidth(graphics().width());
+    //
+    //  statlayer.setWidth(graphics().width());
+    // FIXME: problem with graphics.width not being set correctly in html;
+    // it always seems to give 640
+    //  
     statlayer.setHeight(120);
     layer.add(statlayer);
 
@@ -42,7 +50,7 @@ public class Pet implements Game {
     layer.addAt(bgLayer,0,120);
 
     // sprites
-    Pingo pingo = new Pingo(layer, graphics().width() / 2, graphics().height() / 2);
+    Pingo pingo = new Pingo(layer, width / 2, height / 2);
     pingos.add(pingo);
   }
 
