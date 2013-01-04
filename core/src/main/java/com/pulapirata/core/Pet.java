@@ -20,10 +20,11 @@ public class Pet implements Game {
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
   private List<PingoMorto> pingosmortos = new ArrayList<PingoMorto>(0);
-  private int beat = 0;
-  private int beats_coelho_dia = 10; // Em 30 coelho-dias, pingo morre
+  private int beat = 0; // number of updates
+  private int beats_coelhodia = 10; // Em 30 coelho-dias, pingo morre
+
   // FIXME graphics.width() is weird in html, not respecting #playn-root
-  // properties
+  // properties. 
   private int width = 480;
   private int height = 800;
 
