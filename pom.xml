@@ -15,6 +15,11 @@
 
   <properties>
     <playn.version>1.5.1</playn.version>
+    <!-- Specify AppEngine version for your project. It should match SDK version pointed to 
+      by ${gae.home} property (Typically, one used by your Eclipse plug-in) -->
+    <gae.version>1.6.5</gae.version>
+    <!-- port defaults to 8080 -->
+    <gae.port>8080</gae.port>
   </properties>
 
   <profiles>
@@ -44,4 +49,74 @@
   <modules>
     <module>core</module>
   </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>net.kindleit</groupId>
+      <artifactId>gae-runtime</artifactId>
+      <version>${gae.version}</version>
+      <type>pom</type>
+    </dependency>
+		<!--
+			GAE libraries for local testing as described here:
+			http://code.google.com/appengine/docs/java/howto/unittesting.html
+		-->
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-labs</artifactId>
+			<version>${gae.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-stubs</artifactId>
+			<version>${gae.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-testing</artifactId>
+			<version>${gae.version}</version>
+			<scope>test</scope>
+		</dependency>
+  </dependencies>
+
+
+
+
+
+  <repositories>
+    <repository>
+      <id>google-maven-repo</id>
+      <name>Google Maven Repository</name>
+      <url>http://google-maven-repository.googlecode.com/svn/repository/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+        <pluginRepository>
+            <id>maven-gae-plugin-repo</id>
+            <name>maven-gae-plugin repository</name>
+            <url>http://maven-gae-plugin.googlecode.com/svn/repository</url>
+        </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>net.kindleit</groupId>
+              <artifactId>maven-gae-plugin</artifactId>
+              <version>0.9.4</version>
+          </plugin>
+        <!-- Upload application to the appspot automatically, during release:perform -->
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <goals>gae:deploy</goals>
+          </configuration>
+        </plugin>
+      </plugins>
+  </build>
 </project>
