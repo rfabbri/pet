@@ -12,10 +12,12 @@ import playn.core.ImageLayer;
 import playn.core.Pointer;
 import playn.core.CanvasImage;
 import com.pulapirata.core.sprites.Pingo;
+import com.pulapirata.core.sprites.PingoMorto;
 
 public class Pet implements Game {
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
+  private List<PingoMorto> pingosmortos = new ArrayList<PingoMorto>(0);
   private int BEAT = 0;
   private int BEATS_COELHODIA = 10; // Em 30 coelho-dias, pingo morre
 
@@ -65,11 +67,16 @@ public class Pet implements Game {
       if( BEAT / BEATS_COELHODIA >=30 ){
           // pingo morre
           BEAT = BEAT; // pass
-          pingos.delete(pingo);
-        PingoMorto pingo = new PingoMorto(layer, graphics().width() / 2, graphics().height() / 2);
+          //pingos.del(pingo);
+        PingoMorto pingomorto = new PingoMorto(layer, graphics().width() / 2, graphics().height() / 2);
+        pingosmortos.add(pingomorto);
 
       }
     }
+    for (PingoMorto pingomorto : pingosmortos) {
+      pingomorto.update(delta);
+    }
+
   }
 
   @Override
