@@ -28,8 +28,8 @@ public class Pet implements Game {
     CanvasImage bgtile = graphics().createImage(480, 115);
     bgtile.canvas().setFillColor(0xFFFFFFFF);
     bgtile.canvas().fillRect(0, 0, 480, 115);
-//    bgtile.canvas().setFillColor(0x33336600);
-//    bgtile.canvas().fillRect(4, 4, 472, 112);
+    bgtile.canvas().setFillColor(0xFF333366);
+    bgtile.canvas().fillRect(4, 4, 476, 112);
 
     ImageLayer statlayer = graphics().createImageLayer(bgtile);
     statlayer.setWidth(graphics().width());
