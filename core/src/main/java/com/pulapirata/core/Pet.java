@@ -26,10 +26,10 @@ public class Pet implements Game {
     
     // create and add the status title layer using drawings for faster loading
     CanvasImage bgtile = graphics().createImage(480, 115);
-    bgtile.canvas().setFillColor(0xFFFFFF00);
+    bgtile.canvas().setFillColor(0xFFFFFFFF);
     bgtile.canvas().fillRect(0, 0, 480, 115);
-    bgtile.canvas().setFillColor(0x33336600);
-    bgtile.canvas().fillRect(4, 4, 472, 112);
+//    bgtile.canvas().setFillColor(0x33336600);
+//    bgtile.canvas().fillRect(4, 4, 472, 112);
 
     ImageLayer statlayer = graphics().createImageLayer(bgtile);
     statlayer.setWidth(graphics().width());
