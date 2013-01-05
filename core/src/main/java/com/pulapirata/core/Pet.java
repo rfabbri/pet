@@ -83,10 +83,10 @@ public class Pet implements Game {
 
 //    Root root = iface.createRoot(AbsoluteLayout.at(0,564,width(),236), SimpleStyles.newSheet());
     Root root = iface.createRoot(new AbsoluteLayout(), SimpleStyles.newSheet());
-    root.setSize(width(),236);
+    root.setSize(width(), 354); // this includes the secondary buttons
 //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
 
-    layer.addAt(root.layer, 0, 564);
+    layer.addAt(root.layer, 0, 446);
 
 
 //    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
