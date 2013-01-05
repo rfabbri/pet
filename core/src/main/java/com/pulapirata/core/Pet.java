@@ -84,7 +84,9 @@ public class Pet implements Game {
 //    Root root = iface.createRoot(AbsoluteLayout.at(0,564,width(),236), SimpleStyles.newSheet());
     Root root = iface.createRoot(new AbsoluteLayout(), SimpleStyles.newSheet());
     root.setSize(width(),236);
-    layer.add(root.layer);
+//    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
+
+    layer.addAt(root.layer, 0, 564);
 
 
 //    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
@@ -104,7 +106,9 @@ public class Pet implements Game {
     Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
     Button but0 = new Button (but0bg);
 
-    root.add(but0);
+    Group buttons = new Group(new AbsoluteLayout());
+    buttons.add(AbsoluteLayout.at(but0, 0, 564, 120, 120));
+    root.add(buttons);
 
     but0.clicked().connect(new UnitSlot() {
         @Override
