@@ -108,7 +108,7 @@ public class Pet implements Game {
 
     Group buttons = new Group(new AbsoluteLayout());
     buttons.add(AbsoluteLayout.at(but0, 0, 564, 120, 120));
-    root.add(buttons);
+    root.add(AbsoluteLayout.at(buttons, 0, 564, width(), 236));
 
     but0.clicked().connect(new UnitSlot() {
         @Override
@@ -124,6 +124,10 @@ public class Pet implements Game {
     // layers automatically paint themselves (and their children). The rootlayer
     // will paint itself, the background, and the sprites group layer automatically
     // so no need to do anything here!
+
+    if (iface != null) {
+      iface.paint(alpha);
+    }
   }
 
   @Override
@@ -141,6 +145,10 @@ public class Pet implements Game {
     }
     for (PingoMorto pingomorto : pingosmortos) {
       pingomorto.update(delta);
+    }
+
+    if (iface != null) {
+      iface.update(delta);
     }
   }
 
