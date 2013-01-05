@@ -86,7 +86,7 @@ public class Pet implements Game {
     root.setSize(width(), 354); // this includes the secondary buttons
 //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
 
-    layer.addAt(root.layer, 0, 446);
+    layer.addAt(root.layer, 0, 442);
 
 
 //    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
