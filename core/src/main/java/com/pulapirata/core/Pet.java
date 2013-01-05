@@ -107,8 +107,9 @@ public class Pet implements Game {
     Button but0 = new Button (but0bg);
 
     Group buttons = new Group(new AbsoluteLayout());
-    buttons.add(AbsoluteLayout.at(but0, 0, 564, 120, 120));
-    root.add(AbsoluteLayout.at(buttons, 0, 564, width(), 236));
+    buttons.add(AbsoluteLayout.at(but0, 0, 0, 120, 120));
+    root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
+//    root.add(AbsoluteLayout.at(buttons, 0, 564, width(), 236));
 
     but0.clicked().connect(new UnitSlot() {
         @Override
