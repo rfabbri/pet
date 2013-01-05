@@ -60,14 +60,15 @@ public class Pet implements Game {
     Pingo pingo = new Pingo(layer, width() / 2, height() / 2);
     pingos.add(pingo);
 
+    // ------------------------------------------------------------------
     // main buttons
     
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
 
-    Root root = iface.createRoot(AbsoluteLayout().vertical().gap(15), SimpleStyles.newSheet());
-
-    root.setSize(width(),height());
+    Root root = iface.createRoot(AbsoluteLayout().at(0,564,width(),236, SimpleStyles.newSheet());
+    root.setSize(width(),236);
+    layer.add(root.layer);
 
 //    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
 //      label("", Background.image(testBg)),
@@ -76,11 +77,20 @@ public class Pet implements Game {
 
     System.out.println("here ------ !");
 
-    Button but0 = new Button ("");
-
+    // TODO: provavelmente vamos precisar extender a classe Sprite e colocar
+    // nela parte do codigo de Button, pois o Button nao permite mudar o BG.
+    // 
+    // Vou implementar um exemplo de ambas (Sprite, Button, Sprite+Button). 
+    //
+    // Tambem temos que olhar mais exemplos de codigo pra encontrar algo similar
+    //
+    Image but0bg = PlayN.assets().getImage("pet/images/main_buttons/01_comida_principal.png");
+    Button but0 = new Button (Background.image(but0bg));
 
     Group buttons = Group(new AbsoluteLayout());
-    buttons.add(AbsoluteLayout.at(but0, 150, 50, 150, 35));
+    root.add(buttons);
+
+    buttons.add(AbsoluteLayout.at(but0, 0, 564, 120, 120));
 
     but0.clicked().connect(new UnitSlot() {
         @Override
