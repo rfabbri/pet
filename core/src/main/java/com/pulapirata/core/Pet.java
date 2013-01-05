@@ -16,6 +16,17 @@ import com.pulapirata.core.sprites.PingoMorto;
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
+import react.UnitSlot;
+
+import tripleplay.ui.Background;
+import tripleplay.ui.Button;
+import tripleplay.ui.Group;
+import tripleplay.ui.Interface;
+import tripleplay.ui.Root;
+import tripleplay.ui.SimpleStyles;
+import tripleplay.ui.layout.AbsoluteLayout;
+
+
 public class Pet implements Game {
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
@@ -27,6 +38,10 @@ public class Pet implements Game {
   // properties. 
   public int width() { return 480; }
   public int height() { return 800; }
+
+  
+  private Interface iface;
+
 
   @Override
   public void init() {
@@ -66,9 +81,11 @@ public class Pet implements Game {
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
 
-    Root root = iface.createRoot(AbsoluteLayout().at(0,564,width(),236, SimpleStyles.newSheet());
+//    Root root = iface.createRoot(AbsoluteLayout.at(0,564,width(),236), SimpleStyles.newSheet());
+    Root root = iface.createRoot(new AbsoluteLayout(), SimpleStyles.newSheet());
     root.setSize(width(),236);
     layer.add(root.layer);
+
 
 //    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
 //      label("", Background.image(testBg)),
@@ -84,13 +101,10 @@ public class Pet implements Game {
     //
     // Tambem temos que olhar mais exemplos de codigo pra encontrar algo similar
     //
-    Image but0bg = PlayN.assets().getImage("pet/images/main_buttons/01_comida_principal.png");
-    Button but0 = new Button (Background.image(but0bg));
+    Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
+    Button but0 = new Button (but0bg);
 
-    Group buttons = Group(new AbsoluteLayout());
-    root.add(buttons);
-
-    buttons.add(AbsoluteLayout.at(but0, 0, 564, 120, 120));
+    root.add(but0);
 
     but0.clicked().connect(new UnitSlot() {
         @Override
