@@ -25,12 +25,11 @@ public class Pet implements Game {
 
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
-  private int width = 480;
-  private int height = 800;
+  private final int width = 480;
+  private final int height = 800;
 
   @Override
   public void init() {
-
 
     // create a group layer to hold everything
     layer = graphics().createGroupLayer();
@@ -55,11 +54,13 @@ public class Pet implements Game {
     // create and add background image layer
     Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
     ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    layer.addAt(bgLayer,0,120);
+    layer.addAt(bgLayer, 0, 120);
 
     // sprites
     Pingo pingo = new Pingo(layer, width / 2, height / 2);
     pingos.add(pingo);
+
+    // buttons
   }
 
 
