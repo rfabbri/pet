@@ -25,8 +25,8 @@ public class Pet implements Game {
 
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
-  private final int width = 480;
-  private final int height = 800;
+  public int width() { return 480; }
+  public int height() { return 800; }
 
   @Override
   public void init() {
@@ -57,10 +57,37 @@ public class Pet implements Game {
     layer.addAt(bgLayer, 0, 120);
 
     // sprites
-    Pingo pingo = new Pingo(layer, width / 2, height / 2);
+    Pingo pingo = new Pingo(layer, width() / 2, height() / 2);
     pingos.add(pingo);
 
-    // buttons
+    // main buttons
+    
+    // create our UI manager and configure it to process pointer events
+    iface = new Interface();
+
+    Root root = iface.createRoot(AbsoluteLayout().vertical().gap(15), SimpleStyles.newSheet());
+
+    root.setSize(width(),height());
+
+//    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
+//      label("", Background.image(testBg)),
+//    );
+//
+
+    System.out.println("here ------ !");
+
+    Button but0 = new Button ("");
+
+
+    Group buttons = Group(new AbsoluteLayout());
+    buttons.add(AbsoluteLayout.at(but0, 150, 50, 150, 35));
+
+    but0.clicked().connect(new UnitSlot() {
+        @Override
+        public void onEmit() {
+          System.out.println("but0 clicked!");
+        }
+    });
   }
 
 
@@ -80,7 +107,7 @@ public class Pet implements Game {
           // pingo morre
           // beat = beat; // pass
           //pingos.del(pingo);
-        PingoMorto pingomorto = new PingoMorto(layer, width / 2, height / 2);
+        PingoMorto pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
         pingosmortos.add(pingomorto);
       }
     }
