@@ -135,48 +135,67 @@ public class Pet implements Game {
         assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
         ));
 
+    ArrayList< ArrayList<Image> > s_img_butt_secondary = new ArrayList< ArrayList<Image> > (0);
+
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (Arrays.asList(
+              assets().getImage("pet/main-buttons/011_comida.png"),
+              assets().getImage("pet/main-buttons/012_comida.png"),
+              assets().getImage("pet/main-buttons/013_comida.png"),
+              assets().getImage("pet/main-buttons/014_comida.png")
+    )));
+
+    final ArrayList< ArrayList<Image> > img_butt_secondary = s_img_butt_secondary;
+
+
+
+
+    /*
     final ArrayList< ArrayList<Image> > img_butt_secondary = 
         new ArrayList< ArrayList<Image> > (
           Arrays.AsList(
+            new ArrayList<Image>(
             Arrays.AsList(
               assets().getImage("pet/main-buttons/011_comida.png"),
               assets().getImage("pet/main-buttons/012_comida.png"),
               assets().getImage("pet/main-buttons/013_comida.png"),
               assets().getImage("pet/main-buttons/014_comida.png")
-              ),
-            Arrays.AsList(
-              assets().getImage("pet/main-buttons/021_diversao.png"),
-              assets().getImage("pet/main-buttons/022_diversao.png"),
-              assets().getImage("pet/main-buttons/023_diversao.png"),
-              assets().getImage("pet/main-buttons/024_diversao.png")
-              ),
-            Arrays.AsList(),
-            Arrays.AsList(
-              assets().getImage("pet/main-buttons/041_higiene.png"),
-              assets().getImage("pet/main-buttons/042_higiene.png"),
-              assets().getImage("pet/main-buttons/043_higiene.png"),
-              assets().getImage("pet/main-buttons/044_higiene.png")
-              ),
-            Arrays.AsList(
-              assets().getImage("pet/main-buttons/051_obrigacoes.png"),
-              assets().getImage("pet/main-buttons/052_obrigacoes.png")
-              ),
-            Arrays.AsList(
-              assets().getImage("pet/main-buttons/061_saude.png"),
-              assets().getImage("pet/main-buttons/062_saude.png")
-              ),
-            Arrays.AsList(
-              assets().getImage("pet/main-buttons/071_lazer.png"),
-              assets().getImage("pet/main-buttons/072_lazer.png")
-              ),
+              )),
+//            Arrays.AsList(
+//              assets().getImage("pet/main-buttons/021_diversao.png"),
+//              assets().getImage("pet/main-buttons/022_diversao.png"),
+//              assets().getImage("pet/main-buttons/023_diversao.png"),
+//              assets().getImage("pet/main-buttons/024_diversao.png")
+//              ),
+//            Arrays.AsList(),
+//            Arrays.AsList(
+//              assets().getImage("pet/main-buttons/041_higiene.png"),
+//              assets().getImage("pet/main-buttons/042_higiene.png"),
+//              assets().getImage("pet/main-buttons/043_higiene.png"),
+//              assets().getImage("pet/main-buttons/044_higiene.png")
+//              ),
+//            Arrays.AsList(
+//              assets().getImage("pet/main-buttons/051_obrigacoes.png"),
+//              assets().getImage("pet/main-buttons/052_obrigacoes.png")
+//              ),
+//            Arrays.AsList(
+//              assets().getImage("pet/main-buttons/061_saude.png"),
+//              assets().getImage("pet/main-buttons/062_saude.png")
+//              ),
+//            Arrays.AsList(
+//              assets().getImage("pet/main-buttons/071_lazer.png"),
+//              assets().getImage("pet/main-buttons/072_lazer.png")
+//              ),
+            new ArrayList<Image>(
             Arrays.AsList(
               assets().getImage("pet/main-buttons/081_disciplina.png"),
               assets().getImage("pet/main-buttons/082_disciplina.png"),
               assets().getImage("pet/main-buttons/083_disciplina.png"),
               assets().getImage("pet/main-buttons/084_disciplina.png")
               )
-          ),
+          )
         );
+        */
 
     final int[][] topleft = new int [][] {
       {0,0},
@@ -197,7 +216,7 @@ public class Pet implements Game {
     };
 
     final int num_main_butts = img_butt_solto.size();
-    final ArrayList<Group> sbuttons(0);
+    final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
 
     for (int b =0; b < num_main_butts; ++b) {
       final int b_final = b;
@@ -211,24 +230,23 @@ public class Pet implements Game {
 
       for (int s = 0; s < img_butt_secondary.get(b).size(); ++s) {
         Button sbut = new Button(img_butt_secondary.get(b).get(s));
-        sbuttons.get(s).add(AbsoluteLayout.at(sbut, 
+        sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
       }
 
       but.selected.map(new Function <Boolean, Image>() {
         public Image apply (Boolean selected) {
                if (selected) {
-                  if (!sbuttons.isempty()) {
-                    root.add(AbsoluteLayout.at(sbuttons, 0, 0, width(), 120));
+                  if (!sbuttons.isEmpty()) {
+                    root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
                   }
                   return img_butt_apertado.get(b_final);
                } else {
                   if (!sbuttons.isempty()) {
-                    root.remove(sbuttons, 0, 0, width(), 120);
+                    root.remove(sbuttons.get(b_final), 0, 0, width(), 120);
                   }
                   return img_butt_solto.get(b_final);
                }
-               return selected?  : ; 
       }}).connectNotify(but.icon.slot());
     }
 
