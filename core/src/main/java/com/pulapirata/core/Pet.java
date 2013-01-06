@@ -128,7 +128,8 @@ public class Pet implements Game {
       {120,0}
     };
 
-    final int num_main_butts = 8;
+    final int num_main_butts = img_butt_solto.size();
+    // TODO assert img_butt_solto.size() == img_butt_apertado = 8
 
     for (int b =0; b < num_main_butts; ++b) {
       final int b_final = b;
