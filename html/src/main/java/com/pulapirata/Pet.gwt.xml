@@ -1,6 +1,9 @@
 <module rename-to='pet'>
   <inherits name='playn.PlayN'/>
 
+  <!-- for the buttons UI (added by hand) -->
+  <inherits name='tripleplay.TriplePlay'/>
+
   <source path='core'/>
   <source path='html'/>
 
