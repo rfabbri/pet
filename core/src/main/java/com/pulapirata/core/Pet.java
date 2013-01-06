@@ -16,10 +16,12 @@ import com.pulapirata.core.sprites.PingoMorto;
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
+import react.Function;
 import react.UnitSlot;
 
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
+import tripleplay.ui.ToggleButton;
 import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
@@ -120,9 +122,9 @@ public class Pet implements Game {
     //
     // Tambem temos que olhar mais exemplos de codigo pra encontrar algo similar
     //
-    Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
+    final Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
     final Image but0press = assets().getImage("pet/main-buttons/01_comida_principal_apertado.png");
-    final Button but0 = new Button (but0bg);
+    final ToggleButton but0 = new ToggleButton (but0bg);
 
     Group buttons = new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.blank())
@@ -131,6 +133,12 @@ public class Pet implements Game {
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 //    root.add(AbsoluteLayout.at(buttons, 0, 564, width(), 236));
 
+
+    but0.selected.map(new Function <Boolean, Image>() {
+      public Image apply (Boolean selected) { return selected? but0press : but0bg; }
+    }).connectNotify(but0.icon.slot());
+
+/*
     but0.clicked().connect(new UnitSlot() {
         @Override
         public void onEmit() {
@@ -138,6 +146,7 @@ public class Pet implements Game {
           but0.icon.update(but0press);
         }
     });
+    */
   }
 
 
