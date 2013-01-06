@@ -24,8 +24,8 @@ import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
-import tripleplay.ui.StyleSheet;
 import tripleplay.ui.Style;
+import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.AbsoluteLayout;
 
 
