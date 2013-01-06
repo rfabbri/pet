@@ -24,6 +24,7 @@ import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
+import tripleplay.ui.StyleSheet;
 import tripleplay.ui.Style;
 import tripleplay.ui.layout.AbsoluteLayout;
 
@@ -81,12 +82,16 @@ public class Pet implements Game {
     // TODO
     //   - try the Selector class from tripleplay
     //   - try the click() trigger for the button
+    //   - use a sprite implementing the Clicable class then insert it like I
+    //   did the button below.
     
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
 
 //    Root root = iface.createRoot(AbsoluteLayout.at(0,564,width(),236), SimpleStyles.newSheet());
-    Root root = iface.createRoot(new AbsoluteLayout(), SimpleStyles.newSheet());
+    Stylesheet petSheet = SimpleStyles.newSheet();
+    petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+    Root root = iface.createRoot(new AbsoluteLayout(), petSheet);
     root.setSize(width(), 354); // this includes the secondary buttons
 //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
 
