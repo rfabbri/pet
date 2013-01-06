@@ -134,7 +134,50 @@ public class Pet implements Game {
         assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
         assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
         ));
-    
+
+    final ArrayList< ArrayList<Image> > img_butt_secondary = 
+        new ArrayList< ArrayList<Image> > (
+          Arrays.AsList(
+            Arrays.AsList(
+              assets().getImage("pet/main-buttons/011_comida.png"),
+              assets().getImage("pet/main-buttons/012_comida.png"),
+              assets().getImage("pet/main-buttons/013_comida.png"),
+              assets().getImage("pet/main-buttons/014_comida.png")
+              ),
+            Arrays.AsList(
+              assets().getImage("pet/main-buttons/021_diversao.png"),
+              assets().getImage("pet/main-buttons/022_diversao.png"),
+              assets().getImage("pet/main-buttons/023_diversao.png"),
+              assets().getImage("pet/main-buttons/024_diversao.png")
+              ),
+            Arrays.AsList(),
+            Arrays.AsList(
+              assets().getImage("pet/main-buttons/041_higiene.png"),
+              assets().getImage("pet/main-buttons/042_higiene.png"),
+              assets().getImage("pet/main-buttons/043_higiene.png"),
+              assets().getImage("pet/main-buttons/044_higiene.png")
+              ),
+            Arrays.AsList(
+              assets().getImage("pet/main-buttons/051_obrigacoes.png"),
+              assets().getImage("pet/main-buttons/052_obrigacoes.png")
+              ),
+            Arrays.AsList(
+              assets().getImage("pet/main-buttons/061_saude.png"),
+              assets().getImage("pet/main-buttons/062_saude.png")
+              ),
+            Arrays.AsList(
+              assets().getImage("pet/main-buttons/071_lazer.png"),
+              assets().getImage("pet/main-buttons/072_lazer.png")
+              ),
+            Arrays.AsList(
+              assets().getImage("pet/main-buttons/081_disciplina.png"),
+              assets().getImage("pet/main-buttons/082_disciplina.png"),
+              assets().getImage("pet/main-buttons/083_disciplina.png"),
+              assets().getImage("pet/main-buttons/084_disciplina.png")
+              )
+          ),
+        );
+
     final int[][] topleft = new int [][] {
       {0,0},
       {120,0},
@@ -175,10 +218,14 @@ public class Pet implements Game {
       but.selected.map(new Function <Boolean, Image>() {
         public Image apply (Boolean selected) {
                if (selected) {
-                  root.add(AbsoluteLayout.at(sbuttons, 0, 0, width(), 120));
+                  if (!sbuttons.isempty()) {
+                    root.add(AbsoluteLayout.at(sbuttons, 0, 0, width(), 120));
+                  }
                   return img_butt_apertado.get(b_final);
                } else {
-                  root.remove(sbuttons, 0, 0, width(), 120);
+                  if (!sbuttons.isempty()) {
+                    root.remove(sbuttons, 0, 0, width(), 120);
+                  }
                   return img_butt_solto.get(b_final);
                }
                return selected?  : ; 
