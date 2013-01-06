@@ -89,9 +89,17 @@ public class Pet implements Game {
     iface = new Interface();
 
 //    Root root = iface.createRoot(AbsoluteLayout.at(0,564,width(),236), SimpleStyles.newSheet());
-    Stylesheet petSheet = SimpleStyles.newSheet();
-    petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+
+//    Stylesheet petSheet = SimpleStyles.newSheet();
+//    petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+//    Root root = iface.createRoot(new AbsoluteLayout(), petSheet);
+
+
+    Stylesheet petSheet = PetStyles.newSheet();
+    //petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
     Root root = iface.createRoot(new AbsoluteLayout(), petSheet);
+
+
     root.setSize(width(), 354); // this includes the secondary buttons
 //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
 
