@@ -101,6 +101,9 @@ public class Pet implements Game {
     //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
     layer.addAt(root.layer, 0, 442);
 
+    Group buttons = new Group(new AbsoluteLayout()).addStyles(
+        Style.BACKGROUND.is(Background.blank()));
+
     // TODO we could use TableLayout in the future but I dont trust it now; 
     // I prefer pixel control for now.
     //
@@ -108,42 +111,37 @@ public class Pet implements Game {
     //      label("", Background.image(testBg)),
     //    );
 
-    final List<Image> img_butt_solto = 
-        Arrays.asList(
+    final ArrayList<Image> img_butt_solto = 
+        new ArrayList<Image>(Arrays.asList(
         assets().getImage("pet/main-buttons/01_comida_principal.png"),
         assets().getImage("pet/main-buttons/02_diversao_principal.png")
-        );
+        ));
 
-    final List<Image> img_butt_apertado = 
-        Arrays.asList(
+    final ArrayList<Image> img_butt_apertado = 
+        new ArrayList<Image> (Arrays.asList(
         assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
         assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png")
-        );
+        ));
+    
+    final int[][] topleft = new int [][] {
+      {0,0},
+      {120,0}
+    };
 
-    Group buttons = new Group(new AbsoluteLayout()).addStyles(
-        Style.BACKGROUND.is(Background.blank()));
+    final int num_main_butts = 8;
 
-//    List<Image> img_butt_off = Arrays.asList(but0,but1);
+    for (int b =0; b < num_main_butts; ++b) {
+      ToggleButton but = new ToggleButton (img_butt_solto.get(0));
+      buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
-    ToggleButton but0 = new ToggleButton (but0bg);
-    ToggleButton but1 = new ToggleButton (but1bg);
-
-    // List<ToggleButton> butt = Arrays.asList(but0,but1);
-
-    buttons.add(AbsoluteLayout.at(but0, 0, 0, 120, 120));
-    buttons.add(AbsoluteLayout.at(but1, 120, 0, 120, 120));
+      but.selected.map(new Function <Boolean, Image>() {
+        public Image apply (Boolean selected) { 
+               return selected? img_butt_apertado.get(b) : img_butt_solto.get(b); 
+      }}).connectNotify(but.icon.slot());
+    }
 
     Selector sel = new Selector(buttons, null);
-
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
-
-    but0.selected.map(new Function <Boolean, Image>() {
-      public Image apply (Boolean selected) { return selected? but0press : img_butt_on.get(0); }
-    }).connectNotify(but0.icon.slot());
-
-    but1.selected.map(new Function <Boolean, Image>() {
-      public Image apply (Boolean selected) { return selected? but1press : but1bg; }
-    }).connectNotify(but1.icon.slot());
 
     /*
     but0.clicked().connect(new UnitSlot() {
