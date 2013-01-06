@@ -1,0 +1,2 @@
+- crunch the PNG's for faster loading (reduce colors since we dont use many
+  anyways)
