@@ -124,12 +124,19 @@ public class Pet implements Game {
     //
     final Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
     final Image but0press = assets().getImage("pet/main-buttons/01_comida_principal_apertado.png");
+    final Image but1bg = assets().getImage("pet/main-buttons/02_diversao_principal.png");
+    final Image but1press = assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png");
+    
     final ToggleButton but0 = new ToggleButton (but0bg);
+
+    final ToggleButton but1 = new ToggleButton (but1bg);
 
     Group buttons = new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.blank())
         );
     buttons.add(AbsoluteLayout.at(but0, 0, 0, 120, 120));
+    buttons.add(AbsoluteLayout.at(but1, 120, 0, 120, 120));
+
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 //    root.add(AbsoluteLayout.at(buttons, 0, 564, width(), 236));
 
@@ -137,6 +144,10 @@ public class Pet implements Game {
     but0.selected.map(new Function <Boolean, Image>() {
       public Image apply (Boolean selected) { return selected? but0press : but0bg; }
     }).connectNotify(but0.icon.slot());
+
+    but1.selected.map(new Function <Boolean, Image>() {
+      public Image apply (Boolean selected) { return selected? but1press : but1bg; }
+    }).connectNotify(but1.icon.slot());
 
 /*
     but0.clicked().connect(new UnitSlot() {
