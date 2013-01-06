@@ -2,6 +2,7 @@ package com.pulapirata.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import static playn.core.PlayN.*;
 
@@ -91,70 +92,60 @@ public class Pet implements Game {
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
 
-//    Root root = iface.createRoot(AbsoluteLayout.at(0,564,width(),236), SimpleStyles.newSheet());
-
-//    Stylesheet petSheet = SimpleStyles.newSheet();
-//    petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
-//    Root root = iface.createRoot(new AbsoluteLayout(), petSheet);
-
-
+    //    Stylesheet petSheet = SimpleStyles.newSheet();
     Stylesheet petSheet = PetStyles.newSheet();
     //petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
     Root root = iface.createRoot(new AbsoluteLayout(), petSheet);
 
-
     root.setSize(width(), 354); // this includes the secondary buttons
-//    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-
+    //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
     layer.addAt(root.layer, 0, 442);
 
-
-//    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
-//      label("", Background.image(testBg)),
-//    );
-//
-
-    System.out.println("here ------ !");
-
-    // TODO: provavelmente vamos precisar extender a classe Sprite e colocar
-    // nela parte do codigo de Button, pois o Button nao permite mudar o BG.
-    // 
-    // Vou implementar um exemplo de ambas (Sprite, Button, Sprite+Button). 
+    // TODO we could use TableLayout in the future but I dont trust it now; 
+    // I prefer pixel control for now.
     //
-    // Tambem temos que olhar mais exemplos de codigo pra encontrar algo similar
-    //
-    final Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
-    final Image but0press = assets().getImage("pet/main-buttons/01_comida_principal_apertado.png");
-    final Image but1bg = assets().getImage("pet/main-buttons/02_diversao_principal.png");
-    final Image but1press = assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png");
-    final ToggleButton but0 = new ToggleButton (but0bg);
-    final ToggleButton but1 = new ToggleButton (but1bg);
+    //    Group iface = Group(new TableLayout(4).gaps(0, 0)).add(
+    //      label("", Background.image(testBg)),
+    //    );
+
+    final List<Image> img_butt_solto = 
+        Arrays.asList(
+        assets().getImage("pet/main-buttons/01_comida_principal.png"),
+        assets().getImage("pet/main-buttons/02_diversao_principal.png")
+        );
+
+    final List<Image> img_butt_apertado = 
+        Arrays.asList(
+        assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
+        assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png")
+        );
 
     Group buttons = new Group(new AbsoluteLayout()).addStyles(
-        Style.BACKGROUND.is(Background.blank())
-        );
+        Style.BACKGROUND.is(Background.blank()));
+
+//    List<Image> img_butt_off = Arrays.asList(but0,but1);
+
+    ToggleButton but0 = new ToggleButton (but0bg);
+    ToggleButton but1 = new ToggleButton (but1bg);
+
+    // List<ToggleButton> butt = Arrays.asList(but0,but1);
+
     buttons.add(AbsoluteLayout.at(but0, 0, 0, 120, 120));
     buttons.add(AbsoluteLayout.at(but1, 120, 0, 120, 120));
-
-//    root.add(AbsoluteLayout.at(buttons, 0, 564, width(), 236));
 
     Selector sel = new Selector(buttons, null);
 
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
-    
 
     but0.selected.map(new Function <Boolean, Image>() {
-      public Image apply (Boolean selected) { return selected? but0press : but0bg; }
+      public Image apply (Boolean selected) { return selected? but0press : img_butt_on.get(0); }
     }).connectNotify(but0.icon.slot());
 
     but1.selected.map(new Function <Boolean, Image>() {
       public Image apply (Boolean selected) { return selected? but1press : but1bg; }
     }).connectNotify(but1.icon.slot());
 
-    // global selector - at most 1 main menu item active at a time.
-
-
-/*
+    /*
     but0.clicked().connect(new UnitSlot() {
         @Override
         public void onEmit() {
