@@ -78,6 +78,9 @@ public class Pet implements Game {
 
     // ------------------------------------------------------------------
     // main buttons
+    // TODO
+    //   - try the Selector class from tripleplay
+    //   - try the click() trigger for the button
     
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
