@@ -146,17 +146,42 @@ public class Pet implements Game {
       {360,120},
     };
 
+    final int[][] topleft_secondary = new int [][] {
+      {0,0},
+      {120,0},
+      {240,0},
+      {360,0},
+    };
+
     final int num_main_butts = img_butt_solto.size();
-    // TODO assert img_butt_solto.size() == img_butt_apertado = 8
+    final ArrayList<Group> sbuttons(0);
 
     for (int b =0; b < num_main_butts; ++b) {
       final int b_final = b;
       ToggleButton but = new ToggleButton (img_butt_solto.get(0));
       buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
+      // add button b's secondary buttons TODO: use animated sheets for them
+      
+      sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
+        Style.BACKGROUND.is(Background.blank())));
+
+      for (int s = 0; s < img_butt_secondary.get(b).size(); ++s) {
+        Button sbut = new Button(img_butt_secondary.get(b).get(s));
+        sbuttons.get(s).add(AbsoluteLayout.at(sbut, 
+          topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
+      }
+
       but.selected.map(new Function <Boolean, Image>() {
-        public Image apply (Boolean selected) { 
-               return selected? img_butt_apertado.get(b_final) : img_butt_solto.get(b_final); 
+        public Image apply (Boolean selected) {
+               if (selected) {
+                  root.add(AbsoluteLayout.at(sbuttons, 0, 0, width(), 120));
+                  return img_butt_apertado.get(b_final);
+               } else {
+                  root.remove(sbuttons, 0, 0, width(), 120);
+                  return img_butt_solto.get(b_final);
+               }
+               return selected?  : ; 
       }}).connectNotify(but.icon.slot());
     }
 
