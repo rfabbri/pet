@@ -24,6 +24,7 @@ import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
+import tripleplay.ui.Style;
 import tripleplay.ui.layout.AbsoluteLayout;
 
 
@@ -106,7 +107,9 @@ public class Pet implements Game {
     Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
     Button but0 = new Button (but0bg);
 
-    Group buttons = new Group(new AbsoluteLayout());
+    Group buttons = new Group(new AbsoluteLayout()).addStyles(
+        Style.BACKGROUND.is(Background.blank())
+        );
     buttons.add(AbsoluteLayout.at(but0, 0, 0, 120, 120));
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 //    root.add(AbsoluteLayout.at(buttons, 0, 564, width(), 236));
