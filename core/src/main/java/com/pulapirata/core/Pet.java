@@ -121,7 +121,8 @@ public class Pet implements Game {
     // Tambem temos que olhar mais exemplos de codigo pra encontrar algo similar
     //
     Image but0bg = assets().getImage("pet/main-buttons/01_comida_principal.png");
-    Button but0 = new Button (but0bg);
+    final Image but0press = assets().getImage("pet/main-buttons/01_comida_principal_apertado.png");
+    final Button but0 = new Button (but0bg);
 
     Group buttons = new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.blank())
@@ -134,6 +135,7 @@ public class Pet implements Game {
         @Override
         public void onEmit() {
           System.out.println("but0 clicked!");
+          but0.icon.update(but0press);
         }
     });
   }
