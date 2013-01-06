@@ -114,18 +114,36 @@ public class Pet implements Game {
     final ArrayList<Image> img_butt_solto = 
         new ArrayList<Image>(Arrays.asList(
         assets().getImage("pet/main-buttons/01_comida_principal.png"),
-        assets().getImage("pet/main-buttons/02_diversao_principal.png")
+        assets().getImage("pet/main-buttons/02_diversao_principal.png"),
+        assets().getImage("pet/main-buttons/03_social_principal.png"),
+        assets().getImage("pet/main-buttons/04_higiene_principal.png"),
+        assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
+        assets().getImage("pet/main-buttons/06_saude_principal.png"),
+        assets().getImage("pet/main-buttons/07_lazer_principal.png"),
+        assets().getImage("pet/main-buttons/08_disciplina_principal.png")
         ));
 
     final ArrayList<Image> img_butt_apertado = 
         new ArrayList<Image> (Arrays.asList(
         assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png")
+        assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
+        assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
+        assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
+        assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
+        assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
+        assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
+        assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
         ));
     
     final int[][] topleft = new int [][] {
       {0,0},
-      {120,0}
+      {120,0},
+      {240,0},
+      {360,0},
+      {0,120},
+      {120,120},
+      {240,120},
+      {360,120},
     };
 
     final int num_main_butts = img_butt_solto.size();
