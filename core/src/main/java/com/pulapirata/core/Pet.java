@@ -234,20 +234,21 @@ public class Pet implements Game {
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
       }
 
+
       but.selected.map(new Function <Boolean, Image>() {
         public Image apply (Boolean selected) {
                if (selected) {
-                  if (!sbuttons.isEmpty()) {
-                    root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
-                  }
+                  sbuttons.get(b_final).setVisible(true);
                   return img_butt_apertado.get(b_final);
                } else {
-                  if (!sbuttons.isempty()) {
-                    root.remove(sbuttons.get(b_final), 0, 0, width(), 120);
-                  }
+                  sbuttons.get(b_final).setVisible(false);
                   return img_butt_solto.get(b_final);
                }
       }}).connectNotify(but.icon.slot());
+
+      // all secondary buttons are added; toggle visibility only
+      root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
+      sbuttons.get(b_final).setVisible(false);
     }
 
     Selector sel = new Selector(buttons, null);
