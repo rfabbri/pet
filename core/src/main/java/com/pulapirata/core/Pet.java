@@ -131,12 +131,13 @@ public class Pet implements Game {
     final int num_main_butts = 8;
 
     for (int b =0; b < num_main_butts; ++b) {
+      final int b_final = b;
       ToggleButton but = new ToggleButton (img_butt_solto.get(0));
       buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
       but.selected.map(new Function <Boolean, Image>() {
         public Image apply (Boolean selected) { 
-               return selected? img_butt_apertado.get(b) : img_butt_solto.get(b); 
+               return selected? img_butt_apertado.get(b_final) : img_butt_solto.get(b_final); 
       }}).connectNotify(but.icon.slot());
     }
 
