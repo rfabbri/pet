@@ -145,9 +145,49 @@ public class Pet implements Game {
               assets().getImage("pet/main-buttons/014_comida.png")
     )));
 
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (Arrays.asList(
+              assets().getImage("pet/main-buttons/021_diversao.png"),
+              assets().getImage("pet/main-buttons/022_diversao.png"),
+              assets().getImage("pet/main-buttons/023_diversao.png"),
+              assets().getImage("pet/main-buttons/024_diversao.png")
+    )));
+    
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (0)
+    );
+
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (Arrays.asList(
+              assets().getImage("pet/main-buttons/041_higiene.png"),
+              assets().getImage("pet/main-buttons/042_higiene.png"),
+              assets().getImage("pet/main-buttons/043_higiene.png"),
+              assets().getImage("pet/main-buttons/044_higiene.png")
+    )));
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (Arrays.asList(
+              assets().getImage("pet/main-buttons/051_obrigacoes.png"),
+              assets().getImage("pet/main-buttons/052_obrigacoes.png")
+    )));
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (Arrays.asList(
+              assets().getImage("pet/main-buttons/061_saude.png"),
+              assets().getImage("pet/main-buttons/062_saude.png")
+    )));
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (Arrays.asList(
+              assets().getImage("pet/main-buttons/071_lazer.png"),
+              assets().getImage("pet/main-buttons/072_lazer.png")
+    )));
+    s_img_butt_secondary.add(
+        new ArrayList<Image> (Arrays.asList(
+              assets().getImage("pet/main-buttons/081_disciplina.png"),
+              assets().getImage("pet/main-buttons/082_disciplina.png"),
+              assets().getImage("pet/main-buttons/083_disciplina.png"),
+              assets().getImage("pet/main-buttons/084_disciplina.png")
+    )));
+
     final ArrayList< ArrayList<Image> > img_butt_secondary = s_img_butt_secondary;
-
-
 
 
     /*
