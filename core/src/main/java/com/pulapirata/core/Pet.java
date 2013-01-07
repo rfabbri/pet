@@ -226,14 +226,15 @@ public class Pet implements Game {
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
       }
 
-
       but.selected.map(new Function <Boolean, Image>() {
         public Image apply (Boolean selected) {
                if (selected) {
-                  sbuttons.get(b_final).setVisible(true);
+                  if (sbuttons.get(b_final).childCount() != 0)
+                    sbuttons.get(b_final).setVisible(true);
                   return img_butt_apertado.get(b_final);
                } else {
-                  sbuttons.get(b_final).setVisible(false);
+                  if (sbuttons.get(b_final).childCount() != 0)
+                    sbuttons.get(b_final).setVisible(false);
                   return img_butt_solto.get(b_final);
                }
       }}).connectNotify(but.icon.slot());
