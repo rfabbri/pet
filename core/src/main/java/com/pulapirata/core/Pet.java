@@ -249,6 +249,7 @@ public class Pet implements Game {
     Selector sel = new Selector(buttons, null);
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 
+    // XXX work in progress.... see Selector demo from tripleplay
     for (int b =0; b < num_main_butts; ++b) {
       sel.selected.connect(new slot<Element<?>>() {
         @Override public void onEmit (Element<?> event) {
