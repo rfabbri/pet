@@ -189,54 +189,6 @@ public class Pet implements Game {
 
     final ArrayList< ArrayList<Image> > img_butt_secondary = s_img_butt_secondary;
 
-
-    /*
-    final ArrayList< ArrayList<Image> > img_butt_secondary = 
-        new ArrayList< ArrayList<Image> > (
-          Arrays.AsList(
-            new ArrayList<Image>(
-            Arrays.AsList(
-              assets().getImage("pet/main-buttons/011_comida.png"),
-              assets().getImage("pet/main-buttons/012_comida.png"),
-              assets().getImage("pet/main-buttons/013_comida.png"),
-              assets().getImage("pet/main-buttons/014_comida.png")
-              )),
-//            Arrays.AsList(
-//              assets().getImage("pet/main-buttons/021_diversao.png"),
-//              assets().getImage("pet/main-buttons/022_diversao.png"),
-//              assets().getImage("pet/main-buttons/023_diversao.png"),
-//              assets().getImage("pet/main-buttons/024_diversao.png")
-//              ),
-//            Arrays.AsList(),
-//            Arrays.AsList(
-//              assets().getImage("pet/main-buttons/041_higiene.png"),
-//              assets().getImage("pet/main-buttons/042_higiene.png"),
-//              assets().getImage("pet/main-buttons/043_higiene.png"),
-//              assets().getImage("pet/main-buttons/044_higiene.png")
-//              ),
-//            Arrays.AsList(
-//              assets().getImage("pet/main-buttons/051_obrigacoes.png"),
-//              assets().getImage("pet/main-buttons/052_obrigacoes.png")
-//              ),
-//            Arrays.AsList(
-//              assets().getImage("pet/main-buttons/061_saude.png"),
-//              assets().getImage("pet/main-buttons/062_saude.png")
-//              ),
-//            Arrays.AsList(
-//              assets().getImage("pet/main-buttons/071_lazer.png"),
-//              assets().getImage("pet/main-buttons/072_lazer.png")
-//              ),
-            new ArrayList<Image>(
-            Arrays.AsList(
-              assets().getImage("pet/main-buttons/081_disciplina.png"),
-              assets().getImage("pet/main-buttons/082_disciplina.png"),
-              assets().getImage("pet/main-buttons/083_disciplina.png"),
-              assets().getImage("pet/main-buttons/084_disciplina.png")
-              )
-          )
-        );
-        */
-
     final int[][] topleft = new int [][] {
       {0,0},
       {120,0},
@@ -266,7 +218,7 @@ public class Pet implements Game {
       // add button b's secondary buttons TODO: use animated sheets for them
       
       sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
-        Style.BACKGROUND.is(Background.blank())));
+        Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
       for (int s = 0; s < img_butt_secondary.get(b).size(); ++s) {
         Button sbut = new Button(img_butt_secondary.get(b).get(s));
