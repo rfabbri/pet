@@ -231,14 +231,8 @@ public class Pet implements Game {
       but.selected.map(new Function <Boolean, Image>() {
         public Image apply (Boolean selected) {
                if (selected) {
-//                  if (sbuttons.get(b_final).childCount() != 0) {
-//                    sbuttons.get(b_final).setVisible(true);
-//                  }
                   return img_butt_apertado.get(b_final);
                } else {
-//                  if (sbuttons.get(b_final).childCount() != 0) {
-//                    sbuttons.get(b_final).setVisible(false);
-//                  }
                   return img_butt_solto.get(b_final);
                }
       }}).connectNotify(but.icon.slot());
@@ -261,7 +255,8 @@ public class Pet implements Game {
           }
         } else {
           for (int i=0; i < num_main_butts; ++i) {
-            if (buttons.childAt(i) == (ToggleButton) event) {
+            if (buttons.childAt(i) == (ToggleButton) event && 
+                sbuttons.get(i).childCount() != 0) {
               sbuttons.get(i).setVisible(true);
             } else {
               sbuttons.get(i).setVisible(false);
@@ -272,7 +267,8 @@ public class Pet implements Game {
     });
 
 
-    /*
+    /* Exemplo p/ sinais e eventos
+     *
     but0.clicked().connect(new UnitSlot() {
         @Override
         public void onEmit() {
