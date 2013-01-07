@@ -251,11 +251,12 @@ public class Pet implements Game {
     Selector sel = new Selector(buttons, null);
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 
-    // XXX work in progress.... see Selector demo from tripleplay
+    // TODO: improve this part with a button-> index map so we don't go through
+    // all butts
     sel.selected.connect(new Slot<Element<?>>() {
       @Override public void onEmit (Element<?> event) {
         if (event == null) {
-          for (Group sb : sbuttons) { //XXX
+          for (Group sb : sbuttons) {
             sb.setVisible(false);
           }
         } else {
