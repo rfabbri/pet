@@ -19,7 +19,9 @@ import com.pulapirata.core.sprites.PingoMorto;
 
 import react.Function;
 import react.UnitSlot;
+import react.Slot;
 
+import tripleplay.ui.Element;
 import tripleplay.ui.Selector;
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
@@ -101,7 +103,7 @@ public class Pet implements Game {
     //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
     layer.addAt(root.layer, 0, 442);
 
-    Group buttons = new Group(new AbsoluteLayout()).addStyles(
+    final Group buttons = new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.blank()));
 
     // TODO we could use TableLayout in the future but I dont trust it now; 
@@ -229,14 +231,14 @@ public class Pet implements Game {
       but.selected.map(new Function <Boolean, Image>() {
         public Image apply (Boolean selected) {
                if (selected) {
-                  if (sbuttons.get(b_final).childCount() != 0) {
-                    sbuttons.get(b_final).setVisible(true);
-                  }
+//                  if (sbuttons.get(b_final).childCount() != 0) {
+//                    sbuttons.get(b_final).setVisible(true);
+//                  }
                   return img_butt_apertado.get(b_final);
                } else {
-                  if (sbuttons.get(b_final).childCount() != 0) {
-                    sbuttons.get(b_final).setVisible(false);
-                  }
+//                  if (sbuttons.get(b_final).childCount() != 0) {
+//                    sbuttons.get(b_final).setVisible(false);
+//                  }
                   return img_butt_solto.get(b_final);
                }
       }}).connectNotify(but.icon.slot());
@@ -250,12 +252,23 @@ public class Pet implements Game {
     root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 
     // XXX work in progress.... see Selector demo from tripleplay
-    for (int b =0; b < num_main_butts; ++b) {
-      sel.selected.connect(new slot<Element<?>>() {
-        @Override public void onEmit (Element<?> event) {
+    sel.selected.connect(new Slot<Element<?>>() {
+      @Override public void onEmit (Element<?> event) {
+        if (event == null) {
+          for (Group sb : sbuttons) { //XXX
+            sb.setVisible(false);
+          }
+        } else {
+          for (int i=0; i < num_main_butts; ++i) {
+            if (buttons.childAt(i) == (ToggleButton) event) {
+              sbuttons.get(i).setVisible(true);
+            } else {
+              sbuttons.get(i).setVisible(false);
+            }
+          }
         }
       }
-    }
+    });
 
 
     /*
