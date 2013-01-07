@@ -40,7 +40,7 @@ public class Pet implements Game {
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
   private List<PingoMorto> pingosmortos = new ArrayList<PingoMorto>(0);
   private int beat = 0; // number of updates
-  private int beats_coelhodia = 10; // Em 30 coelho-dias, pingo morre
+  private int beats_coelhodia = 10; // beats por 1 coelho dia. Em 30 coelho-dias, pingo morre
 
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
@@ -295,18 +295,26 @@ public class Pet implements Game {
   public void update(float delta) {
     for (Pingo pingo : pingos) {
       pingo.update(delta);
-      beat = beat + 1;
-      if( beat / beats_coelhodia >= 30 ){
+    }
+
+    if(beat / beats_coelhodia >= 30) {
+      if (pingosmortos.isEmpty()) {
           // pingo morre
           // beat = beat; // pass
           //pingos.del(pingo);
         PingoMorto pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
         pingosmortos.add(pingomorto);
+        pingos.get(0).detatch(layer);
+        pingos.clear();
+      } else {
+        for (PingoMorto pingomorto : pingosmortos) {
+          pingomorto.update(delta);
+        }
       }
+    } else {
+      beat = beat + 1;
     }
-    for (PingoMorto pingomorto : pingosmortos) {
-      pingomorto.update(delta);
-    }
+
 
     if (iface != null) {
       iface.update(delta);

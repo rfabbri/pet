@@ -62,4 +62,8 @@ public class Pingo {
       // sprite.layer().setRotation(angle);
     }
   }
+
+  public void detatch(GroupLayer pingoLayer) {
+    pingoLayer.remove(sprite.layer());
+  }
 }
