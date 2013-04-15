@@ -18,7 +18,7 @@ package com.pulapirata.core.sprites;
 import static playn.core.PlayN.log;
 
 import playn.core.GroupLayer;
-import playn.core.ResourceCallback;
+import playn.core.util.Callback;
 
 public class Pingo {
   public static String IMAGE = "pet/sprites/pingo_bebe_pulando.png";
@@ -38,7 +38,7 @@ public class Pingo {
     // Add a callback for when the image loads.
     // This is necessary because we can't use the width/height (to center the
     // image) until after the image has been loaded
-    sprite.addCallback(new ResourceCallback<Sprite>() {
+    sprite.addCallback(new Callback<Sprite>() {
       @Override
       public void done(Sprite sprite) {
         sprite.setSprite(spriteIndex);
