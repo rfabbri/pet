@@ -4,10 +4,19 @@ This project implements the Pet game project
 
   http://wiki.nosdigitais.teia.org.br/Pet
 
+
 == Hacking ==
 
 The code is currently based on modifications of the PlayN/GWT framework and is
 designed to be extremely multi-platform
+
+In order to compile this game you'll need ooo's playn fork, see
+
+  http://wiki.nosdigitais.teia.org.br/PlayN
+
+See also video tutorials from 
+  
+  http://wiki.nosdigitais.teia.org.br/Pet
 
 == Authors ==
 
