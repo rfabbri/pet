@@ -25,6 +25,7 @@ import tripleplay.ui.Element;
 import tripleplay.ui.Selector;
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
+import tripleplay.ui.ImageIcon;
 import tripleplay.ui.ToggleButton;
 import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
@@ -214,7 +215,7 @@ public class Pet implements Game {
 
     for (int b =0; b < num_main_butts; ++b) {
       final int b_final = b;
-      ToggleButton but = new ToggleButton (img_butt_solto.get(0));
+      ToggleButton but = new ToggleButton (new ImageIcon(img_butt_solto.get(0)));
       buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
       // add button b's secondary buttons TODO: use animated sheets for them

@@ -40,7 +40,7 @@ public class PingoMorto {
     // image) until after the image has been loaded
     sprite.addCallback(new Callback<Sprite>() {
       @Override
-      public void done(Sprite sprite) {
+      public void onSuccess(Sprite sprite) {
         sprite.setSprite(spriteIndex);
         sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
         sprite.layer().setTranslation(x, y);
@@ -49,7 +49,7 @@ public class PingoMorto {
       }
 
       @Override
-      public void error(Throwable err) {
+      public void onFailure(Throwable err) {
         log().error("Error loading image!", err);
       }
     });
