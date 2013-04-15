@@ -16,7 +16,6 @@ public class PetJava {
 
     JavaPlatform platform = JavaPlatform.register(conf);
 
-    platform.assets().setPathPrefix("com/pulapirata/resources");
     PlayN.run(new Pet());
   }
 }

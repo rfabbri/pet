@@ -37,6 +37,13 @@
       <artifactId>playn-flash</artifactId>
       <version>${playn.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.pulapirata</groupId>
+      <artifactId>pet-core</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
   </dependencies>
 
   <build>

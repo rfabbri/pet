@@ -46,6 +46,13 @@
       <version>${playn.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.pulapirata</groupId>
+      <artifactId>pet-core</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+
     <!-- Start Google App Engine dependencies -->
     <!-- These can be removed if you don't wish to deploy to Google App Engine -->
     <dependency>
@@ -74,6 +81,13 @@
       <scope>test</scope>
     </dependency>
     <!-- End Google App Engine dependencies -->
+
+    <dependency>
+      <groupId>com.googlecode.playn</groupId>
+      <artifactId>playn-html</artifactId>
+      <version>${playn.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
   </dependencies>
 
   <build>

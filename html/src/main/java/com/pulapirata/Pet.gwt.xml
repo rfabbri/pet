@@ -3,6 +3,7 @@
 
   <!-- for the buttons UI (added by hand) -->
   <inherits name='tripleplay.TriplePlay'/>
+  <inherits name='PetAssets'/>
 
   <source path='core'/>
   <source path='html'/>

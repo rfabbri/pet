@@ -9,7 +9,6 @@ public class PetActivity extends GameActivity {
 
   @Override
   public void main(){
-    platform().assets().setPathPrefix("com/pulapirata/resources");
     PlayN.run(new Pet());
   }
 }
