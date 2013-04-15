@@ -25,10 +25,17 @@
     </dependency>
 
     <dependency>
+      <groupId>com.pulapirata</groupId>
+      <artifactId>pet-assets</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.googlecode.playn</groupId>
       <artifactId>playn-java</artifactId>
       <version>${playn.version}</version>
     </dependency>
+
   </dependencies>
 
   <build>

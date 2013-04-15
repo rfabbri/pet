@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.pulapirata</groupId>
     <artifactId>pet</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>pet-html</artifactId>
@@ -25,6 +25,19 @@
       <groupId>com.pulapirata</groupId>
       <artifactId>pet-core</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.pulapirata</groupId>
+      <artifactId>pet-assets</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.threerings</groupId>
+      <artifactId>tripleplay</artifactId>
+      <version>${playn.version}</version>
+      <classifier>sources</classifier>
     </dependency>
 
     <dependency>
@@ -68,6 +81,10 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
+        <!-- we need class metadata, override PlayN's disabling of such -->
+        <configuration>
+          <disableClassMetadata>false</disableClassMetadata>
+        </configuration>
         <executions>
           <execution>
             <phase>prepare-package</phase>

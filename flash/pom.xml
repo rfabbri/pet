@@ -27,6 +27,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.pulapirata</groupId>
+      <artifactId>pet-assets</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.googlecode.playn</groupId>
       <artifactId>playn-flash</artifactId>
       <version>${playn.version}</version>

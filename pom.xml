@@ -119,4 +119,8 @@
         </plugin>
       </plugins>
   </build>
+  <modules>
+    <module>assets</module>
+    <module>core</module>
+  </modules>
 </project>
