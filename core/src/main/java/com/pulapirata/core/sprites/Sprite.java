@@ -61,7 +61,7 @@ public class Sprite {
   public void addCallback(Callback<Sprite> callback) {
     this.callback = callback;
     if (isReady()) {
-      callback.done(this);
+      callback.onSuccess(this);
     }
   }
 
@@ -145,7 +145,7 @@ public class Sprite {
    */
   void done() {
     if (callback != null) {
-      callback.done(this);
+      callback.onSuccess(this);
     }
   }
 
@@ -175,7 +175,7 @@ public class Sprite {
    */
   void error(Throwable err) {
     if (callback != null) {
-      callback.error(err);
+      callback.onFailure(err);
     } else {
       // don't let the error fall on deaf ears
       log().error("Error loading sprite", err);
