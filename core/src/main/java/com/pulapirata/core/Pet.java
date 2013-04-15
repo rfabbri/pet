@@ -12,6 +12,7 @@ import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.Pointer;
 import playn.core.CanvasImage;
+import playn.core.util.Clock;
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
 // TODO: we need a generic sprite class; or the layer could automatically update
@@ -36,10 +37,15 @@ import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.AbsoluteLayout;
 
 
-public class Pet implements Game {
+public class Pet extends Game.Default {
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
   private List<PingoMorto> pingosmortos = new ArrayList<PingoMorto>(0);
+
+  public static final int UPDATE_RATE = 100;
+  protected final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
+  
+  
   private int beat = 0; // number of updates
   private int beats_coelhodia = 10; // beats por 1 coelho dia. Em 30 coelho-dias, pingo morre
 
@@ -50,6 +56,10 @@ public class Pet implements Game {
 
   
   private Interface iface;
+
+  public Pet() {
+    super(UPDATE_RATE);
+  }
 
 
   @Override
@@ -229,12 +239,12 @@ public class Pet implements Game {
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
       }
 
-      but.selected.map(new Function <Boolean, Image>() {
-        public Image apply (Boolean selected) {
+      but.selected.map(new Function <Boolean, ImageIcon>() {
+        public ImageIcon apply (Boolean selected) {
                if (selected) {
-                  return img_butt_apertado.get(b_final);
+                  return new ImageIcon(img_butt_apertado.get(b_final));
                } else {
-                  return img_butt_solto.get(b_final);
+                  return new ImageIcon(img_butt_solto.get(b_final));
                }
       }}).connectNotify(but.icon.slot());
 
@@ -288,12 +298,13 @@ public class Pet implements Game {
     // so no need to do anything here!
 
     if (iface != null) {
-      iface.paint(alpha);
+      iface.paint(_clock);
     }
   }
 
   @Override
-  public void update(float delta) {
+  public void update(int delta) {
+    _clock.update(delta);
     for (Pingo pingo : pingos) {
       pingo.update(delta);
     }
@@ -322,8 +333,4 @@ public class Pet implements Game {
     }
   }
 
-  @Override
-  public int updateRate() {
-    return 100;
-  }
 }
