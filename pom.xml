@@ -14,7 +14,7 @@
   <name>Pet Metaproject</name>
 
   <properties>
-    <playn.version>1.7-SNAPSHOT</playn.version>
+    <playn.version>1.8-SNAPSHOT</playn.version>
     <!-- Specify AppEngine version for your project. It should match SDK version pointed to 
       by ${gae.home} property (Typically, one used by your Eclipse plug-in) -->
     <gae.version>1.6.5</gae.version>
