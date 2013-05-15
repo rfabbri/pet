@@ -38,6 +38,7 @@ import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.TableLayout;
 import tripleplay.ui.layout.AbsoluteLayout;
+import tripleplay.ui.layout.AxisLayout;
 
 import static tripleplay.ui.layout.TableLayout.COL;
 
@@ -68,6 +69,7 @@ public class Pet extends Game.Default {
 
 
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
+  protected  static final String STAT_FILLER_1 = "Idade: 9 dias\nEstado: ressaca";
 
   @Override
   public void init() {
@@ -111,11 +113,27 @@ public class Pet extends Game.Default {
     Image exclamacao = assets().getImage("pet/images/exclamacao.png");
 
 
+    // Cria um grupo para os caras da esquerda
+    // Basicamente 2 labels: nome grandao e indicadores em fonte menor
+
+    final Group main_stat = new Group (AxisLayout.vertical()).add (
+        new Label("PINGO").addStyles(Styles.make(
+            Style.COLOR.is(0xFFFFFFFF),
+            Style.HALIGN.left
+            // TODO aumentar fonte
+        )),
+        new Label(STAT_FILLER_1).addStyles(Styles.make(
+            Style.COLOR.is(0xFFFFFFFF),
+            Style.HALIGN.left
+        ))
+    ).addStyles(Styles.make(Style.HALIGN.left));
+
+
     final Group statbar = new Group (statbar_layout).add (
-        new Label("PINGO").addStyles(Styles.make(Style.COLOR.is(0xFFFFFFFF))), // FIXME will be axislayout later
-//        new Label("Pet"), // FIXME will be axislayout later
+        main_stat,
         new Group(rightpart_layout).add (
           new Button(new ImageIcon(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
+          // TODO in future this button will actually be an animation sprite
           new Label(STAT_ALERT_1).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.TEXT_WRAP.is(true),
