@@ -67,6 +67,8 @@ public class Pet extends Game.Default {
   }
 
 
+  protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
+
   @Override
   public void init() {
 
@@ -108,12 +110,17 @@ public class Pet extends Game.Default {
 
     Image exclamacao = assets().getImage("pet/images/exclamacao.png");
 
+
     final Group statbar = new Group (statbar_layout).add (
         new Label("PINGO").addStyles(Styles.make(Style.COLOR.is(0xFFFFFFFF))), // FIXME will be axislayout later
 //        new Label("Pet"), // FIXME will be axislayout later
         new Group(rightpart_layout).add (
           new Button(new ImageIcon(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
-          new Label("Dar pinga?").addStyles(Styles.make(Style.COLOR.is(0xFFFFFFFF)))
+          new Label(STAT_ALERT_1).addStyles(Styles.make(
+            Style.COLOR.is(0xFFFFFFFF),
+            Style.TEXT_WRAP.is(true),
+            Style.HALIGN.left
+            ))
         )
     ).addStyles(Style.VALIGN.top);
 
