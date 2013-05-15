@@ -107,11 +107,11 @@ public class Pet extends Game.Default {
     final int mte = 18; // mae == margin on top of exlamation
     
     // sm stands for statbar_margin
-    TableLayout statbar_layout = new TableLayout(COL.alignLeft(), COL.stretch()).gaps(mae,mae).alignTop();
+    TableLayout statbar_layout = new TableLayout(COL.minWidth(30).alignLeft(), COL.stretch()).gaps(mae,mae).alignTop();
     // the left status plus is the left column
     // the (!) icon plust the right text is the right column
 
-    TableLayout rightpart_layout = new TableLayout(COL.fixed(), COL.alignLeft()).gaps(mae,mae).alignTop();
+    TableLayout rightpart_layout = new TableLayout(COL.fixed().minWidth(30), COL.alignLeft()).gaps(mae,mae).alignTop();
 
     Image exclamacao = assets().getImage("pet/images/exclamacao.png");
 
