@@ -28,13 +28,17 @@ import tripleplay.ui.Background;
 import tripleplay.ui.Button;
 import tripleplay.ui.ImageIcon;
 import tripleplay.ui.ToggleButton;
+import tripleplay.ui.Label;
 import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
 import tripleplay.ui.Style;
 import tripleplay.ui.Stylesheet;
+import tripleplay.ui.layout.TableLayout;
 import tripleplay.ui.layout.AbsoluteLayout;
+
+import static tripleplay.ui.layout.TableLayout.COL;
 
 
 public class Pet extends Game.Default {
