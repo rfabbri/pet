@@ -34,6 +34,7 @@ import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
 import tripleplay.ui.Style;
+import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.TableLayout;
 import tripleplay.ui.layout.AbsoluteLayout;
@@ -94,6 +95,7 @@ public class Pet extends Game.Default {
 
     // ------ The text in the status bar as a tripleplay nested layout interface 
   
+    // TODO: e o tal do gaps?
     TableLayout statbar_layout = new TableLayout(COL.stretch(), COL.stretch());
     // the left status plus is the left column
     // the (!) icon plust the right text is the right column
@@ -102,7 +104,8 @@ public class Pet extends Game.Default {
 
 
     final Group statbar = new Group (statbar_layout).add (
-        new Label("Pet"), // FIXME will be axislayout later
+        new Label("Pet").addStyles(Styles.make(Style.COLOR.is(0xFFFFFFFF))), // FIXME will be axislayout later
+//        new Label("Pet"), // FIXME will be axislayout later
         new Group(rightpart_layout).add (
           new Label("!"), // FIXME an icon goes here or else blank space w icon's size
           new Label("Pingo quer pinga, deixar?")
@@ -119,9 +122,8 @@ public class Pet extends Game.Default {
     Root statbar_root = statbar_iface.createRoot(new AbsoluteLayout(), petSheet);
 
     statbar_root.setSize(width(), 120); // this includes the secondary buttons
-    //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-    layer.addAt(statbar_root.layer, 0, 0);
 
+    layer.addAt(statbar_root.layer, 0, 0);
     statbar_root.add(AbsoluteLayout.at(statbar,0,0,width(),120));
      
     // ------------------------------------------------------------------
