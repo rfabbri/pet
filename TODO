@@ -1,2 +1,24 @@
+== Doing ==
+
+=== Minimal stuff for 0.3.1 ===
+Atributos do Pingo (sem classe separada por enqto)
+
+- Alcool (0-10), valor inicial 0, mod passivo -1 por hora
+
+- dar licor simplesmente:
+  - causa Alcool = 10 de imediato (so pra gente brincar)
+  - animacao do pingo muda
+  - estado na statusbar muda
+  - ai espera o modificador passivo pra fazer ele sair de bebado e ver se
+    recuperar: verde -> vomitando -> bebbim -> normal
+
+- Idade do pingo
+
+- tentar modular todos os tempos - tudo em segundos viezes delta-coelho-segundos
+
+== Extras ==
 - crunch the PNG's for faster loading (reduce colors since we dont use many
   anyways)
+
+
+
