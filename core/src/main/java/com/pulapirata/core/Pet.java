@@ -122,7 +122,7 @@ public class Pet extends Game.Default {
     //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
     layer.addAt(statbar_root.layer, 0, 0);
 
-    statbar_root.add(statbar);
+    statbar_root.add(AbsoluteLayout.at(statbar,0,0,width(),120));
      
     // ------------------------------------------------------------------
 
@@ -339,6 +339,9 @@ public class Pet extends Game.Default {
     if (iface != null) {
       iface.paint(_clock);
     }
+    if (statbar_iface != null) {
+      statbar_iface.paint(_clock);
+    }
   }
 
   @Override
@@ -369,6 +372,9 @@ public class Pet extends Game.Default {
 
     if (iface != null) {
       iface.update(delta);
+    }
+    if (statbar_iface != null) {
+      statbar_iface.update(delta);
     }
   }
 
