@@ -13,6 +13,9 @@ import playn.core.ImageLayer;
 import playn.core.Pointer;
 import playn.core.CanvasImage;
 import playn.core.util.Clock;
+import playn.core.PlayN;
+import playn.core.Font;
+
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
 // TODO: we need a generic sprite class; or the layer could automatically update
@@ -69,7 +72,7 @@ public class Pet extends Game.Default {
 
 
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: 9 dias\nEstado: ressaca";
+  protected  static final String STAT_FILLER_1 = "Idade: 9 dias\nEstado: ressaca\nEscola: 3.6";
 
   @Override
   public void init() {
@@ -112,6 +115,7 @@ public class Pet extends Game.Default {
 
     Image exclamacao = assets().getImage("pet/images/exclamacao.png");
 
+    
 
     // Cria um grupo para os caras da esquerda
     // Basicamente 2 labels: nome grandao e indicadores em fonte menor
@@ -119,8 +123,8 @@ public class Pet extends Game.Default {
     final Group main_stat = new Group (AxisLayout.vertical()).add (
         new Label("PINGO").addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
-            Style.HALIGN.left
-            // TODO aumentar fonte
+            Style.HALIGN.left,
+            Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
         )),
         new Label(STAT_FILLER_1).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
