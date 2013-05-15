@@ -96,11 +96,11 @@ public class Pet extends Game.Default {
     // ------ The text in the status bar as a tripleplay nested layout interface 
   
     // TODO: e o tal do gaps?
-    TableLayout statbar_layout = new TableLayout(COL.alignLeft(), COL.stretch()).gaps(10,0).alignTop();
+    TableLayout statbar_layout = new TableLayout(COL.alignLeft(), COL.stretch()).gaps(10,10).alignTop();
     // the left status plus is the left column
     // the (!) icon plust the right text is the right column
 
-    TableLayout rightpart_layout = new TableLayout(COL.fixed(), COL.alignLeft()).gaps(10,0).alignTop();
+    TableLayout rightpart_layout = new TableLayout(COL.fixed(), COL.alignLeft()).gaps(10,10).alignTop();
 
     final Group statbar = new Group (statbar_layout).add (
         new Label("PINGO").addStyles(Styles.make(Style.COLOR.is(0xFFFFFFFF))), // FIXME will be axislayout later
