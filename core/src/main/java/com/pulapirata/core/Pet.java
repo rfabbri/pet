@@ -55,7 +55,7 @@ public class Pet extends Game.Default {
   public int height() { return 800; }
 
   
-  private Interface iface;
+  private Interface iface, statbar_iface;
 
   public Pet() {
     super(UPDATE_RATE);
@@ -85,6 +85,43 @@ public class Pet extends Game.Default {
     statlayer.setHeight(120);
     layer.add(statlayer);
 
+    // test: write something in white letters: Pet
+
+
+    // ------ The text in the status bar as a tripleplay nested layout interface 
+  
+    TableLayout statbar_layout = new TableLayout(COL.stretch(), COL.stretch());
+    // the left status plus is the left column
+    // the (!) icon plust the right text is the right column
+
+    TableLayout rightpart_layout = new TableLayout(COL.fixed(), COL.stretch());
+
+
+    final Group statbar = new Group (statbar_layout).add (
+        new Label("Pet"), // FIXME will be axislayout later
+        new Group(rightpart_layout).add (
+          new Label("!"), // FIXME an icon goes here or else blank space w icon's size
+          new Label("Pingo quer pinga, deixar?")
+        )
+    );
+
+    //    Stylesheet petSheet = SimpleStyles.newSheet();
+    Stylesheet petSheet = PetStyles.newSheet();
+    
+    // create our UI manager and configure it to process pointer events
+    statbar_iface = new Interface();
+   
+    //petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+    Root statbar_root = statbar_iface.createRoot(new AbsoluteLayout(), petSheet);
+
+    statbar_root.setSize(width(), 120); // this includes the secondary buttons
+    //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
+    layer.addAt(statbar_root.layer, 0, 0);
+
+    statbar_root.add(statbar);
+     
+    // ------------------------------------------------------------------
+
     // create and add background image layer
     Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
     ImageLayer bgLayer = graphics().createImageLayer(bgImage);
@@ -105,8 +142,6 @@ public class Pet extends Game.Default {
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
 
-    //    Stylesheet petSheet = SimpleStyles.newSheet();
-    Stylesheet petSheet = PetStyles.newSheet();
     //petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
     Root root = iface.createRoot(new AbsoluteLayout(), petSheet);
 
