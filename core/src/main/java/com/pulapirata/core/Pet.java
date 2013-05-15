@@ -96,17 +96,23 @@ public class Pet extends Game.Default {
     // ------ The text in the status bar as a tripleplay nested layout interface 
   
     // TODO: e o tal do gaps?
-    TableLayout statbar_layout = new TableLayout(COL.alignLeft(), COL.stretch()).gaps(10,10).alignTop();
+    final int mae = 20; // mae == margin on the sides of exlamation
+    final int mte = 18; // mae == margin on top of exlamation
+    
+    // sm stands for statbar_margin
+    TableLayout statbar_layout = new TableLayout(COL.alignLeft(), COL.stretch()).gaps(mae,mae).alignTop();
     // the left status plus is the left column
     // the (!) icon plust the right text is the right column
 
-    TableLayout rightpart_layout = new TableLayout(COL.fixed(), COL.alignLeft()).gaps(10,10).alignTop();
+    TableLayout rightpart_layout = new TableLayout(COL.fixed(), COL.alignLeft()).gaps(mae,mae).alignTop();
+
+    Image exclamacao = assets().getImage("pet/images/exclamacao.png");
 
     final Group statbar = new Group (statbar_layout).add (
         new Label("PINGO").addStyles(Styles.make(Style.COLOR.is(0xFFFFFFFF))), // FIXME will be axislayout later
 //        new Label("Pet"), // FIXME will be axislayout later
         new Group(rightpart_layout).add (
-          new Label("!"), // FIXME an icon goes here or else blank space w icon's size
+          new Button(new ImageIcon(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
           new Label("Dar pinga?").addStyles(Styles.make(Style.COLOR.is(0xFFFFFFFF)))
         )
     ).addStyles(Style.VALIGN.top);
@@ -123,7 +129,7 @@ public class Pet extends Game.Default {
     statbar_root.setSize(width(), 120); // this includes the secondary buttons
 
     layer.addAt(statbar_root.layer, 0, 0);
-    statbar_root.add(AbsoluteLayout.at(statbar,0,0,width(),120));
+    statbar_root.add(AbsoluteLayout.at(statbar,mae,mte,width()-mae,120-mte));
      
     // ------------------------------------------------------------------
 
