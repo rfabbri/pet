@@ -14,7 +14,14 @@ Atributos do Pingo (sem classe separada por enqto)
 
 - Idade do pingo
 
-- tentar modular todos os tempos - tudo em segundos viezes delta-coelho-segundos
+- tentar modular todos os tempos - tudo em segundos vezes delta-coelho-segundos
+
+
+
+
+
+
+
 
 == Extras ==
 - crunch the PNG's for faster loading (reduce colors since we dont use many
