@@ -47,32 +47,38 @@ import static tripleplay.ui.layout.TableLayout.COL;
 
 
 public class Pet extends Game.Default {
+  protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
+  protected  static final String STAT_FILLER_1 = "Idade: %d dias\nEstado: ressaca\nEscola: 3.6";
+
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
   private List<PingoMorto> pingosmortos = new ArrayList<PingoMorto>(0);
+  protected Group main_stat_;
 
-  public static final int UPDATE_RATE = 100;
+  public static final int UPDATE_RATE = 100; // ms 
   protected final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
   
   
   private int beat = 0; // number of updates
-  private int beats_coelhodia = 10; // beats por 1 coelho dia. Em 30 coelho-dias, pingo morre
+
+  // the following is not static so that we can dynamically speedup the game if desired
+  private int beats_coelhodia = 10; // beats por 1 coelho dia.
+  private int beats_coelhosegundo = beats_coelhodia/(24*60*60); 
 
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
   public int width() { return 480; }
   public int height() { return 800; }
 
-  
+  public int idade_coelhodias() { return beat / beats_coelhodia; }
+  public String idade_coelhodias_str() { return String.format(STAT_FILLER_1, idade_coelhodias()); }
+
   private Interface iface, statbar_iface;
 
   public Pet() {
     super(UPDATE_RATE);
   }
 
-
-  protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: 9 dias\nEstado: ressaca\nEscola: 3.6";
 
   @Override
   public void init() {
@@ -120,21 +126,29 @@ public class Pet extends Game.Default {
     // Cria um grupo para os caras da esquerda
     // Basicamente 2 labels: nome grandao e indicadores em fonte menor
 
-    final Group main_stat = new Group (AxisLayout.vertical()).add (
+    String age = idade_coelhodias_str(); 
+
+    main_stat_ = new Group (AxisLayout.vertical()).add (
         new Label("PINGO").addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left,
             Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
         )),
-        new Label(STAT_FILLER_1).addStyles(Styles.make(
+        new Label(age).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left
         ))
     ).addStyles(Styles.make(Style.HALIGN.left));
+    // XXX 
+    // print out pet's age
+    
+//    "Idade: " 
+//    idade_coelhodias
+//    " dias"
 
 
     final Group statbar = new Group (statbar_layout).add (
-        main_stat,
+        main_stat_,
         new Group(rightpart_layout).add (
           new Button(new ImageIcon(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
           // TODO in future this button will actually be an animation sprite
@@ -403,8 +417,9 @@ public class Pet extends Game.Default {
       }
     } else {
       beat = beat + 1;
+      Label l = (Label) main_stat_.childAt(1);
+      l.text.update(idade_coelhodias_str());
     }
-
 
     if (iface != null) {
       iface.update(delta);
