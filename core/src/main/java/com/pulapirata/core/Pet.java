@@ -19,6 +19,7 @@ import playn.core.Font;
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
 import com.pulapirata.core.sprites.PingoVomitando;
+import com.pulapirata.core.sprites.PingoBebado;
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
@@ -55,6 +56,7 @@ public class Pet extends Game.Default {
   protected Pingo pingo = null;
   protected PingoMorto pingomorto = null;
   protected PingoVomitando pingovomitando = null;
+  protected PingoBebado pingobebado = null;
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
@@ -421,6 +423,8 @@ public class Pet extends Game.Default {
       pingo.update(delta);
     else if (pingovomitando != null)
       pingovomitando.update(delta);
+    else if (pingobebado != null)
+      pingobebado.update(delta);
 
     if(beat / beats_coelhodia >= 30) {
       if (pingomorto == null) {
@@ -436,10 +440,8 @@ public class Pet extends Game.Default {
     } else {
       // update properties
       if (alcool_ >= 7) {
-        if (pingovomitando == null)
+        if (pingovomitando == null) {
           pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
-
-        if (pingo != null) {
           pingo.detatch(layer);
           pingo = null;
         }
@@ -447,7 +449,22 @@ public class Pet extends Game.Default {
         if (pingovomitando != null) {
           pingovomitando.detatch(layer);
           pingovomitando = null;
-          pingo = new Pingo(layer, width() / 2, height() / 2);
+        }
+      
+        if (alcool_ >= 4) {
+          if (pingobebado == null) {
+            if (pingo != null) {
+              pingo.detatch(layer);
+              pingo = null;
+            }
+            pingobebado  = new PingoBebado(layer, width() / 2, height() / 2);
+          }
+        } else {
+          if (pingobebado != null) {
+            pingobebado.detatch(layer);
+            pingobebado = null;
+            pingo = new Pingo(layer, width() / 2, height() / 2);
+          }
         }
       }
 
