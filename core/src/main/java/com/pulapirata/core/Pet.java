@@ -18,6 +18,7 @@ import playn.core.Font;
 
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
+import com.pulapirata.core.sprites.PingoVomitando;
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
@@ -53,6 +54,7 @@ public class Pet extends Game.Default {
   private GroupLayer layer;
   protected Pingo pingo = null;
   protected PingoMorto pingomorto = null;
+  protected PingoVomitando pingovomitando = null;
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
@@ -67,14 +69,14 @@ public class Pet extends Game.Default {
   private int beat = 0; // number of updates
 
   // the following is not static so that we can dynamically speedup the game if desired
-  private int beats_coelhodia = 3; // beats por 1 coelho dia.
+  private int beats_coelhodia = 100; // beats por 1 coelho dia.
   private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
 
   public int idade_coelhodias() { return beat / beats_coelhodia; }
 
   private Interface iface, statbar_iface;
 
-  private int alcool_ = 10;
+  private int alcool_ = 3;
   private int alcool_passivo_ = -1;
   private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
   private int alcool_max_ = 10;
@@ -417,6 +419,8 @@ public class Pet extends Game.Default {
     _clock.update(delta);
     if (pingo != null)
       pingo.update(delta);
+    else if (pingovomitando != null)
+      pingovomitando.update(delta);
 
     if(beat / beats_coelhodia >= 30) {
       if (pingomorto == null) {
@@ -430,7 +434,27 @@ public class Pet extends Game.Default {
         pingomorto.update(delta);
       }
     } else {
+      // update properties
+      if (alcool_ >= 7) {
+        if (pingovomitando == null)
+          pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
+
+        if (pingo != null) {
+          pingo.detatch(layer);
+          pingo = null;
+        }
+      } else {
+        if (pingovomitando != null) {
+          pingovomitando.detatch(layer);
+          pingovomitando = null;
+          pingo = new Pingo(layer, width() / 2, height() / 2);
+        }
+      }
+
+      // update clock and passives
       beat = beat + 1;
+
+
 
       if ((beat % alcool_passivo_beats_) == 0)
         if (alcool_ > alcool_min_)
