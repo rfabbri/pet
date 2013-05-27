@@ -12,16 +12,6 @@ Atributos do Pingo (sem classe separada por enqto)
   - ai espera o modificador passivo pra fazer ele sair de bebado e ver se
     recuperar: verde -> vomitando -> bebbim -> normal
 
-- Idade do pingo
-
-- tentar modular todos os tempos - tudo em segundos vezes delta-coelho-segundos
-
-
-
-
-
-
-
 
 == Extras ==
 - crunch the PNG's for faster loading (reduce colors since we dont use many

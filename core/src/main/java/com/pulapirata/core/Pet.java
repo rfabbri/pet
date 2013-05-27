@@ -48,12 +48,17 @@ import static tripleplay.ui.layout.TableLayout.COL;
 
 public class Pet extends Game.Default {
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: %d dias\nEstado: ressaca\nEscola: 3.6";
+  protected  static final String STAT_FILLER_1 = "Idade: %d dias\nAlcool: %d/%d";
 
   private GroupLayer layer;
   private List<Pingo> pingos = new ArrayList<Pingo>(0);
   private List<PingoMorto> pingosmortos = new ArrayList<PingoMorto>(0);
   protected Group main_stat_;
+  // FIXME graphics.width() is weird in html, not respecting #playn-root
+  // properties. 
+  public int width() { return 480; }
+  public int height() { return 800; }
+
 
   public static final int UPDATE_RATE = 100; // ms 
   protected final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
@@ -62,18 +67,21 @@ public class Pet extends Game.Default {
   private int beat = 0; // number of updates
 
   // the following is not static so that we can dynamically speedup the game if desired
-  private int beats_coelhodia = 10; // beats por 1 coelho dia.
-  private int beats_coelhosegundo = beats_coelhodia/(24*60*60); 
-
-  // FIXME graphics.width() is weird in html, not respecting #playn-root
-  // properties. 
-  public int width() { return 480; }
-  public int height() { return 800; }
+  private int beats_coelhodia = 100; // beats por 1 coelho dia.
+  private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
 
   public int idade_coelhodias() { return beat / beats_coelhodia; }
-  public String idade_coelhodias_str() { return String.format(STAT_FILLER_1, idade_coelhodias()); }
 
   private Interface iface, statbar_iface;
+
+  private int alcool_ = 10;
+  private int alcool_passivo_ = -1;
+  private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
+  private int alcool_max_ = 10;
+  private int alcool_min_ = 0;
+
+  public String idade_coelhodias_str() { return String.format(STAT_FILLER_1, idade_coelhodias(), alcool_, alcool_max_); }
+  
 
   public Pet() {
     super(UPDATE_RATE);
@@ -82,6 +90,8 @@ public class Pet extends Game.Default {
 
   @Override
   public void init() {
+    System.out.println("passivo is " + alcool_passivo_beats_);
+    System.out.println("coelho seg " + beats_coelhosegundo);
 
     // create a group layer to hold everything
     layer = graphics().createGroupLayer();
@@ -417,6 +427,11 @@ public class Pet extends Game.Default {
       }
     } else {
       beat = beat + 1;
+
+      if ((beat % alcool_passivo_beats_) == 0)
+        if (alcool_ > alcool_min_)
+          alcool_ += alcool_passivo_;
+
       Label l = (Label) main_stat_.childAt(1);
       l.text.update(idade_coelhodias_str());
     }
