@@ -288,7 +288,7 @@ public class Pet extends Game.Default {
     )));
     s_img_butt_secondary.add(
         new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/071_lazer.png"),
+              assets().getImage("pet/main-buttons/071_lazer.png"), // licor
               assets().getImage("pet/main-buttons/072_lazer.png")
     )));
     s_img_butt_secondary.add(
@@ -336,6 +336,15 @@ public class Pet extends Game.Default {
         Button sbut = new Button(img_butt_secondary.get(b).get(s));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
+
+        if (b == 6 // diversao
+        &&  s == 0) // licor
+          sbut.clicked().connect(new UnitSlot() {
+            public void onEmit() {
+              alcool_ = alcool_max_; // TODO modificar de acordo com folha
+            }
+          });
+
       }
 
       but.selected.map(new Function <Boolean, ImageIcon>() {
