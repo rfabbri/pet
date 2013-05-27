@@ -89,6 +89,7 @@ public class Pet extends Game.Default {
 
   private Stylesheet petSheet;
 
+  //--------------------------------------------------------------------------------
   public String idade_coelhodias_str() { 
     if (idade_coelhodias() == 0)
       return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", alcool_, alcool_max_); 
@@ -98,10 +99,12 @@ public class Pet extends Game.Default {
   }
   
 
+  //--------------------------------------------------------------------------------
   public Pet() {
     super(UPDATE_RATE);
   }
 
+  //--------------------------------------------------------------------------------
   private void make_statusbar() {
     // create and add the status title layer using drawings for faster loading
     CanvasImage bgtile = graphics().createImage(480, 119);
@@ -182,12 +185,14 @@ public class Pet extends Game.Default {
     statbar_root.add(AbsoluteLayout.at(statbar,mae,mte,width()-mae,120-mte));
   }
 
+  //--------------------------------------------------------------------------------
   private void make_background() {
     Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
     ImageLayer bgLayer = graphics().createImageLayer(bgImage);
     layer.addAt(bgLayer, 0, 120);
   }
 
+  //--------------------------------------------------------------------------------
   private void make_buttons() {
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
@@ -385,6 +390,7 @@ public class Pet extends Game.Default {
   }
 
 
+  //--------------------------------------------------------------------------------
   @Override
   public void init() {
     System.out.println("passivo is " + alcool_passivo_beats_);
@@ -407,6 +413,7 @@ public class Pet extends Game.Default {
   }
 
 
+  //--------------------------------------------------------------------------------
   @Override
   public void paint(float alpha) {
     // layers automatically paint themselves (and their children). The rootlayer
@@ -421,6 +428,7 @@ public class Pet extends Game.Default {
     }
   }
 
+  //--------------------------------------------------------------------------------
   @Override
   public void update(int delta) {
     _clock.update(delta);
