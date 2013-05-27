@@ -73,7 +73,7 @@ public class Pet extends Game.Default {
   private int beat = 0; // number of updates
 
   // the following is not static so that we can dynamically speedup the game if desired
-  private int beats_coelhodia = 1000; // beats por 1 coelho dia.
+  private int beats_coelhodia = 600; // beats por 1 coelho dia.
   private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
 
   public int idade_coelhodias() { return beat / beats_coelhodia; }
@@ -86,6 +86,8 @@ public class Pet extends Game.Default {
   private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
   private int alcool_max_ = 10;
   private int alcool_min_ = 0;
+
+  private Stylesheet petSheet;
 
   public String idade_coelhodias_str() { 
     if (idade_coelhodias() == 0)
@@ -100,16 +102,7 @@ public class Pet extends Game.Default {
     super(UPDATE_RATE);
   }
 
-
-  @Override
-  public void init() {
-    System.out.println("passivo is " + alcool_passivo_beats_);
-    System.out.println("coelho seg " + beats_coelhosegundo);
-
-    // create a group layer to hold everything
-    layer = graphics().createGroupLayer();
-    graphics().rootLayer().add(layer);
-    
+  private void make_statusbar() {
     // create and add the status title layer using drawings for faster loading
     CanvasImage bgtile = graphics().createImage(480, 119);
     bgtile.canvas().setFillColor(0xFFFFFFFF);
@@ -144,7 +137,7 @@ public class Pet extends Game.Default {
 
     Image exclamacao = assets().getImage("pet/images/exclamacao.png");
 
-    
+  
 
     // Cria um grupo para os caras da esquerda
     // Basicamente 2 labels: nome grandao e indicadores em fonte menor
@@ -162,12 +155,6 @@ public class Pet extends Game.Default {
             Style.HALIGN.left
         ))
     ).addStyles(Styles.make(Style.HALIGN.left));
-    // XXX 
-    // print out pet's age
-    
-//    "Idade: " 
-//    idade_coelhodias
-//    " dias"
 
 
     final Group statbar = new Group (statbar_layout).add (
@@ -183,9 +170,6 @@ public class Pet extends Game.Default {
         )
     ).addStyles(Style.VALIGN.top);
 
-    //    Stylesheet petSheet = SimpleStyles.newSheet();
-    Stylesheet petSheet = PetStyles.newSheet();
-    
     // create our UI manager and configure it to process pointer events
     statbar_iface = new Interface();
    
@@ -196,7 +180,24 @@ public class Pet extends Game.Default {
 
     layer.addAt(statbar_root.layer, 0, 0);
     statbar_root.add(AbsoluteLayout.at(statbar,mae,mte,width()-mae,120-mte));
-     
+  }
+
+
+  @Override
+  public void init() {
+    System.out.println("passivo is " + alcool_passivo_beats_);
+    System.out.println("coelho seg " + beats_coelhosegundo);
+
+    // create a group layer to hold everything
+    layer = graphics().createGroupLayer();
+    graphics().rootLayer().add(layer);
+
+    //    Stylesheet petSheet = SimpleStyles.newSheet();
+    petSheet = PetStyles.newSheet();
+    
+
+    // ------------------------------------------------------------------
+    make_statusbar();
     // ------------------------------------------------------------------
 
     // create and add background image layer
@@ -453,8 +454,10 @@ public class Pet extends Game.Default {
       if (alcool_ == 10) {
         if (pingocoma == null) {
           pingocoma = new PingoComa(layer, width() / 2, height() / 2);
-          pingo.detatch(layer);
-          pingo = null;
+          if (pingo != null) {
+            pingo.detatch(layer);
+            pingo = null;
+          }
         }
       } else  {
         if (pingocoma != null) {
