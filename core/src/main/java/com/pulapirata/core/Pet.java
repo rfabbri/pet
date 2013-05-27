@@ -51,8 +51,8 @@ public class Pet extends Game.Default {
   protected  static final String STAT_FILLER_1 = "Idade: %d dias\nAlcool: %d/%d";
 
   private GroupLayer layer;
-  private List<Pingo> pingos = new ArrayList<Pingo>(0);
-  private List<PingoMorto> pingosmortos = new ArrayList<PingoMorto>(0);
+  protected Pingo pingo = null;
+  protected PingoMorto pingomorto = null;
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
@@ -67,7 +67,7 @@ public class Pet extends Game.Default {
   private int beat = 0; // number of updates
 
   // the following is not static so that we can dynamically speedup the game if desired
-  private int beats_coelhodia = 100; // beats por 1 coelho dia.
+  private int beats_coelhodia = 3; // beats por 1 coelho dia.
   private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
 
   public int idade_coelhodias() { return beat / beats_coelhodia; }
@@ -192,8 +192,7 @@ public class Pet extends Game.Default {
     layer.addAt(bgLayer, 0, 120);
 
     // sprites
-    Pingo pingo = new Pingo(layer, width() / 2, height() / 2);
-    pingos.add(pingo);
+    pingo = new Pingo(layer, width() / 2, height() / 2);
 
     // ------------------------------------------------------------------
     // main buttons
@@ -416,23 +415,19 @@ public class Pet extends Game.Default {
   @Override
   public void update(int delta) {
     _clock.update(delta);
-    for (Pingo pingo : pingos) {
+    if (pingo != null)
       pingo.update(delta);
-    }
 
     if(beat / beats_coelhodia >= 30) {
-      if (pingosmortos.isEmpty()) {
+      if (pingomorto == null) {
           // pingo morre
           // beat = beat; // pass
           //pingos.del(pingo);
-        PingoMorto pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
-        pingosmortos.add(pingomorto);
-        pingos.get(0).detatch(layer);
-        pingos.clear();
+        pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
+        pingo.detatch(layer);
+        pingo = null;
       } else {
-        for (PingoMorto pingomorto : pingosmortos) {
-          pingomorto.update(delta);
-        }
+        pingomorto.update(delta);
       }
     } else {
       beat = beat + 1;
