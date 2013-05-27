@@ -188,38 +188,7 @@ public class Pet extends Game.Default {
     layer.addAt(bgLayer, 0, 120);
   }
 
-
-  @Override
-  public void init() {
-    System.out.println("passivo is " + alcool_passivo_beats_);
-    System.out.println("coelho seg " + beats_coelhosegundo);
-
-    // create a group layer to hold everything
-    layer = graphics().createGroupLayer();
-    graphics().rootLayer().add(layer);
-
-    //    Stylesheet petSheet = SimpleStyles.newSheet();
-    petSheet = PetStyles.newSheet();
-    
-
-    // ------------------------------------------------------------------
-    make_statusbar();
-    // ------------------------------------------------------------------
-
-    // create and add background image layer
-    make_background();
-
-    // sprites
-    pingo = new Pingo(layer, width() / 2, height() / 2);
-
-    // ------------------------------------------------------------------
-    // main buttons
-    // TODO
-    //   - try the Selector class from tripleplay
-    //   - try the click() trigger for the button
-    //   - use a sprite implementing the Clicable class then insert it like I
-    //   did the button below.
-    
+  private void make_buttons() {
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
 
@@ -413,6 +382,28 @@ public class Pet extends Game.Default {
         }
     });
     */
+  }
+
+
+  @Override
+  public void init() {
+    System.out.println("passivo is " + alcool_passivo_beats_);
+    System.out.println("coelho seg " + beats_coelhosegundo);
+
+    // create a group layer to hold everything
+    layer = graphics().createGroupLayer();
+    graphics().rootLayer().add(layer);
+    petSheet = PetStyles.newSheet();
+    
+
+    // ------------------------------------------------------------------
+    make_statusbar();
+    make_background();
+    make_buttons();
+    // ------------------------------------------------------------------
+
+    // sprites
+    pingo = new Pingo(layer, width() / 2, height() / 2);
   }
 
 
