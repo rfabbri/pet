@@ -5,11 +5,11 @@ Atributos do Pingo (sem classe separada por enqto)
 
 + Alcool (0-10), valor inicial 0, mod passivo -1 por hora
 
-- dar licor simplesmente:
++ dar licor simplesmente:
   + causa Alcool = 10 de imediato (so pra gente brincar)
-  - animacao do pingo muda
+  + animacao do pingo muda
   + estado na statusbar muda
-  - ai espera o modificador passivo pra fazer ele sair de bebado e ver se
+  + ai espera o modificador passivo pra fazer ele sair de bebado e ver se
     recuperar: verde -> vomitando -> bebbim -> normal
 
 
