@@ -20,6 +20,7 @@ import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
 import com.pulapirata.core.sprites.PingoVomitando;
 import com.pulapirata.core.sprites.PingoBebado;
+import com.pulapirata.core.sprites.PingoComa;
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
@@ -50,13 +51,14 @@ import static tripleplay.ui.layout.TableLayout.COL;
 
 public class Pet extends Game.Default {
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: %d dias\nAlcool: %d/%d";
+  protected  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
 
   private GroupLayer layer;
   protected Pingo pingo = null;
   protected PingoMorto pingomorto = null;
   protected PingoVomitando pingovomitando = null;
   protected PingoBebado pingobebado = null;
+  protected PingoComa pingocoma = null;
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
@@ -71,10 +73,11 @@ public class Pet extends Game.Default {
   private int beat = 0; // number of updates
 
   // the following is not static so that we can dynamically speedup the game if desired
-  private int beats_coelhodia = 100; // beats por 1 coelho dia.
+  private int beats_coelhodia = 1000; // beats por 1 coelho dia.
   private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
 
   public int idade_coelhodias() { return beat / beats_coelhodia; }
+  public int idade_coelhohoras() { return (int)((float)beat / ((float)beats_coelhodia/24f)); }
 
   private Interface iface, statbar_iface;
 
@@ -84,7 +87,13 @@ public class Pet extends Game.Default {
   private int alcool_max_ = 10;
   private int alcool_min_ = 0;
 
-  public String idade_coelhodias_str() { return String.format(STAT_FILLER_1, idade_coelhodias(), alcool_, alcool_max_); }
+  public String idade_coelhodias_str() { 
+    if (idade_coelhodias() == 0)
+      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", alcool_, alcool_max_); 
+    else
+      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", alcool_, alcool_max_); 
+
+  }
   
 
   public Pet() {
@@ -425,6 +434,8 @@ public class Pet extends Game.Default {
       pingovomitando.update(delta);
     else if (pingobebado != null)
       pingobebado.update(delta);
+    else if (pingocoma != null)
+      pingocoma.update(delta);
 
     if(beat / beats_coelhodia >= 30) {
       if (pingomorto == null) {
@@ -439,31 +450,46 @@ public class Pet extends Game.Default {
       }
     } else {
       // update properties
-      if (alcool_ >= 7) {
-        if (pingovomitando == null) {
-          pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
+      if (alcool_ == 10) {
+        if (pingocoma == null) {
+          pingocoma = new PingoComa(layer, width() / 2, height() / 2);
           pingo.detatch(layer);
           pingo = null;
         }
-      } else {
-        if (pingovomitando != null) {
-          pingovomitando.detatch(layer);
-          pingovomitando = null;
+      } else  {
+        if (pingocoma != null) {
+          pingocoma.detatch(layer);
+          pingocoma = null;
         }
-      
-        if (alcool_ >= 4) {
-          if (pingobebado == null) {
+
+        if (alcool_ >= 7) {
+          if (pingovomitando == null) {
             if (pingo != null) {
               pingo.detatch(layer);
               pingo = null;
             }
-            pingobebado  = new PingoBebado(layer, width() / 2, height() / 2);
+            pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
           }
         } else {
-          if (pingobebado != null) {
-            pingobebado.detatch(layer);
-            pingobebado = null;
-            pingo = new Pingo(layer, width() / 2, height() / 2);
+          if (pingovomitando != null) {
+            pingovomitando.detatch(layer);
+            pingovomitando = null;
+          }
+        
+          if (alcool_ >= 4) {
+            if (pingobebado == null) {
+              if (pingo != null) {
+                pingo.detatch(layer);
+                pingo = null;
+              }
+              pingobebado  = new PingoBebado(layer, width() / 2, height() / 2);
+            }
+          } else {
+            if (pingobebado != null) {
+              pingobebado.detatch(layer);
+              pingobebado = null;
+              pingo = new Pingo(layer, width() / 2, height() / 2);
+            }
           }
         }
       }
