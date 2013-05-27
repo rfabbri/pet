@@ -182,6 +182,12 @@ public class Pet extends Game.Default {
     statbar_root.add(AbsoluteLayout.at(statbar,mae,mte,width()-mae,120-mte));
   }
 
+  private void make_background() {
+    Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
+    ImageLayer bgLayer = graphics().createImageLayer(bgImage);
+    layer.addAt(bgLayer, 0, 120);
+  }
+
 
   @Override
   public void init() {
@@ -201,9 +207,7 @@ public class Pet extends Game.Default {
     // ------------------------------------------------------------------
 
     // create and add background image layer
-    Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
-    ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    layer.addAt(bgLayer, 0, 120);
+    make_background();
 
     // sprites
     pingo = new Pingo(layer, width() / 2, height() / 2);
@@ -499,8 +503,6 @@ public class Pet extends Game.Default {
 
       // update clock and passives
       beat = beat + 1;
-
-
 
       if ((beat % alcool_passivo_beats_) == 0)
         if (alcool_ > alcool_min_)
