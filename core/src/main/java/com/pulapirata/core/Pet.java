@@ -50,46 +50,27 @@ import static tripleplay.ui.layout.TableLayout.COL;
 
 
 public class Pet extends Game.Default {
-  protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
-
+  //------ Basic Game Properties
   private GroupLayer layer;
-  protected Pingo pingo = null;
-  protected PingoMorto pingomorto = null;
-  protected PingoVomitando pingovomitando = null;
-  protected PingoBebado pingobebado = null;
-  protected PingoComa pingocoma = null;
-  protected Group main_stat_;
-  // FIXME graphics.width() is weird in html, not respecting #playn-root
-  // properties. 
-  public int width() { return 480; }
-  public int height() { return 800; }
-
-
-  public static final int UPDATE_RATE = 100; // ms 
-  protected final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
-  
-  
-  private int beat = 0; // number of updates
-
-  // the following is not static so that we can dynamically speedup the game if desired
-  private int beats_coelhodia = 600; // beats por 1 coelho dia.
-  private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
-
-  public int idade_coelhodias() { return beat / beats_coelhodia; }
-  public int idade_coelhohoras() { return (int)((float)beat / ((float)beats_coelhodia/24f)); }
-
+  private Group main_stat_; //< statusbar
   private Interface iface, statbar_iface;
-
-  private int alcool_ = 3;
-  private int alcool_passivo_ = -1;
-  private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
-  private int alcool_max_ = 10;
-  private int alcool_min_ = 0;
-
   private Stylesheet petSheet;
 
-  //--------------------------------------------------------------------------------
+  // FIXME graphics.width() is weird in html, not respecting #playn-root
+  // properties. 
+  public int width()  { return 480; }
+  public int height() { return 800; }
+
+  public static final int UPDATE_RATE = 100;  // ms 
+  protected final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
+
+  //------ Pet properties
+  private int beat = 0;   //< absolute number of updates
+  // the following is not static so that we can dynamically speedup the game if desired
+  private int beats_coelhodia = 600;  //< beats por 1 coelho dia.
+  private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
+  public int idade_coelhodias() { return beat / beats_coelhodia; }
+  public int idade_coelhohoras() { return (int)((float)beat / ((float)beats_coelhodia/24f)); }
   public String idade_coelhodias_str() { 
     if (idade_coelhodias() == 0)
       return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", alcool_, alcool_max_); 
@@ -97,7 +78,21 @@ public class Pet extends Game.Default {
       return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", alcool_, alcool_max_); 
 
   }
-  
+
+  private  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
+  private  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
+
+  private Pingo pingo = null;
+  private PingoMorto pingomorto = null;
+  private PingoVomitando pingovomitando = null;
+  private PingoBebado pingobebado = null;
+  private PingoComa pingocoma = null;
+
+  private int alcool_ = 3;
+  private int alcool_passivo_ = -1;
+  private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
+  private int alcool_max_ = 10;
+  private int alcool_min_ = 0;
 
   //--------------------------------------------------------------------------------
   public Pet() {
