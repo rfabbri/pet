@@ -26,7 +26,7 @@ class SpriteImage {
   private final int y;
   private final int width;
   private final int height;
-
+//Write here the difference about these attributes.
   public SpriteImage(final Image image, int x, int y, int width, int height) {
     this.image = image;
     this.x = x;
@@ -34,6 +34,7 @@ class SpriteImage {
     this.width = width;
     this.height = height;
   }
+
 
   public Image image() {
     return image;
