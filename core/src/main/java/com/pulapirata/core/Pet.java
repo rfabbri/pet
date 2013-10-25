@@ -24,6 +24,7 @@ import com.pulapirata.core.sprites.PingoComa;
 import com.pulapirata.core.sprites.PingoBebendoAgua;
 import com.pulapirata.core.sprites.PingoBebendoLeite;
 import com.pulapirata.core.sprites.PingoComendoSopaBacon;
+import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
@@ -66,6 +67,7 @@ public class Pet extends Game.Default {
   protected PingoBebendoAgua pingoBebendoAgua = null;
   protected PingoBebendoLeite pingoBebendoLeite = null;
   protected PingoComendoSopaBacon pingoComendoSopaBacon = null;
+  protected PingoComendoSopaCenoura pingoComendoSopaCenoura = null;
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
@@ -345,6 +347,17 @@ public class Pet extends Game.Default {
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
 
+	if(b == 0 && s == 0)sbut.clicked().connect(new UnitSlot(){
+	  public void onEmit(){//Atravez do evento comer sopa de cenoura, cria um novo pingoComendoSopaBacon
+	    pingoComendoSopaCenoura = new PingoComendoSopaCenoura(layer, width()/2, height()/2);
+	    if(pingo!=null){
+	      pingo.detatch(layer);
+	      pingo = null;
+	    }
+	  }
+	});
+
+
 	if(b == 0 && s == 1)sbut.clicked().connect(new UnitSlot(){
 	  public void onEmit(){//Atravez do evento comer sopa de bacon, cria um novo pingoComendoSopaBacon
 	    pingoComendoSopaBacon = new PingoComendoSopaBacon(layer, width()/2, height()/2);
@@ -488,6 +501,8 @@ public class Pet extends Game.Default {
       pingobebado.update(delta);
     else if (pingocoma != null)
       pingocoma.update(delta);
+    else if(pingoComendoSopaCenoura != null)
+      pingoComendoSopaCenoura.update(delta);
     else if(pingoComendoSopaBacon !=null)
       pingoComendoSopaBacon.update(delta);
     else if (pingoBebendoAgua != null)//Para atualizar as "imagens"
@@ -509,7 +524,14 @@ public class Pet extends Game.Default {
     } else {
       // update properties
 
-      if(fome<= fome_min && pingoComendoSopaBacon != null && pingo == null){
+      if(fome <= fome_min && pingoComendoSopaCenoura != null && pingo == null){
+	fome = fome_min;
+	pingo = new Pingo(layer, width() / 2, height() / 2);
+	pingoComendoSopaCenoura.detatch(layer);
+	pingoComendoSopaCenoura = null;
+      }
+
+      if(fome <= fome_min && pingoComendoSopaBacon != null && pingo == null){
 	fome = fome_min;
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoComendoSopaBacon.detatch(layer);
@@ -524,7 +546,7 @@ public class Pet extends Game.Default {
 	pingoBebendoAgua = null;
       }
 
-      if(fome<= fome_min && pingoBebendoLeite != null && pingo == null){
+      if(fome <= fome_min && pingoBebendoLeite != null && pingo == null){
 	fome = fome_min;
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoBebendoLeite.detatch(layer);
@@ -603,7 +625,14 @@ public class Pet extends Game.Default {
 	    fome += fome_passivo;
       }
 
-      else if(pingoComendoSopaBacon != null){//Se for o pingo comendo sopa de bacon, a fome dele deve diminuir
+/*      else if(pingoComendoSopaCenoura != null){//Se for o pingo comendo sopa de cenoura, a fome dele deve diminuir
+	if ((beat % fome_passivo_beats) == 0)
+	  if (fome <= fome_max && fome > fome_min)
+	    fome -= fome_passivo;
+      }
+*///NÃO ACHEI NECESSIDADE DE CRIAR UM CÓDIGO APENAS PARA CENOURA, JÁ QUE NESTA PARTE, FAZ A MESMA FUNÇÃO DA SOPA DE BACON
+
+      else if(pingoComendoSopaBacon != null || pingoComendoSopaCenoura != null){//Se for o pingo comendo sopa de bacon, a fome dele deve diminuir
 	if ((beat % fome_passivo_beats) == 0)
 	  if (fome <= fome_max && fome > fome_min)
 	    fome -= fome_passivo;
