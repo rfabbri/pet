@@ -21,6 +21,8 @@ import com.pulapirata.core.sprites.PingoMorto;
 import com.pulapirata.core.sprites.PingoVomitando;
 import com.pulapirata.core.sprites.PingoBebado;
 import com.pulapirata.core.sprites.PingoComa;
+import com.pulapirata.core.sprites.PingoBebendoAgua;
+import com.pulapirata.core.sprites.PingoBebendoLeite;
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
@@ -48,10 +50,10 @@ import tripleplay.ui.layout.AxisLayout;
 
 import static tripleplay.ui.layout.TableLayout.COL;
 
-
 public class Pet extends Game.Default {
+	//Informações que aparecem no topo
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
+  protected  static final String STAT_FILLER_1 = "Idade: %d %s\nSede: %d/%d\nFome: %d/%d\nAlcool: %d/%d";
 
   private GroupLayer layer;
   protected Pingo pingo = null;
@@ -59,10 +61,12 @@ public class Pet extends Game.Default {
   protected PingoVomitando pingovomitando = null;
   protected PingoBebado pingobebado = null;
   protected PingoComa pingocoma = null;
+  protected PingoBebendoAgua pingoBebendoAgua = null;
+  protected PingoBebendoLeite pingoBebendoLeite = null;
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
-  public int width() { return 480; }
+  public int width() { return 480; }//Position of pingo in the screen.
   public int height() { return 800; }
 
 
@@ -78,8 +82,20 @@ public class Pet extends Game.Default {
 
   public int idade_coelhodias() { return beat / beats_coelhodia; }
   public int idade_coelhohoras() { return (int)((float)beat / ((float)beats_coelhodia/24f)); }
-
+  
   private Interface iface, statbar_iface;
+  private int sede = 5;
+  private int sede_passivo = 1;
+  private int sede_passivo_beats = (int) Math.max(beats_coelhosegundo*60*60,1);
+  private int sede_max = 10;
+  private int sede_min = 0;
+  private int fome = 5;
+  private int fome_passivo = 1;
+  private int fome_passivo_beats = (int) Math.max(beats_coelhosegundo*60*60,1);
+  private int fome_max = 10;
+  private int fome_min = 0;
+
+	
 
   private int alcool_ = 3;
   private int alcool_passivo_ = -1;
@@ -87,15 +103,17 @@ public class Pet extends Game.Default {
   private int alcool_max_ = 10;
   private int alcool_min_ = 0;
 
+  private int felicidade = 5;
+  private int felicidade_max = 10;
+
   private Stylesheet petSheet;
 
   //--------------------------------------------------------------------------------
   public String idade_coelhodias_str() { 
     if (idade_coelhodias() == 0)
-      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", alcool_, alcool_max_); 
+      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede, sede_max, fome , fome_max, alcool_, alcool_max_); //informacoes exibidas 
     else
-      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", alcool_, alcool_max_); 
-
+      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede, sede_max, fome, fome_max, alcool_, alcool_max_); 
   }
   
 
@@ -119,7 +137,7 @@ public class Pet extends Game.Default {
     // FIXME: problem with graphics.width not being set correctly in html;
     // it always seems to give 640
     //  
-    statlayer.setHeight(120);
+    statlayer.setHeight(120);//altura do retangulo de informacoes
     layer.add(statlayer);
 
     // test: write something in white letters: Pet
@@ -189,7 +207,7 @@ public class Pet extends Game.Default {
   private void make_background() {
     Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
     ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    layer.addAt(bgLayer, 0, 120);
+    layer.addAt(bgLayer, 0, 120);//janela do quarto do pingo
   }
 
   //--------------------------------------------------------------------------------
@@ -202,7 +220,7 @@ public class Pet extends Game.Default {
 
     root.setSize(width(), 354); // this includes the secondary buttons
     //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-    layer.addAt(root.layer, 0, 442);
+    layer.addAt(root.layer, 0, 442);//Position of buttons
 
     final Group buttons = new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.blank()));
@@ -292,7 +310,7 @@ public class Pet extends Game.Default {
 
     final ArrayList< ArrayList<Image> > img_butt_secondary = s_img_butt_secondary;
 
-    final int[][] topleft = new int [][] {
+    final int[][] topleft = new int [][] {//posição de cada "butt"
       {0,0},
       {120,0},
       {240,0},
@@ -327,15 +345,33 @@ public class Pet extends Game.Default {
         Button sbut = new Button(img_butt_secondary.get(b).get(s));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
+	if(b == 0 && s == 3)sbut.clicked().connect(new UnitSlot(){
+	  public void onEmit(){//Atravez do evendo beber leite, cria um novo pingoBebendoLeite
+	    pingoBebendoLeite = new PingoBebendoLeite(layer, width()/2, height()/2);
+	    if(pingo!=null){
+	      pingo.detatch(layer);
+		pingo = null;
+	    }
+
+	  }
+	});
+	if(b == 0 && s == 2)sbut.clicked().connect(new UnitSlot(){
+	  public void onEmit(){//Atravez do evendo beber agua, cria um novo pingoBebendoAgua
+	    pingoBebendoAgua = new PingoBebendoAgua(layer, width()/2, height()/2);
+	    if(pingo!=null){
+	      pingo.detatch(layer);
+	      pingo = null;
+	    }
+	  }
+	});
 
         if (b == 6 // diversao
         &&  s == 0) // licor
           sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
               alcool_ = alcool_max_; // TODO modificar de acordo com folha
-            }
+	    }
           });
-
       }
 
       but.selected.map(new Function <Boolean, ImageIcon>() {
@@ -440,6 +476,12 @@ public class Pet extends Game.Default {
       pingobebado.update(delta);
     else if (pingocoma != null)
       pingocoma.update(delta);
+    else if (pingoBebendoAgua != null){//Para atualizar as "imagens"
+      pingoBebendoAgua.update(delta);
+    }
+    else if(pingoBebendoLeite != null){
+      pingoBebendoLeite.update(delta);
+    }
 
     if(beat / beats_coelhodia >= 30) {
       if (pingomorto == null) {
@@ -447,18 +489,32 @@ public class Pet extends Game.Default {
           // beat = beat; // pass
           //pingos.del(pingo);
         pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
-        pingo.detatch(layer);
+        pingo.detatch(layer);//remove the layer
         pingo = null;
       } else {
         pingomorto.update(delta);
       }
     } else {
       // update properties
+      if(sede <= sede_min && pingoBebendoAgua != null && pingo == null){//Quando a sede for 0, aqui é realizada a troca do layer dele bebendo agua para normal
+	sede = sede_min; // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
+	pingo = new Pingo(layer, width() / 2, height() / 2);
+	pingoBebendoAgua.detatch(layer);
+	pingoBebendoAgua = null;
+      }
+      if(fome<= fome_min && pingoBebendoLeite != null && pingo == null){
+	fome = fome_min;
+	pingo = new Pingo(layer, width() / 2, height() / 2);
+	pingoBebendoLeite.detatch(layer);
+	pingoBebendoLeite = null;
+      }
+
       if (alcool_ == 10) {
         if (pingocoma == null) {
+		System.out.println("ENTROU NO PINGO COMA");
           pingocoma = new PingoComa(layer, width() / 2, height() / 2);
           if (pingo != null) {
-            pingo.detatch(layer);
+            pingo.detatch(layer);//remove the layer
             pingo = null;
           }
         }
@@ -471,7 +527,7 @@ public class Pet extends Game.Default {
         if (alcool_ >= 7) {
           if (pingovomitando == null) {
             if (pingo != null) {
-              pingo.detatch(layer);
+              pingo.detatch(layer);//remove the layer
               pingo = null;
             }
             pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
@@ -504,8 +560,33 @@ public class Pet extends Game.Default {
       beat = beat + 1;
 
       if ((beat % alcool_passivo_beats_) == 0)
-        if (alcool_ > alcool_min_)
+       if (alcool_ > alcool_min_)
           alcool_ += alcool_passivo_;
+
+      if(pingo!=null){//Se for o pingo normal, a sede aumenta
+	if ((beat % sede_passivo_beats) == 0)
+	  if (sede >= sede_min && sede < sede_max)
+	    sede += sede_passivo;
+	}
+      
+      else if(pingoBebendoAgua != null){//Se for o pingo bebendo agua, a sede dele deve diminuir
+	if ((beat % sede_passivo_beats) == 0)
+	  if (sede <= sede_max && sede > sede_min)
+	    sede -= sede_passivo+1;
+      }
+      
+      if(pingo!=null){//Se for o pingo normal, a fome aumenta
+	if ((beat % fome_passivo_beats) == 0)
+	  if (fome >= fome_min && fome < fome_max)
+	    fome += fome_passivo;
+      }
+
+      else if(pingoBebendoLeite != null){//Se for o pingo bebendo leite, a fome dele deve diminuir
+	if ((beat % fome_passivo_beats) == 0)
+	  if (fome <= fome_max && fome > fome_min)
+	    fome -= fome_passivo;
+      }
+
 
       Label l = (Label) main_stat_.childAt(1);
       l.text.update(idade_coelhodias_str());
