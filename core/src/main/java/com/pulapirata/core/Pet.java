@@ -584,7 +584,7 @@ public class Pet extends Game.Default {
       else if(pingoBebendoLeite != null){//Se for o pingo bebendo leite, a fome dele deve diminuir
 	if ((beat % fome_passivo_beats) == 0)
 	  if (fome <= fome_max && fome > fome_min)
-	    fome -= fome_passivo;
+	    fome -= fome_passivo+1;
       }
 
 
