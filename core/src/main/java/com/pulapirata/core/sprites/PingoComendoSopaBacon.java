@@ -19,8 +19,8 @@ import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
 public class PingoComendoSopaBacon{
-	public static String IMAGE = "pet/sprites/pingo_bebe_vomitando.png";
-	public static String JSON = "pet/sprites/pingo_bebe_vomitando.json";
+	public static String IMAGE = "pet/sprites/pingo_bebe_comendo.png";
+	public static String JSON = "pet/sprites/pingo_bebe_comendo.json";
 	private Sprite sprite;
 	private int spriteIndex = 0;
 	private boolean hasLoaded = false;

@@ -3,7 +3,9 @@ package com.pulapirata.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -15,6 +17,7 @@ import playn.core.CanvasImage;
 import playn.core.util.Clock;
 import playn.core.PlayN;
 import playn.core.Font;
+import playn.core.Sound;
 
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
@@ -59,6 +62,7 @@ public class Pet extends Game.Default {
   protected  static final String STAT_FILLER_1 = "Idade: %d %s\nSede: %d/%d\nFome: %d/%d\nAlcool: %d/%d";
 
   private GroupLayer layer;
+  private Sound somArroto = assets().getSound("pet/sprites/arroto_01");
   protected Pingo pingo = null;
   protected PingoMorto pingomorto = null;
   protected PingoVomitando pingovomitando = null;
@@ -394,6 +398,7 @@ public class Pet extends Game.Default {
         &&  s == 0) // licor
           sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
+	
               alcool_ = alcool_max_; // TODO modificar de acordo com folha
 	    }
           });
@@ -529,6 +534,7 @@ public class Pet extends Game.Default {
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoComendoSopaCenoura.detatch(layer);
 	pingoComendoSopaCenoura = null;
+	somArroto.play(); 
       }
 
       if(fome <= fome_min && pingoComendoSopaBacon != null && pingo == null){
@@ -536,6 +542,8 @@ public class Pet extends Game.Default {
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoComendoSopaBacon.detatch(layer);
 	pingoComendoSopaBacon = null;
+	somArroto.play(); 
+
       }
 
 
@@ -544,6 +552,7 @@ public class Pet extends Game.Default {
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoBebendoAgua.detatch(layer);
 	pingoBebendoAgua = null;
+	somArroto.play(); 
       }
 
       if(fome <= fome_min && pingoBebendoLeite != null && pingo == null){
@@ -551,6 +560,7 @@ public class Pet extends Game.Default {
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoBebendoLeite.detatch(layer);
 	pingoBebendoLeite = null;
+	somArroto.play(); 
       }
 
       if (alcool_ == 10) {
