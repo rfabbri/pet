@@ -63,6 +63,7 @@ public class Pet extends Game.Default {
 
   private GroupLayer layer;
   private Sound somArroto = assets().getSound("pet/sprites/arroto_01");
+  private Sound somSoluco = assets().getSound("pet/sprites/soluco_01");
   protected Pingo pingo = null;
   protected PingoMorto pingomorto = null;
   protected PingoVomitando pingovomitando = null;
@@ -565,8 +566,8 @@ public class Pet extends Game.Default {
 
       if (alcool_ == 10) {
         if (pingocoma == null) {
-		System.out.println("ENTROU NO PINGO COMA");
           pingocoma = new PingoComa(layer, width() / 2, height() / 2);
+	  somSoluco.play();
           if (pingo != null) {
             pingo.detatch(layer);//remove the layer
             pingo = null;
@@ -585,6 +586,8 @@ public class Pet extends Game.Default {
               pingo = null;
             }
             pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
+	    somSoluco.play();
+
           }
         } else {
           if (pingovomitando != null) {
@@ -599,6 +602,7 @@ public class Pet extends Game.Default {
                 pingo = null;
               }
               pingobebado  = new PingoBebado(layer, width() / 2, height() / 2);
+	      somSoluco.play();
             }
           } else {
             if (pingobebado != null) {
