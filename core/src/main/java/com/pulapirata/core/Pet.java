@@ -3,6 +3,7 @@ package com.pulapirata.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Random;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
@@ -28,6 +29,8 @@ import com.pulapirata.core.sprites.PingoBebendoAgua;
 import com.pulapirata.core.sprites.PingoBebendoLeite;
 import com.pulapirata.core.sprites.PingoComendoSopaBacon;
 import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
+import com.pulapirata.core.sprites.PingoPiscando;
+
 
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
@@ -73,6 +76,8 @@ public class Pet extends Game.Default {
   protected PingoBebendoLeite pingoBebendoLeite = null;
   protected PingoComendoSopaBacon pingoComendoSopaBacon = null;
   protected PingoComendoSopaCenoura pingoComendoSopaCenoura = null;
+  protected PingoPiscando pingoPiscando = null;
+
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
@@ -111,6 +116,9 @@ public class Pet extends Game.Default {
   private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
   private int alcool_max_ = 10;
   private int alcool_min_ = 0;
+  //Random random = new Random();
+  
+  private int numAleatorio = 0;
 
   private Stylesheet petSheet;
 
@@ -403,6 +411,15 @@ public class Pet extends Game.Default {
               alcool_ = alcool_max_; // TODO modificar de acordo com folha
 	    }
           });
+	if(b == 6 && s == 1)sbut.clicked().connect(new UnitSlot() {
+            public void onEmit() {
+	//	pingo.piscaPingo(layer, width() / 2, height() / 2);
+	    
+	      //pingo.detatch(layer);
+	//	pingo = new Pingo(layer, width() / 2, height() / 2);
+	    }
+          });
+
       }
 
       but.selected.map(new Function <Boolean, ImageIcon>() {
@@ -515,6 +532,8 @@ public class Pet extends Game.Default {
       pingoBebendoAgua.update(delta);
     else if(pingoBebendoLeite != null)
       pingoBebendoLeite.update(delta);
+    else if(pingoPiscando != null)
+      pingoPiscando.update(delta);
 
     if(beat / beats_coelhodia >= 30) {
       if (pingomorto == null) {
@@ -529,6 +548,21 @@ public class Pet extends Game.Default {
       }
     } else {
       // update properties
+      numAleatorio = (int)(random()*50);
+      System.out.println("NUM ALEATÓRIO: "+numAleatorio);
+      
+      if(numAleatorio==5){
+        pingoPiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+        pingo.detatch(layer);//remove the layer
+        pingo = null;
+      }
+      else if(pingoPiscando != null){
+        pingo = new Pingo(layer, width() / 2, height() / 2);
+        pingoPiscando.detatch(layer);
+        pingoPiscando = null;
+      }
+
+	  
 
       if(fome <= fome_min && pingoComendoSopaCenoura != null && pingo == null){
 	fome = fome_min;

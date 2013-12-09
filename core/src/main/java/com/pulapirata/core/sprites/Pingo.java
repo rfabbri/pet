@@ -65,5 +65,5 @@ public class Pingo {
 
   public void detatch(GroupLayer pingoLayer) {
     pingoLayer.remove(sprite.layer());
-  }
+  }  
 }
