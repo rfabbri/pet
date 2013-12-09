@@ -57,7 +57,7 @@
       <!-- allows testing of Java backend via: mvn test -->
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
         <executions>
           <execution>
             <phase>test</phase>

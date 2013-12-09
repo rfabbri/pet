@@ -96,7 +96,7 @@
   <target name="compile" depends="-prepare-java" description="Compiles the core code.">
     <mkdir dir="${classes.dir}"/>
     <javac destdir="${classes.dir}" includeAntRuntime="false"
-           debug="on" deprecation="on" source="1.6" target="1.6">
+           debug="on" deprecation="on" source="1.7" target="1.7">
       <src path="core/${src.dir}"/>
       <src path="java/${src.dir}"/>
       <classpath refid="java.classpath"/>
@@ -111,7 +111,7 @@
 
   <target name="-compile-html" depends="-prepare-html,compile">
     <javac srcdir="html/${src.dir}" destdir="${classes.dir}" includeAntRuntime="false"
-           debug="on" deprecation="on" source="1.6" target="1.6">
+           debug="on" deprecation="on" source="1.7" target="1.7">
       <classpath refid="html.classpath"/>
       <compilerarg value="-Xlint"/>
       <compilerarg value="-Xlint:-serial"/>
