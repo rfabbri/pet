@@ -28,11 +28,13 @@ import react.Function;
 import react.UnitSlot;
 import react.Slot;
 
+//import tripleplay.ui.*;
 import tripleplay.ui.Element;
 import tripleplay.ui.Selector;
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
-import tripleplay.ui.ImageIcon;
+import tripleplay.ui.Icon;
+import tripleplay.ui.Icons;
 import tripleplay.ui.ToggleButton;
 import tripleplay.ui.Label;
 import tripleplay.ui.Group;
@@ -158,7 +160,7 @@ public class Pet extends Game.Default {
     final Group statbar = new Group (statbar_layout).add (
         main_stat_,
         new Group(rightpart_layout).add (
-          new Button(new ImageIcon(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
+          new Button(Icons.image(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
           // TODO in future this button will actually be an animation sprite
           new Label(STAT_ALERT_1).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
@@ -310,7 +312,7 @@ public class Pet extends Game.Default {
 
     for (int b =0; b < num_main_butts; ++b) {
       final int b_final = b;
-      ToggleButton but = new ToggleButton (new ImageIcon(img_butt_solto.get(0)));
+      ToggleButton but = new ToggleButton (Icons.image(img_butt_solto.get(0)));
       buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
       // add button b's secondary buttons TODO: use animated sheets for them
@@ -319,7 +321,7 @@ public class Pet extends Game.Default {
         Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
       for (int s = 0; s < img_butt_secondary.get(b).size(); ++s) {
-        Button sbut = new Button(img_butt_secondary.get(b).get(s));
+        Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
 
@@ -333,14 +335,15 @@ public class Pet extends Game.Default {
 
       }
 
-      but.selected.map(new Function <Boolean, ImageIcon>() {
-        public ImageIcon apply (Boolean selected) {
+      but.selected().map(new Function <Boolean,Icon>() {
+        public Icon apply (Boolean selected) {
                if (selected) {
-                  return new ImageIcon(img_butt_apertado.get(b_final));
+                  return Icons.image(img_butt_apertado.get(b_final));
                } else {
-                  return new ImageIcon(img_butt_solto.get(b_final));
+                  return Icons.image(img_butt_solto.get(b_final));
                }
-      }}).connectNotify(but.icon.slot());
+      }
+      }).connectNotify(but.icon.slot());
 
       // all secondary buttons are added; toggle visibility only
       root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
