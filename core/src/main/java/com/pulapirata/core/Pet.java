@@ -92,9 +92,51 @@ public class Pet extends Game.Default {
 
   private int alcool_ = 3;
   private int alcool_passivo_ = -1;
-  private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
+  private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1); //1 hora
   private int alcool_max_ = 10;
   private int alcool_min_ = 0;
+
+  private int fome_ = 30;
+  private int fome_passivo = -5;
+  private int fome_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./4.,1); //15 min
+  private int fome_max = 120;
+  private int fome_min = -20;
+
+  private int humor_ = 30;
+  private int humor_passivo = -5;
+  private int humor_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./3.,1); //20 min
+  private int humor_max = 120;
+  private int humor_min = -20;
+
+  private int social_ = 30;
+  private int social_passivo = -5;
+  private int _passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*2./3.,1); //40min
+  private int social_max = 120;
+  private int social_min = -20;
+
+  private int higiene_ = 30;
+  private int higiene_passivo = -5;
+  private int higiene_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./2.,1); //30 min
+  private int higiene_max = 120;
+  private int higiene_min = -20;
+ 
+  private int estudo_ = 0;
+  private int estudo_passivo = -1;
+  //private int estudo_passivo_beats_ = ;//por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
+  private int estudo_max = 10;
+  private int estudo_min = -5;
+  
+
+  private int saude_ = 5;
+  private int saude_passivo = -1;
+  //private int saude_passivo_beats_ = ;//por idade
+  private int saude_max = 10;
+  private int saude_min = -5;
+
+  private int disciplina_ = 0;
+  private int disciplina_max = 10;
+  private int disciplina_min = -5;
+ 
 
   //--------------------------------------------------------------------------------
   public Pet() {
@@ -408,6 +450,7 @@ public class Pet extends Game.Default {
 
     // sprites
     pingo = new Pingo(layer, width() / 2, height() / 2);
+ 
   }
 
 
@@ -515,6 +558,15 @@ public class Pet extends Game.Default {
     if (statbar_iface != null) {
       statbar_iface.update(delta);
     }
+   
+   /*VIsualizando atributo no terminal*/
+ //System.out.println("Fome: " + fome_);
+ //System.out.println("Social: " + social_);
+ //System.out.println("Humor: " + humor_);
+ //System.out.println("Saude: " + saude_);
+ //System.out.println("Alcool: " + alcool_); 
+
+
   }
 
 }
