@@ -90,7 +90,7 @@ public class Pet extends Game.Default {
   private PingoBebado pingobebado = null;
   private PingoComa pingocoma = null;
 
-  private int alcool_ = 3;
+  private int alcool_ = 0;
   private int alcool_passivo_ = -1;
   private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1); //1 hora
   private int alcool_max_ = 10;
@@ -122,14 +122,14 @@ public class Pet extends Game.Default {
  
   private int estudo_ = 0;
   private int estudo_passivo = -1;
-  //private int estudo_passivo_beats_ = ;//por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
+  //private int estudo_passivo_beats_ = ;//? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
   private int estudo_max = 10;
   private int estudo_min = -5;
   
 
   private int saude_ = 5;
   private int saude_passivo = -1;
-  //private int saude_passivo_beats_ = ;//por idade
+  //private int saude_passivo_beats_ = ;//? por idade (em dias?)
   private int saude_max = 10;
   private int saude_min = -5;
 
@@ -137,6 +137,7 @@ public class Pet extends Game.Default {
   private int disciplina_max = 10;
   private int disciplina_min = -5;
  
+  //private boolean matricula = false;
 
   //--------------------------------------------------------------------------------
   public Pet() {
