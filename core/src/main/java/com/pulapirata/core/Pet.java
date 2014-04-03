@@ -123,13 +123,14 @@ public class Pet extends Game.Default {
   private int estudo_ = 0;
   private int estudo_passivo = -1;
   //private int estudo_passivo_beats_ = ;//? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
+  //(int) Math.max(beats_coelhosegundo*60.*60.*24.,1); //dia
   private int estudo_max = 10;
   private int estudo_min = -5;
   
 
   private int saude_ = 5;
   private int saude_passivo = -1;
-  //private int saude_passivo_beats_ = ;//? por idade (em dias?)
+  private int saude_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*24.,1);//? por idade (em dias?)
   private int saude_max = 10;
   private int saude_min = -5;
 
