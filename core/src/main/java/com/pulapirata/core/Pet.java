@@ -3,6 +3,7 @@ package com.pulapirata.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Random;
 
 import static playn.core.PlayN.*;
 
@@ -47,6 +48,7 @@ import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.TableLayout;
 import tripleplay.ui.layout.AbsoluteLayout;
 import tripleplay.ui.layout.AxisLayout;
+import tripleplay.util.Randoms;
 
 import static tripleplay.ui.layout.TableLayout.COL;
 
@@ -137,6 +139,9 @@ public class Pet extends Game.Default {
   private int disciplina_ = 0;
   private int disciplina_max = 10;
   private int disciplina_min = -5;
+
+  private final Randoms _rando = Randoms.with(new Random());//Para gerar numeros aleatorios
+  private int r;
  
   //private boolean matricula = false;
 
@@ -560,8 +565,21 @@ public class Pet extends Game.Default {
     if (statbar_iface != null) {
       statbar_iface.update(delta);
     }
-   
-   /*VIsualizando atributo no terminal*/
+
+
+//Pingo piscando
+r = _rando.getInRange(1,4);//de 1 a 3 
+/*
+if(pingo!=null && beat/ ((int) Math.max(beats_coelhosegundo*60.*60.,1)) %r==0){
+  System.out.println(r +" horas");
+  pingo.detatch(layer);
+  pingo = new Pingo(layer, width() / 2, height() / 2);;
+}	
+*/
+
+    //System.out.println(_rando.getInRange(1,10));
+ 
+ /*VIsualizando atributo no terminal*/
  //System.out.println("Fome: " + fome_);
  //System.out.println("Social: " + social_);
  //System.out.println("Humor: " + humor_);
@@ -569,6 +587,6 @@ public class Pet extends Game.Default {
  //System.out.println("Alcool: " + alcool_); 
 
 
-  }
+  }//fim do update
 
 }
