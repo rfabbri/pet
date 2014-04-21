@@ -22,6 +22,7 @@ import com.pulapirata.core.sprites.PingoMorto;
 import com.pulapirata.core.sprites.PingoVomitando;
 import com.pulapirata.core.sprites.PingoBebado;
 import com.pulapirata.core.sprites.PingoComa;
+import com.pulapirata.core.sprites.PingoPiscando;
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
@@ -91,6 +92,7 @@ public class Pet extends Game.Default {
   private PingoVomitando pingovomitando = null;
   private PingoBebado pingobebado = null;
   private PingoComa pingocoma = null;
+  private PingoPiscando pingopiscando = null;
 
   private int alcool_ = 0;
   private int alcool_passivo_ = -1;
@@ -564,6 +566,18 @@ public class Pet extends Game.Default {
     }
     if (statbar_iface != null) {
       statbar_iface.update(delta);
+    }
+
+
+
+//Pingo piscando
+    if(pingo != null){
+	System.out.println("Pingo Normal");
+	pingo.detatch(layer);
+	pingo = null;
+	pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+	System.out.println("Pingo Piscando");
+
     }
 
 
