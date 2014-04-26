@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import static playn.core.PlayN.*;
 
@@ -97,7 +98,8 @@ public class Pet extends Game.Default {
   private String alcool_aviso;
   private ArrayList<String> avisos = new ArrayList<String>();//List que conterá os avisos
   private Iterator<String> elementos = avisos.iterator();
-  private static String aviso_status_bar="ola"; 
+  private String aviso_status_bar="ola"; 
+  private int nAviso= 0;
 
   private Pingo pingo = null;
   private PingoMorto pingomorto = null;
@@ -470,7 +472,7 @@ public class Pet extends Game.Default {
 
     // sprites
     pingo = new Pingo(layer, width() / 2, height() / 2);
- 
+ 	avisos.add("aviso1"); avisos.add("mudanças1");
   }
 
 
@@ -694,15 +696,12 @@ if(social_ <= 0){
 } else if(social_ <= 40){
 	social_aviso = null;
 	//normal
-}
 } else if(social_ <= 60){
 	social_aviso = null;
 	//normal
-}
-} else if(social_ <= 80){
+}else if(social_ <= 80){
 	social_aviso = null;
 	//normal
-}
 } else if(social_ <= 100){
 	social_aviso = "Pingo está muito contente";
 	//normal
@@ -786,7 +785,7 @@ if(disciplina_==-5){
 	if(estudo_<=3){
 	//solicita estudar
 	}
-}else if(disciplina<=10){
+}else if(disciplina_<=10){
 	disciplina_aviso = null;
 	// pingo automaticamente estuda caso tenha estudo 3 ou menos
 	//ou limpa o quarto caso tenha mais de 6 cocôs pelo quarto.
@@ -795,17 +794,14 @@ if(disciplina_==-5){
 	}
 }
 if(disciplina_aviso == null && avisos.contains(disciplina_aviso)){
-	avisos.remove(disicplina_aviso);
+	avisos.remove(disciplina_aviso);
 } else if(disciplina_aviso!=null){
 	avisos.add(disciplina_aviso);
 } 
 
 
 //Alcool
-if(alcool_==-5){
-	alcool_aviso = null;
-	//NA
-}else if(alcool_<=0){
+if(alcool_<=0){
 	alcool_aviso = null;
 	//normal
 }else if(alcool_<=3){
@@ -827,10 +823,6 @@ if(alcool_aviso == null && avisos.contains(alcool_aviso)){
 } else if(alcool_aviso!=null){
 	avisos.add(alcool_aviso);
 } 
-	
-
-
-
 
 
 
@@ -839,17 +831,38 @@ if(alcool_aviso == null && avisos.contains(alcool_aviso)){
 if(beat%((int) Math.max(beats_coelhosegundo*60.*60.*2,5))==0){//a cada duas horas
 System.out.println("Manipulando lista de avisos");
 	if(avisos.isEmpty()){
-		aviso_status_bar = " ";
-	}else if(elementos.hasNext()){
-		aviso_status_bar = elementos.next();
-	}else{
+		aviso_status_bar = "sem avisos";
+	}else if(nAviso>=avisos.size()){
+		nAviso = 0;
+		System.out.println(nAviso + "   "+ avisos.size());
+		System.out.println("nAviso==avisos.size()" + avisos.size());
+	}else {
+		aviso_status_bar = avisos.get(nAviso);
+		++nAviso;
+		System.out.println(nAviso + "   " + avisos.size());
+	}
+
+
+
+
+//iterator
+/*	}else if(elementos.hasNext()){
+		System.out.println("has next");
+		//aviso_status_bar = elementos.next();
+		System.out.println(elementos.next());
+	}/*else{
 		elementos = avisos.iterator();
 		aviso_status_bar = elementos.next();
-	}  
+	}  */
 System.out.println("aviso_status_bar ");
 make_statusbar(); 
 } 
-
+//teste statusbar
+/*
+Integer B = beat;
+aviso_status_bar = B.toString();
+make_statusbar(); 
+*/
 
 /*
 if(beat%10==0){
