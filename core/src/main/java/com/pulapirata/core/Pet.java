@@ -654,9 +654,9 @@ if(fome_ <= 0){
 	//normal+vomitando
 }
 
-if(fome_aviso == null && avisos.contains(fome_aviso)){
+if(fome_aviso == null && !avisos.contains(fome_aviso)){
 	avisos.remove(fome_aviso);
-} else if(fome_aviso!=null){
+} else if(fome_aviso!=null && !avisos.contains(fome_aviso)){
 	avisos.add(fome_aviso);
 }
 //Humor 
@@ -680,7 +680,7 @@ humor_aviso = "Pingo está muito contente";
 }
 if(humor_aviso == null && avisos.contains(humor_aviso)){
 	avisos.remove(humor_aviso);
-} else if(humor_aviso!=null){
+} else if(humor_aviso!=null && !avisos.contains(humor_aviso)){
 	avisos.add(humor_aviso);
 }
 
@@ -708,7 +708,7 @@ if(social_ <= 0){
 }
 if(social_aviso == null && avisos.contains(social_aviso)){
 	avisos.remove(social_aviso);
-} else if(social_aviso!=null){
+} else if(social_aviso!=null && !avisos.contains(social_aviso)){
 	avisos.add(social_aviso);
 }
 //higiene
@@ -721,7 +721,7 @@ if(higiene_ <= 0){
 }
 if(higiene_aviso == null && avisos.contains(higiene_aviso)){
 	avisos.remove(higiene_aviso);
-} else if(higiene_aviso!=null){
+} else if(higiene_aviso!=null && !avisos.contains(higiene_aviso)){
 	avisos.add(higiene_aviso);
 }
 //Estudos
@@ -740,7 +740,7 @@ if(estudo_==-5){
 }
 if(estudo_aviso == null && avisos.contains(estudo_aviso)){
 	avisos.remove(estudo_aviso);
-} else if(estudo_aviso!=null){
+} else if(estudo_aviso!=null && !avisos.contains(estudo_aviso)){
 	avisos.add(estudo_aviso);
 } 
 
@@ -761,7 +761,7 @@ if(saude_==-5){
 }
 if(saude_aviso == null && avisos.contains(saude_aviso)){
 	avisos.remove(saude_aviso);
-} else if(estudo_aviso!=null){
+} else if(estudo_aviso!=null && !avisos.contains(saude_aviso)){
 	avisos.add(saude_aviso);
 } 
 
@@ -795,7 +795,7 @@ if(disciplina_==-5){
 }
 if(disciplina_aviso == null && avisos.contains(disciplina_aviso)){
 	avisos.remove(disciplina_aviso);
-} else if(disciplina_aviso!=null){
+} else if(disciplina_aviso!=null && !avisos.contains(disciplina_aviso)){
 	avisos.add(disciplina_aviso);
 } 
 
@@ -820,7 +820,7 @@ if(alcool_<=0){
 
 if(alcool_aviso == null && avisos.contains(alcool_aviso)){
 	avisos.remove(alcool_aviso);
-} else if(alcool_aviso!=null){
+} else if(alcool_aviso!=null && !avisos.contains(alcool_aviso)){
 	avisos.add(alcool_aviso);
 } 
 
