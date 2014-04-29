@@ -83,7 +83,7 @@ public class Pet extends Game.Default {
 
   }
 
-  private  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
+  private  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";//Talvez seja excluido
   private  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
   private String fome_aviso;
   private String humor_aviso;
@@ -111,45 +111,45 @@ public class Pet extends Game.Default {
   private int alcool_min_ = 0;
 
   private int fome_ = 30;
-  private int fome_passivo = -5;
+  private int fome_passivo_ = -5;
   private int fome_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./4.,1); //15 min
-  private int fome_max = 120;
-  private int fome_min = -20;
+  private int fome_max_ = 120;
+  private int fome_min_ = -20;
 
   private int humor_ = 30;
-  private int humor_passivo = -5;
+  private int humor_passivo_ = -5;
   private int humor_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./3.,1); //20 min
-  private int humor_max = 120;
-  private int humor_min = -20;
+  private int humor_max_ = 120;
+  private int humor_min_ = -20;
 
   private int social_ = 30;
-  private int social_passivo = -5;
-  private int _passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*2./3.,1); //40min
-  private int social_max = 120;
-  private int social_min = -20;
+  private int social_passivo_ = -5;
+  private int social_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*2./3.,1); //40min
+  private int social_max_ = 120;
+  private int social_min_ = -20;
 
   private int higiene_ = 30;
-  private int higiene_passivo = -5;
+  private int higiene_passivo_ = -5;
   private int higiene_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./2.,1); //30 min
-  private int higiene_max = 120;
-  private int higiene_min = -20;
+  private int higiene_max_ = 120;
+  private int higiene_min_ = -20;
  
   private int estudo_ = 0;
-  private int estudo_passivo = -1;
+  private int estudo_passivo_ = -1;
   //private int estudo_passivo_beats_ = ;//? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
   //(int) Math.max(beats_coelhosegundo*60.*60.*24.,1); //dia
-  private int estudo_max = 10;
-  private int estudo_min = -5;
+  private int estudo_max_ = 10;
+  private int estudo_min_ = -5;
   
   private int saude_ = 5;
-  private int saude_passivo = -1;
+  private int saude_passivo_ = -1;
   private int saude_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*24.,1);//? por idade (em dias?)
-  private int saude_max = 10;
-  private int saude_min = -5;
+  private int saude_max_ = 10;
+  private int saude_min_ = -5;
 
   private int disciplina_ = 0;
-  private int disciplina_max = 10;
-  private int disciplina_min = -5;
+  private int disciplina_max_ = 10;
+  private int disciplina_min_ = -5;
 
   private final Randoms _rando = Randoms.with(new Random());//Para gerar numeros aleatorios
   private int r;//excluir depois
@@ -563,7 +563,7 @@ public class Pet extends Game.Default {
 
       // update clock and passives
       beat = beat + 1;
-
+//inicio dos passivos dos atributos
       if ((beat % alcool_passivo_beats_) == 0)
         if (alcool_ > alcool_min_)
           alcool_ += alcool_passivo_;
@@ -592,7 +592,7 @@ public class Pet extends Game.Default {
        if ((beat % saude_passivo_beats_) == 0)
          if (saude_ > saude_min_)
            saude_ += saude_passivo_;
-
+//fim dos passivos atributos
       Label l = (Label) main_stat_.childAt(1);
       l.text.update(idade_coelhodias_str());
     }
