@@ -568,6 +568,31 @@ public class Pet extends Game.Default {
         if (alcool_ > alcool_min_)
           alcool_ += alcool_passivo_;
 
+      if ((beat % fome_passivo_beats_) == 0)
+        if (fome_ > fome_min_)
+          fome_ += fome_passivo_;
+      
+      if ((beat % humor_passivo_beats_) == 0)
+        if (humor_ > humor_min_)
+          humor_ += humor_passivo_;
+     
+      if ((beat % social_passivo_beats_) == 0)
+        if (social_ > social_min_)
+          social_ += social_passivo_;
+    
+       if ((beat % higiene_passivo_beats_) == 0)
+        if (higiene_ > higiene_min_)
+          higiene_ += higiene_passivo_;
+    /*Após a matricula
+  if ((beat % estudo_passivo_beats_) == 0)
+        if (estudo_ > estudo_min_)
+          estudo_ += estudo_passivo_;
+ */
+
+       if ((beat % saude_passivo_beats_) == 0)
+         if (saude_ > saude_min_)
+           saude_ += saude_passivo_;
+
       Label l = (Label) main_stat_.childAt(1);
       l.text.update(idade_coelhodias_str());
     }
