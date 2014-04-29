@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Iterator;
-import java.util.ListIterator;
-
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -97,9 +94,8 @@ public class Pet extends Game.Default {
   private String disciplina_aviso;
   private String alcool_aviso;
   private ArrayList<String> avisos = new ArrayList<String>();//List que conterá os avisos
-  private Iterator<String> elementos = avisos.iterator();
   private String aviso_status_bar="ola"; 
-  private int nAviso= 0;
+  private int nAviso= 0;//count da list aviso
 
   private Pingo pingo = null;
   private PingoMorto pingomorto = null;
@@ -828,7 +824,7 @@ if(alcool_aviso == null && avisos.contains(alcool_aviso)){
 
 //mudar avisos
 //if(beat/((int) Math.max(beats_coelhosegundo*4.,1)){// a cada quatro segundos
-if(beat%((int) Math.max(beats_coelhosegundo*60.*60.*2,5))==0){//a cada duas horas
+if(beat%((int) Math.max(beats_coelhosegundo*60.*60.*1,5))==0){//a cada duas horas
 System.out.println("Manipulando lista de avisos");
 	if(avisos.isEmpty()){
 		aviso_status_bar = "sem avisos";
@@ -836,43 +832,16 @@ System.out.println("Manipulando lista de avisos");
 		nAviso = 0;
 		System.out.println(nAviso + "   "+ avisos.size());
 		System.out.println("nAviso==avisos.size()" + avisos.size());
+		aviso_status_bar = avisos.get(nAviso);
+		++nAviso;
 	}else {
 		aviso_status_bar = avisos.get(nAviso);
 		++nAviso;
 		System.out.println(nAviso + "   " + avisos.size());
 	}
-
-
-
-
-//iterator
-/*	}else if(elementos.hasNext()){
-		System.out.println("has next");
-		//aviso_status_bar = elementos.next();
-		System.out.println(elementos.next());
-	}/*else{
-		elementos = avisos.iterator();
-		aviso_status_bar = elementos.next();
-	}  */
-System.out.println("aviso_status_bar ");
+System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
 make_statusbar(); 
 } 
-//teste statusbar
-/*
-Integer B = beat;
-aviso_status_bar = B.toString();
-make_statusbar(); 
-*/
-
-/*
-if(beat%10==0){
-this.aviso_status_bar = "oi";
-System.out.println("aviso_status_bar ");
-make_statusbar(); 
-}
-*/
-
-
 
   }//fim do update
 
