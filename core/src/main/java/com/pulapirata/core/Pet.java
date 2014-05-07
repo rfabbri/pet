@@ -468,7 +468,7 @@ public class Pet extends Game.Default {
 
     // sprites
     pingo = new Pingo(layer, width() / 2, height() / 2);
- 	avisos.add("aviso1"); avisos.add("mudanças1");
+    //avisos.add("aviso1"); avisos.add("mudanças1");//testando avisos
   }
 
 
@@ -564,10 +564,10 @@ public class Pet extends Game.Default {
       // update clock and passives
       beat = beat + 1;
 //inicio dos passivos dos atributos
-      if ((beat % alcool_passivo_beats_) == 0)
+     if ((beat % alcool_passivo_beats_) == 0)
         if (alcool_ > alcool_min_)
           alcool_ += alcool_passivo_;
-
+/*
       if ((beat % fome_passivo_beats_) == 0)
         if (fome_ > fome_min_)
           fome_ += fome_passivo_;
@@ -587,11 +587,11 @@ public class Pet extends Game.Default {
   if ((beat % estudo_passivo_beats_) == 0)
         if (estudo_ > estudo_min_)
           estudo_ += estudo_passivo_;
- */
+ 
 
        if ((beat % saude_passivo_beats_) == 0)
          if (saude_ > saude_min_)
-           saude_ += saude_passivo_;
+           saude_ += saude_passivo_;*/
 //fim dos passivos atributos
       Label l = (Label) main_stat_.childAt(1);
       l.text.update(idade_coelhodias_str());
@@ -624,23 +624,28 @@ public class Pet extends Game.Default {
 /*
 if(pingo != null && beat>6){
       	System.out.println("Pingo Normal");
-	//pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+	pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
 	pingo.detatch(layer);
 	pingo = null;
-	pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+	//pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
 	System.out.println("Pingo Piscando");
     }
 */
 
 //Pingo piscando
 r = _rando.getInRange(1,4);//de 1 a 3 
-/*
-if(pingo!=null && beat/ ((int) Math.max(beats_coelhosegundo*60.*60.,1)) %r==0){
-  System.out.println(r +" horas");
+if(pingo!=null && beat>=5 && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
+  //System.out.println(r +" horas");
+  pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
   pingo.detatch(layer);
-  pingo = new Pingo(layer, width() / 2, height() / 2);;
-}	
-*/
+  pingo = null;
+}else if(pingopiscando!=null && (beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1)))%r==0){
+  //System.out.println(r +" horas");
+  pingo = new Pingo(layer, width() / 2, height() / 2);
+  pingopiscando.detatch(layer);
+  pingopiscando = null;
+}		
+
 
     //System.out.println(_rando.getInRange(1,10));
  
@@ -855,16 +860,16 @@ System.out.println("Manipulando lista de avisos");
 		aviso_status_bar = "sem avisos";
 	}else if(nAviso>=avisos.size()){
 		nAviso = 0;
-		System.out.println(nAviso + "   "+ avisos.size());
-		System.out.println("nAviso==avisos.size()" + avisos.size());
-		aviso_status_bar = avisos.get(nAviso);
+	//	System.out.println(nAviso + "   "+ avisos.size());
+	//	System.out.println("nAviso==avisos.size()" + avisos.size());
+	//	aviso_status_bar = avisos.get(nAviso);
 		++nAviso;
 	}else {
 		aviso_status_bar = avisos.get(nAviso);
 		++nAviso;
-		System.out.println(nAviso + "   " + avisos.size());
+		//System.out.println(nAviso + "   " + avisos.size());
 	}
-System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
+//System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
 make_statusbar(); 
 } 
 
