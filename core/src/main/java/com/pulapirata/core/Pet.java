@@ -154,8 +154,6 @@ public class Pet extends Game.Default {
   private final Randoms _rando = Randoms.with(new Random());//Para gerar numeros aleatorios
   private int r;//excluir depois
  
-  //private boolean matricula = false;
-
   //--------------------------------------------------------------------------------
   public Pet() {
     super(UPDATE_RATE);
@@ -468,6 +466,7 @@ public class Pet extends Game.Default {
 
     // sprites
     pingo = new Pingo(layer, width() / 2, height() / 2);
+   // pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
     //avisos.add("aviso1"); avisos.add("mudanças1");//testando avisos
   }
 
@@ -633,19 +632,25 @@ if(pingo != null && beat>6){
 */
 
 //Pingo piscando
-r = _rando.getInRange(1,4);//de 1 a 3 
-if(pingo!=null && beat>=5 && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
+r = _rando.getInRange(1,11);//de 1 a 10 
+if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
   //System.out.println(r +" horas");
   pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
   pingo.detatch(layer);
   pingo = null;
-}else if(pingopiscando!=null && (beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1)))%r==0){
+}else if(pingopiscando!=null && pingopiscando.getTraversed()){
   //System.out.println(r +" horas");
+  System.out.println(pingopiscando.getTraversed());
   pingo = new Pingo(layer, width() / 2, height() / 2);
   pingopiscando.detatch(layer);
   pingopiscando = null;
-}		
-
+}/*
+if(pingopiscando!=null){
+System.out.println("FALSE");
+if(pingopiscando.getTraversed()){
+System.out.println("TRUE");
+}
+}*/
 
     //System.out.println(_rando.getInRange(1,10));
  
@@ -862,7 +867,7 @@ System.out.println("Manipulando lista de avisos");
 		nAviso = 0;
 	//	System.out.println(nAviso + "   "+ avisos.size());
 	//	System.out.println("nAviso==avisos.size()" + avisos.size());
-	//	aviso_status_bar = avisos.get(nAviso);
+		aviso_status_bar = avisos.get(nAviso);
 		++nAviso;
 	}else {
 		aviso_status_bar = avisos.get(nAviso);

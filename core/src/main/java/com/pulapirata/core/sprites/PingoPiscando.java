@@ -27,6 +27,7 @@ public class PingoPiscando {
   private Sprite sprite;
   private int spriteIndex = 0;
   private boolean hasLoaded = false; // set to true when resources have loaded and we can update
+  private boolean traversed = false;
 
   public PingoPiscando(final GroupLayer pingoLayer, final float x, final float y) {
     // Sprite method #1: use a sprite image and json data describing the sprites
@@ -57,13 +58,22 @@ public class PingoPiscando {
 
   public void update(int delta) {
     if (hasLoaded) {
+     System.out.println("spriteIndex: " + spriteIndex +  " sprite.numSprites: " + sprite.numSprites());
       spriteIndex = (spriteIndex + 1) % sprite.numSprites();
       sprite.setSprite(spriteIndex);
       // sprite.layer().setRotation(angle);
-    }
-  }
+    if(spriteIndex == sprite.numSprites()-1){
+        traversed = true;   	 
+     }
+
+      }
+ }
 
   public void detatch(GroupLayer pingoLayer) {
     pingoLayer.remove(sprite.layer());
+  }
+
+  public boolean getTraversed(){
+     return traversed;
   }
 }
