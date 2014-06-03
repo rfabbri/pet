@@ -52,6 +52,7 @@ import tripleplay.util.Randoms;
 
 import static tripleplay.ui.layout.TableLayout.COL;
 
+import com.pulapirata.core.Aviso;
 
 public class Pet extends Game.Default {
   //------ Basic Game Properties
@@ -85,15 +86,15 @@ public class Pet extends Game.Default {
 
   private  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";//Talvez seja excluido
   private  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
-  private String fome_aviso;
-  private String humor_aviso;
-  private String social_aviso;
-  private String higiene_aviso;
-  private String estudo_aviso;
-  private String saude_aviso;
-  private String disciplina_aviso;
-  private String alcool_aviso;
-  private ArrayList<String> avisos = new ArrayList<String>();//List que conterá os avisos
+  private Aviso fome_aviso;
+  private Aviso humor_aviso;
+  private Aviso social_aviso;
+  private Aviso higiene_aviso;
+  private Aviso estudo_aviso;
+  private Aviso saude_aviso;
+  private Aviso disciplina_aviso;
+  private Aviso alcool_aviso;
+  private ArrayList<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
   private String aviso_status_bar="ola"; 
   private int nAviso= 0;//count da list aviso
 
@@ -630,7 +631,7 @@ if(pingo != null && beat>6){
 	System.out.println("Pingo Piscando");
     }
 */
-
+/*
 //Pingo piscando
 r = _rando.getInRange(1,11);//de 1 a 10 
 if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
@@ -666,52 +667,53 @@ System.out.println("TRUE");
 //verificar avisos
 //Fome
 if(fome_ <= 0){
-	fome_aviso = "Pingo está ficando fraco!";
+	fome_aviso.setAviso("Pingo está ficando fraco!");
 	//chorando
 } else if(fome_ <= 20){
-	fome_aviso = "Pingo está com muita fome!";
+	fome_aviso.setAviso("Pingo está com muita fome!");
 	//chorando
 } else if(fome_ <= 40){
-	fome_aviso = null;
+	fome_aviso.remove();
 	//triste
 } else if(fome_ <= 60){
-	fome_aviso = null;
+	fome_aviso.remove();
 	//normal
 } else if(fome_ <= 80){
-	fome_aviso = "Pingo está cheio";
+	fome_aviso.setAviso("Pingo está cheio");
 	//normal
 }else if(fome_ <= 100){
-	fome_aviso = "Pingo comeu demais e está passando mal";
+	fome_aviso.setAviso("Pingo comeu demais e está passando mal");
 	//normal+vomitando
 }
 
-if(fome_aviso == null && !avisos.contains(fome_aviso)){
+if(fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
 	avisos.remove(fome_aviso);
-} else if(fome_aviso!=null && !avisos.contains(fome_aviso)){
+} else if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
 	avisos.add(fome_aviso);
 }
 //Humor 
 if(humor_ <= 0){
-	humor_aviso = "Pingo está mal-humorado!";//na tabela está "MAU HUMORADO"
+	humor_aviso.setAviso("Pingo está mal-humorado!");
+	//na tabela está "MAU HUMORADO"
 	//bravo
 } else if(humor_ <= 20){
-	humor_aviso = "Pingo quer brincar!";
+	humor_aviso.setAviso("Pingo quer brincar!");
 	//triste
 } else if(humor_ <= 40){
-	humor_aviso = null;
+	humor_aviso.remove();
 	//normal
 }else if(humor_ <= 60){
-	humor_aviso = null;
+	humor_aviso.remove();
 	//normal
 }else if(humor_ <= 80){
-	humor_aviso = null;
+	humor_aviso.remove();
 	//normal
 } else if(humor_ <= 100){
-humor_aviso = "Pingo está muito contente";
+humor_aviso.setAviso("Pingo está muito contente");
 }
-if(humor_aviso == null && avisos.contains(humor_aviso)){
+if(humor_aviso.isEmpty()  && avisos.contains(humor_aviso)){
 	avisos.remove(humor_aviso);
-} else if(humor_aviso!=null && !avisos.contains(humor_aviso)){
+} else if(!humor_aviso.isEmpty() && !avisos.contains(humor_aviso)){
 	avisos.add(humor_aviso);
 }
 
@@ -719,143 +721,143 @@ if(humor_aviso == null && avisos.contains(humor_aviso)){
 
 //Social
 if(social_ <= 0){
-	social_aviso = "Pingo está sentindo falta de compainha";
+	social_aviso.setAviso("Pingo está sentindo falta de compainha");
 	//chorando
 } else if(social_ <= 20){
-	social_aviso = "Pingo gostaria de uma amizade";
+	social_aviso.setAviso("Pingo gostaria de uma amizade");
 	//triste
 } else if(social_ <= 40){
-	social_aviso = null;
+	social_aviso.remove();
 	//normal
 } else if(social_ <= 60){
-	social_aviso = null;
+	social_aviso.remove();
 	//normal
 }else if(social_ <= 80){
-	social_aviso = null;
+	social_aviso.remove();
 	//normal
 } else if(social_ <= 100){
-	social_aviso = "Pingo está muito contente";
+	social_aviso.setAviso("Pingo está muito contente");
 	//normal
 }
-if(social_aviso == null && avisos.contains(social_aviso)){
+if(social_aviso.isEmpty()  && avisos.contains(social_aviso)){
 	avisos.remove(social_aviso);
-} else if(social_aviso!=null && !avisos.contains(social_aviso)){
+} else if(!social_aviso.isEmpty() && !avisos.contains(social_aviso)){
 	avisos.add(social_aviso);
 }
 //higiene
 if(higiene_ <= 0){
-	higiene_aviso = "Pingo está imundo e pode ficar doente";
+	higiene_aviso.setAviso("Pingo está imundo e pode ficar doente");
 } else if(higiene_ <= 20){
-	higiene_aviso = "Pingo está imundo e pode ficar doente";//outra ação associada
+	higiene_aviso.setAviso("Pingo está imundo e pode ficar doente");//outra ação associada
 } else {
-	higiene_aviso = null;
+	higiene_aviso.remove();
 }
-if(higiene_aviso == null && avisos.contains(higiene_aviso)){
+if(higiene_aviso.isEmpty() && avisos.contains(higiene_aviso)){
 	avisos.remove(higiene_aviso);
-} else if(higiene_aviso!=null && !avisos.contains(higiene_aviso)){
+} else if(!higiene_aviso.isEmpty()  && !avisos.contains(higiene_aviso)){
 	avisos.add(higiene_aviso);
 }
 //Estudos
 if(estudo_==-5){
-	estudo_aviso = "Pingo foi expulso da escola e não pode mais estudar";
+	estudo_aviso.setAviso("Pingo foi expulso da escola e não pode mais estudar");
 }else if(estudo_<=0){
-	estudo_aviso = "Pingo reprovou de ano. Ele pode tentar se matricular somente 1 vez mais";
+	estudo_aviso.setAviso("Pingo reprovou de ano. Ele pode tentar se matricular somente 1 vez mais");
 }else if(estudo_<=3){
-	estudo_aviso = "Pingo está de recuperação. Ele precisa estudar para a prova de amanhã";
+	estudo_aviso.setAviso("Pingo está de recuperação. Ele precisa estudar para a prova de amanhã");
 }else if(estudo_<=6){
-	estudo_aviso = null;
+	estudo_aviso.remove();
 }else if(estudo_<=9){
-	estudo_aviso = "Pingo é um dos melhores alunos da classe";
+	estudo_aviso.setAviso("Pingo é um dos melhores alunos da classe");
 }else if(estudo_<=10){
-	estudo_aviso = "Pingo é o melhor aluno da escola";
+	estudo_aviso.setAviso("Pingo é o melhor aluno da escola");
 }
-if(estudo_aviso == null && avisos.contains(estudo_aviso)){
+if(estudo_aviso.isEmpty() && avisos.contains(estudo_aviso)){
 	avisos.remove(estudo_aviso);
-} else if(estudo_aviso!=null && !avisos.contains(estudo_aviso)){
+} else if(!estudo_aviso.isEmpty()  && !avisos.contains(estudo_aviso)){
 	avisos.add(estudo_aviso);
 } 
 
 
 //Saude
 if(saude_==-5){
-	saude_aviso = "Pingo não recebeu cuidados médicos à tempo e faleceu";
+	saude_aviso.setAviso("Pingo não recebeu cuidados médicos à tempo e faleceu");
 }else if(saude_<=0){
-	saude_aviso = "Pingo está muito doente para receber qualquer atividade";
+	saude_aviso.setAviso("Pingo está muito doente para receber qualquer atividade");
 }else if(saude_<=3){
-	saude_aviso = "Pingo está doente!";
+	saude_aviso.setAviso("Pingo está doente!");
 }else if(saude_<=6){
-	saude_aviso = null;
+	saude_aviso.remove();
 }else if(saude_<=9){
-	saude_aviso = null;
+	saude_aviso.remove();
 }else if(saude_<=10){
-	saude_aviso = "Pingo está com a saúde perfeita";
+	saude_aviso.setAviso("Pingo está com a saúde perfeita");
 }
-if(saude_aviso == null && avisos.contains(saude_aviso)){
+if(saude_aviso.isEmpty() && avisos.contains(saude_aviso)){
 	avisos.remove(saude_aviso);
-} else if(estudo_aviso!=null && !avisos.contains(saude_aviso)){
+} else if(!estudo_aviso.isEmpty() && !avisos.contains(saude_aviso)){
 	avisos.add(saude_aviso);
 } 
 
 
 //Disciplina
 if(disciplina_==-5){
-	disciplina_aviso = "Pingo é preso praticando vandalismo";
+	disciplina_aviso.setAviso("Pingo é preso praticando vandalismo");
 	//pingo sai 1 dia do cenário; 
 }else if(disciplina_<=0){
-	disciplina_aviso = null;
+	disciplina_aviso.remove();
 	//pingo não executa nenhuma atividade de estudo ou higiene
 }else if(disciplina_<=3){
-	disciplina_aviso = null;
+	disciplina_aviso.remove();	
 	//50% de chance de não executar atividade de estudo ou higiene
 }else if(disciplina_<=6){
-	disciplina_aviso = null;
+	disciplina_aviso.remove();
 }else if(disciplina_<=9){
-	disciplina_aviso = null;
+	disciplina_aviso.remove();	
 	//pingo solicita permissão para estudar(caso tenha estudo 3 ou menos)
 	//ou limpar o quarto caso tenha mais de 6 cocôs pelo quarto
 	if(estudo_<=3){
 	//solicita estudar
 	}
 }else if(disciplina_<=10){
-	disciplina_aviso = null;
+	disciplina_aviso.remove();
 	// pingo automaticamente estuda caso tenha estudo 3 ou menos
 	//ou limpa o quarto caso tenha mais de 6 cocôs pelo quarto.
 	if(estudo_<=3){
 	// "estudar();"
 	}
 }
-if(disciplina_aviso == null && avisos.contains(disciplina_aviso)){
+if(disciplina_aviso.isEmpty() && avisos.contains(disciplina_aviso)){
 	avisos.remove(disciplina_aviso);
-} else if(disciplina_aviso!=null && !avisos.contains(disciplina_aviso)){
+} else if(!disciplina_aviso.isEmpty()  && !avisos.contains(disciplina_aviso)){
 	avisos.add(disciplina_aviso);
 } 
 
 
 //Alcool
 if(alcool_<=0){
-	alcool_aviso = null;
+	alcool_aviso.remove();
 	//normal
 }else if(alcool_<=3){
-	alcool_aviso = null;
+	alcool_aviso.remove();
 	//normal
 }else if(alcool_<=6){
-	alcool_aviso = "Pingo está bêbado";
+	alcool_aviso.setAviso("Pingo está bêbado");
 	//bebado
 }else if(alcool_<=9){
-	alcool_aviso = "Pingo está muito bêbado para executar certas atividades";
+	alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
 	//bebado + vomitando
 }else if(alcool_<=10){
-	alcool_aviso = "Pingo entrou em coma alcoólico";
+	alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
 	//em coma
 }
 
-if(alcool_aviso == null && avisos.contains(alcool_aviso)){
+if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
 	avisos.remove(alcool_aviso);
-} else if(alcool_aviso!=null && !avisos.contains(alcool_aviso)){
+} else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
 	avisos.add(alcool_aviso);
 } 
 
-
+/*
 
 //mudar avisos
 //if(beat/((int) Math.max(beats_coelhosegundo*4.,1)){// a cada quatro segundos
@@ -867,16 +869,16 @@ System.out.println("Manipulando lista de avisos");
 		nAviso = 0;
 	//	System.out.println(nAviso + "   "+ avisos.size());
 	//	System.out.println("nAviso==avisos.size()" + avisos.size());
-		aviso_status_bar = avisos.get(nAviso);
+		aviso_status_bar = avisos.get(nAviso).getAviso();
 		++nAviso;
 	}else {
-		aviso_status_bar = avisos.get(nAviso);
+		aviso_status_bar = avisos.get(nAviso).getAviso();
 		++nAviso;
 		//System.out.println(nAviso + "   " + avisos.size());
 	}
 //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
 make_statusbar(); 
-} 
+} */
 
   }//fim do update
 
