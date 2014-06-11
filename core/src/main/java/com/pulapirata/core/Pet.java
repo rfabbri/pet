@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Iterator;
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -97,7 +98,7 @@ public class Pet extends Game.Default {
   private Aviso alcool_aviso;
   private List<Aviso> avisos = new LinkedList<Aviso>();//List que conterá os avisos
   private String aviso_status_bar="ola"; 
-  private int nAviso= 0;//count da list aviso // EXCLUIR
+  //private int nAviso= 0;//count da list aviso // EXCLUIR
   private Iterator<Aviso> elementos = avisos.iterator(); 
 
   private Pingo pingo = null;
@@ -136,14 +137,14 @@ public class Pet extends Game.Default {
   private int higiene_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./2.,1); //30 min
   private int higiene_max_ = 120;
   private int higiene_min_ = -20;
- 
+
   private int estudo_ = 0;
   private int estudo_passivo_ = -1;
   //private int estudo_passivo_beats_ = ;//? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
   //(int) Math.max(beats_coelhosegundo*60.*60.*24.,1); //dia
   private int estudo_max_ = 10;
   private int estudo_min_ = -5;
-  
+
   private int saude_ = 5;
   private int saude_passivo_ = -1;
   private int saude_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*24.,1);//? por idade (em dias?)
@@ -156,7 +157,7 @@ public class Pet extends Game.Default {
 
   private final Randoms _rando = Randoms.with(new Random());//Para gerar numeros aleatorios
   private int r;//excluir depois
- 
+
   //--------------------------------------------------------------------------------
   public Pet() {
     super(UPDATE_RATE);
@@ -184,11 +185,11 @@ public class Pet extends Game.Default {
 
 
     // ------ The text in the status bar as a tripleplay nested layout interface 
-  
+
     // TODO: e o tal do gaps?
     final int mae = 20; // mae == margin on the sides of exlamation
     final int mte = 18; // mae == margin on top of exlamation
-    
+
     // sm stands for statbar_margin
     TableLayout statbar_layout = new TableLayout(COL.minWidth(30).alignLeft(), COL.stretch()).gaps(mae,mae).alignTop();
     // the left status plus is the left column
@@ -198,7 +199,7 @@ public class Pet extends Game.Default {
 
     Image exclamacao = assets().getImage("pet/images/exclamacao.png");
 
-  
+
 
     // Cria um grupo para os caras da esquerda
     // Basicamente 2 labels: nome grandao e indicadores em fonte menor
@@ -206,34 +207,34 @@ public class Pet extends Game.Default {
     String age = idade_coelhodias_str(); 
 
     main_stat_ = new Group (AxisLayout.vertical()).add (
-        new Label("PINGO").addStyles(Styles.make(
-            Style.COLOR.is(0xFFFFFFFF),
-            Style.HALIGN.left,
-            Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
-        )),
-        new Label(age).addStyles(Styles.make(
-            Style.COLOR.is(0xFFFFFFFF),
-            Style.HALIGN.left
-        ))
-    ).addStyles(Styles.make(Style.HALIGN.left));
+	new Label("PINGO").addStyles(Styles.make(
+	    Style.COLOR.is(0xFFFFFFFF),
+	    Style.HALIGN.left,
+	    Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
+	    )),
+	new Label(age).addStyles(Styles.make(
+	    Style.COLOR.is(0xFFFFFFFF),
+	    Style.HALIGN.left
+	    ))
+	).addStyles(Styles.make(Style.HALIGN.left));
 
 
     final Group statbar = new Group (statbar_layout).add (
-        main_stat_,
-        new Group(rightpart_layout).add (
-          new Button(Icons.image(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
-          // TODO in future this button will actually be an animation sprite
-          new Label(aviso_status_bar).addStyles(Styles.make(
-            Style.COLOR.is(0xFFFFFFFF),
-            Style.TEXT_WRAP.is(true),
-            Style.HALIGN.left
-            ))
-        )
-    ).addStyles(Style.VALIGN.top);
+	main_stat_,
+	new Group(rightpart_layout).add (
+	  new Button(Icons.image(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
+	  // TODO in future this button will actually be an animation sprite
+	  new Label(aviso_status_bar).addStyles(Styles.make(
+	      Style.COLOR.is(0xFFFFFFFF),
+	      Style.TEXT_WRAP.is(true),
+	      Style.HALIGN.left
+	      ))
+	  )
+	).addStyles(Style.VALIGN.top);
 
     // create our UI manager and configure it to process pointer events
     statbar_iface = new Interface();
-   
+
     //petSheet.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
     Root statbar_root = statbar_iface.createRoot(new AbsoluteLayout(), petSheet);
 
@@ -263,7 +264,7 @@ public class Pet extends Game.Default {
     layer.addAt(root.layer, 0, 442);
 
     final Group buttons = new Group(new AbsoluteLayout()).addStyles(
-        Style.BACKGROUND.is(Background.blank()));
+	Style.BACKGROUND.is(Background.blank()));
 
     // TODO we could use TableLayout in the future but I dont trust it now; 
     // I prefer pixel control for now.
@@ -273,99 +274,99 @@ public class Pet extends Game.Default {
     //    );
 
     final ArrayList<Image> img_butt_solto = 
-        new ArrayList<Image>(Arrays.asList(
-        assets().getImage("pet/main-buttons/01_comida_principal.png"),
-        assets().getImage("pet/main-buttons/02_diversao_principal.png"),
-        assets().getImage("pet/main-buttons/03_social_principal.png"),
-        assets().getImage("pet/main-buttons/04_higiene_principal.png"),
-        assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
-        assets().getImage("pet/main-buttons/06_saude_principal.png"),
-        assets().getImage("pet/main-buttons/07_lazer_principal.png"),
-        assets().getImage("pet/main-buttons/08_disciplina_principal.png")
-        ));
+      new ArrayList<Image>(Arrays.asList(
+	    assets().getImage("pet/main-buttons/01_comida_principal.png"),
+	    assets().getImage("pet/main-buttons/02_diversao_principal.png"),
+	    assets().getImage("pet/main-buttons/03_social_principal.png"),
+	    assets().getImage("pet/main-buttons/04_higiene_principal.png"),
+	    assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
+	    assets().getImage("pet/main-buttons/06_saude_principal.png"),
+	    assets().getImage("pet/main-buttons/07_lazer_principal.png"),
+	    assets().getImage("pet/main-buttons/08_disciplina_principal.png")
+	    ));
 
     final ArrayList<Image> img_butt_apertado = 
-        new ArrayList<Image> (Arrays.asList(
-        assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
-        assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
-        ));
+      new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
+	    assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
+	    assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
+	    assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
+	    assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
+	    assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
+	    assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
+	    assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
+	    ));
 
     ArrayList< ArrayList<Image> > s_img_butt_secondary = new ArrayList< ArrayList<Image> > (0);
 
     s_img_butt_secondary.add(
-        new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/011_comida.png"),
-              assets().getImage("pet/main-buttons/012_comida.png"),
-              assets().getImage("pet/main-buttons/013_comida.png"),
-              assets().getImage("pet/main-buttons/014_comida.png")
-    )));
+	new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/011_comida.png"),
+	    assets().getImage("pet/main-buttons/012_comida.png"),
+	    assets().getImage("pet/main-buttons/013_comida.png"),
+	    assets().getImage("pet/main-buttons/014_comida.png")
+	    )));
 
     s_img_butt_secondary.add(
-        new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/021_diversao.png"),
-              assets().getImage("pet/main-buttons/022_diversao.png"),
-              assets().getImage("pet/main-buttons/023_diversao.png"),
-              assets().getImage("pet/main-buttons/024_diversao.png")
-    )));
-    
-    s_img_butt_secondary.add(
-        new ArrayList<Image> (0)
-    );
+	new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/021_diversao.png"),
+	    assets().getImage("pet/main-buttons/022_diversao.png"),
+	    assets().getImage("pet/main-buttons/023_diversao.png"),
+	    assets().getImage("pet/main-buttons/024_diversao.png")
+	    )));
 
     s_img_butt_secondary.add(
-        new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/041_higiene.png"),
-              assets().getImage("pet/main-buttons/042_higiene.png"),
-              assets().getImage("pet/main-buttons/043_higiene.png"),
-              assets().getImage("pet/main-buttons/044_higiene.png")
-    )));
+	new ArrayList<Image> (0)
+	);
+
     s_img_butt_secondary.add(
-        new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/051_obrigacoes.png"),
-              assets().getImage("pet/main-buttons/052_obrigacoes.png")
-    )));
+	new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/041_higiene.png"),
+	    assets().getImage("pet/main-buttons/042_higiene.png"),
+	    assets().getImage("pet/main-buttons/043_higiene.png"),
+	    assets().getImage("pet/main-buttons/044_higiene.png")
+	    )));
     s_img_butt_secondary.add(
-        new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/061_saude.png"),
-              assets().getImage("pet/main-buttons/062_saude.png")
-    )));
+	new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/051_obrigacoes.png"),
+	    assets().getImage("pet/main-buttons/052_obrigacoes.png")
+	    )));
     s_img_butt_secondary.add(
-        new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/071_lazer.png"), // licor
-              assets().getImage("pet/main-buttons/072_lazer.png")
-    )));
+	new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/061_saude.png"),
+	    assets().getImage("pet/main-buttons/062_saude.png")
+	    )));
     s_img_butt_secondary.add(
-        new ArrayList<Image> (Arrays.asList(
-              assets().getImage("pet/main-buttons/081_disciplina.png"),
-              assets().getImage("pet/main-buttons/082_disciplina.png"),
-              assets().getImage("pet/main-buttons/083_disciplina.png"),
-              assets().getImage("pet/main-buttons/084_disciplina.png")
-    )));
+	new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/071_lazer.png"), // licor
+	    assets().getImage("pet/main-buttons/072_lazer.png")
+	    )));
+    s_img_butt_secondary.add(
+	new ArrayList<Image> (Arrays.asList(
+	    assets().getImage("pet/main-buttons/081_disciplina.png"),
+	    assets().getImage("pet/main-buttons/082_disciplina.png"),
+	    assets().getImage("pet/main-buttons/083_disciplina.png"),
+	    assets().getImage("pet/main-buttons/084_disciplina.png")
+	    )));
 
     final ArrayList< ArrayList<Image> > img_butt_secondary = s_img_butt_secondary;
 
     final int[][] topleft = new int [][] {
       {0,0},
-      {120,0},
-      {240,0},
-      {360,0},
-      {0,120},
-      {120,120},
-      {240,120},
-      {360,120},
+	{120,0},
+	{240,0},
+	{360,0},
+	{0,120},
+	{120,120},
+	{240,120},
+	{360,120},
     };
 
     final int[][] topleft_secondary = new int [][] {
       {0,0},
-      {120,0},
-      {240,0},
-      {360,0},
+	{120,0},
+	{240,0},
+	{360,0},
     };
 
     final int num_main_butts = img_butt_solto.size();
@@ -377,34 +378,34 @@ public class Pet extends Game.Default {
       buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
       // add button b's secondary buttons TODO: use animated sheets for them
-      
+
       sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
-        Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
+	    Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
       for (int s = 0; s < img_butt_secondary.get(b).size(); ++s) {
-        Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
-        sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
-          topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
+	Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
+	sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
+	      topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
 
-        if (b == 6 // diversao
-        &&  s == 0) // licor
-          sbut.clicked().connect(new UnitSlot() {
-            public void onEmit() {
-              alcool_ = alcool_max_; // TODO modificar de acordo com folha
-            }
-          });
+	if (b == 6 // diversao
+	    &&  s == 0) // licor
+	  sbut.clicked().connect(new UnitSlot() {
+	      public void onEmit() {
+	      alcool_ = alcool_max_; // TODO modificar de acordo com folha
+	      }
+	      });
 
       }
 
       but.selected().map(new Function <Boolean,Icon>() {
-        public Icon apply (Boolean selected) {
-               if (selected) {
-                  return Icons.image(img_butt_apertado.get(b_final));
-               } else {
-                  return Icons.image(img_butt_solto.get(b_final));
-               }
-      }
-      }).connectNotify(but.icon.slot());
+	  public Icon apply (Boolean selected) {
+	  if (selected) {
+	  return Icons.image(img_butt_apertado.get(b_final));
+	  } else {
+	  return Icons.image(img_butt_solto.get(b_final));
+	  }
+	  }
+	  }).connectNotify(but.icon.slot());
 
       // all secondary buttons are added; toggle visibility only
       root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
@@ -417,506 +418,508 @@ public class Pet extends Game.Default {
     // TODO: improve this part with a button-> index map so we don't go through
     // all butts
     sel.selected.connect(new Slot<Element<?>>() {
-      @Override public void onEmit (Element<?> event) {
-        if (event == null) {
-          for (Group sb : sbuttons) {
-            sb.setVisible(false);
-          }
-        } else {
-          for (int i=0; i < num_main_butts; ++i) {
-            if (buttons.childAt(i) == (ToggleButton) event && 
-                sbuttons.get(i).childCount() != 0) {
-              sbuttons.get(i).setVisible(true);
-            } else {
-              sbuttons.get(i).setVisible(false);
-            }
-          }
-        }
-      }
-    });
+	@Override public void onEmit (Element<?> event) {
+	if (event == null) {
+	for (Group sb : sbuttons) {
+	sb.setVisible(false);
+	}
+	} else {
+	for (int i=0; i < num_main_butts; ++i) {
+	if (buttons.childAt(i) == (ToggleButton) event && 
+	  sbuttons.get(i).childCount() != 0) {
+	sbuttons.get(i).setVisible(true);
+	} else {
+	sbuttons.get(i).setVisible(false);
+	}
+	}
+	}
+	}
+	});
 
 
     /* Exemplo p/ sinais e eventos
      *
-    but0.clicked().connect(new UnitSlot() {
-        @Override
-        public void onEmit() {
-          System.out.println("but0 clicked!");
-          but0.icon.update(but0press);
-        }
-    });
-    */
+     but0.clicked().connect(new UnitSlot() {
+     @Override
+     public void onEmit() {
+     System.out.println("but0 clicked!");
+     but0.icon.update(but0press);
+     }
+     });
+     */
   }
 
 
   //--------------------------------------------------------------------------------
   @Override
-  public void init() {
-    System.out.println("passivo is " + alcool_passivo_beats_);
-    System.out.println("coelho seg " + beats_coelhosegundo);
+    public void init() {
+      System.out.println("passivo is " + alcool_passivo_beats_);
+      System.out.println("coelho seg " + beats_coelhosegundo);
 
-    // create a group layer to hold everything
-    layer = graphics().createGroupLayer();
-    graphics().rootLayer().add(layer);
-    petSheet = PetStyles.newSheet();
-    
-
-    // ------------------------------------------------------------------
-    make_statusbar();
-    make_background();
-    make_buttons();
-    // ------------------------------------------------------------------
-
-    // sprites
-    pingo = new Pingo(layer, width() / 2, height() / 2);
-   // pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-    //avisos.add("aviso1"); avisos.add("mudanças1");//testando avisos
-  }
+      // create a group layer to hold everything
+      layer = graphics().createGroupLayer();
+      graphics().rootLayer().add(layer);
+      petSheet = PetStyles.newSheet();
 
 
-  //--------------------------------------------------------------------------------
-  @Override
-  public void paint(float alpha) {
-    // layers automatically paint themselves (and their children). The rootlayer
-    // will paint itself, the background, and the sprites group layer automatically
-    // so no need to do anything here!
+      // ------------------------------------------------------------------
+      make_statusbar();
+      make_background();
+      make_buttons();
+      // ------------------------------------------------------------------
 
-    if (iface != null) {
-      iface.paint(_clock);
+      // sprites
+      pingo = new Pingo(layer, width() / 2, height() / 2);
+      // pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+      //avisos.add("aviso1"); avisos.add("mudanças1");//testando avisos
     }
-    if (statbar_iface != null) {
-      statbar_iface.paint(_clock);
-    }
-  }
+
 
   //--------------------------------------------------------------------------------
   @Override
-  public void update(int delta) {
-    _clock.update(delta);
-    if (pingo != null)
-      pingo.update(delta);
-    else if (pingovomitando != null)
-      pingovomitando.update(delta);
-    else if (pingobebado != null)
-      pingobebado.update(delta);
-    else if (pingocoma != null)
-      pingocoma.update(delta);
-    else if(pingopiscando != null)
-      pingopiscando.update(delta);
+    public void paint(float alpha) {
+      // layers automatically paint themselves (and their children). The rootlayer
+      // will paint itself, the background, and the sprites group layer automatically
+      // so no need to do anything here!
 
-    if(beat / beats_coelhodia >= 30) {
-      if (pingomorto == null) {
-          // pingo morre
-          // beat = beat; // pass
-          //pingos.del(pingo);
-        pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
-        pingo.detatch(layer);
-        pingo = null;
+      if (iface != null) {
+	iface.paint(_clock);
+      }
+      if (statbar_iface != null) {
+	statbar_iface.paint(_clock);
+      }
+    }
+
+  //--------------------------------------------------------------------------------
+  @Override
+    public void update(int delta) {
+      _clock.update(delta);
+      if (pingo != null)
+	pingo.update(delta);
+      else if (pingovomitando != null)
+	pingovomitando.update(delta);
+      else if (pingobebado != null)
+	pingobebado.update(delta);
+      else if (pingocoma != null)
+	pingocoma.update(delta);
+      else if(pingopiscando != null)
+	pingopiscando.update(delta);
+
+      if(beat / beats_coelhodia >= 30) {
+	if (pingomorto == null) {
+	  // pingo morre
+	  // beat = beat; // pass
+	  //pingos.del(pingo);
+	  pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
+	  pingo.detatch(layer);
+	  pingo = null;
+	} else {
+	  pingomorto.update(delta);
+	}
       } else {
-        pingomorto.update(delta);
+	// update properties
+	if (alcool_ == 10) {
+	  if (pingocoma == null) {
+	    pingocoma = new PingoComa(layer, width() / 2, height() / 2);
+	    if (pingo != null) {
+	      pingo.detatch(layer);
+	      pingo = null;
+	    }
+	  }
+	} else  {
+	  if (pingocoma != null) {
+	    pingocoma.detatch(layer);
+	    pingocoma = null;
+	  }
+
+	  if (alcool_ >= 7) {
+	    if (pingovomitando == null) {
+	      if (pingo != null) {
+		pingo.detatch(layer);
+		pingo = null;
+	      }
+	      pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
+	    }
+	  } else {
+	    if (pingovomitando != null) {
+	      pingovomitando.detatch(layer);
+	      pingovomitando = null;
+	    }
+
+	    if (alcool_ >= 4) {
+	      if (pingobebado == null) {
+		if (pingo != null) {
+		  pingo.detatch(layer);
+		  pingo = null;
+		}
+		pingobebado  = new PingoBebado(layer, width() / 2, height() / 2);
+	      }
+	    } else {
+	      if (pingobebado != null) {
+		pingobebado.detatch(layer);
+		pingobebado = null;
+		pingo = new Pingo(layer, width() / 2, height() / 2);
+	      }
+	    }
+	  }
+	}
+
+	// update clock and passives
+	beat = beat + 1;
+	//inicio dos passivos dos atributos
+	if ((beat % alcool_passivo_beats_) == 0)
+	  if (alcool_ > alcool_min_)
+	    alcool_ += alcool_passivo_;
+	/*
+	   if ((beat % fome_passivo_beats_) == 0)
+	   if (fome_ > fome_min_)
+	   fome_ += fome_passivo_;
+
+	   if ((beat % humor_passivo_beats_) == 0)
+	   if (humor_ > humor_min_)
+	   humor_ += humor_passivo_;
+
+	   if ((beat % social_passivo_beats_) == 0)
+	   if (social_ > social_min_)
+	   social_ += social_passivo_;
+
+	   if ((beat % higiene_passivo_beats_) == 0)
+	   if (higiene_ > higiene_min_)
+	   higiene_ += higiene_passivo_;
+	/*Após a matricula
+	if ((beat % estudo_passivo_beats_) == 0)
+	if (estudo_ > estudo_min_)
+	estudo_ += estudo_passivo_;
+
+
+	if ((beat % saude_passivo_beats_) == 0)
+	if (saude_ > saude_min_)
+	saude_ += saude_passivo_;*/
+	//fim dos passivos atributos
+	Label l = (Label) main_stat_.childAt(1);
+	l.text.update(idade_coelhodias_str());
       }
-    } else {
-      // update properties
-      if (alcool_ == 10) {
-        if (pingocoma == null) {
-          pingocoma = new PingoComa(layer, width() / 2, height() / 2);
-          if (pingo != null) {
-            pingo.detatch(layer);
-            pingo = null;
-          }
-        }
-      } else  {
-        if (pingocoma != null) {
-          pingocoma.detatch(layer);
-          pingocoma = null;
-        }
 
-        if (alcool_ >= 7) {
-          if (pingovomitando == null) {
-            if (pingo != null) {
-              pingo.detatch(layer);
-              pingo = null;
-            }
-            pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
-          }
-        } else {
-          if (pingovomitando != null) {
-            pingovomitando.detatch(layer);
-            pingovomitando = null;
-          }
-        
-          if (alcool_ >= 4) {
-            if (pingobebado == null) {
-              if (pingo != null) {
-                pingo.detatch(layer);
-                pingo = null;
-              }
-              pingobebado  = new PingoBebado(layer, width() / 2, height() / 2);
-            }
-          } else {
-            if (pingobebado != null) {
-              pingobebado.detatch(layer);
-              pingobebado = null;
-              pingo = new Pingo(layer, width() / 2, height() / 2);
-            }
-          }
-        }
+      if (iface != null) {
+	iface.update(delta);
+      }
+      if (statbar_iface != null) {
+	statbar_iface.update(delta);
       }
 
-      // update clock and passives
-      beat = beat + 1;
-//inicio dos passivos dos atributos
-     if ((beat % alcool_passivo_beats_) == 0)
-        if (alcool_ > alcool_min_)
-          alcool_ += alcool_passivo_;
-/*
-      if ((beat % fome_passivo_beats_) == 0)
-        if (fome_ > fome_min_)
-          fome_ += fome_passivo_;
-      
-      if ((beat % humor_passivo_beats_) == 0)
-        if (humor_ > humor_min_)
-          humor_ += humor_passivo_;
-     
-      if ((beat % social_passivo_beats_) == 0)
-        if (social_ > social_min_)
-          social_ += social_passivo_;
-    
-       if ((beat % higiene_passivo_beats_) == 0)
-        if (higiene_ > higiene_min_)
-          higiene_ += higiene_passivo_;
-    /*Após a matricula
-  if ((beat % estudo_passivo_beats_) == 0)
-        if (estudo_ > estudo_min_)
-          estudo_ += estudo_passivo_;
- 
 
-       if ((beat % saude_passivo_beats_) == 0)
-         if (saude_ > saude_min_)
-           saude_ += saude_passivo_;*/
-//fim dos passivos atributos
-      Label l = (Label) main_stat_.childAt(1);
-      l.text.update(idade_coelhodias_str());
-    }
+      //Pingo piscando
+      /*
+	 if(pingopiscando != null){
+	 System.out.println("Pingo Piscando");
+	 pingopiscando.detatch(layer);
+	 pingopiscando = null;
+	 pingo = new Pingo(layer, width() / 2, height() / 2);
+	 System.out.println("Pingo Normal");
+	 } else if(pingo != null){
+	 System.out.println("Pingo Normal");
+	 pingo.detatch(layer);
+	 pingo = null;
+	 pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+	 System.out.println("Pingo Piscando");
+	 }*/
 
-    if (iface != null) {
-      iface.update(delta);
-    }
-    if (statbar_iface != null) {
-      statbar_iface.update(delta);
-    }
+      /*
+	 if(pingo != null && beat>6){
+	 System.out.println("Pingo Normal");
+	 pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+	 pingo.detatch(layer);
+	 pingo = null;
+      //pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+      System.out.println("Pingo Piscando");
+      }
+       */
+      /*
+      //Pingo piscando
+      r = _rando.getInRange(1,11);//de 1 a 10 
+      if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
+      //System.out.println(r +" horas");
+      pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+      pingo.detatch(layer);
+      pingo = null;
+      }else if(pingopiscando!=null && pingopiscando.getTraversed()){
+      //System.out.println(r +" horas");
+      System.out.println(pingopiscando.getTraversed());
+      pingo = new Pingo(layer, width() / 2, height() / 2);
+      pingopiscando.detatch(layer);
+      pingopiscando = null;
+      }/*
+      if(pingopiscando!=null){
+      System.out.println("FALSE");
+      if(pingopiscando.getTraversed()){
+      System.out.println("TRUE");
+      }
+      }*/
 
+      //System.out.println(_rando.getInRange(1,10));
 
-//Pingo piscando
-/*
-   if(pingopiscando != null){
-	System.out.println("Pingo Piscando");
-	pingopiscando.detatch(layer);
-	pingopiscando = null;
-	pingo = new Pingo(layer, width() / 2, height() / 2);
-	System.out.println("Pingo Normal");
-    } else if(pingo != null){
-      	System.out.println("Pingo Normal");
-	pingo.detatch(layer);
-	pingo = null;
-	pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-	System.out.println("Pingo Piscando");
-    }*/
-
-/*
-if(pingo != null && beat>6){
-      	System.out.println("Pingo Normal");
-	pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-	pingo.detatch(layer);
-	pingo = null;
-	//pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-	System.out.println("Pingo Piscando");
-    }
-*/
-/*
-//Pingo piscando
-r = _rando.getInRange(1,11);//de 1 a 10 
-if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
-  //System.out.println(r +" horas");
-  pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-  pingo.detatch(layer);
-  pingo = null;
-}else if(pingopiscando!=null && pingopiscando.getTraversed()){
-  //System.out.println(r +" horas");
-  System.out.println(pingopiscando.getTraversed());
-  pingo = new Pingo(layer, width() / 2, height() / 2);
-  pingopiscando.detatch(layer);
-  pingopiscando = null;
-}/*
-if(pingopiscando!=null){
-System.out.println("FALSE");
-if(pingopiscando.getTraversed()){
-System.out.println("TRUE");
-}
-}*/
-
-    //System.out.println(_rando.getInRange(1,10));
- 
- /*VIsualizando atributo no terminal*/
- //System.out.println("Fome: " + fome_);
- //System.out.println("Social: " + social_);
- //System.out.println("Humor: " + humor_);
- //System.out.println("Saude: " + saude_);
- //System.out.println("Alcool: " + alcool_); 
+      /*VIsualizando atributo no terminal*/
+      //System.out.println("Fome: " + fome_);
+      //System.out.println("Social: " + social_);
+      //System.out.println("Humor: " + humor_);
+      //System.out.println("Saude: " + saude_);
+      //System.out.println("Alcool: " + alcool_); 
 
 
-//Avisos
-//verificar avisos
-//Fome
-if(fome_ <= 0){
+      //Avisos
+      //verificar avisos
+      //Fome
+      if(fome_ <= 0){
 	fome_aviso.setAviso("Pingo está ficando fraco!");
 	//chorando
-} else if(fome_ <= 20){
+      } else if(fome_ <= 20){
 	fome_aviso.setAviso("Pingo está com muita fome!");
 	//chorando
-} else if(fome_ <= 40){
+      } else if(fome_ <= 40){
 	fome_aviso.remove();
 	//triste
-} else if(fome_ <= 60){
+      } else if(fome_ <= 60){
 	fome_aviso.remove();
 	//normal
-} else if(fome_ <= 80){
+      } else if(fome_ <= 80){
 	fome_aviso.setAviso("Pingo está cheio");
 	//normal
-}else if(fome_ <= 100){
+      }else if(fome_ <= 100){
 	fome_aviso.setAviso("Pingo comeu demais e está passando mal");
 	//normal+vomitando
-}
+      }
 
-if(fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
+      if(fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
 	remove_aviso(fome_aviso);
-} else if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
+      } else if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
 	avisos.add(fome_aviso);
-}
-//Humor 
-if(humor_ <= 0){
+      }
+      //Humor 
+      if(humor_ <= 0){
 	humor_aviso.setAviso("Pingo está mal-humorado!");
 	//na tabela está "MAU HUMORADO"
 	//bravo
-} else if(humor_ <= 20){
+      } else if(humor_ <= 20){
 	humor_aviso.setAviso("Pingo quer brincar!");
 	//triste
-} else if(humor_ <= 40){
+      } else if(humor_ <= 40){
 	humor_aviso.remove();
 	//normal
-}else if(humor_ <= 60){
+      }else if(humor_ <= 60){
 	humor_aviso.remove();
 	//normal
-}else if(humor_ <= 80){
+      }else if(humor_ <= 80){
 	humor_aviso.remove();
 	//normal
-} else if(humor_ <= 100){
-humor_aviso.setAviso("Pingo está muito contente");
-}
-if(humor_aviso.isEmpty()  && avisos.contains(humor_aviso)){
+      } else if(humor_ <= 100){
+	humor_aviso.setAviso("Pingo está muito contente");
+      }
+      if(humor_aviso.isEmpty()  && avisos.contains(humor_aviso)){
 	avisos.remove(humor_aviso);
-} else if(!humor_aviso.isEmpty() && !avisos.contains(humor_aviso)){
+      } else if(!humor_aviso.isEmpty() && !avisos.contains(humor_aviso)){
 	avisos.add(humor_aviso);
-}
+      }
 
 
 
-//Social
-if(social_ <= 0){
+      //Social
+      if(social_ <= 0){
 	social_aviso.setAviso("Pingo está sentindo falta de compainha");
 	//chorando
-} else if(social_ <= 20){
+      } else if(social_ <= 20){
 	social_aviso.setAviso("Pingo gostaria de uma amizade");
 	//triste
-} else if(social_ <= 40){
+      } else if(social_ <= 40){
 	social_aviso.remove();
 	//normal
-} else if(social_ <= 60){
+      } else if(social_ <= 60){
 	social_aviso.remove();
 	//normal
-}else if(social_ <= 80){
+      }else if(social_ <= 80){
 	social_aviso.remove();
 	//normal
-} else if(social_ <= 100){
+      } else if(social_ <= 100){
 	social_aviso.setAviso("Pingo está muito contente");
 	//normal
-}
-if(social_aviso.isEmpty()  && avisos.contains(social_aviso)){
+      }
+      if(social_aviso.isEmpty()  && avisos.contains(social_aviso)){
 	remove_aviso(social_aviso);
-} else if(!social_aviso.isEmpty() && !avisos.contains(social_aviso)){
+      } else if(!social_aviso.isEmpty() && !avisos.contains(social_aviso)){
 	avisos.add(social_aviso);
-}
-//higiene
-if(higiene_ <= 0){
+      }
+      //higiene
+      if(higiene_ <= 0){
 	higiene_aviso.setAviso("Pingo está imundo e pode ficar doente");
-} else if(higiene_ <= 20){
+      } else if(higiene_ <= 20){
 	higiene_aviso.setAviso("Pingo está imundo e pode ficar doente");//outra ação associada
-} else {
+      } else {
 	higiene_aviso.remove();
-}
-if(higiene_aviso.isEmpty() && avisos.contains(higiene_aviso)){
+      }
+      if(higiene_aviso.isEmpty() && avisos.contains(higiene_aviso)){
 	remove_aviso(higiene_aviso);
-} else if(!higiene_aviso.isEmpty()  && !avisos.contains(higiene_aviso)){
+      } else if(!higiene_aviso.isEmpty()  && !avisos.contains(higiene_aviso)){
 	avisos.add(higiene_aviso);
-}
-//Estudos
-if(estudo_==-5){
+      }
+      //Estudos
+      if(estudo_==-5){
 	estudo_aviso.setAviso("Pingo foi expulso da escola e não pode mais estudar");
-}else if(estudo_<=0){
+      }else if(estudo_<=0){
 	estudo_aviso.setAviso("Pingo reprovou de ano. Ele pode tentar se matricular somente 1 vez mais");
-}else if(estudo_<=3){
+      }else if(estudo_<=3){
 	estudo_aviso.setAviso("Pingo está de recuperação. Ele precisa estudar para a prova de amanhã");
-}else if(estudo_<=6){
+      }else if(estudo_<=6){
 	estudo_aviso.remove();
-}else if(estudo_<=9){
+      }else if(estudo_<=9){
 	estudo_aviso.setAviso("Pingo é um dos melhores alunos da classe");
-}else if(estudo_<=10){
+      }else if(estudo_<=10){
 	estudo_aviso.setAviso("Pingo é o melhor aluno da escola");
-}
-if(estudo_aviso.isEmpty() && avisos.contains(estudo_aviso)){
+      }
+      if(estudo_aviso.isEmpty() && avisos.contains(estudo_aviso)){
 	remove_aviso(estudo_aviso);
-} else if(!estudo_aviso.isEmpty()  && !avisos.contains(estudo_aviso)){
+      } else if(!estudo_aviso.isEmpty()  && !avisos.contains(estudo_aviso)){
 	avisos.add(estudo_aviso);
-} 
+      } 
 
 
-//Saude
-if(saude_==-5){
+      //Saude
+      if(saude_==-5){
 	saude_aviso.setAviso("Pingo não recebeu cuidados médicos à tempo e faleceu");
-}else if(saude_<=0){
+      }else if(saude_<=0){
 	saude_aviso.setAviso("Pingo está muito doente para receber qualquer atividade");
-}else if(saude_<=3){
+      }else if(saude_<=3){
 	saude_aviso.setAviso("Pingo está doente!");
-}else if(saude_<=6){
+      }else if(saude_<=6){
 	saude_aviso.remove();
-}else if(saude_<=9){
+      }else if(saude_<=9){
 	saude_aviso.remove();
-}else if(saude_<=10){
+      }else if(saude_<=10){
 	saude_aviso.setAviso("Pingo está com a saúde perfeita");
-}
-if(saude_aviso.isEmpty() && avisos.contains(saude_aviso)){
+      }
+      if(saude_aviso.isEmpty() && avisos.contains(saude_aviso)){
 	remove_aviso(saude_aviso);
-} else if(!estudo_aviso.isEmpty() && !avisos.contains(saude_aviso)){
+      } else if(!estudo_aviso.isEmpty() && !avisos.contains(saude_aviso)){
 	avisos.add(saude_aviso);
-} 
+      } 
 
 
-//Disciplina
-if(disciplina_==-5){
+      //Disciplina
+      if(disciplina_==-5){
 	disciplina_aviso.setAviso("Pingo é preso praticando vandalismo");
 	//pingo sai 1 dia do cenário; 
-}else if(disciplina_<=0){
+      }else if(disciplina_<=0){
 	disciplina_aviso.remove();
 	//pingo não executa nenhuma atividade de estudo ou higiene
-}else if(disciplina_<=3){
+      }else if(disciplina_<=3){
 	disciplina_aviso.remove();	
 	//50% de chance de não executar atividade de estudo ou higiene
-}else if(disciplina_<=6){
+      }else if(disciplina_<=6){
 	disciplina_aviso.remove();
-}else if(disciplina_<=9){
+      }else if(disciplina_<=9){
 	disciplina_aviso.remove();	
 	//pingo solicita permissão para estudar(caso tenha estudo 3 ou menos)
 	//ou limpar o quarto caso tenha mais de 6 cocôs pelo quarto
 	if(estudo_<=3){
-	//solicita estudar
+	  //solicita estudar
 	}
-}else if(disciplina_<=10){
+      }else if(disciplina_<=10){
 	disciplina_aviso.remove();
 	// pingo automaticamente estuda caso tenha estudo 3 ou menos
 	//ou limpa o quarto caso tenha mais de 6 cocôs pelo quarto.
 	if(estudo_<=3){
-	// "estudar();"
+	  // "estudar();"
 	}
-}
-if(disciplina_aviso.isEmpty() && avisos.contains(disciplina_aviso)){
+      }
+      if(disciplina_aviso.isEmpty() && avisos.contains(disciplina_aviso)){
 	remove_aviso(disciplina_aviso);
-} else if(!disciplina_aviso.isEmpty()  && !avisos.contains(disciplina_aviso)){
+      } else if(!disciplina_aviso.isEmpty()  && !avisos.contains(disciplina_aviso)){
 	avisos.add(disciplina_aviso);
-} 
+      } 
 
 
-//Alcool
-if(alcool_<=0){
+      //Alcool
+      if(alcool_<=0){
 	alcool_aviso.remove();
 	//normal
-}else if(alcool_<=3){
+      }else if(alcool_<=3){
 	alcool_aviso.remove();
 	//normal
-}else if(alcool_<=6){
+      }else if(alcool_<=6){
 	alcool_aviso.setAviso("Pingo está bêbado");
 	//bebado
-}else if(alcool_<=9){
+      }else if(alcool_<=9){
 	alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
 	//bebado + vomitando
-}else if(alcool_<=10){
+      }else if(alcool_<=10){
 	alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
 	//em coma
-}
+      }
 
-if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
+      if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
 	remove_aviso(alcool_aviso);
-} else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
+      } else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
 	avisos.add(alcool_aviso);
-} 
+      } 
 
-/*
+      /*
 
-//mudar avisos
-//if(beat/((int) Math.max(beats_coelhosegundo*4.,1)){// a cada quatro segundos
-if(beat%((int) Math.max(beats_coelhosegundo*60.*60.*1,5))==0){//a cada duas horas
-System.out.println("Manipulando lista de avisos");
-	if(avisos.isEmpty()){
-		aviso_status_bar = "sem avisos";
-	}else if(nAviso>=avisos.size()){
-		nAviso = 0;
-	//	System.out.println(nAviso + "   "+ avisos.size());
-	//	System.out.println("nAviso==avisos.size()" + avisos.size());
-		aviso_status_bar = avisos.get(nAviso).getAviso();
-		++nAviso;
-	}else {
-		aviso_status_bar = avisos.get(nAviso).getAviso();
-		++nAviso;
-		//System.out.println(nAviso + "   " + avisos.size());
-	}
+      //mudar avisos
+      //if(beat/((int) Math.max(beats_coelhosegundo*4.,1)){}// a cada quatro segundos
+      if(beat%((int) Math.max(beats_coelhosegundo*60.*60.*1,5))==0){//a cada duas horas
+      System.out.println("Manipulando lista de avisos");
+      if(avisos.isEmpty()){
+      aviso_status_bar = "sem avisos";
+      }else if(nAviso>=avisos.size()){
+      nAviso = 0;
+      //	System.out.println(nAviso + "   "+ avisos.size());
+      //	System.out.println("nAviso==avisos.size()" + avisos.size());
+      aviso_status_bar = avisos.get(nAviso).getAviso();
+      ++nAviso;
+      }else {
+      aviso_status_bar = avisos.get(nAviso).getAviso();
+      ++nAviso;
+      //System.out.println(nAviso + "   " + avisos.size());
+      }
 //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
 make_statusbar(); 
 } */
 
-  }//fim do update
+} //fim do update
 
-}
-/*
-remove_aviso (cara)
-{
-  // compara com os ponteiros importantes tipo aviso_status_bar se  o cara esta sendo apontado por algum
-  // em caso afirmativo, seta o ponteiro em questao para o proximo elemento valido
-  // 	remove o cara da lista
-  // em caso negativo,
-  //    simplesmente remove da lista
-}*/
-
-void muda_aviso(){
-	if(avisos.isEmpty()){
-		aviso_status_bar = "Sem avisos";
-	}else if(!elementos.hasNext()){
-		elementos = avisos.iterator();	
-		make_status_bar = (elementos.next()).getAviso();
-	}else {
-		make_status_bar = (elementos.next()).getAviso();
-	}
-//System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
-make_statusbar(); 
+public void muda_aviso(){
+  if(avisos.isEmpty()){
+    aviso_status_bar = "Sem avisos";
+  }else if(!elementos.hasNext()){
+    elementos = avisos.iterator();	
+    make_status_bar = elementos.next().getAviso();
+  }else {
+    make_status_bar = elementos.next().getAviso();
+  }
+  //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
+  make_statusbar(); 
 } 
 
+
+
+public void remove_aviso(Aviso aviso){
+  if(aviso_status_bar==aviso.getAviso()){
+    if(!elementos.hasNext()){
+      elementos = avisos.iterator();	
+    }
+    make_status_bar = elementos.getAviso();
+  }
+  avisos.remove(aviso);
 }
 
-void remove_aviso(Aviso aviso){
-	if(aviso_status_bar==aviso){
-		if(!elementos.hasNext()){
-			elementos = avisos.iterator();	
-		}
-		make_status_bar = (elementos.next()).getAviso();
-	}
-	avisos.remove(aviso);
 }
+
+/*
+   remove_aviso (cara)
+   {
+// compara com os ponteiros importantes tipo aviso_status_bar se  o cara esta sendo apontado por algum
+// em caso afirmativo, seta o ponteiro em questao para o proximo elemento valido
+// 	remove o cara da lista
+// em caso negativo,
+//    simplesmente remove da lista
+}*/
+
 
