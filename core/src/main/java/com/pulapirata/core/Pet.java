@@ -1,6 +1,7 @@
 package com.pulapirata.core;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
@@ -94,9 +95,10 @@ public class Pet extends Game.Default {
   private Aviso saude_aviso;
   private Aviso disciplina_aviso;
   private Aviso alcool_aviso;
-  private ArrayList<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
+  private List<Aviso> avisos = new LinkedList<Aviso>();//List que conterá os avisos
   private String aviso_status_bar="ola"; 
-  private int nAviso= 0;//count da list aviso
+  private int nAviso= 0;//count da list aviso // EXCLUIR
+  private Iterator<Aviso> elementos = avisos.iterator(); 
 
   private Pingo pingo = null;
   private PingoMorto pingomorto = null;
@@ -687,7 +689,7 @@ if(fome_ <= 0){
 }
 
 if(fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
-	avisos.remove(fome_aviso);
+	remove_aviso(fome_aviso);
 } else if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
 	avisos.add(fome_aviso);
 }
@@ -740,7 +742,7 @@ if(social_ <= 0){
 	//normal
 }
 if(social_aviso.isEmpty()  && avisos.contains(social_aviso)){
-	avisos.remove(social_aviso);
+	remove_aviso(social_aviso);
 } else if(!social_aviso.isEmpty() && !avisos.contains(social_aviso)){
 	avisos.add(social_aviso);
 }
@@ -753,7 +755,7 @@ if(higiene_ <= 0){
 	higiene_aviso.remove();
 }
 if(higiene_aviso.isEmpty() && avisos.contains(higiene_aviso)){
-	avisos.remove(higiene_aviso);
+	remove_aviso(higiene_aviso);
 } else if(!higiene_aviso.isEmpty()  && !avisos.contains(higiene_aviso)){
 	avisos.add(higiene_aviso);
 }
@@ -772,7 +774,7 @@ if(estudo_==-5){
 	estudo_aviso.setAviso("Pingo é o melhor aluno da escola");
 }
 if(estudo_aviso.isEmpty() && avisos.contains(estudo_aviso)){
-	avisos.remove(estudo_aviso);
+	remove_aviso(estudo_aviso);
 } else if(!estudo_aviso.isEmpty()  && !avisos.contains(estudo_aviso)){
 	avisos.add(estudo_aviso);
 } 
@@ -793,7 +795,7 @@ if(saude_==-5){
 	saude_aviso.setAviso("Pingo está com a saúde perfeita");
 }
 if(saude_aviso.isEmpty() && avisos.contains(saude_aviso)){
-	avisos.remove(saude_aviso);
+	remove_aviso(saude_aviso);
 } else if(!estudo_aviso.isEmpty() && !avisos.contains(saude_aviso)){
 	avisos.add(saude_aviso);
 } 
@@ -827,7 +829,7 @@ if(disciplina_==-5){
 	}
 }
 if(disciplina_aviso.isEmpty() && avisos.contains(disciplina_aviso)){
-	avisos.remove(disciplina_aviso);
+	remove_aviso(disciplina_aviso);
 } else if(!disciplina_aviso.isEmpty()  && !avisos.contains(disciplina_aviso)){
 	avisos.add(disciplina_aviso);
 } 
@@ -852,7 +854,7 @@ if(alcool_<=0){
 }
 
 if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
-	avisos.remove(alcool_aviso);
+	remove_aviso(alcool_aviso);
 } else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
 	avisos.add(alcool_aviso);
 } 
@@ -883,3 +885,38 @@ make_statusbar();
   }//fim do update
 
 }
+/*
+remove_aviso (cara)
+{
+  // compara com os ponteiros importantes tipo aviso_status_bar se  o cara esta sendo apontado por algum
+  // em caso afirmativo, seta o ponteiro em questao para o proximo elemento valido
+  // 	remove o cara da lista
+  // em caso negativo,
+  //    simplesmente remove da lista
+}*/
+
+void muda_aviso(){
+	if(avisos.isEmpty()){
+		aviso_status_bar = "Sem avisos";
+	}else if(!elementos.hasNext()){
+		elementos = avisos.iterator();	
+		make_status_bar = (elementos.next()).getAviso();
+	}else {
+		make_status_bar = (elementos.next()).getAviso();
+	}
+//System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
+make_statusbar(); 
+} 
+
+}
+
+void remove_aviso(Aviso aviso){
+	if(aviso_status_bar==aviso){
+		if(!elementos.hasNext()){
+			elementos = avisos.iterator();	
+		}
+		make_status_bar = (elementos.next()).getAviso();
+	}
+	avisos.remove(aviso);
+}
+
