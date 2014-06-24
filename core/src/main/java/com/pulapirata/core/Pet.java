@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Iterator;
+import java.util.*;
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -96,7 +97,7 @@ public class Pet extends Game.Default {
   private Aviso saude_aviso;
   private Aviso disciplina_aviso;
   private Aviso alcool_aviso;
-  private List<Aviso> avisos = new LinkedList<Aviso>();//List que conterá os avisos
+  private List<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
   private String aviso_status_bar="ola"; 
   //private int nAviso= 0;//count da list aviso // EXCLUIR
   private Iterator<Aviso> elementos = avisos.iterator(); 
@@ -566,6 +567,36 @@ public class Pet extends Game.Default {
 
 	// update clock and passives
 	beat = beat + 1;
+	Label l = (Label) main_stat_.childAt(1);
+	l.text.update(idade_coelhodias_str());
+      }
+
+      if (iface != null) {
+	iface.update(delta);
+      }
+      if (statbar_iface != null) {
+	statbar_iface.update(delta);
+      }
+    
+	passivoAtributos();
+
+      verificaAvisos();
+      
+      piscar();
+   
+      
+      //System.out.println(_rando.getInRange(1,10));
+
+      /*VIsualizando atributo no terminal*/
+      //System.out.println("Fome: " + fome_);
+      //System.out.println("Social: " + social_);
+      //System.out.println("Humor: " + humor_);
+      //System.out.println("Saude: " + saude_);
+      //System.out.println("Alcool: " + alcool_); 
+
+} //fim do update
+
+public void passivoAtributos(){
 	//inicio dos passivos dos atributos
 	if ((beat % alcool_passivo_beats_) == 0)
 	  if (alcool_ > alcool_min_)
@@ -596,19 +627,42 @@ public class Pet extends Game.Default {
 	if (saude_ > saude_min_)
 	saude_ += saude_passivo_;*/
 	//fim dos passivos atributos
-	Label l = (Label) main_stat_.childAt(1);
-	l.text.update(idade_coelhodias_str());
-      }
-
-      if (iface != null) {
-	iface.update(delta);
-      }
-      if (statbar_iface != null) {
-	statbar_iface.update(delta);
-      }
+}
 
 
-      //Pingo piscando
+public void muda_aviso(){
+  Aviso avisoAtual;
+  if(avisos.isEmpty()){
+    aviso_status_bar = "Sem avisos";
+  }else if(!elementos.hasNext()){
+    elementos = avisos.iterator();	
+    avisoAtual = elementos.next();
+   make_status_bar = avisoAtual.getAviso();
+  }else {
+     avisoAtual = elementos.next();
+   make_status_bar = avisoAtual.getAviso();
+  }
+  //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
+  make_statusbar(); 
+} 
+
+
+
+public void remove_aviso(Aviso aviso){
+  if(aviso_status_bar==aviso.getAviso()){
+    if(!elementos.hasNext()){
+      elementos = avisos.iterator();	
+    }
+   Aviso avisoAtual;
+   avisoAtual = elementos.next();
+   make_status_bar = avisoAtual.getAviso();
+
+  }
+  avisos.remove(aviso);
+}
+
+void piscar(){
+//Pingo piscando
       /*
 	 if(pingopiscando != null){
 	 System.out.println("Pingo Piscando");
@@ -656,20 +710,10 @@ public class Pet extends Game.Default {
       }
       }*/
 
-      //System.out.println(_rando.getInRange(1,10));
+}
 
-      /*VIsualizando atributo no terminal*/
-      //System.out.println("Fome: " + fome_);
-      //System.out.println("Social: " + social_);
-      //System.out.println("Humor: " + humor_);
-      //System.out.println("Saude: " + saude_);
-      //System.out.println("Alcool: " + alcool_); 
-
-
-      //Avisos
-      //verificar avisos
-      //Fome
-      if(fome_ <= 0){
+void verificaAvisos(){
+ if(fome_ <= 0){
 	fome_aviso.setAviso("Pingo está ficando fraco!");
 	//chorando
       } else if(fome_ <= 20){
@@ -859,58 +903,10 @@ public class Pet extends Game.Default {
       } else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
 	avisos.add(alcool_aviso);
       } 
-
-      /*
-
-      //mudar avisos
-      //if(beat/((int) Math.max(beats_coelhosegundo*4.,1)){}// a cada quatro segundos
-      if(beat%((int) Math.max(beats_coelhosegundo*60.*60.*1,5))==0){//a cada duas horas
-      System.out.println("Manipulando lista de avisos");
-      if(avisos.isEmpty()){
-      aviso_status_bar = "sem avisos";
-      }else if(nAviso>=avisos.size()){
-      nAviso = 0;
-      //	System.out.println(nAviso + "   "+ avisos.size());
-      //	System.out.println("nAviso==avisos.size()" + avisos.size());
-      aviso_status_bar = avisos.get(nAviso).getAviso();
-      ++nAviso;
-      }else {
-      aviso_status_bar = avisos.get(nAviso).getAviso();
-      ++nAviso;
-      //System.out.println(nAviso + "   " + avisos.size());
-      }
-//System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
-make_statusbar(); 
-} */
-
-} //fim do update
-
-public void muda_aviso(){
-  if(avisos.isEmpty()){
-    aviso_status_bar = "Sem avisos";
-  }else if(!elementos.hasNext()){
-    elementos = avisos.iterator();	
-    make_status_bar = elementos.next().getAviso();
-  }else {
-    make_status_bar = elementos.next().getAviso();
-  }
-  //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
-  make_statusbar(); 
-} 
-
-
-
-public void remove_aviso(Aviso aviso){
-  if(aviso_status_bar==aviso.getAviso()){
-    if(!elementos.hasNext()){
-      elementos = avisos.iterator();	
-    }
-    make_status_bar = elementos.getAviso();
-  }
-  avisos.remove(aviso);
 }
 
-}
+
+}//fim da Classe Pet
 
 /*
    remove_aviso (cara)
@@ -921,5 +917,6 @@ public void remove_aviso(Aviso aviso){
 // em caso negativo,
 //    simplesmente remove da lista
 }*/
+
 
 
