@@ -580,9 +580,9 @@ public class Pet extends Game.Default {
     
 	passivoAtributos();
 
-      verificaAvisos();
-      
-      piscar();
+      verifica_avisos();
+      muda_aviso();
+      //piscar();
    
       
       //System.out.println(_rando.getInRange(1,10));
@@ -627,7 +627,7 @@ public void passivoAtributos(){
 	if (saude_ > saude_min_)
 	saude_ += saude_passivo_;*/
 	//fim dos passivos atributos
-}
+}                                                                 
 
 
 public void muda_aviso(){
@@ -637,10 +637,10 @@ public void muda_aviso(){
   }else if(!elementos.hasNext()){
     elementos = avisos.iterator();	
     avisoAtual = elementos.next();
-   make_status_bar = avisoAtual.getAviso();
+    aviso_status_bar = avisoAtual.getAviso();
   }else {
      avisoAtual = elementos.next();
-   make_status_bar = avisoAtual.getAviso();
+   aviso_status_bar = avisoAtual.getAviso();
   }
   //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
   make_statusbar(); 
@@ -655,8 +655,8 @@ public void remove_aviso(Aviso aviso){
     }
    Aviso avisoAtual;
    avisoAtual = elementos.next();
-   make_status_bar = avisoAtual.getAviso();
-
+   aviso_status_bar = avisoAtual.getAviso();
+   make_statusbar();
   }
   avisos.remove(aviso);
 }
@@ -712,7 +712,7 @@ void piscar(){
 
 }
 
-void verificaAvisos(){
+void verifica_avisos(){
  if(fome_ <= 0){
 	fome_aviso.setAviso("Pingo está ficando fraco!");
 	//chorando
@@ -733,7 +733,7 @@ void verificaAvisos(){
 	//normal+vomitando
       }
 
-      if(fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
+      if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
 	remove_aviso(fome_aviso);
       } else if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
 	avisos.add(fome_aviso);
@@ -758,7 +758,7 @@ void verificaAvisos(){
       } else if(humor_ <= 100){
 	humor_aviso.setAviso("Pingo está muito contente");
       }
-      if(humor_aviso.isEmpty()  && avisos.contains(humor_aviso)){
+      if(!humor_aviso.isEmpty()  && avisos.contains(humor_aviso)){
 	avisos.remove(humor_aviso);
       } else if(!humor_aviso.isEmpty() && !avisos.contains(humor_aviso)){
 	avisos.add(humor_aviso);
