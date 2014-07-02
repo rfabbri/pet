@@ -89,17 +89,16 @@ public class Pet extends Game.Default {
 
   private  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";//Talvez seja excluido
   private  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
-  private Aviso fome_aviso;
-  private Aviso humor_aviso;
-  private Aviso social_aviso;
-  private Aviso higiene_aviso;
-  private Aviso estudo_aviso;
-  private Aviso saude_aviso;
-  private Aviso disciplina_aviso;
-  private Aviso alcool_aviso;
+  private Aviso fome_aviso = new Aviso();
+  private Aviso humor_aviso = new Aviso();
+  private Aviso social_aviso = new Aviso();
+  private Aviso higiene_aviso = new Aviso();
+  private Aviso estudo_aviso = new Aviso();
+  private Aviso saude_aviso = new Aviso();
+  private Aviso disciplina_aviso = new Aviso();
+  private Aviso alcool_aviso = new Aviso();
   private List<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
   private String aviso_status_bar="ola"; 
-  //private int nAviso= 0;//count da list aviso // EXCLUIR
   private Iterator<Aviso> elementos = avisos.iterator(); 
 
   private Pingo pingo = null;
@@ -581,7 +580,10 @@ public class Pet extends Game.Default {
 	passivoAtributos();
 
       verifica_avisos();
-      muda_aviso();
+      
+if(beat%alcool_passivo_beats_==0){//MUDAR DEPOIS: Aviso muda a cada hora
+muda_aviso();
+}
       //piscar();
    
       
@@ -640,80 +642,27 @@ public void muda_aviso(){
     aviso_status_bar = avisoAtual.getAviso();
   }else {
      avisoAtual = elementos.next();
-   aviso_status_bar = avisoAtual.getAviso();
+     aviso_status_bar = avisoAtual.getAviso();
   }
   //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
   make_statusbar(); 
 } 
 
 
-
 public void remove_aviso(Aviso aviso){
-  if(aviso_status_bar==aviso.getAviso()){
-    if(!elementos.hasNext()){
-      elementos = avisos.iterator();	
-    }
-   Aviso avisoAtual;
-   avisoAtual = elementos.next();
-   aviso_status_bar = avisoAtual.getAviso();
-   make_statusbar();
-  }
-  avisos.remove(aviso);
+  if(avisos.contains(aviso)){
+    avisos.remove(aviso); //removendo o aviso da lista 
+}
+ if(aviso_status_bar==aviso.getAviso()){
+  //mudar o aviso que aparece na tela
+  muda_aviso();
+   }
+  aviso.remove();//Campo String = null
 }
 
-void piscar(){
-//Pingo piscando
-      /*
-	 if(pingopiscando != null){
-	 System.out.println("Pingo Piscando");
-	 pingopiscando.detatch(layer);
-	 pingopiscando = null;
-	 pingo = new Pingo(layer, width() / 2, height() / 2);
-	 System.out.println("Pingo Normal");
-	 } else if(pingo != null){
-	 System.out.println("Pingo Normal");
-	 pingo.detatch(layer);
-	 pingo = null;
-	 pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-	 System.out.println("Pingo Piscando");
-	 }*/
-
-      /*
-	 if(pingo != null && beat>6){
-	 System.out.println("Pingo Normal");
-	 pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-	 pingo.detatch(layer);
-	 pingo = null;
-      //pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-      System.out.println("Pingo Piscando");
-      }
-       */
-      /*
-      //Pingo piscando
-      r = _rando.getInRange(1,11);//de 1 a 10 
-      if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
-      //System.out.println(r +" horas");
-      pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-      pingo.detatch(layer);
-      pingo = null;
-      }else if(pingopiscando!=null && pingopiscando.getTraversed()){
-      //System.out.println(r +" horas");
-      System.out.println(pingopiscando.getTraversed());
-      pingo = new Pingo(layer, width() / 2, height() / 2);
-      pingopiscando.detatch(layer);
-      pingopiscando = null;
-      }/*
-      if(pingopiscando!=null){
-      System.out.println("FALSE");
-      if(pingopiscando.getTraversed()){
-      System.out.println("TRUE");
-      }
-      }*/
-
-}
 
 void verifica_avisos(){
- if(fome_ <= 0){
+/*if(fome_ <= 0){
 	fome_aviso.setAviso("Pingo está ficando fraco!");
 	//chorando
       } else if(fome_ <= 20){
@@ -879,13 +828,13 @@ void verifica_avisos(){
 	avisos.add(disciplina_aviso);
       } 
 
-
+*/
       //Alcool
       if(alcool_<=0){
-	alcool_aviso.remove();
+	remove_aviso(alcool_aviso);
 	//normal
       }else if(alcool_<=3){
-	alcool_aviso.remove();
+         remove_aviso(alcool_aviso);
 	//normal
       }else if(alcool_<=6){
 	alcool_aviso.setAviso("Pingo está bêbado");
@@ -898,12 +847,68 @@ void verifica_avisos(){
 	//em coma
       }
 
-      if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
+    /*  if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
 	remove_aviso(alcool_aviso);
       } else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
 	avisos.add(alcool_aviso);
-      } 
+      } */
+        if(alcool_aviso.getAviso()!=null && !avisos.contains(alcool_aviso)){
+	   avisos.add(alcool_aviso);
+	}
 }
+
+
+void piscar(){
+//Pingo piscando
+      /*
+	 if(pingopiscando != null){
+	 System.out.println("Pingo Piscando");
+	 pingopiscando.detatch(layer);
+	 pingopiscando = null;
+	 pingo = new Pingo(layer, width() / 2, height() / 2);
+	 System.out.println("Pingo Normal");
+	 } else if(pingo != null){
+	 System.out.println("Pingo Normal");
+	 pingo.detatch(layer);
+	 pingo = null;
+	 pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+	 System.out.println("Pingo Piscando");
+	 }*/
+
+      /*
+	 if(pingo != null && beat>6){
+	 System.out.println("Pingo Normal");
+	 pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+	 pingo.detatch(layer);
+	 pingo = null;
+      //pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+      System.out.println("Pingo Piscando");
+      }
+       */
+      /*
+      //Pingo piscando
+      r = _rando.getInRange(1,11);//de 1 a 10 
+      if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
+      //System.out.println(r +" horas");
+      pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+      pingo.detatch(layer);
+      pingo = null;
+      }else if(pingopiscando!=null && pingopiscando.getTraversed()){
+      //System.out.println(r +" horas");
+      System.out.println(pingopiscando.getTraversed());
+      pingo = new Pingo(layer, width() / 2, height() / 2);
+      pingopiscando.detatch(layer);
+      pingopiscando = null;
+      }/*
+      if(pingopiscando!=null){
+      System.out.println("FALSE");
+      if(pingopiscando.getTraversed()){
+      System.out.println("TRUE");
+      }
+      }*/
+
+}
+
 
 
 }//fim da Classe Pet
