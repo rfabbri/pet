@@ -1,13 +1,14 @@
-package com.pulapirata.core.sprites;
+package com.pulapirata.core.utils;
 
 import static playn.core.PlayN.log;
+import static playn.core.PlayN.json;
 
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
+import playn.core.Json;
+public class PetJson{
 
-public class petJson{
-
-  public static String parseJson(String json, String field) {//Image[] images, Sprite sprite, 
+public static int parseJson(String json, String field) {//Image[] images, Sprite sprite, 
     Json.Object document = json().parse(json);
 
     // parse image urls, if necessary
@@ -21,10 +22,10 @@ public class petJson{
       }*/
 
     // parse the sprite images
-    Json.Array spriteImages = document.getArray("sprites");
+    //Json.Array spriteImages = document.getArray("sprites");
     //for (int i = 0; i < spriteImages.length(); i++) {
-    Json.Object jsonSpriteImage = spriteImages.getObject(0);
-    String value = jsonSpriteImage.getString(field);
+    Json.Object valueObject = document.getObject(field);
+    int value = valueObject.getInt(field);
     System.out.println(value);
     //int imageId = jsonSpriteImage.getInt("url"); // will return 0 if not specified
     //Asserts.checkElementIndex(imageId, images.length, "URL must be an index into the URLs array");

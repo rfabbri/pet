@@ -31,7 +31,7 @@ import com.pulapirata.core.sprites.PingoComendoSopaBacon;
 import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
 import com.pulapirata.core.sprites.PingoPiscando;
 import com.pulapirata.core.sprites.PingoDormindo;
-import com.pulapirata.core.utils.petJson;
+import com.pulapirata.core.utils.PetJson;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
@@ -144,14 +144,15 @@ public class Pet extends Game.Default {
   
 //  petJson.parseJson("pet/jsons/atributos.json","fome");
 
-  private int fome = Integer.parseInt(petJson.parseJson("pet/jsons/atributos.json","fome"));
+  private int fome = PetJson.parseJson("pet/jsons/atributos.json","fome");
+  //private int fome = 20;
   //System.out.println(fome);
- // private int fomeTest = json.getString(fome);
- // System.out.println("teste: "+fomeTest);
+  //private int fomeTest = json.getString(fome);
+  //System.out.println("teste: "+fomeTest);
   private int fomePassivo = 10;
   private int fomePassivoBeats = (int) Math.max(beats_coelhosegundo*60*60,1);
   private int fomeMax = 120;
-  private int fomeMin =  Integer.parseInt(petJson.parseJson("pet/jsons/atributos.json","fome"));
+  private int fomeMin = -20;
 
   private int alcool = 3;
   private int alcoolPassivo = -1;
