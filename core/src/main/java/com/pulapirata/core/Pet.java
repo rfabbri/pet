@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.*;
 import static playn.core.PlayN.*;
 
@@ -99,7 +100,7 @@ public class Pet extends Game.Default {
   private Aviso alcool_aviso = new Aviso();
   private List<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
   private String aviso_status_bar="ola"; 
-  private Iterator<Aviso> elementos = avisos.iterator(); 
+  private ListIterator<Aviso> elementos = avisos.listIterator(); 
 
   private Pingo pingo = null;
   private PingoMorto pingomorto = null;
@@ -642,14 +643,16 @@ public class Pet extends Game.Default {
       aviso_status_bar = "Sem avisos";
       System.out.println("IF1");
     }else if(!elementos.hasNext()){
-      elementos = avisos.iterator();	
+     elementos = avisos.listIterator();	
       avisoAtual = elementos.next();
       aviso_status_bar = avisoAtual.getAviso();
       System.out.println("IF2");
     }else if(elementos.hasNext()){
-      System.out.println("Else");
+      System.out.println("Else 1");
       avisoAtual = elementos.next();
+      System.out.println("Aviso atual: " + avisoAtual.getAviso());
       aviso_status_bar = avisoAtual.getAviso();
+      System.out.println("Else 2");
     }
     //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
     make_statusbar();
@@ -661,18 +664,48 @@ public class Pet extends Game.Default {
   public void remove_aviso(Aviso aviso){
     System.out.println("remove_aviso (inicio)");
     imprime(avisos);
-    if(avisos.contains(aviso)){
-      elementos.remove();
-//      avisos.remove(aviso); //removendo o aviso da lista 
-    }
-    if(aviso_status_bar==aviso.getAviso()){
+    if(aviso_status_bar.equals(aviso.getAviso())){
       //mudar o aviso que aparece na tela
+      elementos.remove();
       muda_aviso();
-    }
+    }else if(avisos.contains(aviso)){
+      //remover aviso da lista pelo iterator
+	//unico elemento
+	/*if(!elementos.hasPrevious() && !elementos.hasNext()){
+		elementos.remove();		
+		aviso_status_bar = "Sem avisos";
+		make_statusbar();
+		//elementos = null;
+	//exclui um elemento que nao seja o ultimo 
+	}else*/ if(!elementos.hasNext()){
+		elementos.previous();
+		Aviso aux = elementos.next();
+		avisos.remove(aviso);
+		elementos = avisos.listIterator();
+		while(elementos.hasNext()){
+			if(elementos.next() == aux){
+				//elementos.previous();
+				break;
+			}
+		}
+	}else if(!elementos.hasPrevious()){
+		//elementos.next();
+		//Aviso aux = elementos.previous();
+		avisos.remove(aviso);
+		elementos = avisos.listIterator();
+		elementos.next();
+	}
+
+
+	}
+
+	// avisos.remove(aviso); //removendo o aviso da lista 
+  
     aviso.remove();//Campo String = null
     imprime(avisos);
     System.out.println("remove_aviso (final)");
   }
+ 
 
 
   void verifica_avisos(){
@@ -949,7 +982,7 @@ public class Pet extends Game.Default {
 
   public void imprime(List<Aviso> l){
       System.out.println("Lista de Avisos: ");
-      Iterator<Aviso> i = l.iterator();
+      ListIterator<Aviso> i = l.listIterator();
       Aviso a;
       //a= i.next();
       while(i.hasNext()){
