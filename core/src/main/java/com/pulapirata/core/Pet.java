@@ -90,6 +90,7 @@ public class Pet extends Game.Default {
 
   private  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";//Talvez seja excluido
   private  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
+  private Aviso aviso_atual = new Aviso("Bem vindo ao jogo Pet");
   private Aviso fome_aviso = new Aviso();
   private Aviso humor_aviso = new Aviso();
   private Aviso social_aviso = new Aviso();
@@ -99,8 +100,8 @@ public class Pet extends Game.Default {
   private Aviso disciplina_aviso = new Aviso();
   private Aviso alcool_aviso = new Aviso();
   private List<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
-  private String aviso_status_bar="ola"; 
-  private ListIterator<Aviso> elementos = avisos.listIterator(); 
+  //private String aviso_status_bar="ola"; 
+  private ListIterator<Aviso> elementos;
 
   private Pingo pingo = null;
   private PingoMorto pingomorto = null;
@@ -225,7 +226,7 @@ public class Pet extends Game.Default {
         new Group(rightpart_layout).add (
           new Button(Icons.image(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
           // TODO in future this button will actually be an animation sprite
-          new Label(aviso_status_bar).addStyles(Styles.make(
+          new Label(aviso_atual.getAviso()).addStyles(Styles.make(
               Style.COLOR.is(0xFFFFFFFF),
               Style.TEXT_WRAP.is(true),
               Style.HALIGN.left
@@ -481,6 +482,8 @@ public class Pet extends Game.Default {
       avisos.add(saude_aviso);
       avisos.add(disciplina_aviso);
       avisos.add(alcool_aviso);
+      elementos = avisos.listIterator(); 
+      aviso_atual = elementos.next();
     }
 
 
@@ -646,13 +649,12 @@ public class Pet extends Game.Default {
   public void muda_aviso(){
     System.out.println("muda_aviso (inicio)");
     imprime(avisos);
-    Aviso avisoAtual;
     if(elementos.hasNext()){
 	elementos.next();
-	avisoAtual = elementos.previous();
+	aviso_atual = elementos.previous();
     }else /*if(elementos.hasPrevious())*/{
     	elementos.previous();
-	avisoAtual = elementos.next();
+	aviso_atual = elementos.next();
     }
     //Fazer um loop para achar o aviso!=null ou retornar pro aviso atual e verificar se eh null ("Sem avisos") ou nao
     Aviso aux;
@@ -662,16 +664,18 @@ public class Pet extends Game.Default {
 	elementos = avisos.listIterator();
 	aux = elementos.next();
     }
-    while(aux.getAviso()!=null || aux!=avisoAtual){
+    while(aux.getAviso()==null && aux!=aviso_atual){
 	if(!elementos.hasNext()){
 	elementos = avisos.listIterator(); 
 	}
 	aux = elementos.next();
     }
     if(aux.getAviso()==null){
-	aviso_status_bar = "Sem avisos"; 
+	aviso_atual = new Aviso("Sem Avisos");
+	//aviso_status_bar = "Sem avisos"; 
     } else if(aux.getAviso()!=null){
-	aviso_status_bar = aux.getAviso();
+	aviso_atual = aux;
+	//aviso_status_bar = aux.getAviso();
     }
     /*if(avisos.isEmpty()){
       aviso_status_bar = "Sem avisos";
@@ -691,6 +695,7 @@ public class Pet extends Game.Default {
     //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
 
     make_statusbar();
+    aviso_atual = aux;
     imprime(avisos);
     System.out.println("muda_aviso (final)");
   } 
@@ -699,7 +704,7 @@ public class Pet extends Game.Default {
   public void remove_aviso(Aviso aviso){
     System.out.println("remove_aviso (inicio)");
     imprime(avisos);
-    if(aviso_status_bar.equals(aviso.getAviso())){
+    if(aviso_atual.getAviso().equals(aviso.getAviso())){
       //mudar o aviso que aparece na tela
       //elementos.remove();
       aviso.remove();//string = null
@@ -940,13 +945,26 @@ public class Pet extends Game.Default {
     	  remove_aviso(alcool_aviso);
       //normal
     }else if(alcool_<=6){
-      alcool_aviso.setAviso("Pingo está bêbado");
+	if(!alcool_aviso.equals("Pingo está bêbado")){      
+	alcool_aviso.setAviso("Pingo está bêbado");
+		if(aviso_atual==alcool_aviso)
+			make_statusbar();
+    }
       //bebado
     }else if(alcool_<=9){
-      alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
+	if(!alcool_aviso.equals("Pingo está muito bêbado para executar certas atividades")){     
+     	 alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
+		if(aviso_atual==alcool_aviso)
+			make_statusbar();
+	}
       //bebado + vomitando
     }else if(alcool_<=10){
-      alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
+	if(!alcool_aviso.equals("Pingo entrou em coma alcoólico")){      
+		alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
+		if(aviso_atual==alcool_aviso)
+			make_statusbar();
+	}
+	
       //em coma
     }
 
