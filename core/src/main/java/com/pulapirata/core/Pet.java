@@ -472,7 +472,15 @@ public class Pet extends Game.Default {
       // sprites
       pingo = new Pingo(layer, width() / 2, height() / 2);
       // pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-      //avisos.add("aviso1"); avisos.add("mudanças1");//testando avisos
+      //Adicionando avisos na lista
+      avisos.add(fome_aviso);
+      avisos.add(humor_aviso);
+      avisos.add(social_aviso);
+      avisos.add(higiene_aviso);
+      avisos.add(estudo_aviso);
+      avisos.add(saude_aviso);
+      avisos.add(disciplina_aviso);
+      avisos.add(alcool_aviso);
     }
 
 
@@ -639,7 +647,33 @@ public class Pet extends Game.Default {
     System.out.println("muda_aviso (inicio)");
     imprime(avisos);
     Aviso avisoAtual;
-    if(avisos.isEmpty()){
+    if(elementos.hasNext()){
+	elementos.next();
+	avisoAtual = elementos.previous();
+    }else /*if(elementos.hasPrevious())*/{
+    	elementos.previous();
+	avisoAtual = elementos.next();
+    }
+    //Fazer um loop para achar o aviso!=null ou retornar pro aviso atual e verificar se eh null ("Sem avisos") ou nao
+    Aviso aux;
+    if(elementos.hasNext()){
+	aux = elementos.next();
+    }else{
+	elementos = avisos.listIterator();
+	aux = elementos.next();
+    }
+    while(aux.getAviso()!=null || aux!=avisoAtual){
+	if(!elementos.hasNext()){
+	elementos = avisos.listIterator(); 
+	}
+	aux = elementos.next();
+    }
+    if(aux.getAviso()==null){
+	aviso_status_bar = "Sem avisos"; 
+    } else if(aux.getAviso()!=null){
+	aviso_status_bar = aux.getAviso();
+    }
+    /*if(avisos.isEmpty()){
       aviso_status_bar = "Sem avisos";
       System.out.println("IF1");
     }else if(!elementos.hasNext()){
@@ -653,8 +687,9 @@ public class Pet extends Game.Default {
       System.out.println("Aviso atual: " + avisoAtual.getAviso());
       aviso_status_bar = avisoAtual.getAviso();
       System.out.println("Else 2");
-    }
+    }*/
     //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
+
     make_statusbar();
     imprime(avisos);
     System.out.println("muda_aviso (final)");
@@ -666,9 +701,10 @@ public class Pet extends Game.Default {
     imprime(avisos);
     if(aviso_status_bar.equals(aviso.getAviso())){
       //mudar o aviso que aparece na tela
-      elementos.remove();
+      //elementos.remove();
+      aviso.remove();//string = null
       muda_aviso();
-    }else if(avisos.contains(aviso)){
+    }/*else if(avisos.contains(aviso)){
       //remover aviso da lista pelo iterator
 	//unico elemento
 	/*if(!elementos.hasPrevious() && !elementos.hasNext()){
@@ -677,7 +713,7 @@ public class Pet extends Game.Default {
 		make_statusbar();
 		//elementos = null;
 	//exclui um elemento que nao seja o ultimo 
-	}else*/ if(!elementos.hasNext()){
+	}else if(!elementos.hasNext()){
 		elementos.previous();
 		Aviso aux = elementos.next();
 		avisos.remove(aviso);
@@ -695,13 +731,12 @@ public class Pet extends Game.Default {
 		elementos = avisos.listIterator();
 		elementos.next();
 	}
-
-
-	}
+	}*/
 
 	// avisos.remove(aviso); //removendo o aviso da lista 
-  
+  else{
     aviso.remove();//Campo String = null
+}
     imprime(avisos);
     System.out.println("remove_aviso (final)");
   }
@@ -897,10 +932,12 @@ public class Pet extends Game.Default {
 */
     //Alcool
     if(alcool_<=0){
-      remove_aviso(alcool_aviso);
+      if(alcool_aviso.getAviso()!=null)
+     	 remove_aviso(alcool_aviso);
       //normal
     } else if(alcool_<=3){
-      remove_aviso(alcool_aviso);
+       if(alcool_aviso.getAviso()!=null)	
+    	  remove_aviso(alcool_aviso);
       //normal
     }else if(alcool_<=6){
       alcool_aviso.setAviso("Pingo está bêbado");
@@ -917,14 +954,14 @@ public class Pet extends Game.Default {
       remove_aviso(alcool_aviso);
       } else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
       avisos.add(alcool_aviso);
-      } */
+      } *//*
     if(alcool_aviso.getAviso()!=null && !avisos.contains(alcool_aviso)){
          System.out.println("add aviso list(inicio)");
         imprime(avisos);
         avisos.add(alcool_aviso);
         imprime(avisos);
         System.out.println("add aviso list(final)");
-    }
+    }*/
 
   }
 
