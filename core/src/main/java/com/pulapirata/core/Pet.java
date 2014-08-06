@@ -665,16 +665,16 @@ public class Pet extends Game.Default {
 	    elementos = avisos.listIterator();
 	    aux = elementos.next();
     }
-    while(aux.getAviso()==null && aux!=aviso_atual){
+    while(aux.getAviso().isEmpty() && aux!=aviso_atual){
 	    if(!elementos.hasNext()){
 	      elementos = avisos.listIterator(); 
 	    }
 	      aux = elementos.next();
     }
-    if(aux.getAviso()==null){
+    if(aux.getAviso().isEmpty()){
 	    aviso_atual = new Aviso("Sem Avisos");
 	    //aviso_status_bar = "Sem avisos"; 
-    } else if(aux.getAviso()!=null){
+    } else if(!aux.getAviso().isEmpty()){
 	      aviso_atual = aux;
 	      //aviso_status_bar = aux.getAviso();
     }
@@ -896,21 +896,21 @@ public class Pet extends Game.Default {
     	  remove_aviso(alcool_aviso);
       //normal
     }else if(alcool_<=6){
-	    if(!alcool_aviso.equals("Pingo está bêbado")){      
+	    if(!alcool_aviso.getAviso().equals("Pingo está bêbado")){      
 	      alcool_aviso.setAviso("Pingo está bêbado");
 		    if(aviso_atual==alcool_aviso)
 			    make_statusbar();
     }
       //bebado
     }else if(alcool_<=9){
-	    if(!alcool_aviso.equals("Pingo está muito bêbado para executar certas atividades")){     
+	    if(!alcool_aviso.getAviso().equals("Pingo está muito bêbado para executar certas atividades")){     
      	 alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
 		    if(aviso_atual==alcool_aviso)
 			  make_statusbar();
 	}
       //bebado + vomitando
     }else if(alcool_<=10){
-     	if(!alcool_aviso.equals("Pingo entrou em coma alcoólico")){      
+     	if(!alcool_aviso.getAviso().equals("Pingo entrou em coma alcoólico")){      
 		    alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
 		    if(aviso_atual==alcool_aviso)
 			     make_statusbar();

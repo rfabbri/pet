@@ -2,8 +2,10 @@ package com.pulapirata.core;
 
 public class Aviso{
 	private String aviso; 	
+  private int prioridade;
 	
 	public Aviso(){
+    aviso = "";
 	}
 	
 	public Aviso(String aviso){
@@ -18,12 +20,12 @@ public class Aviso{
 		this.aviso = aviso;
 	}
 
-	public void remove(){
-		this.aviso = null;
+	public void remove() {
+		this.aviso = "";
 	}
 
 	public boolean isEmpty(){
-		if(aviso==null){
+		if(aviso != null && !aviso.isEmpty()){
 			return true;
 		}else{
 			return false;
