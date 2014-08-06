@@ -482,6 +482,7 @@ public class Pet extends Game.Default {
       avisos.add(saude_aviso);
       avisos.add(disciplina_aviso);
       avisos.add(alcool_aviso);
+      //Iniciando o ListIterator e o Aviso atual 
       elementos = avisos.listIterator(); 
       aviso_atual = elementos.next();
     }
@@ -649,51 +650,35 @@ public class Pet extends Game.Default {
   public void muda_aviso(){
     System.out.println("muda_aviso (inicio)");
     imprime(avisos);
-    if(elementos.hasNext()){
+    /*if(elementos.hasNext()){
 	elementos.next();
 	aviso_atual = elementos.previous();
-    }else /*if(elementos.hasPrevious())*/{
+    }else /*if(elementos.hasPrevious()){
     	elementos.previous();
 	aviso_atual = elementos.next();
-    }
+    }*/
     //Fazer um loop para achar o aviso!=null ou retornar pro aviso atual e verificar se eh null ("Sem avisos") ou nao
     Aviso aux;
     if(elementos.hasNext()){
-	aux = elementos.next();
+	    aux = elementos.next();
     }else{
-	elementos = avisos.listIterator();
-	aux = elementos.next();
+	    elementos = avisos.listIterator();
+	    aux = elementos.next();
     }
     while(aux.getAviso()==null && aux!=aviso_atual){
-	if(!elementos.hasNext()){
-	elementos = avisos.listIterator(); 
-	}
-	aux = elementos.next();
+	    if(!elementos.hasNext()){
+	      elementos = avisos.listIterator(); 
+	    }
+	      aux = elementos.next();
     }
     if(aux.getAviso()==null){
-	aviso_atual = new Aviso("Sem Avisos");
-	//aviso_status_bar = "Sem avisos"; 
+	    aviso_atual = new Aviso("Sem Avisos");
+	    //aviso_status_bar = "Sem avisos"; 
     } else if(aux.getAviso()!=null){
-	aviso_atual = aux;
-	//aviso_status_bar = aux.getAviso();
+	      aviso_atual = aux;
+	      //aviso_status_bar = aux.getAviso();
     }
-    /*if(avisos.isEmpty()){
-      aviso_status_bar = "Sem avisos";
-      System.out.println("IF1");
-    }else if(!elementos.hasNext()){
-     elementos = avisos.listIterator();	
-      avisoAtual = elementos.next();
-      aviso_status_bar = avisoAtual.getAviso();
-      System.out.println("IF2");
-    }else if(elementos.hasNext()){
-      System.out.println("Else 1");
-      avisoAtual = elementos.next();
-      System.out.println("Aviso atual: " + avisoAtual.getAviso());
-      aviso_status_bar = avisoAtual.getAviso();
-      System.out.println("Else 2");
-    }*/
     //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
-
     make_statusbar();
     aviso_atual = aux;
     imprime(avisos);
@@ -704,44 +689,14 @@ public class Pet extends Game.Default {
   public void remove_aviso(Aviso aviso){
     System.out.println("remove_aviso (inicio)");
     imprime(avisos);
-    if(aviso_atual.getAviso().equals(aviso.getAviso())){
+    if(aviso_atual==aviso){
       //mudar o aviso que aparece na tela
       //elementos.remove();
       aviso.remove();//string = null
       muda_aviso();
-    }/*else if(avisos.contains(aviso)){
-      //remover aviso da lista pelo iterator
-	//unico elemento
-	/*if(!elementos.hasPrevious() && !elementos.hasNext()){
-		elementos.remove();		
-		aviso_status_bar = "Sem avisos";
-		make_statusbar();
-		//elementos = null;
-	//exclui um elemento que nao seja o ultimo 
-	}else if(!elementos.hasNext()){
-		elementos.previous();
-		Aviso aux = elementos.next();
-		avisos.remove(aviso);
-		elementos = avisos.listIterator();
-		while(elementos.hasNext()){
-			if(elementos.next() == aux){
-				//elementos.previous();
-				break;
-			}
-		}
-	}else if(!elementos.hasPrevious()){
-		//elementos.next();
-		//Aviso aux = elementos.previous();
-		avisos.remove(aviso);
-		elementos = avisos.listIterator();
-		elementos.next();
-	}
-	}*/
-
-	// avisos.remove(aviso); //removendo o aviso da lista 
-  else{
-    aviso.remove();//Campo String = null
-}
+    }else{
+      aviso.remove();//Campo String = null
+    }
     imprime(avisos);
     System.out.println("remove_aviso (final)");
   }
@@ -799,8 +754,6 @@ public class Pet extends Game.Default {
     } else if(!humor_aviso.isEmpty() && !avisos.contains(humor_aviso)){
     avisos.add(humor_aviso);
     }
-
-
 
     //Social
     if(social_ <= 0){
@@ -926,10 +879,8 @@ public class Pet extends Game.Default {
     else
       System.out.println("nao contem 1");
 
-
     tst_aviso.setAviso("outra string");
-
-    if (tst.contains(tst_aviso))
+   if (tst.contains(tst_aviso))
       System.out.println("contem 2");
     else
       System.out.println("nao contem 2");
@@ -945,27 +896,26 @@ public class Pet extends Game.Default {
     	  remove_aviso(alcool_aviso);
       //normal
     }else if(alcool_<=6){
-	if(!alcool_aviso.equals("Pingo está bêbado")){      
-	alcool_aviso.setAviso("Pingo está bêbado");
-		if(aviso_atual==alcool_aviso)
-			make_statusbar();
+	    if(!alcool_aviso.equals("Pingo está bêbado")){      
+	      alcool_aviso.setAviso("Pingo está bêbado");
+		    if(aviso_atual==alcool_aviso)
+			    make_statusbar();
     }
       //bebado
     }else if(alcool_<=9){
-	if(!alcool_aviso.equals("Pingo está muito bêbado para executar certas atividades")){     
+	    if(!alcool_aviso.equals("Pingo está muito bêbado para executar certas atividades")){     
      	 alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
-		if(aviso_atual==alcool_aviso)
-			make_statusbar();
+		    if(aviso_atual==alcool_aviso)
+			  make_statusbar();
 	}
       //bebado + vomitando
     }else if(alcool_<=10){
-	if(!alcool_aviso.equals("Pingo entrou em coma alcoólico")){      
-		alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
-		if(aviso_atual==alcool_aviso)
-			make_statusbar();
-	}
-	
-      //em coma
+     	if(!alcool_aviso.equals("Pingo entrou em coma alcoólico")){      
+		    alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
+		    if(aviso_atual==alcool_aviso)
+			     make_statusbar();
+	    }
+	      //em coma
     }
 
   /*  if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
