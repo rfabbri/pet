@@ -35,6 +35,7 @@ import react.Slot;
 
 //import tripleplay.ui.*;
 import tripleplay.ui.Element;
+import tripleplay.ui.Elements;
 import tripleplay.ui.Selector;
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
@@ -62,6 +63,7 @@ public class Pet extends Game.Default {
   //------ Basic Game Properties
   private GroupLayer layer;
   private Group main_stat_; //< statusbar
+  private Group right_statbar_group_;
   private Interface iface, statbar_iface;
   private Stylesheet petSheet;
 
@@ -220,10 +222,7 @@ public class Pet extends Game.Default {
             ))
         ).addStyles(Styles.make(Style.HALIGN.left));
 
-
-    final Group statbar = new Group (statbar_layout).add (
-        main_stat_,
-        new Group(rightpart_layout).add (
+    right_statbar_group_ = new Group(rightpart_layout).add (
           new Button(Icons.image(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
           // TODO in future this button will actually be an animation sprite
           new Label(aviso_atual.getAviso()).addStyles(Styles.make(
@@ -231,7 +230,11 @@ public class Pet extends Game.Default {
               Style.TEXT_WRAP.is(true),
               Style.HALIGN.left
               ))
-          )
+          );
+
+    final Group statbar = new Group (statbar_layout).add (
+        main_stat_,
+        right_statbar_group_
         ).addStyles(Style.VALIGN.top);
 
     // create our UI manager and configure it to process pointer events
@@ -595,9 +598,9 @@ public class Pet extends Game.Default {
       verifica_avisos();
 
       
-         if(beat%alcool_passivo_beats_==0){//MUDAR DEPOIS: Aviso muda a cada hora
-         muda_aviso();
-         }
+      if(beat%alcool_passivo_beats_==0){ //MUDAR DEPOIS: Aviso muda a cada hora
+        muda_aviso();
+      }
        
       //piscar();
 
@@ -647,7 +650,7 @@ public class Pet extends Game.Default {
   }                                                                 
 
 
-  public void muda_aviso(){
+  public void muda_aviso() {
     System.out.println("muda_aviso (inicio)");
     imprime(avisos);
     /*if(elementos.hasNext()){
@@ -679,11 +682,31 @@ public class Pet extends Game.Default {
 	      //aviso_status_bar = aux.getAviso();
     }
     //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
-    make_statusbar();
+//    make_statusbar();
+    // Algo como main_stat_.Label.set(aviso)
+    // statbar_iface.statbar[1].Label.set(aviso)
+//    int n = statbar_iface.roots().iterator().next().childAt(0);
+//    System.out.println("childcount" + n + "\n");
+//    grp.childCount();
+/*
+    statbar_iface.roots().iterator().next().childAt(0).childAt(1).childAt(1) = 
+        new Label(aviso_atual.getAviso()).addStyles(Styles.make(
+              Style.COLOR.is(0xFFFFFFFF),
+              Style.TEXT_WRAP.is(true),
+              Style.HALIGN.left
+              ));
+*/
+    right_statbar_group_.add(1,
+        new Label(aviso_atual.getAviso()).addStyles(Styles.make(
+              Style.COLOR.is(0xFFFFFFFF),
+              Style.TEXT_WRAP.is(true),
+              Style.HALIGN.left
+              )));
     aviso_atual = aux;
     imprime(avisos);
     System.out.println("muda_aviso (final)");
   } 
+
 
 
   public void remove_aviso(Aviso aviso){
