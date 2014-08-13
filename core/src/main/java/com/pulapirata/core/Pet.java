@@ -144,7 +144,7 @@ public class Pet extends Game.Default {
   private int sedeMax = 10;
   private int sedeMin = 0;
   //PetJson.parseJson("pet/jsons/atributos.json","fome");
-  private float fome = PetJson.parseJson("pet/jsons/atributos.json","fome");
+  private int fome = PetJson.parseJson("pet/jsons/atributos.json","fome").fome();
   //private int fome = 20;
   private int fomePassivo = 10;
   private int fomePassivoBeats = (int) Math.max(beats_coelhosegundo*60*60,1);

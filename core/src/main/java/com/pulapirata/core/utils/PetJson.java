@@ -22,7 +22,8 @@ public class PetJson {
   }
 
 //  public static PetAttributes parseJson(String jsonPath, String field) {
-  public static float parseJson(String jsonPath, String field) {
+  public static PetAttributes parseJson(String jsonPath, String field) {
+  System.out.println("entrou no arquivo");
 //1 -------------------------------------------------------
     /*//final PeaWorld peaWorld = new PeaWorld(worldLayer);
     // load the level
@@ -60,11 +61,11 @@ public class PetJson {
 	}
       }
     });*/
-
   final PetAttributes atributos = new PetAttributes();
 //2----------------------------------------------------------------------------
+  System.out.println("Antes do onSuccess");
   PlayN.assets().getText(jsonPath, new Callback<String>() {
-      @Override
+           @Override
       public void onSuccess(String json) {
         try {
 	    Json.Object document = PlayN.json().parse(json);
@@ -72,9 +73,11 @@ public class PetJson {
 	    Json.Array jsonEntities = document.getArray("Entities");
 	    for (int i = 0; i < jsonEntities.length(); i++) {
 	      Json.Object jsonEntity = jsonEntities.getObject(i);
-	      atributos.set_fome(jsonEntity.getNumber("fome"));
+	      System.out.println("Fome via arquivo antes de atribuir: "+atributos.fome());
+	      atributos.set_fome((int)jsonEntity.getNumber("fome"));
+      	      System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome());
 	      //atributos.set_fome(jsonEntity.getNumber(field));
-            }	    
+            }		    
 	}
 	catch (Throwable err) {
           //sprite.error(err);
@@ -95,7 +98,8 @@ public class PetJson {
     for (int i = 0; i < jsonEntities.length(); i++) {
       Json.Object jsonEntity = jsonEntities.getObject(i);
       fome = jsonEntity.getNumber(field);
-    }*/ 
-    return atributos.fome();
+    }*/
+    System.out.println("Fome final do arquivo: "+atributos.fome());
+    return atributos;
   }
 }

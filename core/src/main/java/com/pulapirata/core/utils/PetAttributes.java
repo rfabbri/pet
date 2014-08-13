@@ -2,7 +2,7 @@ package com.pulapirata.core.utils;
 
 
 public class PetAttributes {
-  private float fome_ = 0;
-  public void set_fome(float f) { fome_ = f; }
-  public float fome() { return fome_; }
+  private int fome_ = 3;
+  public void set_fome(int f) { fome_ = f; }
+  public int fome() { return fome_; }
 }
