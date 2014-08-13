@@ -89,6 +89,8 @@ public class Pet extends Game.Default {
   protected PingoComendoSopaCenoura pingoComendoSopaCenoura = null;
   protected PingoPiscando pingoPiscando = null;
   protected PingoDormindo pingoDormindo = null;
+  //protected PetJson petJson;
+  //private Sprite sprite;
   /*-------------------------------------------------------------------------------*/
 
   protected Group main_stat_;
@@ -141,14 +143,9 @@ public class Pet extends Game.Default {
   private int sedePassivoBeats = (int) Math.max(beats_coelhosegundo*60*60,1);
   private int sedeMax = 10;
   private int sedeMin = 0;
-  
-//  petJson.parseJson("pet/jsons/atributos.json","fome");
-
-  private int fome = PetJson.parseJson("pet/jsons/atributos.json","fome");
+  //PetJson.parseJson("pet/jsons/atributos.json","fome");
+  private float fome = PetJson.parseJson("pet/jsons/atributos.json","fome");
   //private int fome = 20;
-  //System.out.println(fome);
-  //private int fomeTest = json.getString(fome);
-  //System.out.println("teste: "+fomeTest);
   private int fomePassivo = 10;
   private int fomePassivoBeats = (int) Math.max(beats_coelhosegundo*60*60,1);
   private int fomeMax = 120;

@@ -1,4 +1,5 @@
 package com.pulapirata.core.utils;
+import com.pulapirata.core.utils.PetAttributes;
 
 import static playn.core.PlayN.log;
 import static playn.core.PlayN.json;
@@ -6,36 +7,95 @@ import static playn.core.PlayN.json;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 import playn.core.Json;
-public class PetJson{
+//-----------------
+import playn.core.AssetWatcher;
+import playn.core.PlayN;
 
-public static int parseJson(String json, String field) {//Image[] images, Sprite sprite, 
-    Json.Object document = json().parse(json);
 
-    // parse image urls, if necessary
-    /*if (images == null || images.length == 0) {
-      Json.Array urls = document.getArray("urls");
-      Asserts.checkNotNull(urls, "No urls provided for sprite images");
-      images = new Image[urls.length()];
-      for (int i = 0; i < urls.length(); i++) {
-      images[i] = assets().getImage(urls.getString(i));
+
+
+
+public class PetJson {
+
+  // prevent instantiation
+  private PetJson() {
+  }
+
+//  public static PetAttributes parseJson(String jsonPath, String field) {
+  public static float parseJson(String jsonPath, String field) {
+//1 -------------------------------------------------------
+    /*//final PeaWorld peaWorld = new PeaWorld(worldLayer);
+    // load the level
+
+    PlayN.assets().getText(jsonPath, new Callback.Chain<String>(null) {
+      @Override
+      public void onSuccess(String resource) {
+        // create an asset watcher that will call our callback when all assets
+        // are loaded
+        AssetWatcher assetWatcher = new AssetWatcher(new AssetWatcher.Listener() {
+          @Override
+          public void done() {
+            //callback.onSuccess(peaWorld);
+          }
+
+          @Override
+          public void error(Throwable e) {
+            //callback.onFailure(e);
+          }
+        });
+
+        // parse the level
+        Json.Object document = PlayN.json().parse(resource);
+
+        // previous Portal (used for linking portals)
+        //Portal lastPortal = null;
+  
+	float fome = 0;	
+        // parse the entities, adding each asset to the asset watcher
+        Json.Array jsonEntities = document.getArray("Entities");
+        for (int i = 0; i < jsonEntities.length(); i++) {
+          Json.Object jsonEntity = jsonEntities.getObject(i);          
+	  System.out.println("Fome via arquivo: "+fome);
+          fome = jsonEntity.getNumber(field);
+	}
       }
-      }*/
+    });*/
 
-    // parse the sprite images
-    //Json.Array spriteImages = document.getArray("sprites");
-    //for (int i = 0; i < spriteImages.length(); i++) {
-    Json.Object valueObject = document.getObject(field);
-    int value = valueObject.getInt(field);
-    System.out.println(value);
-    //int imageId = jsonSpriteImage.getInt("url"); // will return 0 if not specified
-    //Asserts.checkElementIndex(imageId, images.length, "URL must be an index into the URLs array");
-    //int x = jsonSpriteImage.getInt("x");
-    //int y = jsonSpriteImage.getInt("y");
-    //int width = jsonSpriteImage.getInt("w");
-    //int height = jsonSpriteImage.getInt("h");
-    //SpriteImage spriteImage = new SpriteImage(images[imageId], x, y, width, height);
-    //sprite.addSpriteImage(id, spriteImage);
-    //}
-    return value;
+  final PetAttributes atributos = new PetAttributes();
+//2----------------------------------------------------------------------------
+  PlayN.assets().getText(jsonPath, new Callback<String>() {
+      @Override
+      public void onSuccess(String json) {
+        try {
+	    Json.Object document = PlayN.json().parse(json);
+	    // parse the sprite images
+	    Json.Array jsonEntities = document.getArray("Entities");
+	    for (int i = 0; i < jsonEntities.length(); i++) {
+	      Json.Object jsonEntity = jsonEntities.getObject(i);
+	      atributos.set_fome(jsonEntity.getNumber("fome"));
+	      //atributos.set_fome(jsonEntity.getNumber(field));
+            }	    
+	}
+	catch (Throwable err) {
+          //sprite.error(err);
+          return;
+        }
+      }
+      @Override
+      public void onFailure(Throwable err) {
+      }
+  });
+
+//3----------------------------------------------------------------------------
+   // parse the level
+    /*Json.Object document = PlayN.json().parse(jsonPath);
+    float fome = 0;
+    // parse the entities, adding each asset to the asset watcher
+    Json.Array jsonEntities = document.getArray("Entities");
+    for (int i = 0; i < jsonEntities.length(); i++) {
+      Json.Object jsonEntity = jsonEntities.getObject(i);
+      fome = jsonEntity.getNumber(field);
+    }*/ 
+    return atributos.fome();
   }
 }
