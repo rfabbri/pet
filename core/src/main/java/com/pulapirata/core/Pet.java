@@ -565,7 +565,7 @@ public class Pet extends Game.Default {
       }
     } else {
       // update properties
-      numAleatorio = (int)(random()*50);
+      /*numAleatorio = (int)(random()*50);
       System.out.println("NUM ALEATÓRIO: "+numAleatorio);
       
       if(numAleatorio==5){
@@ -577,7 +577,7 @@ public class Pet extends Game.Default {
         pingo = new Pingo(layer, width() / 2, height() / 2);
         pingoPiscando.detatch(layer);
         pingoPiscando = null;
-      }
+      }*/
 
 	  
 
