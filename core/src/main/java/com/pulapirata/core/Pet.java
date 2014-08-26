@@ -30,9 +30,9 @@ import com.pulapirata.core.sprites.PingoBebendoLeite;
 import com.pulapirata.core.sprites.PingoComendoSopaBacon;
 import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
 import com.pulapirata.core.sprites.PingoPiscando;
+import com.pulapirata.core.sprites.PingoDormindo;
 
 
->>>>>>> geovane-merge-now
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
@@ -40,7 +40,6 @@ import react.Function;
 import react.UnitSlot;
 import react.Slot;
 
-//import tripleplay.ui.*;
 import tripleplay.ui.Element;
 import tripleplay.ui.Selector;
 import tripleplay.ui.Background;
@@ -63,10 +62,16 @@ import tripleplay.ui.layout.AxisLayout;
 import static tripleplay.ui.layout.TableLayout.COL;
 
 public class Pet extends Game.Default {
-	//Informações que aparecem no topo
+  /*
+    Informacoes que aparecem no topo.
+  */
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
   protected  static final String STAT_FILLER_1 = "Idade: %d %s\nSede: %d/%d\nFome: %d/%d\nAlcool: %d/%d";
+  /*-------------------------------------------------------------------------------*/
 
+  /*
+    Informacoes referentes as instancias criadas.
+  */
   private GroupLayer layer;
   private Sound somArroto = assets().getSound("pet/sprites/arroto_01");
   private Sound somSoluco = assets().getSound("pet/sprites/soluco_01");
@@ -80,73 +85,66 @@ public class Pet extends Game.Default {
   protected PingoComendoSopaBacon pingoComendoSopaBacon = null;
   protected PingoComendoSopaCenoura pingoComendoSopaCenoura = null;
   protected PingoPiscando pingoPiscando = null;
+  protected PingoDormindo pingoDormindo = null;
+  /*-------------------------------------------------------------------------------*/
 
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
-  // properties. 
+  // properties.
+  /*
+    Posicao do pingo na tela.
+  */ 
   public int width() { return 480; }
   public int height() { return 800; }
+  /*-------------------------------------------------------------------------------*/
 
-  public static final int UPDATE_RATE = 100;  // ms 
+  public static final int UPDATE_RATE = 100; // ms 
   protected final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
-
-  //------ Pet properties
-  private int beat = 0;   //< absolute number of updates
-  // the following is not static so that we can dynamically speedup the game if desired
-  private int beats_coelhodia = 600;  //< beats por 1 coelho dia.
-  private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
-  public int idade_coelhodias() { return beat / beats_coelhodia; }
-  public int idade_coelhohoras() { return (int)((float)beat / ((float)beats_coelhodia/24f)); }
   
+  
+  private int beat = 0; // number of updates
+   // the following is not static so that we can dynamically speedup the game if desired
+  private int beats_coelhodia = 600; // beats por 1 coelho dia.
+  private double beats_coelhosegundo = (double)beats_coelhodia/(24.*60.*60.); 
+
+  public int idade_coelhohoras() { return (int)((float)beat / ((float)beats_coelhodia/24f)); }
+  public int idade_coelhodias() { return beat / beats_coelhodia; }
+
+  /*
+    Informacoes referente aos atributos do pingo.
+  */
   private Interface iface, statbar_iface;
   private int sede = 5;
   private int sede_passivo = 1;
   private int sede_passivo_beats = (int) Math.max(beats_coelhosegundo*60*60,1);
   private int sede_max = 10;
   private int sede_min = 0;
-  private int fome = 5;
+
+  private int fome = 30;
   private int fome_passivo = 1;
   private int fome_passivo_beats = (int) Math.max(beats_coelhosegundo*60*60,1);
-  private int fome_max = 10;
-  private int fome_min = 0;
-	
+  private int fome_max = 120;
+  private int fome_min = -20;
 
   private int alcool_ = 3;
   private int alcool_passivo_ = -1;
   private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
   private int alcool_max_ = 10;
   private int alcool_min_ = 0;
-  //Random random = new Random();
-  
-  private int numAleatorio = 0;
 
-  private int felicidade = 5;
-  private int felicidade_max = 10;
-
+  /*-------------------------------------------------------------------------------*/
+  private boolean dormir = false;
   private Stylesheet petSheet;
 
-  //--------------------------------------------------------------------------------
+  /*
+    Funcao para setar as informacoes no topo corretamente.
+  */
   public String idade_coelhodias_str() { 
     if (idade_coelhodias() == 0)
       return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede, sede_max, fome , fome_max, alcool_, alcool_max_); //informacoes exibidas 
     else
       return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede, sede_max, fome, fome_max, alcool_, alcool_max_); 
   }
-
-  private  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  private  static final String STAT_FILLER_1 = "Idade: %d %s\nAlcool: %d/%d";
-
-  private Pingo pingo = null;
-  private PingoMorto pingomorto = null;
-  private PingoVomitando pingovomitando = null;
-  private PingoBebado pingobebado = null;
-  private PingoComa pingocoma = null;
-
-  private int alcool_ = 3;
-  private int alcool_passivo_ = -1;
-  private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
-  private int alcool_max_ = 10;
-  private int alcool_min_ = 0;
 
   //--------------------------------------------------------------------------------
   public Pet() {
@@ -242,6 +240,9 @@ public class Pet extends Game.Default {
   }
 
   //--------------------------------------------------------------------------------
+  /*
+    Funcao responsavel por criar os butoes, estes sao colocados em um ArraList
+  */
   private void make_buttons() {
     // create our UI manager and configure it to process pointer events
     iface = new Interface();
@@ -340,8 +341,11 @@ public class Pet extends Game.Default {
     )));
 
     final ArrayList< ArrayList<Image> > img_butt_secondary = s_img_butt_secondary;
-
-    final int[][] topleft = new int [][] {//posição de cada "butt"
+  
+    /*
+      Posicao de cada "butt"
+    */
+    final int[][] topleft = new int [][] {
       {0,0},
       {120,0},
       {240,0},
@@ -358,6 +362,7 @@ public class Pet extends Game.Default {
       {240,0},
       {360,0},
     };
+    /*-------------------------------------------------------------------------------*/
 
     final int num_main_butts = img_butt_solto.size();
     final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
@@ -376,7 +381,10 @@ public class Pet extends Game.Default {
         Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
-
+	/*
+	  Acesso todos os butoes primarios (b) e secundarios (s) de forma a criar cada evento. Feito isso, apos instancia uma classe/sprite referente a aquela acao.
+	  A funcao "detatch" eh utilziada para remover o sprite de tela, e em seguida seta-se a classe pingo para null. Provavelmente tera de mudar, pois eh necessario que tudo seja em funcao de atributos.
+	*/
 	if(b == 0 && s == 0)sbut.clicked().connect(new UnitSlot(){
 	  public void onEmit(){//Atravez do evento comer sopa de cenoura, cria um novo pingoComendoSopaBacon
 	    pingoComendoSopaCenoura = new PingoComendoSopaCenoura(layer, width()/2, height()/2);
@@ -424,18 +432,10 @@ public class Pet extends Game.Default {
         &&  s == 0) // licor
           sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
-	
               alcool_ = alcool_max_; // TODO modificar de acordo com folha
 	    }
           });
-	if(b == 6 && s == 1)sbut.clicked().connect(new UnitSlot() {
-            public void onEmit() {
-	//	pingo.piscaPingo(layer, width() / 2, height() / 2);
-	    
-	      //pingo.detatch(layer);
-	//	pingo = new Pingo(layer, width() / 2, height() / 2);
-	    }
-          });
+        /*-------------------------------------------------------------------------------*/
       }
 
       but.selected().map(new Function <Boolean,Icon>() {
@@ -447,7 +447,6 @@ public class Pet extends Game.Default {
                }
       }
       }).connectNotify(but.icon.slot());
-
       // all secondary buttons are added; toggle visibility only
       root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
       sbuttons.get(b_final).setVisible(false);
@@ -489,9 +488,8 @@ public class Pet extends Game.Default {
     });
     */
   }
+  /*-------------------------------------------------------------------------------*/
 
-
-  //--------------------------------------------------------------------------------
   @Override
   public void init() {
     System.out.println("passivo is " + alcool_passivo_beats_);
@@ -509,8 +507,11 @@ public class Pet extends Game.Default {
     make_buttons();
     // ------------------------------------------------------------------
 
+    /*
+      Removi a criacao inicial do pingo, ja que agora isto depende da hora.
+    */
     // sprites
-    pingo = new Pingo(layer, width() / 2, height() / 2);
+    //pingo = new Pingo(layer, width() / 2, height() / 2);
   }
 
 
@@ -532,6 +533,9 @@ public class Pet extends Game.Default {
   //--------------------------------------------------------------------------------
   @Override
   public void update(int delta) {
+    /*
+      Aqui que sao realizadas as atualizacoes dos sprites, sem isto o sprite ficaria estatico
+    */
     _clock.update(delta);
     if (pingo != null)
       pingo.update(delta);
@@ -545,13 +549,16 @@ public class Pet extends Game.Default {
       pingoComendoSopaCenoura.update(delta);
     else if(pingoComendoSopaBacon !=null)
       pingoComendoSopaBacon.update(delta);
-    else if (pingoBebendoAgua != null)//Para atualizar as "imagens"
+    else if (pingoBebendoAgua != null)
       pingoBebendoAgua.update(delta);
     else if(pingoBebendoLeite != null)
       pingoBebendoLeite.update(delta);
-    else if(pingoPiscando != null)
-      pingoPiscando.update(delta);
+   else if(pingoDormindo != null)
+      pingoDormindo.update(delta);
 
+    /*
+      Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
+    */
     if(beat / beats_coelhodia >= 30) {
       if (pingomorto == null) {
           // pingo morre
@@ -564,23 +571,8 @@ public class Pet extends Game.Default {
         pingomorto.update(delta);
       }
     } else {
+	
       // update properties
-      /*numAleatorio = (int)(random()*50);
-      System.out.println("NUM ALEATÓRIO: "+numAleatorio);
-      
-      if(numAleatorio==5){
-        pingoPiscando = new PingoPiscando(layer, width() / 2, height() / 2);
-        pingo.detatch(layer);//remove the layer
-        pingo = null;
-      }
-      else if(pingoPiscando != null){
-        pingo = new Pingo(layer, width() / 2, height() / 2);
-        pingoPiscando.detatch(layer);
-        pingoPiscando = null;
-      }*/
-
-	  
-
       if(fome <= fome_min && pingoComendoSopaCenoura != null && pingo == null){
 	fome = fome_min;
 	pingo = new Pingo(layer, width() / 2, height() / 2);
@@ -606,12 +598,32 @@ public class Pet extends Game.Default {
 	somArroto.play(); 
       }
 
-      if(fome<= fome_min && pingoBebendoLeite != null && pingo == null){
+      if(fome <= fome_min && pingoBebendoLeite != null && pingo == null){
 	fome = fome_min;
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoBebendoLeite.detatch(layer);
 	pingoBebendoLeite = null;
 	somArroto.play(); 
+      }
+
+      if(((idade_coelhohoras()-idade_coelhodias()*24) >= 22 || (idade_coelhohoras()-idade_coelhodias()*24) >= 0 && (idade_coelhohoras()-idade_coelhodias()*24) <= 8) && dormir == false){
+	dormir = true;
+	pingoDormindo = new PingoDormindo(layer, width()/2, height()/2);
+	if(pingo!=null){
+	  pingo.detatch(layer);
+          pingo = null;
+	}
+      	System.out.println("Horas: "+(idade_coelhohoras()-idade_coelhodias()*24));
+      }
+      else if((idade_coelhohoras()-idade_coelhodias()*24) < 22 && (idade_coelhohoras()-idade_coelhodias()*24) > 8){
+        if(pingoDormindo != null && pingo == null){
+	  dormir = false;
+	  pingo = new Pingo(layer, width()/2, height()/2);
+	  pingoDormindo.detatch(layer);
+	  pingoDormindo = null;
+	  System.out.println("Horario de ficar acordado:"+(idade_coelhohoras()-idade_coelhodias()*24));
+
+        }
       }
 
       if (alcool_ == 10) {
@@ -671,31 +683,35 @@ public class Pet extends Game.Default {
        if (alcool_ > alcool_min_)
           alcool_ += alcool_passivo_;
 
-      if(pingo!=null){//Se for o pingo normal, a sede aumenta
+/*
+  Se for pingo normal, a sede aumenta.
+*/
+      if(pingo!=null){
 	if ((beat % sede_passivo_beats) == 0)
 	  if (sede >= sede_min && sede < sede_max)
 	    sede += sede_passivo;
 	}
-      
-      else if(pingoBebendoAgua != null){//Se for o pingo bebendo agua, a sede dele deve diminuir
+
+/*
+  Se for pingo bebendo agua, a sede deve diminuir.
+*/      
+      else if(pingoBebendoAgua != null){
 	if ((beat % sede_passivo_beats) == 0)
 	  if (sede <= sede_max && sede > sede_min)
 	    sede -= sede_passivo+1;
       }
-      
-      if(pingo!=null){//Se for o pingo normal, a fome aumenta
+/*
+  Se for o pingo normal, a fome aumenta.
+*/    
+      if(pingo!=null){
 	if ((beat % fome_passivo_beats) == 0)
 	  if (fome >= fome_min && fome < fome_max)
 	    fome += fome_passivo;
       }
 
-/*      else if(pingoComendoSopaCenoura != null){//Se for o pingo comendo sopa de cenoura, a fome dele deve diminuir
-	if ((beat % fome_passivo_beats) == 0)
-	  if (fome <= fome_max && fome > fome_min)
-	    fome -= fome_passivo;
-      }
-*///NÃO ACHEI NECESSIDADE DE CRIAR UM CÓDIGO APENAS PARA CENOURA, JÁ QUE NESTA PARTE, FAZ A MESMA FUNÇÃO DA SOPA DE BACON
-
+  /*
+    Não achei necessidade (ainda) de criar um código apenas para pingo comendo cenoura, já que possuem mesmas funcionalidades.
+  */
       else if(pingoComendoSopaBacon != null || pingoComendoSopaCenoura != null){//Se for o pingo comendo sopa de bacon, a fome dele deve diminuir
 	if ((beat % fome_passivo_beats) == 0)
 	  if (fome <= fome_max && fome > fome_min)
