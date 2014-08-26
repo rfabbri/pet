@@ -888,23 +888,6 @@ public class Pet extends Game.Default {
   } 
 
   */
-/*
-    List<Aviso> tst = new ArrayList<Aviso>();
-    Aviso tst_aviso = new Aviso();
-    tst.add(tst_aviso);
-    
-    if (tst.contains(tst_aviso))
-      System.out.println("contem 1");
-    else
-      System.out.println("nao contem 1");
-
-    tst_aviso.setAviso("outra string");
-   if (tst.contains(tst_aviso))
-      System.out.println("contem 2");
-    else
-      System.out.println("nao contem 2");
-
-*/
     //Alcool
     if(alcool_<=0){
       if(!alcool_aviso.getAviso().equals(""))
@@ -918,40 +901,24 @@ public class Pet extends Game.Default {
 	    if(!alcool_aviso.getAviso().equals("Pingo está bêbado")){      
 	      alcool_aviso.setAviso("Pingo está bêbado");
 		    if(aviso_atual==alcool_aviso)
-			    //make_statusbar();
-				atualiza_aviso();
+			   atualiza_aviso();
     }
       //bebado
     }else if(alcool_<=9){
 	    if(!alcool_aviso.getAviso().equals("Pingo está muito bêbado para executar certas atividades")){     
      	 alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
 		    if(aviso_atual==alcool_aviso)
-			 // make_statusbar();
-				atualiza_aviso();
+			 atualiza_aviso();
 	}
       //bebado + vomitando
     }else if(alcool_<=10){
      	if(!alcool_aviso.getAviso().equals("Pingo entrou em coma alcoólico")){      
 		    alcool_aviso.setAviso("Pingo entrou em coma alcoólico");
 		    if(aviso_atual==alcool_aviso)
-			 //    make_statusbar();
-				atualiza_aviso();
+			atualiza_aviso();
 	    }
 	      //em coma
     }
-
-  /*  if(alcool_aviso.isEmpty()  && avisos.contains(alcool_aviso)){
-      remove_aviso(alcool_aviso);
-      } else if(!alcool_aviso.isEmpty()  && !avisos.contains(alcool_aviso)){
-      avisos.add(alcool_aviso);
-      } *//*
-    if(alcool_aviso.getAviso()!=null && !avisos.contains(alcool_aviso)){
-         System.out.println("add aviso list(inicio)");
-        imprime(avisos);
-        avisos.add(alcool_aviso);
-        imprime(avisos);
-        System.out.println("add aviso list(final)");
-    }*/
 
   }
 
