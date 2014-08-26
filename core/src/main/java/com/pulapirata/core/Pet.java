@@ -388,74 +388,76 @@ public class Pet extends Game.Default {
         Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
-	/*
-	  Acesso todos os butoes primarios (b) e secundarios (s) de forma a criar cada evento. Feito isso, apos instancia uma classe/sprite referente a aquela acao.
-	  A funcao "detatch" eh utilziada para remover o sprite de tela, e em seguida seta-se a classe pingo_ para null. Provavelmente tera de mudar, pois eh necessario que tudo seja em funcao de atributos.
-	*/
-	if(b == 0 && s == 0)sbut.clicked().connect(new UnitSlot(){
-	  public void onEmit(){//Atravez do evento comer sopa de cenoura, cria um novo pingoComendoSopaBacon_
-	    pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width()/2, height()/2);
-	    if(pingo_!=null){
-	      pingo_.detatch(layer_);
-	      pingo_ = null;
-  	    }
-	    //fome_ = fomeMax_;
-	  }
-	});
+
+      /*
+        Acesso todos os butoes primarios (b) e secundarios (s) de forma a criar
+        cada evento. Feito isso, apos instancia uma classe/sprite referente a
+        aquela acao.  A funcao "detatch" eh utilziada para remover o sprite de
+        tela, e em seguida seta-se a classe pingo_ para null. Provavelmente tera
+        de mudar, pois eh necessario que tudo seja em funcao de atributos.
+      */
+      if(b == 0 && s == 0)sbut.clicked().connect(new UnitSlot(){
+        public void onEmit(){//Atravez do evento comer sopa de cenoura, cria um novo pingoComendoSopaBacon_
+          pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width()/2, height()/2);
+          if(pingo_!=null) {
+            pingo_.detatch(layer_);
+            pingo_ = null;
+          }
+          //fome_ = fomeMax_;
+        }
+      });
 
 
-	if(b == 0 && s == 1)sbut.clicked().connect(new UnitSlot(){
-	  public void onEmit(){//Atravez do evento comer sopa de bacon, cria um novo pingoComendoSopaBacon_
-	    pingoComendoSopaBacon_ = new PingoComendoSopaBacon(layer_, width()/2, height()/2);
-	    if(pingo_!=null){
-	      pingo_.detatch(layer_);
-	      pingo_ = null;
-	    }
-	    //fome_ = fomeMax_;
-	  }
-	});
+      if(b == 0 && s == 1)sbut.clicked().connect(new UnitSlot(){
+        public void onEmit(){//Atravez do evento comer sopa de bacon, cria um novo pingoComendoSopaBacon_
+          pingoComendoSopaBacon_ = new PingoComendoSopaBacon(layer_, width()/2, height()/2);
+          if(pingo_!=null) {
+            pingo_.detatch(layer_);
+            pingo_ = null;
+          }
+          //fome_ = fomeMax_;
+        }
+      });
 
 
-	if(b == 0 && s == 2)sbut.clicked().connect(new UnitSlot(){
-	  public void onEmit(){//Atravez do evento beber agua, cria um novo pingoBebendoAgua_
-	    pingoBebendoAgua_ = new PingoBebendoAgua(layer_, width()/2, height()/2);
-	    if(pingo_!=null){
-	      pingo_.detatch(layer_);
-	      pingo_ = null;
-	    }
-	    //sede_ = sedeMax_;
-	  }
-	});
+      if(b == 0 && s == 2)sbut.clicked().connect(new UnitSlot(){
+        public void onEmit(){//Atravez do evento beber agua, cria um novo pingoBebendoAgua_
+          pingoBebendoAgua_ = new PingoBebendoAgua(layer_, width()/2, height()/2);
+          if (pingo_ != null) {
+            pingo_.detatch(layer_);
+            pingo_ = null;
+          }
+          //sede_ = sedeMax_;
+        }
+      });
 
-	if(b == 0 && s == 3)sbut.clicked().connect(new UnitSlot(){
-	  public void onEmit(){//Atravez do evento beber leite, cria um novo pingoBebendoLeite_
-	    pingoBebendoLeite_ = new PingoBebendoLeite(layer_, width()/2, height()/2);
-	    if(pingo_!=null){
-	      pingo_.detatch(layer_);
-		pingo_ = null;
-	    }
-	    //fome_ = fomeMax_;
-	  }
-	});
+      if(b == 0 && s == 3)sbut.clicked().connect(new UnitSlot(){
+        public void onEmit(){//Atravez do evento beber leite, cria um novo pingoBebendoLeite_
+          pingoBebendoLeite_ = new PingoBebendoLeite(layer_, width()/2, height()/2);
+          if (pingo_ != null) {
+            pingo_.detatch(layer_);
+            pingo_ = null;
+          }
+          //fome_ = fomeMax_;
+        }
+      });
 
-        if (b == 6 // diversao
-        &&  s == 0) // licor
+      if (b == 6 /* diversao */ && s == 0 /* licor */) 
           sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {	
               alcool_ = alcoolMax_; // TODO modificar de acordo com folha
-	    }
+	          }
           });
         /*-------------------------------------------------------------------------------*/
       }
 
       but.selected().map(new Function <Boolean,Icon>() {
         public Icon apply (Boolean selected) {
-               if (selected) {
+               if (selected)
                   return Icons.image(img_butt_apertado.get(b_final));
-               } else {
+               else
                   return Icons.image(img_butt_solto.get(b_final));
-               }
-      }
+        }
       }).connectNotify(but.icon.slot());
       // all secondary buttons are added; toggle visibility only
       root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
@@ -470,13 +472,12 @@ public class Pet extends Game.Default {
     sel.selected.connect(new Slot<Element<?>>() {
       @Override public void onEmit (Element<?> event) {
         if (event == null) {
-          for (Group sb : sbuttons) {
+          for (Group sb : sbuttons)
             sb.setVisible(false);
-          }
         } else {
           for (int i=0; i < num_main_butts; ++i) {
             if (buttons.childAt(i) == (ToggleButton) event && 
-                sbuttons.get(i).childCount() != 0) {
+              sbuttons.get(i).childCount() != 0) {
               sbuttons.get(i).setVisible(true);
             } else {
               sbuttons.get(i).setVisible(false);
@@ -581,69 +582,68 @@ public class Pet extends Game.Default {
         pingoMorto_.update(delta);
       }
     } else {
-	
       // update properties
       if(fome_ <= fomeMin_ && pingoComendoSopaCenoura_ != null && pingo_ == null){
-	fome_ = fomeMin_;
-	pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-	pingoComendoSopaCenoura_.detatch(layer_);
-	pingoComendoSopaCenoura_ = null;
-	somArroto_.play(); 
+        fome_ = fomeMin_;
+        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+        pingoComendoSopaCenoura_.detatch(layer_);
+        pingoComendoSopaCenoura_ = null;
+        somArroto_.play(); 
       }
       else if(pingo_ != null && pingoDormindo_ != null){ // TENTAR RESOLVER AKI
-	pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width() / 2, height() / 2);
-	pingo_.detatch(layer_);
-	pingo_ = null;
+        pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width() / 2, height() / 2);
+        pingo_.detatch(layer_);
+        pingo_ = null;
       }
       if(fome_ <= fomeMin_ && pingoComendoSopaBacon_ != null && pingo_ == null){
-	fome_ = fomeMin_;
-	pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-	pingoComendoSopaBacon_.detatch(layer_);
-	pingoComendoSopaBacon_ = null;
-	somArroto_.play(); 
-
+        fome_ = fomeMin_;
+        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+        pingoComendoSopaBacon_.detatch(layer_);
+        pingoComendoSopaBacon_ = null;
+        somArroto_.play(); 
       }
 
-      if(sede_ <= sedeMin_ && pingoBebendoAgua_ != null && pingo_ == null){//Quando a sede_ for 0, aqui é realizada a troca do layer_ dele bebendo agua para normal
-	sede_ = sedeMin_; // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
-	pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-	pingoBebendoAgua_.detatch(layer_);
-	pingoBebendoAgua_ = null;
-	somArroto_.play(); 
+      //Quando a sede_ for 0, aqui é realizada a troca do layer_ dele bebendo agua para normal
+      if(sede_ <= sedeMin_ && pingoBebendoAgua_ != null && pingo_ == null){
+        sede_ = sedeMin_; // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
+        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+        pingoBebendoAgua_.detatch(layer_);
+        pingoBebendoAgua_ = null;
+        somArroto_.play(); 
       }
 
       if(fome_ <= fomeMin_ && pingoBebendoLeite_ != null && pingo_ == null){
-	fome_ = fomeMin_;
-	pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-	pingoBebendoLeite_.detatch(layer_);
-	pingoBebendoLeite_ = null;
-	somArroto_.play(); 
+        fome_ = fomeMin_;
+        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+        pingoBebendoLeite_.detatch(layer_);
+        pingoBebendoLeite_ = null;
+        somArroto_.play(); 
       }
 
-      if(((idade_coelhohoras()-idade_coelhodias()*24) >= 22 || (idade_coelhohoras()-idade_coelhodias()*24) >= 0 && (idade_coelhohoras()-idade_coelhodias()*24) <= 8) && dormir_ == false){
-	dormir_ = true;
-	pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
-	if(pingo_!=null){
-	  pingo_.detatch(layer_);
+      if(((idade_coelhohoras()-idade_coelhodias()*24) >= 22 || (idade_coelhohoras()-idade_coelhodias()*24) >= 0 
+       && (idade_coelhohoras()-idade_coelhodias()*24) <= 8) && dormir_ == false) {
+        dormir_ = true;
+        pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
+        if(pingo_!=null){
+          pingo_.detatch(layer_);
           pingo_ = null;
-	}
+        }
       	System.out.println("Horas: "+(idade_coelhohoras()-idade_coelhodias()*24));
       }
       else if((idade_coelhohoras()-idade_coelhodias()*24) < 22 && (idade_coelhohoras()-idade_coelhodias()*24) > 8){
         if(pingoDormindo_ != null && pingo_ == null){
-	  dormir_ = false;
-	  pingo_ = new Pingo(layer_, width()/2, height()/2);
-	  pingoDormindo_.detatch(layer_);
-	  pingoDormindo_ = null;
-	  System.out.println("Horario de ficar acordado:"+(idade_coelhohoras()-idade_coelhodias()*24));
-
+          dormir_ = false;
+          pingo_ = new Pingo(layer_, width()/2, height()/2);
+          pingoDormindo_.detatch(layer_);
+          pingoDormindo_ = null;
+          System.out.println("Horario de ficar acordado:"+(idade_coelhohoras()-idade_coelhodias()*24));
         }
       }
 
       if (alcool_ == 10) {
         if (pingoComa_ == null) {
           pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
-	  somSoluco_.play();
+	        somSoluco_.play();
           if (pingo_ != null) {
             pingo_.detatch(layer_);//remove the layer_
             pingo_ = null;
@@ -662,7 +662,7 @@ public class Pet extends Game.Default {
               pingo_ = null;
             }
             pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
-	    somSoluco_.play();
+	          somSoluco_.play();
 
           }
         } else {
@@ -678,7 +678,7 @@ public class Pet extends Game.Default {
                 pingo_ = null;
               }
               pingoBebado_  = new PingoBebado(layer_, width() / 2, height() / 2);
-	      somSoluco_.play();
+	            somSoluco_.play();
             }
           } else {
             if (pingoBebado_ != null) {
@@ -697,49 +697,39 @@ public class Pet extends Game.Default {
        if (alcool_ > alcoolMin_)
           alcool_ += alcoolPassivo_;
 
-/*
-  Se for pingo_ normal, a sede_ aumenta.
-*/
-      if(pingo_!=null){
-	if ((beat_ % sedePassivoBeats_) == 0)
-	  if (sede_ >= sedeMin_ && sede_ < sedeMax_)
-	    sede_ += sedePassivo_;
-	}
-
-/*
-  Se for pingo_ bebendo agua, a sede_ deve diminuir.
-*/      
-      else if(pingoBebendoAgua_ != null){
-	if ((beat_ % sedePassivoBeats_) == 0)
-	  if (sede_ <= sedeMax_ && sede_ > sedeMin_)
-	    sede_ -= sedePassivo_+1;
-      }
-/*
-  Se for o pingo_ normal, a fome_ aumenta.
-*/    
-      if(pingo_!=null){
-	if ((beat_ % fomePassivoBeats_) == 0)
-	  if (fome_ >= fomeMin_ && fome_ < fomeMax_)
-	    fome_ += fomePassivo_;
-      }
-
-  /*
-    Não achei necessidade (ainda) de criar um código apenas para pingo_ comendo cenoura, já que possuem mesmas funcionalidades.
-  */
-      else if(pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null){//Se for o pingo_ comendo sopa de bacon, a fome_ dele deve diminuir
-	if ((beat_ % fomePassivoBeats_) == 0)
-	  if (fome_ <= fomeMax_ && fome_ > fomeMin_)
-	    fome_ -= fomePassivo_;
-      }
-
-      else if(pingoBebendoLeite_ != null){//Se for o pingo_ bebendo leite, a fome_ dele deve diminuir
-	if ((beat_ % fomePassivoBeats_) == 0)
-	  if (fome_ <= fomeMax_ && fome_ > fomeMin_)
-	    fome_ -= fomePassivo_;
-      }
-      Label l = (Label) mainStat_.childAt(1);
-      l.text.update(idade_coelhodias_str());
-    }
+      /*
+        Se for pingo_ normal, a sede_ aumenta.
+      */
+      if (pingo_ != null){
+        if ((beat_ % sedePassivoBeats_) == 0)
+        if (sede_ >= sedeMin_ && sede_ < sedeMax_)
+          sede_ += sedePassivo_;
+	    } /* Se for pingo_ bebendo agua, a sede_ deve diminuir.  */      
+      else if (pingoBebendoAgua_ != null){
+        if ((beat_ % sedePassivoBeats_) == 0)
+          if (sede_ <= sedeMax_ && sede_ > sedeMin_)
+            sede_ -= sedePassivo_+1;
+      } /* Se for o pingo_ normal, a fome_ aumenta.  */    
+      if (pingo_ != null){
+        if ((beat_ % fomePassivoBeats_) == 0)
+          if (fome_ >= fomeMin_ && fome_ < fomeMax_)
+            fome_ += fomePassivo_;
+      } /* Não achei necessidade (ainda) de criar um código apenas para pingo_
+           comendo cenoura, já que possuem mesmas funcionalidades.  */
+      else if (pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null) {
+        // se for o pingo_ comendo sopa de bacon, a fome_ dele deve diminuir
+        if ((beat_ % fomePassivoBeats_) == 0)
+          if (fome_ <= fomeMax_ && fome_ > fomeMin_)
+            fome_ -= fomePassivo_;
+       } else if(pingoBebendoLeite_ != null){
+       //Se for o pingo_ bebendo leite, a fome_ dele deve diminuir
+        if ((beat_ % fomePassivoBeats_) == 0)
+          if (fome_ <= fomeMax_ && fome_ > fomeMin_)
+            fome_ -= fomePassivo_;
+       }
+       Label l = (Label) mainStat_.childAt(1);
+       l.text.update(idade_coelhodias_str());
+    } // end if 
 
     if (iface_ != null) {
       iface_.update(delta);
