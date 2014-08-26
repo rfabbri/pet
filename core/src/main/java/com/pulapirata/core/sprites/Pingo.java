@@ -14,11 +14,14 @@
  * the License.
  */
 package com.pulapirata.core.sprites;
+//package com.pulapirata.core.utils;
 
 import static playn.core.PlayN.log;
 
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
+//import com.pulapirata.core.utils.PetJson;
+
 
 public class Pingo {
   public static String IMAGE = "pet/sprites/pingo_bebe_pulando.png";
@@ -31,6 +34,7 @@ public class Pingo {
   public Pingo(final GroupLayer pingoLayer, final float x, final float y) {
     // Sprite method #1: use a sprite image and json data describing the sprites
     sprite = SpriteLoader.getSprite(IMAGE, JSON);
+//      sprite = PetJson.getSprite(IMAGE, JSON);
 
     // Sprite method #2: use json data describing the sprites and containing the image urls
     // sprite = SpriteLoader.getSprite(JSON_WITH_IMAGE);

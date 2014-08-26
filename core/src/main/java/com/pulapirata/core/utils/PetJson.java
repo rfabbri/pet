@@ -12,62 +12,23 @@ import playn.core.AssetWatcher;
 import playn.core.PlayN;
 
 
-
+import java.util.Timer;
 
 
 public class PetJson {
-
+  public static int test = -4;
   // prevent instantiation
   private PetJson() {
   }
 
-//  public static PetAttributes parseJson(String jsonPath, String field) {
-  public static PetAttributes parseJson(String jsonPath, String field) {
-  System.out.println("entrou no arquivo");
-//1 -------------------------------------------------------
-    /*//final PeaWorld peaWorld = new PeaWorld(worldLayer);
-    // load the level
-
-    PlayN.assets().getText(jsonPath, new Callback.Chain<String>(null) {
-      @Override
-      public void onSuccess(String resource) {
-        // create an asset watcher that will call our callback when all assets
-        // are loaded
-        AssetWatcher assetWatcher = new AssetWatcher(new AssetWatcher.Listener() {
-          @Override
-          public void done() {
-            //callback.onSuccess(peaWorld);
-          }
-
-          @Override
-          public void error(Throwable e) {
-            //callback.onFailure(e);
-          }
-        });
-
-        // parse the level
-        Json.Object document = PlayN.json().parse(resource);
-
-        // previous Portal (used for linking portals)
-        //Portal lastPortal = null;
-  
-	float fome = 0;	
-        // parse the entities, adding each asset to the asset watcher
-        Json.Array jsonEntities = document.getArray("Entities");
-        for (int i = 0; i < jsonEntities.length(); i++) {
-          Json.Object jsonEntity = jsonEntities.getObject(i);          
-	  System.out.println("Fome via arquivo: "+fome);
-          fome = jsonEntity.getNumber(field);
-	}
-      }
-    });*/
-  final PetAttributes atributos = new PetAttributes();
-//2----------------------------------------------------------------------------
-  System.out.println("Antes do onSuccess");
-  PlayN.assets().getText(jsonPath, new Callback<String>() {
+/*  public static PetAttributes parseJson(String jsonPath, String field) {
+    System.out.println("entrou no arquivo");
+    final PetAttributes atributos = new PetAttributes();
+    System.out.println("Antes do onSuccess");
+    PlayN.assets().getText(jsonPath, new Callback<String>() {
            @Override
-      public void onSuccess(String json) {
-        try {
+	public void onSuccess(String json) {
+	  try {
 	    Json.Object document = PlayN.json().parse(json);
 	    // parse the sprite images
 	    Json.Array jsonEntities = document.getArray("Entities");
@@ -75,31 +36,81 @@ public class PetJson {
 	      Json.Object jsonEntity = jsonEntities.getObject(i);
 	      System.out.println("Fome via arquivo antes de atribuir: "+atributos.fome());
 	      atributos.set_fome((int)jsonEntity.getNumber("fome"));
-      	      System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome());
+      	      System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome());	      
 	      //atributos.set_fome(jsonEntity.getNumber(field));
             }		    
-	}
-	catch (Throwable err) {
+	    test = atributos.fome();
+	    System.out.println("Test depois de receber fome:"+test);
+	  }
+	  catch (Throwable err) {
+            //sprite.error(err);
+            return;
+          }
+        }
+        @Override
+        public void onFailure(Throwable err) {
+        }
+    });
+    System.out.println("Fome final do arquivo: "+atributos.fome());
+    System.out.println("test final do arquivo: "+test);
+    return atributos;
+  }*/
+  public static void pausa(){ 
+    try { 
+	      Thread.sleep(10000); 
+    } 
+    catch (Exception ignored) {} 
+  } 
+
+  public static PetAttributes readJson(String jsonPath, final String field){
+//    Timer time = new Timer();
+    final PetAttributes atributos = new PetAttributes();  
+    PlayN.assets().getText(jsonPath, new Callback<String>() {
+//      Thread.yield();
+
+      @Override
+      public void onSuccess(String json) {
+        try {
+          Thread.yield();
+	  System.out.println("ENTROU NO TRY");
+          parseJson(atributos, json, field);
+	  //atributos.set_fome(parseJson(atributos, json, field)); //Coloquei pra parseJson retornar int / PetAttributes, mas continuou o erro
+
+          /*for (SpriteImage spriteImage : sprite.spriteImages()) {
+            watcher.add(spriteImage.image());
+          }
+          watcher.start();*/
+        } catch (Throwable err) {
           //sprite.error(err);
           return;
         }
+        //sprite.doneLoadingData();
       }
+
       @Override
       public void onFailure(Throwable err) {
+        //sprite.error(err);
       }
-  });
+    });
+    pausa();
+//    Thread.yield();
+//    time.start();
+    System.out.println("Fome final do metodo READJSON: "+atributos.fome());
+    return atributos;
+  }
 
-//3----------------------------------------------------------------------------
-   // parse the level
-    /*Json.Object document = PlayN.json().parse(jsonPath);
-    float fome = 0;
-    // parse the entities, adding each asset to the asset watcher
+  private static void parseJson(PetAttributes atributos, String json, String field) {
+    System.out.println("entrou no arquivo");
+    Json.Object document = PlayN.json().parse(json);
+    // parse the sprite images
     Json.Array jsonEntities = document.getArray("Entities");
     for (int i = 0; i < jsonEntities.length(); i++) {
       Json.Object jsonEntity = jsonEntities.getObject(i);
-      fome = jsonEntity.getNumber(field);
-    }*/
-    System.out.println("Fome final do arquivo: "+atributos.fome());
-    return atributos;
+      System.out.println("Fome via arquivo antes de atribuir: "+atributos.fome());
+      atributos.set_fome((int)jsonEntity.getNumber(field));
+      System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome());	      
+    }		    
+    System.out.println("Fome final do metodo PARSEJSON: "+atributos.fome());
   }
+
 }
