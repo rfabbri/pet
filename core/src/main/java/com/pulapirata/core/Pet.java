@@ -3,7 +3,10 @@ package com.pulapirata.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-
+import java.util.Random;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -15,6 +18,7 @@ import playn.core.CanvasImage;
 import playn.core.util.Clock;
 import playn.core.PlayN;
 import playn.core.Font;
+import playn.core.Sound;
 
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
@@ -23,6 +27,12 @@ import com.pulapirata.core.sprites.PingoBebado;
 import com.pulapirata.core.sprites.PingoComa;
 import com.pulapirata.core.sprites.PingoBebendoAgua;
 import com.pulapirata.core.sprites.PingoBebendoLeite;
+import com.pulapirata.core.sprites.PingoComendoSopaBacon;
+import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
+import com.pulapirata.core.sprites.PingoPiscando;
+
+
+>>>>>>> geovane-merge-now
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
 
@@ -58,6 +68,8 @@ public class Pet extends Game.Default {
   protected  static final String STAT_FILLER_1 = "Idade: %d %s\nSede: %d/%d\nFome: %d/%d\nAlcool: %d/%d";
 
   private GroupLayer layer;
+  private Sound somArroto = assets().getSound("pet/sprites/arroto_01");
+  private Sound somSoluco = assets().getSound("pet/sprites/soluco_01");
   protected Pingo pingo = null;
   protected PingoMorto pingomorto = null;
   protected PingoVomitando pingovomitando = null;
@@ -65,10 +77,14 @@ public class Pet extends Game.Default {
   protected PingoComa pingocoma = null;
   protected PingoBebendoAgua pingoBebendoAgua = null;
   protected PingoBebendoLeite pingoBebendoLeite = null;
+  protected PingoComendoSopaBacon pingoComendoSopaBacon = null;
+  protected PingoComendoSopaCenoura pingoComendoSopaCenoura = null;
+  protected PingoPiscando pingoPiscando = null;
+
   protected Group main_stat_;
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties. 
-  public int width() { return 480; }//Position of pingo in the screen.
+  public int width() { return 480; }
   public int height() { return 800; }
 
   public static final int UPDATE_RATE = 100;  // ms 
@@ -93,7 +109,6 @@ public class Pet extends Game.Default {
   private int fome_passivo_beats = (int) Math.max(beats_coelhosegundo*60*60,1);
   private int fome_max = 10;
   private int fome_min = 0;
-
 	
 
   private int alcool_ = 3;
@@ -101,6 +116,9 @@ public class Pet extends Game.Default {
   private int alcool_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.,1);
   private int alcool_max_ = 10;
   private int alcool_min_ = 0;
+  //Random random = new Random();
+  
+  private int numAleatorio = 0;
 
   private int felicidade = 5;
   private int felicidade_max = 10;
@@ -108,7 +126,6 @@ public class Pet extends Game.Default {
   private Stylesheet petSheet;
 
   //--------------------------------------------------------------------------------
->>>>>>> 622f418... Alterações no PET (Geovane Pacheco) Foi criado a classe "PingoBebendoAgua.java" e também foi feito as alterações na classa Pet.java para o funcionamento da primeira. Assim como na funcionalidade do pingo bebendo água, na classe PingoBebendoLeite, por não ter as imagens dele comendo, estou utilizando as imagens dele vomitando, também não consegui ajustar o retângulo com as informções do pingo para exibir todos os campos corretamente (O campo alcool está meio tapado).
   public String idade_coelhodias_str() { 
     if (idade_coelhodias() == 0)
       return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede, sede_max, fome , fome_max, alcool_, alcool_max_); //informacoes exibidas 
@@ -359,18 +376,31 @@ public class Pet extends Game.Default {
         Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
-	if(b == 0 && s == 3)sbut.clicked().connect(new UnitSlot(){
-	  public void onEmit(){//Atravez do evendo beber leite, cria um novo pingoBebendoLeite
-	    pingoBebendoLeite = new PingoBebendoLeite(layer, width()/2, height()/2);
+
+	if(b == 0 && s == 0)sbut.clicked().connect(new UnitSlot(){
+	  public void onEmit(){//Atravez do evento comer sopa de cenoura, cria um novo pingoComendoSopaBacon
+	    pingoComendoSopaCenoura = new PingoComendoSopaCenoura(layer, width()/2, height()/2);
 	    if(pingo!=null){
 	      pingo.detatch(layer);
-		pingo = null;
+	      pingo = null;
 	    }
-
 	  }
 	});
+
+
+	if(b == 0 && s == 1)sbut.clicked().connect(new UnitSlot(){
+	  public void onEmit(){//Atravez do evento comer sopa de bacon, cria um novo pingoComendoSopaBacon
+	    pingoComendoSopaBacon = new PingoComendoSopaBacon(layer, width()/2, height()/2);
+	    if(pingo!=null){
+	      pingo.detatch(layer);
+	      pingo = null;
+	    }
+	  }
+	});
+
+
 	if(b == 0 && s == 2)sbut.clicked().connect(new UnitSlot(){
-	  public void onEmit(){//Atravez do evendo beber agua, cria um novo pingoBebendoAgua
+	  public void onEmit(){//Atravez do evento beber agua, cria um novo pingoBebendoAgua
 	    pingoBebendoAgua = new PingoBebendoAgua(layer, width()/2, height()/2);
 	    if(pingo!=null){
 	      pingo.detatch(layer);
@@ -379,11 +409,31 @@ public class Pet extends Game.Default {
 	  }
 	});
 
+	if(b == 0 && s == 3)sbut.clicked().connect(new UnitSlot(){
+	  public void onEmit(){//Atravez do evento beber leite, cria um novo pingoBebendoLeite
+	    pingoBebendoLeite = new PingoBebendoLeite(layer, width()/2, height()/2);
+	    if(pingo!=null){
+	      pingo.detatch(layer);
+		pingo = null;
+	    }
+
+	  }
+	});
+
         if (b == 6 // diversao
         &&  s == 0) // licor
           sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
+	
               alcool_ = alcool_max_; // TODO modificar de acordo com folha
+	    }
+          });
+	if(b == 6 && s == 1)sbut.clicked().connect(new UnitSlot() {
+            public void onEmit() {
+	//	pingo.piscaPingo(layer, width() / 2, height() / 2);
+	    
+	      //pingo.detatch(layer);
+	//	pingo = new Pingo(layer, width() / 2, height() / 2);
 	    }
           });
       }
@@ -491,12 +541,16 @@ public class Pet extends Game.Default {
       pingobebado.update(delta);
     else if (pingocoma != null)
       pingocoma.update(delta);
-    else if (pingoBebendoAgua != null){//Para atualizar as "imagens"
+    else if(pingoComendoSopaCenoura != null)
+      pingoComendoSopaCenoura.update(delta);
+    else if(pingoComendoSopaBacon !=null)
+      pingoComendoSopaBacon.update(delta);
+    else if (pingoBebendoAgua != null)//Para atualizar as "imagens"
       pingoBebendoAgua.update(delta);
-    }
-    else if(pingoBebendoLeite != null){
+    else if(pingoBebendoLeite != null)
       pingoBebendoLeite.update(delta);
-    }
+    else if(pingoPiscando != null)
+      pingoPiscando.update(delta);
 
     if(beat / beats_coelhodia >= 30) {
       if (pingomorto == null) {
@@ -504,30 +558,66 @@ public class Pet extends Game.Default {
           // beat = beat; // pass
           //pingos.del(pingo);
         pingomorto = new PingoMorto(layer, width() / 2, height() / 2);
-        pingo.detatch(layer);//remove the layer
+        pingo.detatch(layer);
         pingo = null;
       } else {
         pingomorto.update(delta);
       }
     } else {
       // update properties
+      numAleatorio = (int)(random()*50);
+      System.out.println("NUM ALEATÓRIO: "+numAleatorio);
+      
+      if(numAleatorio==5){
+        pingoPiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+        pingo.detatch(layer);//remove the layer
+        pingo = null;
+      }
+      else if(pingoPiscando != null){
+        pingo = new Pingo(layer, width() / 2, height() / 2);
+        pingoPiscando.detatch(layer);
+        pingoPiscando = null;
+      }
+
+	  
+
+      if(fome <= fome_min && pingoComendoSopaCenoura != null && pingo == null){
+	fome = fome_min;
+	pingo = new Pingo(layer, width() / 2, height() / 2);
+	pingoComendoSopaCenoura.detatch(layer);
+	pingoComendoSopaCenoura = null;
+	somArroto.play(); 
+      }
+
+      if(fome <= fome_min && pingoComendoSopaBacon != null && pingo == null){
+	fome = fome_min;
+	pingo = new Pingo(layer, width() / 2, height() / 2);
+	pingoComendoSopaBacon.detatch(layer);
+	pingoComendoSopaBacon = null;
+	somArroto.play(); 
+
+      }
+
       if(sede <= sede_min && pingoBebendoAgua != null && pingo == null){//Quando a sede for 0, aqui é realizada a troca do layer dele bebendo agua para normal
 	sede = sede_min; // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoBebendoAgua.detatch(layer);
 	pingoBebendoAgua = null;
+	somArroto.play(); 
       }
+
       if(fome<= fome_min && pingoBebendoLeite != null && pingo == null){
 	fome = fome_min;
 	pingo = new Pingo(layer, width() / 2, height() / 2);
 	pingoBebendoLeite.detatch(layer);
 	pingoBebendoLeite = null;
+	somArroto.play(); 
       }
 
       if (alcool_ == 10) {
         if (pingocoma == null) {
-		System.out.println("ENTROU NO PINGO COMA");
           pingocoma = new PingoComa(layer, width() / 2, height() / 2);
+	  somSoluco.play();
           if (pingo != null) {
             pingo.detatch(layer);//remove the layer
             pingo = null;
@@ -546,6 +636,8 @@ public class Pet extends Game.Default {
               pingo = null;
             }
             pingovomitando = new PingoVomitando(layer, width() / 2, height() / 2);
+	    somSoluco.play();
+
           }
         } else {
           if (pingovomitando != null) {
@@ -560,6 +652,7 @@ public class Pet extends Game.Default {
                 pingo = null;
               }
               pingobebado  = new PingoBebado(layer, width() / 2, height() / 2);
+	      somSoluco.play();
             }
           } else {
             if (pingobebado != null) {
@@ -596,13 +689,24 @@ public class Pet extends Game.Default {
 	    fome += fome_passivo;
       }
 
-      else if(pingoBebendoLeite != null){//Se for o pingo bebendo leite, a fome dele deve diminuir
+/*      else if(pingoComendoSopaCenoura != null){//Se for o pingo comendo sopa de cenoura, a fome dele deve diminuir
+	if ((beat % fome_passivo_beats) == 0)
+	  if (fome <= fome_max && fome > fome_min)
+	    fome -= fome_passivo;
+      }
+*///NÃO ACHEI NECESSIDADE DE CRIAR UM CÓDIGO APENAS PARA CENOURA, JÁ QUE NESTA PARTE, FAZ A MESMA FUNÇÃO DA SOPA DE BACON
+
+      else if(pingoComendoSopaBacon != null || pingoComendoSopaCenoura != null){//Se for o pingo comendo sopa de bacon, a fome dele deve diminuir
 	if ((beat % fome_passivo_beats) == 0)
 	  if (fome <= fome_max && fome > fome_min)
 	    fome -= fome_passivo;
       }
 
-
+      else if(pingoBebendoLeite != null){//Se for o pingo bebendo leite, a fome dele deve diminuir
+	if ((beat % fome_passivo_beats) == 0)
+	  if (fome <= fome_max && fome > fome_min)
+	    fome -= fome_passivo+1;
+      }
       Label l = (Label) main_stat_.childAt(1);
       l.text.update(idade_coelhodias_str());
     }

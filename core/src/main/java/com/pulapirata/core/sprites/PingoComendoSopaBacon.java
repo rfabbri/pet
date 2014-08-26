@@ -18,14 +18,14 @@ import static playn.core.PlayN.log;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
-public class PingoBebendoLeite{
+public class PingoComendoSopaBacon{
 	public static String IMAGE = "pet/sprites/pingo_bebe_comendo.png";
 	public static String JSON = "pet/sprites/pingo_bebe_comendo.json";
 	private Sprite sprite;
 	private int spriteIndex = 0;
 	private boolean hasLoaded = false;
 
-	public PingoBebendoLeite(final GroupLayer pingoLayer, final float x, final float y){
+	public PingoComendoSopaBacon(final GroupLayer pingoLayer, final float x, final float y){
 		sprite = SpriteLoader.getSprite(IMAGE, JSON);	
 		sprite.addCallback(new Callback<Sprite>(){
 			public void onSuccess(Sprite sprite){

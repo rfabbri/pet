@@ -1,2 +1,6 @@
 core/target
 java/target
+.project
+.settings
+.classpath
+tags
