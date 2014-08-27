@@ -34,7 +34,7 @@ import com.pulapirata.core.sprites.PingoBebendoLeite;
 import com.pulapirata.core.sprites.PingoComendoSopaBacon;
 import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
 import com.pulapirata.core.sprites.PingoPiscando;
-import com.pulapirata.core.sprites.PingoDormindo;
+//import com.pulapirata.core.sprites.PingoDormindo;
 import com.pulapirata.core.utils.PetJson;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
@@ -95,7 +95,7 @@ public class Pet extends Game.Default {
   protected PingoComendoSopaBacon pingoComendoSopaBacon_ = null;
   protected PingoComendoSopaCenoura pingoComendoSopaCenoura_ = null;
   protected PingoPiscando pingoPiscando_ = null;
-  protected PingoDormindo pingoDormindo_ = null;
+//  protected PingoDormindo pingoDormindo_ = null;
   //protected PetJson petJson;
   //private Sprite sprite;
   /*-------------------------------------------------------------------------------*/
@@ -133,7 +133,7 @@ public class Pet extends Game.Default {
   private int sedeMax_ = 10;
   private int sedeMin_ = 0;
   //PetJson.parseJson("pet/jsons/atributos.json","fome_");
-  private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome_").fome_();
+  private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome();
 
 
   //private int fome_ = 20;
@@ -693,7 +693,7 @@ public class Pet extends Game.Default {
       if (((idade_coelhohoras()-idade_coelhodias()*24) >= 22 || (idade_coelhohoras()-idade_coelhodias()*24) >= 0 
        && (idade_coelhohoras()-idade_coelhodias()*24) <= 8) && dormir_ == false) {
         dormir_ = true;
-        pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
+//        pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
         if(pingo_!=null){
           pingo_.detatch(layer_);
           pingo_ = null;
