@@ -1,4 +1,9 @@
 /**
+<<<<<<< HEAD
+=======
+ * Copyright 2011 The PlayN Authors
+ *
+>>>>>>> leonardo
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
@@ -18,37 +23,60 @@ import static playn.core.PlayN.log;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
-public class PingoPiscando{
-	public static String IMAGE = "pet/sprites/pingo_bebe_vomitando.png";
-	public static String JSON = "pet/sprites/pingo_bebe_vomitando.json";
-	private Sprite sprite;
-	private int spriteIndex = 0;
-	private boolean hasLoaded = false;
+public class PingoPiscando {
+  public static String IMAGE = "pet/sprites/pingo_bebe_piscando.png";
+  public static String JSON = "pet/sprites/pingo_bebe_piscando.json";
+  // public static String JSON_WITH_IMAGE = "pet/sprites/peasprite2.json";
+  private Sprite sprite;
+  private int spriteIndex = 0;
+  private boolean hasLoaded = false; // set to true when resources have loaded and we can update
+  private boolean traversed = false;
 
-	public PingoPiscando(final GroupLayer pingoLayer, final float x, final float y){
-		sprite = SpriteLoader.getSprite(IMAGE, JSON);	
-		sprite.addCallback(new Callback<Sprite>(){
-			public void onSuccess(Sprite sprite){
-				sprite.setSprite(spriteIndex);
-				sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
-				sprite.layer().setTranslation(x, y);
-				pingoLayer.add(sprite.layer());
-				hasLoaded = true;
-			}
-			public void onFailure(Throwable err){
-				log().error("Error loading image!", err);
-			}
-		});
-	}
+  public PingoPiscando(final GroupLayer pingoLayer, final float x, final float y) {
+    // Sprite method #1: use a sprite image and json data describing the sprites
+    sprite = SpriteLoader.getSprite(IMAGE, JSON);
 
-	public void update(int delta){
-		if(hasLoaded){
-			spriteIndex = (spriteIndex + 1) % sprite.numSprites();
-			sprite.setSprite(spriteIndex);
-		}
-	}
-	
-	public void detatch(GroupLayer pingoLayer){
-		pingoLayer.remove(sprite.layer());
-	}
+    // Sprite method #2: use json data describing the sprites and containing the image urls
+    // sprite = SpriteLoader.getSprite(JSON_WITH_IMAGE);
+
+    // Add a callback for when the image loads.
+    // This is necessary because we can't use the width/height (to center the
+    // image) until after the image has been loaded
+    sprite.addCallback(new Callback<Sprite>() {
+      @Override
+      public void onSuccess(Sprite sprite) {
+        sprite.setSprite(spriteIndex);
+        sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
+        sprite.layer().setTranslation(x, y);
+        pingoLayer.add(sprite.layer());
+        hasLoaded = true;
+      }
+
+      @Override
+      public void onFailure(Throwable err) {
+        log().error("Error loading image!", err);
+      }
+    });
+  }
+
+  public void update(int delta) {
+    if (hasLoaded) {
+     System.out.println("spriteIndex: " + spriteIndex +  " sprite.numSprites: " + sprite.numSprites());
+      spriteIndex = (spriteIndex + 1) % sprite.numSprites();
+      sprite.setSprite(spriteIndex);
+      // sprite.layer().setRotation(angle);
+    if(spriteIndex == sprite.numSprites()-1){
+        traversed = true;   	 
+     }
+
+      }
+ }
+
+  public void detatch(GroupLayer pingoLayer) {
+    pingoLayer.remove(sprite.layer());
+  }
+
+  public boolean getTraversed(){
+     return traversed;
+  }
 }
