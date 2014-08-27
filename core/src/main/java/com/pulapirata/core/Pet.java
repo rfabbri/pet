@@ -118,7 +118,6 @@ public class Pet extends Game.Default {
   private int beat_ = 0; // number of updates
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
-//  private int beatsCoelhoDia_ = 100; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.); 
   public int idade_coelhohoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idade_coelhodias() { return beat_ / beatsCoelhoDia_; }
@@ -779,7 +778,11 @@ public class Pet extends Game.Default {
 
     passivoAtributos();
     verifica_avisos();
-      
+     
+    if(beat_ % alcoolPassivoBeats_ ==0){// a cada hora 
+      muda_aviso();
+    }
+  
     //piscar();
 
     //System.out.println(_rando.getInRange(1,10));
@@ -790,7 +793,6 @@ public class Pet extends Game.Default {
     if ((beat_ % alcoolPassivoBeats_) == 0) {
       if (alcool_ > alcoolMin_) {
         alcool_ += alcoolPassivo_;
-        muda_aviso();
       }
     }
     /*
@@ -800,22 +802,18 @@ public class Pet extends Game.Default {
       if ((beat_ % sedePassivoBeats_) == 0)
       if (sede_ >= sedeMin_ && sede_ < sedeMax_) {
         sede_ += sedePassivo_;
-        muda_aviso();
       }
     } /* Se for pingo_ bebendo agua, a sede_ deve diminuir.  */      
     else if (pingoBebendoAgua_ != null) {
       if ((beat_ % sedePassivoBeats_) == 0)
         if (sede_ <= sedeMax_ && sede_ > sedeMin_) {
           sede_ -= sedePassivo_+1;
-          muda_aviso();
         }
     } /* Se for o pingo_ normal, a fome_ aumenta.  */    
     if (pingo_ != null) {
       if ((beat_ % fomePassivoBeats_) == 0)
-        if (fome_ >= fomeMin_ && fome_ < fomeMax_) {
+        if (fome_ >= fomeMin_ && fome_ < fomeMax_)
           fome_ += fomePassivo_;
-          muda_aviso();
-        }
     } /* Não achei necessidade (ainda) de criar um código apenas para pingo_
          comendo cenoura, já que possuem mesmas funcionalidades.  */
     else if (pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null) {
@@ -823,14 +821,12 @@ public class Pet extends Game.Default {
       if ((beat_ % fomePassivoBeats_) == 0)
         if (fome_ <= fomeMax_ && fome_ > fomeMin_) {
           fome_ -= fomePassivo_;
-          muda_aviso();
         }
     } else if(pingoBebendoLeite_ != null) {
      //Se for o pingo_ bebendo leite, a fome_ dele deve diminuir
       if ((beat_ % fomePassivoBeats_) == 0)
         if (fome_ <= fomeMax_ && fome_ > fomeMin_) {
           fome_ -= fomePassivo_; 
-          muda_aviso();
         }
     }
     /*
