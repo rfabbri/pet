@@ -782,9 +782,11 @@ public class Pet extends Game.Default {
     if(beat_ % alcoolPassivoBeats_ ==0){// a cada hora 
       muda_aviso();
     }
-  
-    //piscar();
+    
 
+    if(beat_ % (2*alcoolPassivoBeats_) ==0){
+      piscar();
+    }
     //System.out.println(_rando.getInRange(1,10));
   } //fim do update
 
@@ -1129,20 +1131,19 @@ public class Pet extends Game.Default {
 
   void piscar() {
     //Pingo piscando
-    /*
-       if(pingopiscando != null){
+       if(pingoPiscando_ != null){
        System.out.println("Pingo Piscando");
-       pingopiscando.detatch(layer);
-       pingopiscando = null;
-       pingo = new Pingo(layer, width() / 2, height() / 2);
+       pingoPiscando_.detatch(layer_);
+       pingoPiscando_ = null;
+       pingo_ = new Pingo(layer_, width() / 2, height() / 2);
        System.out.println("Pingo Normal");
-       } else if(pingo != null){
+       } else if(pingo_ != null){
        System.out.println("Pingo Normal");
-       pingo.detatch(layer);
-       pingo = null;
-       pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
+       pingo_.detatch(layer_);
+       pingo_ = null;
+       pingoPiscando_ = new PingoPiscando(layer_, width() / 2, height() / 2);
        System.out.println("Pingo Piscando");
-       }*/
+       }
 
     /*
        if(pingo != null && beat>6){
