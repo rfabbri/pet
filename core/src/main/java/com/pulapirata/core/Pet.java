@@ -23,6 +23,7 @@ import playn.core.util.Clock;
 import playn.core.PlayN;
 import playn.core.Font;
 import playn.core.Sound;
+import playn.core.Json;
 
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
@@ -36,6 +37,7 @@ import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
 import com.pulapirata.core.sprites.PingoPiscando;
 import com.pulapirata.core.sprites.PingoDormindo;
 import com.pulapirata.core.utils.PetJson;
+import com.pulapirata.core.Aviso;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
@@ -63,11 +65,10 @@ import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.TableLayout;
 import tripleplay.ui.layout.AbsoluteLayout;
 import tripleplay.ui.layout.AxisLayout;
-import static tripleplay.ui.layout.TableLayout.COL;
 import tripleplay.util.Randoms;
-import com.pulapirata.core.Aviso;
+import static tripleplay.ui.layout.TableLayout.COL;
 
-import playn.core.Json;
+
 
 public class Pet extends Game.Default {
   // obs: global class member variables are always appended with a trailing underscore
@@ -82,7 +83,6 @@ public class Pet extends Game.Default {
     Informacoes referentes as instancias criadas.
   */
   private GroupLayer layer_;
-  private Json json_;
   private Sound somArroto_ = assets().getSound("pet/sprites/arroto_01");
   private Sound somSoluco_ = assets().getSound("pet/sprites/soluco_01");
   protected Pingo pingo_ = null;
