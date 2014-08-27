@@ -96,6 +96,7 @@ public class Pet extends Game.Default {
   protected PingoComendoSopaCenoura pingoComendoSopaCenoura_ = null;
   protected PingoPiscando pingoPiscando_ = null;
 //  protected PingoDormindo pingoDormindo_ = null;
+  protected PingoPiscando pingoDormindo_ = null;
   //protected PetJson petJson;
   //private Sprite sprite;
   /*-------------------------------------------------------------------------------*/
@@ -176,32 +177,32 @@ public class Pet extends Game.Default {
 
   private int humor_ = 30;
   private int humor_passivo_ = -5;
-  private int humor_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./3.,1); //20 min
+  private int humor_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./3.,1); //20 min
   private int humor_max_ = 120;
   private int humor_min_ = -20;
 
   private int social_ = 30;
   private int social_passivo_ = -5;
-  private int social_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*2./3.,1); //40min
+  private int social_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.*2./3.,1); //40min
   private int social_max_ = 120;
   private int social_min_ = -20;
 
   private int higiene_ = 30;
   private int higiene_passivo_ = -5;
-  private int higiene_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60./2.,1); //30 min
+  private int higiene_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./2.,1); //30 min
   private int higiene_max_ = 120;
   private int higiene_min_ = -20;
 
   private int estudo_ = 0;
   private int estudo_passivo_ = -1;
   //private int estudo_passivo_beats_ = ;//? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
-  //(int) Math.max(beats_coelhosegundo*60.*60.*24.,1); //dia
+  //(int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1); //dia
   private int estudo_max_ = 10;
   private int estudo_min_ = -5;
 
   private int saude_ = 5;
   private int saude_passivo_ = -1;
-  private int saude_passivo_beats_ = (int) Math.max(beats_coelhosegundo*60.*60.*24.,1);//? por idade (em dias?)
+  private int saude_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1);//? por idade (em dias?)
   private int saude_max_ = 10;
   private int saude_min_ = -5;
 
@@ -295,7 +296,7 @@ public class Pet extends Game.Default {
 
     statbarRoot.setSize(width(), 120); // this includes the secondary buttons
 
-    layer_.addAt(statbarRoot.layer_, 0, 0);
+    layer_.addAt(statbarRoot.layer, 0, 0);
     statbarRoot.add(AbsoluteLayout.at(statbar,mae,mte,width()-mae,120-mte));
   }
 
@@ -319,7 +320,7 @@ public class Pet extends Game.Default {
 
     root_.setSize(width(), 354); // this includes the secondary buttons
     //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-    layer_.addAt(root_.layer_, 0, 442); //Position of buttons
+    layer_.addAt(root_.layer, 0, 442); //Position of buttons
 
     final Group buttons = new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.blank()));
@@ -518,12 +519,12 @@ public class Pet extends Game.Default {
         }
       }).connectNotify(but.icon.slot());
       // all secondary buttons are added; toggle visibility only
-      root.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
+      root_.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
       sbuttons.get(b_final).setVisible(false);
     }
 
     Selector sel = new Selector(buttons, null);
-    root.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
+    root_.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 
     // TODO: improve this part with a button-> index map so we don't go through
     // all butts
@@ -757,8 +758,8 @@ public class Pet extends Game.Default {
               pingoBebado_ = null;
               pingo_ = new Pingo(layer_, width() / 2, height() / 2);
             }
-            if(pingopiscando != null)
-              pingopiscando.update(delta);
+            if(pingoPiscando_ != null)
+              pingoPiscando_.update(delta);
           }
         }
       }
@@ -766,7 +767,7 @@ public class Pet extends Game.Default {
     } // end if 
 
     // update clock and passives
-    beat++;
+    beat_++;
 
 
     Label l = (Label) mainStat_.childAt(1);
@@ -1165,7 +1166,7 @@ public class Pet extends Game.Default {
     /*
     //Pingo piscando
     r = _rando.getInRange(1,11);//de 1 a 10 
-    if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beats_coelhosegundo*60.*60.*2.,1))%r==0){
+    if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beatsCoelhoSegundo_*60.*60.*2.,1))%r==0){
     //System.out.println(r +" horas");
     pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
     pingo.detatch(layer);
