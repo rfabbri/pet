@@ -447,69 +447,67 @@ public class Pet extends Game.Default {
         Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
-
-<<<<<<< HEAD
-      /*
-        Acesso todos os butoes primarios (b) e secundarios (s) de forma a criar
-        cada evento. Feito isso, apos instancia uma classe/sprite referente a
-        aquela acao.  A funcao "detatch" eh utilziada para remover o sprite de
-        tela, e em seguida seta-se a classe pingo_ para null. Provavelmente tera
-        de mudar, pois eh necessario que tudo seja em funcao de atributos.
-      */
-      if(b == 0 && s == 0)sbut.clicked().connect(new UnitSlot(){
-        public void onEmit(){//Atravez do evento comer sopa de cenoura, cria um novo pingoComendoSopaBacon_
-          pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width()/2, height()/2);
-          if(pingo_!=null) {
-            pingo_.detatch(layer_);
-            pingo_ = null;
+        /*
+          Acesso todos os butoes primarios (b) e secundarios (s) de forma a criar
+          cada evento. Feito isso, apos instancia uma classe/sprite referente a
+          aquela acao.  A funcao "detatch" eh utilziada para remover o sprite de
+          tela, e em seguida seta-se a classe pingo_ para null. Provavelmente tera
+          de mudar, pois eh necessario que tudo seja em funcao de atributos.
+        */
+        if(b == 0 && s == 0)sbut.clicked().connect(new UnitSlot(){
+          public void onEmit(){//Atravez do evento comer sopa de cenoura, cria um novo pingoComendoSopaBacon_
+            pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width()/2, height()/2);
+            if(pingo_!=null) {
+              pingo_.detatch(layer_);
+              pingo_ = null;
+            }
+            //fome_ = fomeMax_;
           }
-          //fome_ = fomeMax_;
-        }
-      });
+        });
 
 
-      if(b == 0 && s == 1)sbut.clicked().connect(new UnitSlot(){
-        public void onEmit(){//Atravez do evento comer sopa de bacon, cria um novo pingoComendoSopaBacon_
-          pingoComendoSopaBacon_ = new PingoComendoSopaBacon(layer_, width()/2, height()/2);
-          if(pingo_!=null) {
-            pingo_.detatch(layer_);
-            pingo_ = null;
+        if(b == 0 && s == 1)sbut.clicked().connect(new UnitSlot(){
+          public void onEmit(){//Atravez do evento comer sopa de bacon, cria um novo pingoComendoSopaBacon_
+            pingoComendoSopaBacon_ = new PingoComendoSopaBacon(layer_, width()/2, height()/2);
+            if(pingo_!=null) {
+              pingo_.detatch(layer_);
+              pingo_ = null;
+            }
+            //fome_ = fomeMax_;
           }
-          //fome_ = fomeMax_;
-        }
-      });
+        });
 
 
-      if(b == 0 && s == 2)sbut.clicked().connect(new UnitSlot(){
-        public void onEmit(){//Atravez do evento beber agua, cria um novo pingoBebendoAgua_
-          pingoBebendoAgua_ = new PingoBebendoAgua(layer_, width()/2, height()/2);
-          if (pingo_ != null) {
-            pingo_.detatch(layer_);
-            pingo_ = null;
+        if(b == 0 && s == 2)sbut.clicked().connect(new UnitSlot(){
+          public void onEmit(){//Atravez do evento beber agua, cria um novo pingoBebendoAgua_
+            pingoBebendoAgua_ = new PingoBebendoAgua(layer_, width()/2, height()/2);
+            if (pingo_ != null) {
+              pingo_.detatch(layer_);
+              pingo_ = null;
+            }
+            //sede_ = sedeMax_;
           }
-          //sede_ = sedeMax_;
-        }
-      });
+        });
 
-      if(b == 0 && s == 3)sbut.clicked().connect(new UnitSlot(){
-        public void onEmit(){//Atravez do evento beber leite, cria um novo pingoBebendoLeite_
-          pingoBebendoLeite_ = new PingoBebendoLeite(layer_, width()/2, height()/2);
-          if (pingo_ != null) {
-            pingo_.detatch(layer_);
-            pingo_ = null;
+        if(b == 0 && s == 3)sbut.clicked().connect(new UnitSlot(){
+          public void onEmit(){//Atravez do evento beber leite, cria um novo pingoBebendoLeite_
+            pingoBebendoLeite_ = new PingoBebendoLeite(layer_, width()/2, height()/2);
+            if (pingo_ != null) {
+              pingo_.detatch(layer_);
+              pingo_ = null;
+            }
+            //fome_ = fomeMax_;
           }
-          //fome_ = fomeMax_;
-        }
-      });
+        });
 
-      if (b == 6 /* diversao */ && s == 0 /* licor */) 
-          sbut.clicked().connect(new UnitSlot() {
-            public void onEmit() {	
-              alcool_ = alcoolMax_; // TODO modificar de acordo com folha
-	          }
-          });
-        /*-------------------------------------------------------------------------------*/
-      }
+        if (b == 6 /* diversao */ && s == 0 /* licor */) 
+            sbut.clicked().connect(new UnitSlot() {
+              public void onEmit() {	
+                alcool_ = alcoolMax_; // TODO modificar de acordo com folha
+              }
+            });
+          /*-------------------------------------------------------------------------------*/
+        }
 
       but.selected().map(new Function <Boolean,Icon>() {
         public Icon apply (Boolean selected) {
@@ -545,7 +543,7 @@ public class Pet extends Game.Default {
           }
         }
         }
-        });
+    });
 
 
     /* Exemplo p/ sinais e eventos
