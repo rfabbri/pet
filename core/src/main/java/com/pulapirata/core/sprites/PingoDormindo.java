@@ -51,6 +51,5 @@ public class PingoDormindo{
 	public void detatch(GroupLayer pingoLayer){
 		pingoLayer.remove(sprite.layer());
 	}
-
 }
 	

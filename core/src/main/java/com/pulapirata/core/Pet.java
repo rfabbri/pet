@@ -34,7 +34,7 @@ import com.pulapirata.core.sprites.PingoBebendoLeite;
 import com.pulapirata.core.sprites.PingoComendoSopaBacon;
 import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
 import com.pulapirata.core.sprites.PingoPiscando;
-//import com.pulapirata.core.sprites.PingoDormindo;
+import com.pulapirata.core.sprites.PingoDormindo;
 import com.pulapirata.core.utils.PetJson;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
@@ -95,8 +95,7 @@ public class Pet extends Game.Default {
   protected PingoComendoSopaBacon pingoComendoSopaBacon_ = null;
   protected PingoComendoSopaCenoura pingoComendoSopaCenoura_ = null;
   protected PingoPiscando pingoPiscando_ = null;
-//  protected PingoDormindo pingoDormindo_ = null;
-  protected PingoPiscando pingoDormindo_ = null;
+  protected PingoDormindo pingoDormindo_ = null;
   //protected PetJson petJson;
   //private Sprite sprite;
   /*-------------------------------------------------------------------------------*/
@@ -695,8 +694,7 @@ public class Pet extends Game.Default {
       if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8) 
           && idade_coelhodias() >= 1) { // coelho nao dorme quando comeca o jogo - 
         dormir_ = true;
-//        pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
-        pingoDormindo_ = new PingoPiscando(layer_, width()/2, height()/2);
+        pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
         if (pingo_ != null) {
           pingo_.detatch(layer_);
           pingo_ = null;
