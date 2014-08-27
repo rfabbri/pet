@@ -72,9 +72,9 @@ public class PetJson {
       public void onSuccess(String json) {
         try {
           Thread.yield();
-	  System.out.println("ENTROU NO TRY");
+	        System.out.println("ENTROU NO TRY");
           parseJson(atributos, json, field);
-	  //atributos.set_fome(parseJson(atributos, json, field)); //Coloquei pra parseJson retornar int / PetAttributes, mas continuou o erro
+	        //atributos.set_fome(parseJson(atributos, json, field)); //Coloquei pra parseJson retornar int / PetAttributes, mas continuou o erro
 
           /*for (SpriteImage spriteImage : sprite.spriteImages()) {
             watcher.add(spriteImage.image());
