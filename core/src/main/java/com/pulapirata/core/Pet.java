@@ -84,6 +84,7 @@ public class Pet extends Game.Default {
   /*
     Informacoes referentes as instancias criadas.
   */
+  private ImageLayer bgLayer_; 
   private GroupLayer layer_;
   private Sound somArroto_ = assets().getSound("pet/sprites/arroto_01");
   private Sound somSoluco_ = assets().getSound("pet/sprites/soluco_01");
@@ -317,10 +318,22 @@ public class Pet extends Game.Default {
 
   //--------------------------------------------------------------------------------
   private void make_background() {
+    if (bgLayer_ != null)
+      layer_.remove(bgLayer_);
     Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
-    ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    layer_.addAt(bgLayer, 0, 120); //janela do quarto do pingo
+    bgLayer_ = graphics().createImageLayer(bgImage);
+    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
   }
+
+  private void make_background_night() {
+     if (bgLayer_ != null)
+      layer_.remove(bgLayer_);
+    Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
+    //layer_.remove(bgLayer_);
+    ImageLayer bgLayer_ = graphics().createImageLayer(bgImage);
+    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
+  }
+
 
   //--------------------------------------------------------------------------------
   /*
@@ -653,7 +666,6 @@ public class Pet extends Game.Default {
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
 
-    System.out.println("Mensagem: " + STAT_FILLER_1); 
 
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
@@ -711,6 +723,7 @@ public class Pet extends Game.Default {
       if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8) 
           && idade_coelhodias() >= 1) { // coelho nao dorme quando comeca o jogo - 
         dormir_ = true;
+        make_background_night();
         pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
         if (pingo_ != null) {
           pingo_.detatch(layer_);
@@ -721,6 +734,7 @@ public class Pet extends Game.Default {
       else if (horaDoDia < 22 && horaDoDia > 8) {
         if (pingoDormindo_ != null && pingo_ == null) {
           dormir_ = false;
+          make_background();
           pingo_ = new Pingo(layer_, width()/2, height()/2);
           pingoDormindo_.detatch(layer_);
           pingoDormindo_ = null;
@@ -951,31 +965,43 @@ public class Pet extends Game.Default {
   }
  
   void verifica_avisos() {
-    /*if(fome_ <= 0){
-      fome_aviso.setAviso("Pingo está ficando fraco!");
+    if(fome_ >=80){
+      if(!fome_aviso.getAviso().equals("Pingo está ficando fraco!")){
+        fome_aviso.setAviso("Pingo está ficando fraco!");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
+        } 
     //chorando
-    } else if(fome_ <= 20){
-    fome_aviso.setAviso("Pingo está com muita fome!");
+    } else if(fome_ >= 60){
+      if(!fome_aviso.getAviso().equals("Pingo está com muita fome!")){
+        fome_aviso.setAviso("Pingo está com muita fome!");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
+        } 
     //chorando
-    } else if(fome_ <= 40){
-    fome_aviso.remove();
-    //triste
-    } else if(fome_ <= 60){
-    fome_aviso.remove();
+    } else if(fome_ >= 40){
+     if (!fome_aviso.getAviso().equals(""))	
+    	  remove_aviso(fome_aviso);
+       //triste
+    } else if(fome_ >= 20){
+      if (!fome_aviso.getAviso().equals(""))	
+    	  remove_aviso(fome_aviso);   
+    } else if(fome_ >= 0){
+      if(!fome_aviso.getAviso().equals("Pingo está cheio")){
+        fome_aviso.setAviso("Pingo está cheio");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
+      }
     //normal
-    } else if(fome_ <= 80){
-    fome_aviso.setAviso("Pingo está cheio");
-    //normal
-    }else if(fome_ <= 100){
-    fome_aviso.setAviso("Pingo comeu demais e está passando mal");
+    }else if(fome_ >= -20){
+      if(!fome_aviso.getAviso().equals("Pingo comeu demais e está passando mal")){
+        fome_aviso.setAviso("Pingo comeu demais e está passando mal");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
     //normal+vomitando
+        }
     }
-
-    if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
-    remove_aviso(fome_aviso);
-    } else if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
-    avisos.add(fome_aviso);
-    }
+/*
     //Humor 
     if(humor_ <= 0){
     humor_aviso.setAviso("Pingo está mal-humorado!");
