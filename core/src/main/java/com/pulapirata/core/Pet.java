@@ -270,7 +270,8 @@ public class Pet extends Game.Default {
         )),
         new Label(age).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
-            Style.HALIGN.left
+            Style.HALIGN.left,
+            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 12))
         ))
         ).addStyles(Styles.make(Style.HALIGN.left));
 
@@ -280,7 +281,8 @@ public class Pet extends Game.Default {
           new Label(aviso_atual.getAviso()).addStyles(Styles.make(
               Style.COLOR.is(0xFFFFFFFF),
               Style.TEXT_WRAP.is(true),
-              Style.HALIGN.left
+              Style.HALIGN.left,
+              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 12))
               ))
           );
 
