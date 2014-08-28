@@ -30,7 +30,7 @@ pulapirata.com, labmacambira.sf.net
 
 
 
-(c) 2012-2013 Pula Pirata & Lab Macambira Team  
+(c) 2012-2014 Pula Pirata & Lab Macambira Team  
 
 This software is licenced under the GPL, BUT: If you wish for another licence,
 you can negotiate with us and, for a considerable sum, we might release a
