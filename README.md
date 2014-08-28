@@ -1,11 +1,11 @@
-= PulaPirata.com & LabMacambira.sf.net Game Productions =
+# PulaPirata.com & LabMacambira.sf.net Game Productions
 
 This project implements the Pet game project
 
   http://wiki.nosdigitais.teia.org.br/Pet
 
 
-== Hacking ==
+## Hacking
 
 The code is currently based on modifications of the PlayN/GWT framework and is
 designed to be extremely multi-platform
@@ -18,13 +18,13 @@ See also video tutorials from
   
   http://wiki.nosdigitais.teia.org.br/Pet
 
-== Authors ==
+## Authors
 
 Edson "Pesto" de Oliveira Jr. :: concept and art :: pulapirata.com
 
 Ricardo Fabbri :: coding and framework conception :: www.lems.brown.edu/~rfabbri
 
-== Contact ==
+## Contact
 
 pulapirata.com, labmacambira.sf.net
 
