@@ -76,7 +76,9 @@ public class Pet extends Game.Default {
     Informacoes que aparecem no topo.
   */
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: %d%s Sede: %d/%d %s Fome: %d/%d Alcool: %d/%d";
+  protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Sede: %d/%d\n";
+  protected  static final String STAT_FILLER_2 = "\nFome: %d/%d\n Alcool: %d/%d";
+
   /*-------------------------------------------------------------------------------*/
 
   /*
@@ -117,7 +119,7 @@ public class Pet extends Game.Default {
   
   private int beat_ = 0; // number of updates
    // the following is not static so that we can dynamically speedup the game if desired
-  private int beatsCoelhoDia_ = 100; // beats por 1 coelho dia.
+  private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.); 
   public int idade_coelhohoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idade_coelhodias() { return beat_ / beatsCoelhoDia_; }
@@ -153,15 +155,19 @@ public class Pet extends Game.Default {
   /*
     Funcao para setar as informacoes no topo corretamente.
   */
-  public String idade_coelhodias_str() {
-    String newline = System.lineSeparator().toString(); 
-    System.out.println("New Line:" + newline + "//"); 
-    if (idade_coelhodias() == 0)
-      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_, newline, fome_ , fomeMax_, alcool_, alcoolMax_); //informacoes exibidas 
-    else
-      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_, newline, fome_, fomeMax_, alcool_, alcoolMax_); 
+  public String idade_coelhodias_str1() { 
+    if (idade_coelhodias() == 0){
+//      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_, fome_ , fomeMax_, alcool_, alcoolMax_); //informacoes exibidas   
+      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_);
+    }
+    else{
+//      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_, fome_, fomeMax_, alcool_, alcoolMax_);
+      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_);
+    }
   }
-
+  public String idade_coelhodias_str2() { 
+      return String.format(STAT_FILLER_2, fome_ , fomeMax_, alcool_, alcoolMax_);
+  }
   private Aviso aviso_atual = new Aviso("Bem vindo ao jogo Pet");
   private Aviso fome_aviso = new Aviso();
   private Aviso humor_aviso = new Aviso();
@@ -259,20 +265,26 @@ public class Pet extends Game.Default {
     // Cria um grupo para os caras da esquerda
     // Basicamente 2 labels: nome grandao e indicadores em fonte menor
 
-    String age = idade_coelhodias_str(); 
-
+    String age1 = idade_coelhodias_str1(); 
+    String age2 = idade_coelhodias_str2();
+ 
     mainStat_ = new Group (AxisLayout.vertical()).add (
         new Label("PINGO").addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left,
             //Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
-            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 24))
+            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 28))
         )),
-        new Label(age).addStyles(Styles.make(
+        new Label(age1).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left,
-            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 12))
-        ))
+            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
+        )),
+        new Label(age2).addStyles(Styles.make(
+                    Style.COLOR.is(0xFFFFFFFF),
+                    Style.HALIGN.left,
+                    Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
+                ))
         ).addStyles(Styles.make(Style.HALIGN.left));
 
     rightStatbarGroup_ = new Group(rightpart_layout).add (
@@ -282,7 +294,7 @@ public class Pet extends Game.Default {
               Style.COLOR.is(0xFFFFFFFF),
               Style.TEXT_WRAP.is(true),
               Style.HALIGN.left,
-              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 12))
+              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
               ))
           );
 
@@ -641,7 +653,7 @@ public class Pet extends Game.Default {
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
 
-System.out.println("Mensagem: " + STAT_FILLER_1); 
+    System.out.println("Mensagem: " + STAT_FILLER_1); 
 
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
@@ -774,7 +786,10 @@ System.out.println("Mensagem: " + STAT_FILLER_1);
 
 
     Label l = (Label) mainStat_.childAt(1);
-    l.text.update(idade_coelhodias_str());
+    l.text.update(idade_coelhodias_str1());
+    l =  (Label) mainStat_.childAt(2); 
+    l.text.update(idade_coelhodias_str2());
+
 
     if (iface_ != null)
       iface_.update(delta);
