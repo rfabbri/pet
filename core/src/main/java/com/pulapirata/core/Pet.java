@@ -76,7 +76,7 @@ public class Pet extends Game.Default {
     Informacoes que aparecem no topo.
   */
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: %d%s\nSede: %d/%d\nFome: %d/%d\nAlcool: %d/%d";
+  protected  static final String STAT_FILLER_1 = "Idade: %d%s Sede: %d/%d %s Fome: %d/%d Alcool: %d/%d";
   /*-------------------------------------------------------------------------------*/
 
   /*
@@ -153,11 +153,13 @@ public class Pet extends Game.Default {
   /*
     Funcao para setar as informacoes no topo corretamente.
   */
-  public String idade_coelhodias_str() { 
+  public String idade_coelhodias_str() {
+    String newline = System.lineSeparator().toString(); 
+    System.out.println("New Line:" + newline + "//"); 
     if (idade_coelhodias() == 0)
-      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_, fome_ , fomeMax_, alcool_, alcoolMax_); //informacoes exibidas 
+      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_, newline, fome_ , fomeMax_, alcool_, alcoolMax_); //informacoes exibidas 
     else
-      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_, fome_, fomeMax_, alcool_, alcoolMax_); 
+      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_, newline, fome_, fomeMax_, alcool_, alcoolMax_); 
   }
 
   private Aviso aviso_atual = new Aviso("Bem vindo ao jogo Pet");
@@ -224,7 +226,8 @@ public class Pet extends Game.Default {
     bgtile.canvas().fillRect(0, 0, 480, 119);
     bgtile.canvas().setFillColor(0xFF333366);
     bgtile.canvas().fillRect(4, 4, 472, 112);
-
+    //Fonte
+    //Font font = graphics().createFont("earthboundzero", Font.Style.PLAIN, 18);
     ImageLayer statlayer = graphics().createImageLayer(bgtile);
     //
     //  statlayer.setWidth(graphics().width());
@@ -262,7 +265,8 @@ public class Pet extends Game.Default {
         new Label("PINGO").addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left,
-            Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
+            //Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
+            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 24))
         )),
         new Label(age).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
@@ -566,7 +570,6 @@ public class Pet extends Game.Default {
     layer_ = graphics().createGroupLayer();
     graphics().rootLayer().add(layer_);
     petSheet_ = PetStyles.newSheet();
-    
 
     // ------------------------------------------------------------------
     make_statusbar();
@@ -636,6 +639,7 @@ public class Pet extends Game.Default {
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
 
+System.out.println("Mensagem: " + STAT_FILLER_1); 
 
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
