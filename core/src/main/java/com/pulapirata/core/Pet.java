@@ -155,6 +155,7 @@ public class Pet extends Game.Default {
   /*
     Funcao para setar as informacoes no topo corretamente.
   */
+<<<<<<< HEAD
   public String idade_coelhodias_str1() { 
     if (idade_coelhodias() == 0){
 //      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_, fome_ , fomeMax_, alcool_, alcoolMax_); //informacoes exibidas   
@@ -653,7 +654,6 @@ public class Pet extends Game.Default {
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
 
-    System.out.println("Mensagem: " + STAT_FILLER_1); 
 
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
@@ -951,31 +951,43 @@ public class Pet extends Game.Default {
   }
  
   void verifica_avisos() {
-    /*if(fome_ <= 0){
-      fome_aviso.setAviso("Pingo está ficando fraco!");
+    if(fome_ >=80){
+      if(!fome_aviso.getAviso().equals("Pingo está ficando fraco!")){
+        fome_aviso.setAviso("Pingo está ficando fraco!");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
+        } 
     //chorando
-    } else if(fome_ <= 20){
-    fome_aviso.setAviso("Pingo está com muita fome!");
+    } else if(fome_ >= 60){
+      if(!fome_aviso.getAviso().equals("Pingo está com muita fome!")){
+        fome_aviso.setAviso("Pingo está com muita fome!");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
+        } 
     //chorando
-    } else if(fome_ <= 40){
-    fome_aviso.remove();
-    //triste
-    } else if(fome_ <= 60){
-    fome_aviso.remove();
+    } else if(fome_ >= 40){
+     if (!fome_aviso.getAviso().equals(""))	
+    	  remove_aviso(fome_aviso);
+       //triste
+    } else if(fome_ >= 20){
+      if (!fome_aviso.getAviso().equals(""))	
+    	  remove_aviso(fome_aviso);   
+    } else if(fome_ >= 0){
+      if(!fome_aviso.getAviso().equals("Pingo está cheio")){
+        fome_aviso.setAviso("Pingo está cheio");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
+      }
     //normal
-    } else if(fome_ <= 80){
-    fome_aviso.setAviso("Pingo está cheio");
-    //normal
-    }else if(fome_ <= 100){
-    fome_aviso.setAviso("Pingo comeu demais e está passando mal");
+    }else if(fome_ >= -20){
+      if(!fome_aviso.getAviso().equals("Pingo comeu demais e está passando mal")){
+        fome_aviso.setAviso("Pingo comeu demais e está passando mal");
+        if(aviso_atual==fome_aviso)
+            atualiza_aviso();
     //normal+vomitando
+        }
     }
-
-    if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
-    remove_aviso(fome_aviso);
-    } else if(!fome_aviso.isEmpty() && !avisos.contains(fome_aviso)){
-    avisos.add(fome_aviso);
-    }
+/*
     //Humor 
     if(humor_ <= 0){
     humor_aviso.setAviso("Pingo está mal-humorado!");
