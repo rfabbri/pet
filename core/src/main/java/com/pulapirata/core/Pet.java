@@ -84,6 +84,7 @@ public class Pet extends Game.Default {
   /*
     Informacoes referentes as instancias criadas.
   */
+  private ImageLayer bgLayer_; 
   private GroupLayer layer_;
   private Sound somArroto_ = assets().getSound("pet/sprites/arroto_01");
   private Sound somSoluco_ = assets().getSound("pet/sprites/soluco_01");
@@ -317,10 +318,22 @@ public class Pet extends Game.Default {
 
   //--------------------------------------------------------------------------------
   private void make_background() {
+    if (bgLayer_ != null)
+      layer_.remove(bgLayer_);
     Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
-    ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    layer_.addAt(bgLayer, 0, 120); //janela do quarto do pingo
+    bgLayer_ = graphics().createImageLayer(bgImage);
+    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
   }
+
+  private void make_background_night() {
+     if (bgLayer_ != null)
+      layer_.remove(bgLayer_);
+    Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
+    //layer_.remove(bgLayer_);
+    ImageLayer bgLayer_ = graphics().createImageLayer(bgImage);
+    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
+  }
+
 
   //--------------------------------------------------------------------------------
   /*
@@ -710,6 +723,7 @@ public class Pet extends Game.Default {
       if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8) 
           && idade_coelhodias() >= 1) { // coelho nao dorme quando comeca o jogo - 
         dormir_ = true;
+        make_background_night();
         pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
         if (pingo_ != null) {
           pingo_.detatch(layer_);
@@ -720,6 +734,7 @@ public class Pet extends Game.Default {
       else if (horaDoDia < 22 && horaDoDia > 8) {
         if (pingoDormindo_ != null && pingo_ == null) {
           dormir_ = false;
+          make_background();
           pingo_ = new Pingo(layer_, width()/2, height()/2);
           pingoDormindo_.detatch(layer_);
           pingoDormindo_ = null;
