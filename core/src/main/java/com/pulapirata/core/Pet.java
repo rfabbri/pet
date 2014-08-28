@@ -155,7 +155,6 @@ public class Pet extends Game.Default {
   /*
     Funcao para setar as informacoes no topo corretamente.
   */
-<<<<<<< HEAD
   public String idade_coelhodias_str1() { 
     if (idade_coelhodias() == 0){
 //      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_, fome_ , fomeMax_, alcool_, alcoolMax_); //informacoes exibidas   
