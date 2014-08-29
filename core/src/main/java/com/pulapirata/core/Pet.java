@@ -106,6 +106,8 @@ public class Pet extends Game.Default {
 
   protected Group mainStat_;
   private Group rightStatbarGroup_;
+  private Image exclamacao_;
+  private TableLayout rightPartLayout_;
 
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties.
@@ -255,9 +257,9 @@ public class Pet extends Game.Default {
     // the left status plus is the left column
     // the (!) icon plust the right text is the right column
 
-    TableLayout rightpart_layout = new TableLayout(COL.fixed().minWidth(30), COL.alignLeft()).gaps(mae,mae).alignTop();
+    rightPartLayout_ = new TableLayout(COL.fixed().minWidth(30), COL.alignLeft()).gaps(mae,mae).alignTop();
 
-    Image exclamacao = assets().getImage("pet/images/exclamacao.png");
+    exclamacao_ = assets().getImage("pet/images/exclamacao.png");
 
 
     // Cria um grupo para os caras da esquerda
@@ -285,8 +287,8 @@ public class Pet extends Game.Default {
                 ))
         ).addStyles(Styles.make(Style.HALIGN.left));
 
-    rightStatbarGroup_ = new Group(rightpart_layout).add (
-          new Button(Icons.image(exclamacao)), // FIXME an icon goes here or else blank space w icon's size
+    rightStatbarGroup_ = new Group(rightPartLayout_).add (
+          new Button(Icons.image(exclamacao_)), // FIXME an icon goes here or else blank space w icon's size
           // TODO in future this button will actually be an animation sprite
           new Label(aviso_atual.getAviso()).addStyles(Styles.make(
               Style.COLOR.is(0xFFFFFFFF),
@@ -525,20 +527,20 @@ public class Pet extends Game.Default {
         });
 
         if (b == 6 /* diversao */ && s == 0 /* licor */) 
-            sbut.clicked().connect(new UnitSlot() {
-              public void onEmit() {	
-                alcool_ = alcoolMax_; // TODO modificar de acordo com folha
-              }
-            });
-          /*-------------------------------------------------------------------------------*/
+          sbut.clicked().connect(new UnitSlot() {
+            public void onEmit() {	
+              alcool_ = alcoolMax_; // TODO modificar de acordo com folha
+            }
+          });
         }
+      /*-------------------------------------------------------------------------------*/
 
       but.selected().map(new Function <Boolean,Icon>() {
         public Icon apply (Boolean selected) {
-               if (selected)
-                  return Icons.image(img_butt_apertado.get(b_final));
-               else
-                  return Icons.image(img_butt_solto.get(b_final));
+          if (selected)
+             return Icons.image(img_butt_apertado.get(b_final));
+          else
+             return Icons.image(img_butt_solto.get(b_final));
         }
       }).connectNotify(but.icon.slot());
       // all secondary buttons are added; toggle visibility only
@@ -975,7 +977,17 @@ public class Pet extends Game.Default {
               Style.TEXT_WRAP.is(true),
               Style.HALIGN.left
               )));*/
-	  make_statusbar();
+    rightStatbarGroup_ = new Group(rightPartLayout_).add (
+          new Button(Icons.image(exclamacao_)), // FIXME an icon goes here or else blank space w icon's size
+          // TODO in future this button will actually be an animation sprite
+          new Label(aviso_atual.getAviso()).addStyles(Styles.make(
+              Style.COLOR.is(0xFFFFFFFF),
+              Style.TEXT_WRAP.is(true),
+              Style.HALIGN.left,
+              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
+              ))
+          );
+	  //make_statusbar();
   }
 
   public void remove_aviso(Aviso aviso) {
@@ -1208,17 +1220,17 @@ public class Pet extends Game.Default {
   void piscar() {
     //Pingo piscando
        if(pingoPiscando_ != null && pingoDormindo_ == null){
-       System.out.println("Pingo Piscando");
-       pingoPiscando_.detatch(layer_);
-       pingoPiscando_ = null;
-       pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-       System.out.println("Pingo Normal");
+         System.out.println("Pingo Piscando");
+         pingoPiscando_.detatch(layer_);
+         pingoPiscando_ = null;
+         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+         System.out.println("Pingo Normal");
        } else if(pingo_ != null && pingoDormindo_==null){
-       System.out.println("Pingo Normal");
-       pingo_.detatch(layer_);
-       pingo_ = null;
-       pingoPiscando_ = new PingoPiscando(layer_, width() / 2, height() / 2);
-       System.out.println("Pingo Piscando");
+         System.out.println("Pingo Normal");
+         pingo_.detatch(layer_);
+         pingo_ = null;
+         pingoPiscando_ = new PingoPiscando(layer_, width() / 2, height() / 2);
+         System.out.println("Pingo Piscando");
        }
 
     /*
