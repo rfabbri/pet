@@ -56,6 +56,7 @@ import tripleplay.ui.Icons;
 import tripleplay.ui.ToggleButton;
 import tripleplay.ui.Label;
 import tripleplay.ui.Group;
+import tripleplay.ui.SizableGroup;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
@@ -252,8 +253,16 @@ public class Pet extends Game.Default {
     final int mae = 20; // mae == margin on the sides of exlamation
     final int mte = 18; // mae == margin on top of exlamation
 
+    final int mainStatWidth = 200;
+
     // sm stands for statbar_margin
-    TableLayout statbar_layout = new TableLayout(COL.minWidth(30).alignLeft(), COL.stretch()).gaps(mae,mae).alignTop();
+    TableLayout statbar_layout = new TableLayout(
+      COL.minWidth(mainStatWidth).alignLeft().fixed(), 
+      COL.minWidth(30).stretch()).gaps(mae,mae).alignTop();
+
+//    AxisLayout statbar_layout = new AxisLayout.horizontal().add(
+//      COL.minWidth(250).alignLeft().fixed(), 
+//      COL.minWidth(30).stretch()).gaps(mae,mae).alignTop();
     // the left status plus is the left column
     // the (!) icon plust the right text is the right column
 
@@ -268,12 +277,12 @@ public class Pet extends Game.Default {
     String age1 = idade_coelhodias_str1(); 
     String age2 = idade_coelhodias_str2();
  
-    mainStat_ = new Group (AxisLayout.vertical()).add (
+    mainStat_ = new SizableGroup (AxisLayout.vertical(), mainStatWidth, 0).add (
         new Label("PINGO").addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left,
             //Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
-            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 34)),
+            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 31)),
             Style.AUTO_SHRINK.is(true)
         )),
         new Label(age1).addStyles(Styles.make(
