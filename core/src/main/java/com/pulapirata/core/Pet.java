@@ -124,7 +124,7 @@ public class Pet extends Game.Default {
   
   private int beat_ = 0; // number of updates
    // the following is not static so that we can dynamically speedup the game if desired
-  private int beatsCoelhoDia_ = 200; // beats por 1 coelho dia.
+  private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.); 
   public int idade_coelhohoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idade_coelhodias() { return beat_ / beatsCoelhoDia_; }

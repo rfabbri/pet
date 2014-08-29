@@ -1,4 +1,19 @@
 Pet - Cross-Platform Pet simulator game engine
 ______________________________________________
 
-
+0.11.0.0
+	+ first step towards modularizing code: just functions for now
+	+ compiles with java 7 & Playn 1.9-SNAPSHOT
+	+ two new Git branches from contributors Geovane Pacheco and Leonardo Simoes
+	+ initial functionality for food, milk and bacon soup buttons, sprite animations and
+	properties
+	+ simple burp sound plays after Pingo eats something
+	+ upon drinking, Pingo makes a hickup sound every once in a while
+	+ new media for pingo bebe chorando, febre, arroto, soluco, etc
+	+ pingo vomits when too drunk
+	+ pingo sleeps at 10pm and wakes up at 8am
+	+ during sleep, the window gets darker
+	+ status banner has better layout and doesn't flicker or jump around
+	+ new stylized font
+	+ passives implemented to trigger events
+	+ pet stops jumping once in a while and blinks
