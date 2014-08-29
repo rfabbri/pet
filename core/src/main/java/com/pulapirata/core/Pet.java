@@ -121,7 +121,7 @@ public class Pet extends Game.Default {
   
   private int beat_ = 0; // number of updates
    // the following is not static so that we can dynamically speedup the game if desired
-  private int beatsCoelhoDia_ = 200; // beats por 1 coelho dia.
+  private int beatsCoelhoDia_ = 100; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.); 
   public int idade_coelhohoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idade_coelhodias() { return beat_ / beatsCoelhoDia_; }
@@ -158,14 +158,10 @@ public class Pet extends Game.Default {
     Funcao para setar as informacoes no topo corretamente.
   */
   public String idade_coelhodias_str1() { 
-    if (idade_coelhodias() == 0){
-//      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_, fome_ , fomeMax_, alcool_, alcoolMax_); //informacoes exibidas   
-      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_);
-    }
-    else{
-//      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_, fome_, fomeMax_, alcool_, alcoolMax_);
-      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_);
-    }
+    if (idade_coelhodias() == 0)
+      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_);    
+    else
+      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_);    
   }
   public String idade_coelhodias_str2() { 
       return String.format(STAT_FILLER_2, fome_ , fomeMax_, alcool_, alcoolMax_);
@@ -665,7 +661,6 @@ public class Pet extends Game.Default {
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
 
-
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
     */
@@ -689,8 +684,14 @@ public class Pet extends Game.Default {
       }
       else if (pingo_ != null && pingoDormindo_ != null) { // TENTAR RESOLVER AKI
         pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width() / 2, height() / 2);
-        pingo_.detatch(layer_);
-        pingo_ = null;
+        if (pingo_ != null) {
+          pingo_.detatch(layer_);
+          pingo_ = null;
+        }
+/*	else if(pingoDormindo_!=null){
+	  pingoDormindo_.detatch(layer_);
+	  pingoDormindo_ = null;
+	}*/
       }
       if(fome_ <= fomeMin_ && pingoComendoSopaBacon_ != null && pingo_ == null){
         fome_ = fomeMin_;
@@ -719,21 +720,62 @@ public class Pet extends Game.Default {
       // FIXME estamos confundindo tempo de vida com hora de relogio.
       // Pet esta nascendo `a meia noite sempre - 0 horas
       int horaDoDia = idade_coelhohoras()-idade_coelhodias()*24;
-      if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8) 
-          && idade_coelhodias() >= 1) { // coelho nao dorme quando comeca o jogo - 
+      if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8)
+	  && idade_coelhodias() >= 1 && pingoPiscando_==null &&
+	 (pingo_!=null || pingoComendoSopaCenoura_ !=null
+	  || pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null
+	  || pingoBebendoAgua_ != null || pingoBebendoLeite_ != null
+	  || pingoComa_ != null || pingoVomitando_ != null
+	  || pingoBebado_ != null)){ 
         dormir_ = true;
         make_background_night();
+	      System.out.println("Instanciando pingo dormindo");
+      	System.out.println("Horas: " + horaDoDia);
         pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
+	      System.out.println("Pronto");
         if (pingo_ != null) {
           pingo_.detatch(layer_);
           pingo_ = null;
         }
-      	System.out.println("Horas: " + horaDoDia);
+	else if(pingoPiscando_ != null) {
+	  pingoPiscando_.detatch(layer_);
+	  pingoPiscando_ = null;
+	}	
+	else if(pingoComendoSopaCenoura_ != null){
+	  pingoComendoSopaCenoura_.detatch(layer_);
+	  pingoComendoSopaCenoura_ = null;
+	}
+	else if(pingoComendoSopaBacon_ != null){
+	  pingoComendoSopaBacon_.detatch(layer_);
+	  pingoComendoSopaBacon_ = null;
+	}
+	else if(pingoBebendoAgua_ != null){
+	  pingoBebendoAgua_.detatch(layer_);
+	  pingoBebendoAgua_ = null;
+	}
+	else if(pingoBebendoLeite_ != null){
+	  pingoBebendoLeite_.detatch(layer_);
+	  pingoBebendoLeite_ = null;
+	}
+	else if(pingoComa_ != null){
+	  pingoComa_.detatch(layer_);
+	  pingoComa_ = null;
+	}
+	else if(pingoVomitando_ != null){
+	  pingoVomitando_.detatch(layer_);
+	  pingoVomitando_ = null;
+	}
+
+	else if(pingoBebado_ != null){
+	  pingoBebado_.detatch(layer_);
+	  pingoBebado_ = null;
+	}
+
       }
       else if (horaDoDia < 22 && horaDoDia > 8) {
-        if (pingoDormindo_ != null && pingo_ == null) {
+        if (pingoDormindo_ != null && pingo_ == null && pingoPiscando_ == null) {
           dormir_ = false;
-          make_background();
+          //make_background();
           pingo_ = new Pingo(layer_, width()/2, height()/2);
           pingoDormindo_.detatch(layer_);
           pingoDormindo_ = null;
@@ -1177,13 +1219,13 @@ public class Pet extends Game.Default {
 
   void piscar() {
     //Pingo piscando
-       if(pingoPiscando_ != null){
+       if(pingoPiscando_ != null && pingoDormindo_ == null){
        System.out.println("Pingo Piscando");
        pingoPiscando_.detatch(layer_);
        pingoPiscando_ = null;
        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
        System.out.println("Pingo Normal");
-       } else if(pingo_ != null){
+       } else if(pingo_ != null && pingoDormindo_==null){
        System.out.println("Pingo Normal");
        pingo_.detatch(layer_);
        pingo_ = null;

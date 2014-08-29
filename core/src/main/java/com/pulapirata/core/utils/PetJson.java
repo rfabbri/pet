@@ -57,7 +57,7 @@ public class PetJson {
   }*/
   public static void pausa(){ 
     try { 
-	      Thread.sleep(10000); 
+	      Thread.sleep(1000); 
     } 
     catch (Exception ignored) {} 
   } 
@@ -89,10 +89,11 @@ public class PetJson {
 
       @Override
       public void onFailure(Throwable err) {
-        //sprite.error(err);
+        System.out.println("Entrou no onFailure");
+	//sprite.error(err);
       }
     });
-    pausa();
+//    pausa();
 //    Thread.yield();
 //    time.start();
     System.out.println("Fome final do metodo READJSON: "+atributos.fome());
