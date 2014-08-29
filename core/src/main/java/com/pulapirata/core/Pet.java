@@ -273,17 +273,20 @@ public class Pet extends Game.Default {
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left,
             //Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
-            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 28))
+            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 34)),
+            Style.AUTO_SHRINK.is(true)
         )),
         new Label(age1).addStyles(Styles.make(
             Style.COLOR.is(0xFFFFFFFF),
             Style.HALIGN.left,
-            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
+            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16)),
+            Style.AUTO_SHRINK.is(true)
         )),
         new Label(age2).addStyles(Styles.make(
                     Style.COLOR.is(0xFFFFFFFF),
                     Style.HALIGN.left,
-                    Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
+                    Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16)),
+                    Style.AUTO_SHRINK.is(true)
                 ))
         ).addStyles(Styles.make(Style.HALIGN.left));
 
