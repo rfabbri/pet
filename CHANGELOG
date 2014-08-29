@@ -14,6 +14,7 @@ ______________________________________________
 	+ pingo sleeps at 10pm and wakes up at 8am
 	+ during sleep, the window gets darker
 	+ status banner has better layout and doesn't flicker or jump around
+	+ status banner rotates on all available status messages
 	+ new stylized font
 	+ passives implemented to trigger events
 	+ pet stops jumping once in a while and blinks
