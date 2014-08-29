@@ -310,7 +310,7 @@ public class Pet extends Game.Default {
               ))
           );
 
-    final Group statbar = new Group (statbar_layout).add (
+    Group statbar = new Group (statbar_layout).add (
         mainStat_,
         rightStatbarGroup_
         ).addStyles(Style.VALIGN.top);
@@ -968,38 +968,20 @@ public class Pet extends Game.Default {
   } 
 
   public void atualiza_aviso() {
-	 //System.out.println("aviso_status_bar: " + aviso_status_bar);//Tirar depois, so para testes
-//    make_statusbar();
-    // Algo como main_stat_.Label.set(aviso)
-    // statbar_iface.statbar[1].Label.set(aviso)
-//    int n = statbar_iface.roots().iterator().next().childAt(0);
-//    System.out.println("childcount" + n + "\n");
-//    grp.childCount();
-/*
-    statbar_iface.roots().iterator().next().childAt(0).childAt(1).childAt(1) = 
-        new Label(aviso_atual.getAviso()).addStyles(Styles.make(
-              Style.COLOR.is(0xFFFFFFFF),
-              Style.TEXT_WRAP.is(true),
-              Style.HALIGN.left
-              ));
-*//*
-    right_statbar_group_.add(1,
-        new Label(aviso_atual.getAviso()).addStyles(Styles.make(
-              Style.COLOR.is(0xFFFFFFFF),
-              Style.TEXT_WRAP.is(true),
-              Style.HALIGN.left
-              )));*/
-    rightStatbarGroup_ = new Group(rightPartLayout_).add (
-          new Button(Icons.image(exclamacao_)), // FIXME an icon goes here or else blank space w icon's size
-          // TODO in future this button will actually be an animation sprite
+    //    int n = statbar_iface.roots().iterator().next().childAt(0);
+    //    System.out.println("childcount" + n + "\n");
+    //    grp.childCount();
+    /*
+      statbar_iface.roots().iterator().next().childAt(0).childAt(1).childAt(1) = 
           new Label(aviso_atual.getAviso()).addStyles(Styles.make(
-              Style.COLOR.is(0xFFFFFFFF),
-              Style.TEXT_WRAP.is(true),
-              Style.HALIGN.left,
-              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
-              ))
-          );
-	  //make_statusbar();
+                Style.COLOR.is(0xFFFFFFFF),
+                Style.TEXT_WRAP.is(true),
+                Style.HALIGN.left
+                ));
+    */
+
+    Label l = (Label) rightStatbarGroup_.childAt(1);
+    l.text.update(aviso_atual.getAviso());
   }
 
   public void remove_aviso(Aviso aviso) {
