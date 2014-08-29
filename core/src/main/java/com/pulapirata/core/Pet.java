@@ -84,7 +84,8 @@ public class Pet extends Game.Default {
   /*
     Informacoes referentes as instancias criadas.
   */
-  private ImageLayer bgLayer_; 
+  private ImageLayer bgLayer_ = null; 
+  private Image bgImageDay_, bgImageNight_;
   private GroupLayer layer_;
   private Sound somArroto_ = assets().getSound("pet/sprites/arroto_01");
   private Sound somSoluco_ = assets().getSound("pet/sprites/soluco_01");
@@ -120,7 +121,7 @@ public class Pet extends Game.Default {
   
   private int beat_ = 0; // number of updates
    // the following is not static so that we can dynamically speedup the game if desired
-  private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
+  private int beatsCoelhoDia_ = 200; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.); 
   public int idade_coelhohoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idade_coelhodias() { return beat_ / beatsCoelhoDia_; }
@@ -318,20 +319,18 @@ public class Pet extends Game.Default {
 
   //--------------------------------------------------------------------------------
   private void make_background() {
-    if (bgLayer_ != null)
-      layer_.remove(bgLayer_);
-    Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
-    bgLayer_ = graphics().createImageLayer(bgImage);
-    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
+    if (bgLayer_ == null) {
+      bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
+      bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
+      bgLayer_ = graphics().createImageLayer(bgImageDay_);
+      bgLayer_.setImage(bgImageDay_);
+      layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
+    } else
+      bgLayer_.setImage(bgImageDay_);
   }
 
   private void make_background_night() {
-     if (bgLayer_ != null)
-      layer_.remove(bgLayer_);
-    Image bgImage = assets().getImage("pet/images/cenario_quarto.png");
-    //layer_.remove(bgLayer_);
-    ImageLayer bgLayer_ = graphics().createImageLayer(bgImage);
-    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
+    //bgLayer_.setImage(bgImageNight_);
   }
 
 
