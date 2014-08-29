@@ -121,7 +121,7 @@ public class Pet extends Game.Default {
   
   private int beat_ = 0; // number of updates
    // the following is not static so that we can dynamically speedup the game if desired
-  private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
+  private int beatsCoelhoDia_ = 200; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.); 
   public int idade_coelhohoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idade_coelhodias() { return beat_ / beatsCoelhoDia_; }
@@ -314,19 +314,19 @@ public class Pet extends Game.Default {
   }
 
   //--------------------------------------------------------------------------------
-  private void make_background() {
-    if (bgLayer_ == null) {
-      bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
-      bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
-      bgLayer_ = graphics().createImageLayer(bgImageDay_);
-      bgLayer_.setImage(bgImageDay_);
-      layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
-    } else
-      bgLayer_.setImage(bgImageDay_);
+  private void make_background_init() {
+    bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
+    bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
+    bgLayer_ = graphics().createImageLayer(bgImageDay_);
+    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
   }
 
-  private void make_background_night() {
-    //bgLayer_.setImage(bgImageNight_);
+  private void set_background_day() {
+    bgLayer_.setImage(bgImageDay_);
+  }
+
+  private void set_background_night() {
+    bgLayer_.setImage(bgImageNight_);
   }
 
 
@@ -595,7 +595,7 @@ public class Pet extends Game.Default {
 
     // ------------------------------------------------------------------
     make_statusbar();
-    make_background();
+    make_background_init();
     make_buttons();
     // ------------------------------------------------------------------
 
@@ -721,14 +721,14 @@ public class Pet extends Game.Default {
       // Pet esta nascendo `a meia noite sempre - 0 horas
       int horaDoDia = idade_coelhohoras()-idade_coelhodias()*24;
       if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8)
-	  && idade_coelhodias() >= 1 && pingoPiscando_==null &&
-	 (pingo_!=null || pingoComendoSopaCenoura_ !=null
-	  || pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null
-	  || pingoBebendoAgua_ != null || pingoBebendoLeite_ != null
-	  || pingoComa_ != null || pingoVomitando_ != null
-	  || pingoBebado_ != null)){ 
+          && idade_coelhodias() >= 1 && pingoPiscando_==null &&
+          (pingo_!=null || pingoComendoSopaCenoura_ !=null
+          || pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null
+          || pingoBebendoAgua_ != null || pingoBebendoLeite_ != null
+          || pingoComa_ != null || pingoVomitando_ != null
+          || pingoBebado_ != null)) {
         dormir_ = true;
-        make_background_night();
+        set_background_night();
 	      System.out.println("Instanciando pingo dormindo");
       	System.out.println("Horas: " + horaDoDia);
         pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
@@ -736,46 +736,36 @@ public class Pet extends Game.Default {
         if (pingo_ != null) {
           pingo_.detatch(layer_);
           pingo_ = null;
+        } else if(pingoPiscando_ != null) {
+          pingoPiscando_.detatch(layer_);
+          pingoPiscando_ = null;
+        }	else if(pingoComendoSopaCenoura_ != null){
+          pingoComendoSopaCenoura_.detatch(layer_);
+          pingoComendoSopaCenoura_ = null;
+        } else if(pingoComendoSopaBacon_ != null){
+          pingoComendoSopaBacon_.detatch(layer_);
+          pingoComendoSopaBacon_ = null;
+        } else if(pingoBebendoAgua_ != null){
+          pingoBebendoAgua_.detatch(layer_);
+          pingoBebendoAgua_ = null;
+        } else if(pingoBebendoLeite_ != null){
+          pingoBebendoLeite_.detatch(layer_);
+          pingoBebendoLeite_ = null;
+        } else if(pingoComa_ != null){
+          pingoComa_.detatch(layer_);
+          pingoComa_ = null;
+        } else if(pingoVomitando_ != null){
+          pingoVomitando_.detatch(layer_);
+          pingoVomitando_ = null;
+        } else if(pingoBebado_ != null){
+          pingoBebado_.detatch(layer_);
+          pingoBebado_ = null;
         }
-	else if(pingoPiscando_ != null) {
-	  pingoPiscando_.detatch(layer_);
-	  pingoPiscando_ = null;
-	}	
-	else if(pingoComendoSopaCenoura_ != null){
-	  pingoComendoSopaCenoura_.detatch(layer_);
-	  pingoComendoSopaCenoura_ = null;
-	}
-	else if(pingoComendoSopaBacon_ != null){
-	  pingoComendoSopaBacon_.detatch(layer_);
-	  pingoComendoSopaBacon_ = null;
-	}
-	else if(pingoBebendoAgua_ != null){
-	  pingoBebendoAgua_.detatch(layer_);
-	  pingoBebendoAgua_ = null;
-	}
-	else if(pingoBebendoLeite_ != null){
-	  pingoBebendoLeite_.detatch(layer_);
-	  pingoBebendoLeite_ = null;
-	}
-	else if(pingoComa_ != null){
-	  pingoComa_.detatch(layer_);
-	  pingoComa_ = null;
-	}
-	else if(pingoVomitando_ != null){
-	  pingoVomitando_.detatch(layer_);
-	  pingoVomitando_ = null;
-	}
-
-	else if(pingoBebado_ != null){
-	  pingoBebado_.detatch(layer_);
-	  pingoBebado_ = null;
-	}
-
       }
       else if (horaDoDia < 22 && horaDoDia > 8) {
         if (pingoDormindo_ != null && pingo_ == null && pingoPiscando_ == null) {
           dormir_ = false;
-          //make_background();
+          set_background_day();
           pingo_ = new Pingo(layer_, width()/2, height()/2);
           pingoDormindo_.detatch(layer_);
           pingoDormindo_ = null;
@@ -839,12 +829,10 @@ public class Pet extends Game.Default {
     // update clock and passives
     beat_++;
 
-
     Label l = (Label) mainStat_.childAt(1);
     l.text.update(idade_coelhodias_str1());
     l =  (Label) mainStat_.childAt(2); 
     l.text.update(idade_coelhodias_str2());
-
 
     if (iface_ != null)
       iface_.update(delta);
@@ -855,7 +843,7 @@ public class Pet extends Game.Default {
     passivoAtributos();
     verifica_avisos();
      
-    if(beat_ % alcoolPassivoBeats_ ==0){// a cada hora 
+    if (beat_ % alcoolPassivoBeats_ ==0){ // a cada hora 
       muda_aviso();
     }
     
