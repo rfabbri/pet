@@ -1007,15 +1007,15 @@ public class Pet extends Game.Default {
  
   void verifica_avisos() {
     if(fome_ >=80){
-      if(!fome_aviso.getAviso().equals("Pingo está ficando fraco!")){
-        fome_aviso.setAviso("Pingo está ficando fraco!");
+      if(!fome_aviso.getAviso().equals("Pingo esta ficando fraco!")){
+        fome_aviso.setAviso("Pingo esta ficando fraco!");
         if(aviso_atual==fome_aviso)
             atualiza_aviso();
         } 
     //chorando
     } else if(fome_ >= 60){
-      if(!fome_aviso.getAviso().equals("Pingo está com muita fome!")){
-        fome_aviso.setAviso("Pingo está com muita fome!");
+      if(!fome_aviso.getAviso().equals("Pingo esta com muita fome!")){
+        fome_aviso.setAviso("Pingo esta com muita fome!");
         if(aviso_atual==fome_aviso)
             atualiza_aviso();
         } 
@@ -1028,15 +1028,15 @@ public class Pet extends Game.Default {
       if (!fome_aviso.getAviso().equals(""))	
     	  remove_aviso(fome_aviso);   
     } else if(fome_ >= 0){
-      if(!fome_aviso.getAviso().equals("Pingo está cheio")){
-        fome_aviso.setAviso("Pingo está cheio");
+      if(!fome_aviso.getAviso().equals("Pingo esta cheio")){
+        fome_aviso.setAviso("Pingo esta cheio");
         if(aviso_atual==fome_aviso)
             atualiza_aviso();
       }
     //normal
     }else if(fome_ >= -20){
-      if(!fome_aviso.getAviso().equals("Pingo comeu demais e está passando mal")){
-        fome_aviso.setAviso("Pingo comeu demais e está passando mal");
+      if(!fome_aviso.getAviso().equals("Pingo comeu demais e esta passando mal")){
+        fome_aviso.setAviso("Pingo comeu demais e esta passando mal");
         if(aviso_atual==fome_aviso)
             atualiza_aviso();
     //normal+vomitando
@@ -1193,15 +1193,15 @@ public class Pet extends Game.Default {
     	  remove_aviso(alcool_aviso);
       //normal
     } else if(alcool_<=6) {
-        if (!alcool_aviso.getAviso().equals("Pingo está bêbado")) {
-          alcool_aviso.setAviso("Pingo está bêbado");
+        if (!alcool_aviso.getAviso().equals("Pingo esta bebado")) {
+          alcool_aviso.setAviso("Pingo esta bebado");
           if(aviso_atual==alcool_aviso)
             atualiza_aviso();
         }
         //bebado
       } else if(alcool_<=9) {
-        if(!alcool_aviso.getAviso().equals("Pingo está muito bêbado para executar certas atividades")){     
-         alcool_aviso.setAviso("Pingo está muito bêbado para executar certas atividades");
+        if(!alcool_aviso.getAviso().equals("Pingo esta muito bebado para executar certas atividades")){     
+         alcool_aviso.setAviso("Pingo esta muito bebado para executar certas atividades");
           if(aviso_atual==alcool_aviso)
          atualiza_aviso();
         }
