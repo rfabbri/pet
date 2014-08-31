@@ -29,7 +29,6 @@ Ricardo Fabbri :: coding and framework conception :: www.lems.brown.edu/~rfabbri
 pulapirata.com, labmacambira.sf.net
 
 
-
 (c) 2012-2014 Pula Pirata & Lab Macambira Team  
 
 This software is licenced under the GPL, BUT: If you wish for another licence,
