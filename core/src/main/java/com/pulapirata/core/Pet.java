@@ -36,6 +36,8 @@ import com.pulapirata.core.sprites.PingoComendoSopaBacon;
 import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
 import com.pulapirata.core.sprites.PingoPiscando;
 import com.pulapirata.core.sprites.PingoDormindo;
+import com.pulapirata.core.sprites.PingoChorando;
+import com.pulapirata.core.sprites.PingoTriste;
 import com.pulapirata.core.utils.PetJson;
 import com.pulapirata.core.Aviso;
 
@@ -101,6 +103,8 @@ public class Pet extends Game.Default {
   protected PingoComendoSopaCenoura pingoComendoSopaCenoura_ = null;
   protected PingoPiscando pingoPiscando_ = null;
   protected PingoDormindo pingoDormindo_ = null;
+  protected PingoChorando pingoChorando_ = null;
+  protected PingoTriste pingoTriste_ = null;
   //protected PetJson petJson;
   //private Sprite sprite;
   /*-------------------------------------------------------------------------------*/
