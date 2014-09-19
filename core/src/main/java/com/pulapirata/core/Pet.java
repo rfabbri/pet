@@ -155,6 +155,7 @@ public class Pet extends Game.Default {
   private int alcoolMin_ = 0;
   /*-------------------------------------------------------------------------------*/
   private boolean dormir_ = false;
+  private int diaProibidoBeber_ = 0;
   private Stylesheet petSheet_;
 
   /*
@@ -563,7 +564,7 @@ public class Pet extends Game.Default {
 
         if (b == 6 /* diversao */ && s == 0/* licor */)sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
-	      if(dormir_== false){
+	      if(dormir_== false && diaProibidoBeber_ != idade_coelhodias()){
                 alcool_ = alcoolMax_; // TODO modificar de acordo com folha
 	      }
 	    }
@@ -698,7 +699,7 @@ public class Pet extends Game.Default {
       pingoBebendoLeite_.update(delta);
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
-
+    
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
     */
@@ -809,6 +810,7 @@ public class Pet extends Game.Default {
       }
       
       if (alcool_ == 10) {
+	diaProibidoBeber_ = idade_coelhodias(); 
         if (pingoComa_ == null) {
 	    pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
 	    somSoluco_.play();
