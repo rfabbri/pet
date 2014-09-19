@@ -482,8 +482,6 @@ public class Pet extends Game.Default {
         Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
       for (int s = 0; s < img_butt_secondary.get(b).size(); ++s) {
-	if(dormir_ == false){
-
         Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
@@ -549,6 +547,20 @@ public class Pet extends Game.Default {
           }
         });
 
+        if(b == 5 && s == 0)sbut.clicked().connect(new UnitSlot(){
+          public void onEmit(){//Quando o pingo estiver em coma, deve-se dar a injecao a ele
+	    if(alcool_== alcoolMax_){
+	      alcool_ = alcool_ - 1;
+	      pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
+	      if (pingoComa_ != null) {
+	        pingoComa_.detatch(layer_);
+	        pingoComa_ = null;
+	      }
+	    }
+            //fome_ = fomeMax_;
+          }
+        });
+
         if (b == 6 /* diversao */ && s == 0/* licor */)sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
 	      if(dormir_== false){
@@ -556,8 +568,7 @@ public class Pet extends Game.Default {
 	      }
 	    }
           });
-        }
-	}
+        }	
       /*-------------------------------------------------------------------------------*/
 
       but.selected().map(new Function <Boolean,Icon>() {
@@ -796,11 +807,11 @@ public class Pet extends Game.Default {
           pingoDormindo_ = null;
         }
       }
-
+      
       if (alcool_ == 10) {
         if (pingoComa_ == null) {
-          pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
-	        somSoluco_.play();
+	    pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
+	    somSoluco_.play();
           if (pingo_ != null) {
             pingo_.detatch(layer_);//remove the layer_
             pingo_ = null;
@@ -812,15 +823,14 @@ public class Pet extends Game.Default {
           pingoComa_ = null;
         }
 
-        if (alcool_ >= 7) {
+        if (alcool_ >= 7 && alcool_<=9) {
           if (pingoVomitando_ == null) {
             if (pingo_ != null) {
               pingo_.detatch(layer_);//remove the layer_
               pingo_ = null;
             }
             pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
-	          somSoluco_.play();
-
+	    somSoluco_.play();
           }
         } else {
           if (pingoVomitando_ != null) {
@@ -881,7 +891,7 @@ public class Pet extends Game.Default {
   public void passivoAtributos() {
     //inicio dos passivos dos atributos
     if ((beat_ % alcoolPassivoBeats_) == 0) {
-      if (alcool_ > alcoolMin_) {
+      if (alcool_ > alcoolMin_ && alcool_ < alcoolMax_) {
         alcool_ += alcoolPassivo_;
       }
     }
