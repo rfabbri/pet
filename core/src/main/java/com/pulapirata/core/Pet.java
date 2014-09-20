@@ -80,7 +80,7 @@ public class Pet extends Game.Default {
   */
   protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
   protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Sede: %d/%d\n";
-  protected  static final String STAT_FILLER_2 = "\nFome: %d/%d\n Alcool: %d/%d";
+  protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Alcool: %d/%d";
 
   /*-------------------------------------------------------------------------------*/
 
@@ -143,14 +143,14 @@ public class Pet extends Game.Default {
   private int sedeMax_ = 10;
   private int sedeMin_ = 0;
   //PetJson.parseJson("pet/jsons/atributos.json","fome_");
-  private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome();
 
 
-  //private int fome_ = 20;
-  private int fomePassivo_ = 10;
-  private int fomePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60*60,1);
-  private int fomeMax_ = 120;
-  private int fomeMin_ = -20;
+  //private int nutricao_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome();
+  private int nutricao_ = 50;
+  private int nutricaoPassivo_ = -5;
+  private int nutricaoPassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./4.,1);
+  private int nutricaoMax_ = 120;
+  private int nutricaoMin_ = -20;
 
   private int alcool_ = 3;
   private int alcoolPassivo_ = -1;
@@ -171,10 +171,10 @@ public class Pet extends Game.Default {
       return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_);    
   }
   public String idade_coelhodias_str2() { 
-      return String.format(STAT_FILLER_2, fome_ , fomeMax_, alcool_, alcoolMax_);
+      return String.format(STAT_FILLER_2, nutricao_ , nutricaoMax_, alcool_, alcoolMax_);
   }
   private Aviso aviso_atual = new Aviso("Bem vindo ao jogo Pet");
-  private Aviso fome_aviso = new Aviso();
+  private Aviso nutricao_aviso = new Aviso();
   private Aviso humor_aviso = new Aviso();
   private Aviso social_aviso = new Aviso();
   private Aviso higiene_aviso = new Aviso();
@@ -502,8 +502,14 @@ public class Pet extends Game.Default {
             if (pingo_ != null) {
               pingo_.detatch(layer_);
               pingo_ = null;
-            }
-            //fome_ = fomeMax_;
+            } else if (pingoTriste_ != null) {
+              pingoTriste_.detatch(layer_);
+              pingoTriste_ = null;
+            } else if (pingoChorando_ != null) {
+              pingoChorando_.detatch(layer_);
+              pingoChorando_ = null;
+            }            
+           //fome_ = fomeMax_;
           }
         });
 
@@ -627,7 +633,7 @@ public class Pet extends Game.Default {
 
     // pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
     //Adicionando avisos na lista
-    avisos.add(fome_aviso);
+    avisos.add(nutricao_aviso);
     avisos.add(humor_aviso);
     avisos.add(social_aviso);
     avisos.add(higiene_aviso);
@@ -700,9 +706,9 @@ public class Pet extends Game.Default {
     } 
     else {
       // update properties
-      if(fome_ <= fomeMin_ && pingoComendoSopaCenoura_ != null && pingo_ == null){
-        fome_ = fomeMin_;
-        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+      if(nutricao_ <= nutricaoMin_ && pingoComendoSopaCenoura_ != null && pingoChorando_ == null){
+        nutricao_ = nutricaoMin_;
+        pingoChorando_ = new PingoChorando(layer_, width() / 2, height() / 2);
         pingoComendoSopaCenoura_.detatch(layer_);
         pingoComendoSopaCenoura_ = null;
         somArroto_.play(); 
@@ -718,8 +724,8 @@ public class Pet extends Game.Default {
 	  pingoDormindo_ = null;
 	}*/
       }
-      if(fome_ <= fomeMin_ && pingoComendoSopaBacon_ != null && pingo_ == null){
-        fome_ = fomeMin_;
+      if(nutricao_ <= nutricaoMin_ && pingoComendoSopaBacon_ != null && pingo_ == null){
+        nutricao_ = nutricaoMin_;
         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
         pingoComendoSopaBacon_.detatch(layer_);
         pingoComendoSopaBacon_ = null;
@@ -735,8 +741,8 @@ public class Pet extends Game.Default {
         somArroto_.play(); 
       }
 
-      if(fome_ <= fomeMin_ && pingoBebendoLeite_ != null && pingo_ == null){
-        fome_ = fomeMin_;
+      if(nutricao_ <= nutricaoMin_ && pingoBebendoLeite_ != null && pingo_ == null){
+        nutricao_ = nutricaoMin_;
         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
         pingoBebendoLeite_.detatch(layer_);
         pingoBebendoLeite_ = null;
@@ -857,26 +863,29 @@ public class Pet extends Game.Default {
       }
     } // end if 
 //ERRO COM PINGO CHORANDO
-   /* if(pingoChorando_ == null && fome_ <= 20){
+   if(pingoChorando_ == null && nutricao_ <= 20){
+      pingoChorando_  = new PingoChorando(layer_, width() / 2, height() / 2);
       if(pingo_ != null){
         pingo_.detatch(layer_);
         pingo_ = null;
-      } else       if(pingo_ != null){
+      } else if(pingoTriste_ != null){
         pingoTriste_.detatch(layer_);
         pingoTriste_ = null;
-     }
-      pingoChorando_  = new PingoChorando(layer_, width() / 2, height() / 2);
-    } else*/ if(pingo_!= null && fome_ > 20 && fome_ <= 40){
+        }
+    } else if(pingo_!= null && nutricao_ > 20 && nutricao_ <= 40){
+      pingoTriste_  = new PingoTriste(layer_, width() / 2, height() / 2);     
       pingo_.detatch(layer_);
       pingo_ = null;
-      pingoTriste_  = new PingoTriste(layer_, width() / 2, height() / 2);
     }
 
-    if(pingo_ == null && (pingoTriste_ != null || pingoChorando_ != null) &&fome_ > 40 && fome_ <= 80){
+    if(pingo_ == null && (pingoTriste_ != null || pingoChorando_ != null) && nutricao_ > 40 && nutricao_ <= 80){
       pingo_ = new Pingo(layer_, width() / 2, height() / 2);
        if(pingoTriste_ !=null){
          pingoTriste_.detatch(layer_);
          pingoTriste_ = null;
+       }else if(pingoChorando_ !=null){
+         pingoChorando_.detatch(layer_);
+         pingoChorando_ = null;
        } 
     }
 	
@@ -929,24 +938,24 @@ public class Pet extends Game.Default {
         if (sede_ <= sedeMax_ && sede_ > sedeMin_) {
           sede_ -= sedePassivo_+1;
         }
-    } /* Se for o pingo_ normal, a fome_ aumenta.  */    
+    } /* Se for o pingo_ normal, a nutricao_ diminui.  */    
     if (pingo_ != null || pingoTriste_ != null || pingoChorando_ != null) {
-      if ((beat_ % fomePassivoBeats_) == 0)
-        if (fome_ >= fomeMin_ && fome_ < fomeMax_)
-          fome_ += fomePassivo_;
+      if ((beat_ % nutricaoPassivoBeats_) == 0)
+        if (nutricao_ >= nutricaoMin_ && nutricao_ < nutricaoMax_)
+          nutricao_ += nutricaoPassivo_;
     } /* Não achei necessidade (ainda) de criar um código apenas para pingo_
          comendo cenoura, já que possuem mesmas funcionalidades.  */
     else if (pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null) {
       // se for o pingo_ comendo sopa de bacon, a fome_ dele deve diminuir
-      if ((beat_ % fomePassivoBeats_) == 0)
-        if (fome_ <= fomeMax_ && fome_ > fomeMin_) {
-          fome_ -= fomePassivo_;
+      if ((beat_ % nutricaoPassivoBeats_) == 0)
+        if (nutricao_ <= nutricaoMax_ && nutricao_ > nutricaoMin_) {
+          nutricao_ -= nutricaoPassivo_;
         }
     } else if(pingoBebendoLeite_ != null) {
      //Se for o pingo_ bebendo leite, a fome_ dele deve diminuir
-      if ((beat_ % fomePassivoBeats_) == 0)
-        if (fome_ <= fomeMax_ && fome_ > fomeMin_) {
-          fome_ -= fomePassivo_; 
+      if ((beat_ % nutricaoPassivoBeats_) == 0)
+        if (nutricao_ <= nutricaoMax_ && nutricao_ > nutricaoMin_) {
+          nutricao_ -= nutricaoPassivo_; 
         }
     }
     /*
@@ -1040,38 +1049,38 @@ public class Pet extends Game.Default {
   }
  
   void verifica_avisos() {
-    if(fome_ >=80){
-      if(!fome_aviso.getAviso().equals("Pingo esta ficando fraco!")){
-        fome_aviso.setAviso("Pingo esta ficando fraco!");
-        if(aviso_atual==fome_aviso)
+    if(nutricao_ <= 0){
+      if(!nutricao_aviso.getAviso().equals("Pingo esta ficando fraco!")){
+        nutricao_aviso.setAviso("Pingo esta ficando fraco!");
+        if(aviso_atual==nutricao_aviso)
             atualiza_aviso();
         } 
     //chorando
-    } else if(fome_ >= 60){
-      if(!fome_aviso.getAviso().equals("Pingo esta com muita fome!")){
-        fome_aviso.setAviso("Pingo esta com muita fome!");
-        if(aviso_atual==fome_aviso)
+    } else if(nutricao_ <= 20){
+      if(!nutricao_aviso.getAviso().equals("Pingo esta com muita fome!")){
+        nutricao_aviso.setAviso("Pingo esta com muita fome!");
+        if(aviso_atual==nutricao_aviso)
             atualiza_aviso();
         } 
     //chorando
-    } else if(fome_ >= 40){
-     if (!fome_aviso.getAviso().equals(""))	
-    	  remove_aviso(fome_aviso);
+    } else if(nutricao_ <= 40){
+     if (!nutricao_aviso.getAviso().equals(""))	
+    	  remove_aviso(nutricao_aviso);
        //triste
-    } else if(fome_ >= 20){
-      if (!fome_aviso.getAviso().equals(""))	
-    	  remove_aviso(fome_aviso);   
-    } else if(fome_ >= 0){
-      if(!fome_aviso.getAviso().equals("Pingo esta cheio")){
-        fome_aviso.setAviso("Pingo esta cheio");
-        if(aviso_atual==fome_aviso)
+    } else if(nutricao_ <= 60){
+      if (!nutricao_aviso.getAviso().equals(""))	
+    	  remove_aviso(nutricao_aviso);   
+    } else if(nutricao_ <= 80){
+      if(!nutricao_aviso.getAviso().equals("Pingo esta cheio")){
+        nutricao_aviso.setAviso("Pingo esta cheio");
+        if(aviso_atual==nutricao_aviso)
             atualiza_aviso();
       }
     //normal
-    }else if(fome_ >= -20){
-      if(!fome_aviso.getAviso().equals("Pingo comeu demais e esta passando mal")){
-        fome_aviso.setAviso("Pingo comeu demais e esta passando mal");
-        if(aviso_atual==fome_aviso)
+    }else if(nutricao_ > 80){
+      if(!nutricao_aviso.getAviso().equals("Pingo comeu demais e esta passando mal")){
+        nutricao_aviso.setAviso("Pingo comeu demais e esta passando mal");
+        if(aviso_atual==nutricao_aviso)
             atualiza_aviso();
     //normal+vomitando
         }
