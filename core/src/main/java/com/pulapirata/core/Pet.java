@@ -622,6 +622,8 @@ public class Pet extends Game.Default {
     */
     // sprites
     pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+//pingoChorando_  = new PingoChorando(layer_, width() / 2, height() / 2);
+
 
     // pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
     //Adicionando avisos na lista
@@ -678,6 +680,11 @@ public class Pet extends Game.Default {
       pingoBebendoLeite_.update(delta);
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
+    else if(pingoChorando_ != null)
+      pingoChorando_.update(delta);
+    else if(pingoTriste_ != null)
+      pingoTriste_.update(delta);
+
 
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
@@ -744,7 +751,7 @@ public class Pet extends Game.Default {
           || pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null
           || pingoBebendoAgua_ != null || pingoBebendoLeite_ != null
           || pingoComa_ != null || pingoVomitando_ != null
-          || pingoBebado_ != null)) {
+          || pingoBebado_ != null || pingoChorando_ != null || pingoTriste_ != null)) {
         dormir_ = true;
         set_background_night();
 	      System.out.println("Instanciando pingo dormindo");
@@ -757,7 +764,7 @@ public class Pet extends Game.Default {
         } else if(pingoPiscando_ != null) {
           pingoPiscando_.detatch(layer_);
           pingoPiscando_ = null;
-        }	else if(pingoComendoSopaCenoura_ != null){
+        } else if(pingoComendoSopaCenoura_ != null){
           pingoComendoSopaCenoura_.detatch(layer_);
           pingoComendoSopaCenoura_ = null;
         } else if(pingoComendoSopaBacon_ != null){
@@ -778,6 +785,12 @@ public class Pet extends Game.Default {
         } else if(pingoBebado_ != null){
           pingoBebado_.detatch(layer_);
           pingoBebado_ = null;
+        } else if(pingoChorando_ != null){
+          pingoChorando_.detatch(layer_);
+          pingoChorando_ = null;
+        } else if(pingoTriste_ != null){
+          pingoTriste_.detatch(layer_);
+          pingoTriste_ = null;
         }
       }
       else if (horaDoDia < 22 && horaDoDia > 8) {
@@ -843,7 +856,30 @@ public class Pet extends Game.Default {
         }
       }
     } // end if 
+//ERRO COM PINGO CHORANDO
+   /* if(pingoChorando_ == null && fome_ <= 20){
+      if(pingo_ != null){
+        pingo_.detatch(layer_);
+        pingo_ = null;
+      } else       if(pingo_ != null){
+        pingoTriste_.detatch(layer_);
+        pingoTriste_ = null;
+     }
+      pingoChorando_  = new PingoChorando(layer_, width() / 2, height() / 2);
+    } else*/ if(pingo_!= null && fome_ > 20 && fome_ <= 40){
+      pingo_.detatch(layer_);
+      pingo_ = null;
+      pingoTriste_  = new PingoTriste(layer_, width() / 2, height() / 2);
+    }
 
+    if(pingo_ == null && (pingoTriste_ != null || pingoChorando_ != null) &&fome_ > 40 && fome_ <= 80){
+      pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+       if(pingoTriste_ !=null){
+         pingoTriste_.detatch(layer_);
+         pingoTriste_ = null;
+       } 
+    }
+	
     // update clock and passives
     beat_++;
 
@@ -894,7 +930,7 @@ public class Pet extends Game.Default {
           sede_ -= sedePassivo_+1;
         }
     } /* Se for o pingo_ normal, a fome_ aumenta.  */    
-    if (pingo_ != null) {
+    if (pingo_ != null || pingoTriste_ != null || pingoChorando_ != null) {
       if ((beat_ % fomePassivoBeats_) == 0)
         if (fome_ >= fomeMin_ && fome_ < fomeMax_)
           fome_ += fomePassivo_;
