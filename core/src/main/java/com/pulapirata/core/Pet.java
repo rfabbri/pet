@@ -130,8 +130,8 @@ public class Pet extends Game.Default {
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.); 
-  public int idade_coelhohoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
-  public int idade_coelhodias() { return beat_ / beatsCoelhoDia_; }
+  public int idadeCoelhoHoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
+  public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
 
   /*
     Informacoes referente aos atributos do pingo.
@@ -166,15 +166,15 @@ public class Pet extends Game.Default {
     Funcao para setar as informacoes no topo corretamente.
   */
   public String idadeCoelhoDiasStr1() { 
-    if (idade_coelhodias() == 0)
-      return String.format(STAT_FILLER_1, idade_coelhohoras(), "h", sede_, sedeMax_);    
+    if (idadeCoelhoDias() == 0)
+      return String.format(STAT_FILLER_1, idadeCoelhoHoras(), "h", sede_, sedeMax_);    
     else
-      return String.format(STAT_FILLER_1, idade_coelhodias(), " dias", sede_, sedeMax_);    
+      return String.format(STAT_FILLER_1, idadeCoelhoDias(), " dias", sede_, sedeMax_);    
   }
   public String idadeCoelhoDiasStr2() { 
       return String.format(STAT_FILLER_2, fome_ , fomeMax_, alcool_, alcoolMax_);
   }
-  private Aviso aviso_atual = new Aviso("Bem vindo ao jogo Pet");
+  private Aviso avisoAtual = new Aviso("Bem vindo ao jogo Pet");
   private Aviso fomeAviso = new Aviso();
   private Aviso humorAviso = new Aviso();
   private Aviso socialAviso = new Aviso();
@@ -201,7 +201,7 @@ public class Pet extends Game.Default {
 
   private int higiene_ = 30;
   private int higienePassivo_ = -5;
-  private int higiene_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./2.,1); //30 min
+  private int higienePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./2.,1); //30 min
   private int higieneMax_ = 120;
   private int higieneMin_ = -20;
 
@@ -214,8 +214,8 @@ public class Pet extends Game.Default {
 
   private int saude_ = 5;
   private int saudePassivo_ = -1;
-  private int saude_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1);//? por idade (em dias?)
-  private int saude_max_ = 10;
+  private int saudePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1);//? por idade (em dias?)
+  private int saudeMax_ = 10;
   private int saudeMin_ = -5;
 
   private int disciplina_ = 0;
@@ -307,7 +307,7 @@ public class Pet extends Game.Default {
     rightStatbarGroup_ = new Group(rightPartLayout_).add (
           new Button(Icons.image(exclamacao_)), // FIXME an icon goes here or else blank space w icon's size
           // TODO in future this button will actually be an animation sprite
-          new Label(aviso_atual.getAviso()).addStyles(Styles.make(
+          new Label(avisoAtual.getAviso()).addStyles(Styles.make(
               Style.COLOR.is(0xFFFFFFFF),
               Style.TEXT_WRAP.is(true),
               Style.HALIGN.left,
@@ -333,18 +333,18 @@ public class Pet extends Game.Default {
   }
 
   //--------------------------------------------------------------------------------
-  private void make_background_init() {
+  private void makeBackgroundInit() {
     bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
     bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
     bgLayer_ = graphics().createImageLayer(bgImageDay_);
     layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
   }
 
-  private void set_background_day() {
+  private void setBackgroundDay() {
     bgLayer_.setImage(bgImageDay_);
   }
 
-  private void set_background_night() {
+  private void setBackgroundNight() {
     bgLayer_.setImage(bgImageNight_);
   }
 
@@ -353,7 +353,7 @@ public class Pet extends Game.Default {
   /*
     Funcao responsavel por criar os butoes, estes sao colocados em um ArraList
   */
-  private void make_buttons() {
+  private void makeButtons() {
     // create our UI manager and configure it to process pointer events
     iface_ = new Interface();
 
@@ -568,7 +568,7 @@ public class Pet extends Game.Default {
 
         if (b == 6 /* diversao */ && s == 0/* licor */)sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
-              if(dormir_== false && diaProibidoBeber_ != idade_coelhodias()){
+              if(dormir_== false && diaProibidoBeber_ != idadeCoelhoDias()){
                 alcool_ = alcoolMax_; // TODO modificar de acordo com folha
               }
             }
@@ -638,8 +638,8 @@ public class Pet extends Game.Default {
 
     // ------------------------------------------------------------------
     makeStatusbar();
-    make_background_init();
-    make_buttons();
+    makeBackgroundInit();
+    makeButtons();
     // ------------------------------------------------------------------
 
     /*
@@ -660,7 +660,7 @@ public class Pet extends Game.Default {
     avisos.add(alcoolAviso);
     //Iniciando o ListIterator e o Aviso atual 
     elementos = avisos.listIterator(); 
-    aviso_atual = elementos.next();
+    avisoAtual = elementos.next();
   }
 
 
@@ -707,7 +707,7 @@ public class Pet extends Game.Default {
     /*
       Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
     */
-    if (idade_coelhodias() >= 6) {
+    if (idadeCoelhoDias() >= 6) {
       if (pingoMorto_ == null) {
         // pingo morre
         pingoMorto_ = new PingoMorto(layer_, width() / 2, height() / 2);
@@ -762,16 +762,16 @@ public class Pet extends Game.Default {
       }
       // FIXME estamos confundindo tempo de vida com hora de relogio.
       // Pet esta nascendo `a meia noite sempre - 0 horas
-      int horaDoDia = idade_coelhohoras()-idade_coelhodias()*24;
+      int horaDoDia = idadeCoelhoHoras()-idadeCoelhoDias()*24;
       if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8)
-          && idade_coelhodias() >= 1 && pingoPiscando_==null &&
+          && idadeCoelhoDias() >= 1 && pingoPiscando_==null &&
           (pingo_!=null || pingoComendoSopaCenoura_ !=null
           || pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null
           || pingoBebendoAgua_ != null || pingoBebendoLeite_ != null
           || pingoComa_ != null || pingoVomitando_ != null
           || pingoBebado_ != null)) {
         dormir_ = true;
-        set_background_night();        
+        setBackgroundNight();        
           
         pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
         if (pingo_ != null) {
@@ -806,7 +806,7 @@ public class Pet extends Game.Default {
       else if (horaDoDia < 22 && horaDoDia > 8) {
         if (pingoDormindo_ != null && pingo_ == null && pingoPiscando_ == null) {
           dormir_ = false;
-          set_background_day();
+          setBackgroundDay();
           pingo_ = new Pingo(layer_, width()/2, height()/2);
           pingoDormindo_.detatch(layer_);
           pingoDormindo_ = null;
@@ -814,7 +814,7 @@ public class Pet extends Game.Default {
       }
       
       if (alcool_ == 10) {
-        diaProibidoBeber_ = idade_coelhodias(); 
+        diaProibidoBeber_ = idadeCoelhoDias(); 
         if (pingoComa_ == null) {
             pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
             somSoluco_.play();
@@ -881,10 +881,10 @@ public class Pet extends Game.Default {
       statbarIface_.update(delta);
 
     passivoAtributos();
-    verifica_avisos();
+    verificaAvisos();
      
     if (beat_ % alcoolPassivoBeats_ ==0){ // a cada hora 
-      muda_aviso();
+      mudaAviso();
     }
     
 
@@ -948,7 +948,7 @@ public class Pet extends Game.Default {
        if (social_ > socialMin_)
        social_ += socialPassivo_;
 
-       if ((beat % higiene_passivo_beats_) == 0)
+       if ((beat % higienePassivoBeats_) == 0)
        if (higiene_ > higieneMin_)
        higiene_ += higienePassivo_;
     /*Após a matricula
@@ -957,14 +957,14 @@ public class Pet extends Game.Default {
     estudo_ += estudoPassivo_;
 
 
-    if ((beat % saude_passivo_beats_) == 0)
+    if ((beat % saudePassivoBeats_) == 0)
     if (saude_ > saudeMin_)
     saude_ += saudePassivo_;*/
     //fim dos passivos atributos
   }
 
 
-  public void muda_aviso() {
+  public void mudaAviso() {
     imprime(avisos);
     Aviso aux;
     if(elementos.hasNext()){
@@ -973,31 +973,31 @@ public class Pet extends Game.Default {
             elementos = avisos.listIterator();
             aux = elementos.next();
     }
-    while(aux.getAviso().isEmpty() && aux!=aviso_atual){
+    while(aux.getAviso().isEmpty() && aux!=avisoAtual){
             if(!elementos.hasNext()){
               elementos = avisos.listIterator(); 
             }
               aux = elementos.next();
     }
     if(aux.getAviso().isEmpty()){
-            aviso_atual = new Aviso("Sem Avisos");
+            avisoAtual = new Aviso("Sem Avisos");
             //aviso_status_bar = "Sem avisos"; 
     } else if(!aux.getAviso().isEmpty()){
-              aviso_atual = aux;
+              avisoAtual = aux;
               //aviso_status_bar = aux.getAviso();
     }
-    atualiza_aviso();
-    aviso_atual = aux;
+    atualizaAviso();
+    avisoAtual = aux;
     imprime(avisos);
   } 
 
-  public void atualiza_aviso() {
+  public void atualizaAviso() {
     //    int n = statbar_iface.roots().iterator().next().childAt(0);
     //    System.out.println("childcount" + n + "\n");
     //    grp.childCount();
     /*
       statbar_iface.roots().iterator().next().childAt(0).childAt(1).childAt(1) = 
-          new Label(aviso_atual.getAviso()).addStyles(Styles.make(
+          new Label(avisoAtual.getAviso()).addStyles(Styles.make(
                 Style.COLOR.is(0xFFFFFFFF),
                 Style.TEXT_WRAP.is(true),
                 Style.HALIGN.left
@@ -1005,56 +1005,56 @@ public class Pet extends Game.Default {
     */
 
     Label l = (Label) rightStatbarGroup_.childAt(1);
-    l.text.update(aviso_atual.getAviso());
+    l.text.update(avisoAtual.getAviso());
   }
 
-  public void remove_aviso(Aviso aviso) {
+  public void removeAviso(Aviso aviso) {
     imprime(avisos);
-    if(aviso_atual==aviso){
+    if(avisoAtual==aviso){
       //mudar o aviso que aparece na tela
       //elementos.remove();
       aviso.remove();//string = ""
-      muda_aviso();
+      mudaAviso();
     }else{
       aviso.remove();//Campo String = ""
     }
     imprime(avisos);
   }
  
-  void verifica_avisos() {
+  void verificaAvisos() {
     if(fome_ >=80){
       if(!fomeAviso.getAviso().equals("Pingo esta ficando fraco!")){
         fomeAviso.setAviso("Pingo esta ficando fraco!");
-        if(aviso_atual==fomeAviso)
-            atualiza_aviso();
+        if(avisoAtual==fomeAviso)
+            atualizaAviso();
         } 
     //chorando
     } else if(fome_ >= 60){
       if(!fomeAviso.getAviso().equals("Pingo esta com muita fome!")){
         fomeAviso.setAviso("Pingo esta com muita fome!");
-        if(aviso_atual==fomeAviso)
-            atualiza_aviso();
+        if(avisoAtual==fomeAviso)
+            atualizaAviso();
         } 
     //chorando
     } else if(fome_ >= 40){
      if (!fomeAviso.getAviso().equals(""))        
-              remove_aviso(fomeAviso);
+              removeAviso(fomeAviso);
        //triste
     } else if(fome_ >= 20){
       if (!fomeAviso.getAviso().equals(""))        
-              remove_aviso(fomeAviso);   
+              removeAviso(fomeAviso);   
     } else if(fome_ >= 0){
       if(!fomeAviso.getAviso().equals("Pingo esta cheio")){
         fomeAviso.setAviso("Pingo esta cheio");
-        if(aviso_atual==fomeAviso)
-            atualiza_aviso();
+        if(avisoAtual==fomeAviso)
+            atualizaAviso();
       }
     //normal
     }else if(fome_ >= -20){
       if(!fomeAviso.getAviso().equals("Pingo comeu demais e esta passando mal")){
         fomeAviso.setAviso("Pingo comeu demais e esta passando mal");
-        if(aviso_atual==fomeAviso)
-            atualiza_aviso();
+        if(avisoAtual==fomeAviso)
+            atualizaAviso();
     //normal+vomitando
         }
     }
@@ -1106,7 +1106,7 @@ public class Pet extends Game.Default {
     //normal
   }
   if(socialAviso.isEmpty()  && avisos.contains(socialAviso)){
-    remove_aviso(socialAviso);
+    removeAviso(socialAviso);
   } else if(!socialAviso.isEmpty() && !avisos.contains(socialAviso)){
     avisos.add(socialAviso);
   }
@@ -1119,7 +1119,7 @@ public class Pet extends Game.Default {
     higieneAviso.remove();
   }
   if(higieneAviso.isEmpty() && avisos.contains(higieneAviso)){
-    remove_aviso(higieneAviso);
+    removeAviso(higieneAviso);
   } else if(!higieneAviso.isEmpty()  && !avisos.contains(higieneAviso)){
     avisos.add(higieneAviso);
   }
@@ -1138,7 +1138,7 @@ public class Pet extends Game.Default {
     estudoAviso.setAviso("Pingo é o melhor aluno da escola");
   }
   if(estudoAviso.isEmpty() && avisos.contains(estudoAviso)){
-    remove_aviso(estudoAviso);
+    removeAviso(estudoAviso);
   } else if(!estudoAviso.isEmpty()  && !avisos.contains(estudoAviso)){
     avisos.add(estudoAviso);
   } 
@@ -1159,7 +1159,7 @@ public class Pet extends Game.Default {
     saudeAviso.setAviso("Pingo está com a saúde perfeita");
   }
   if(saudeAviso.isEmpty() && avisos.contains(saudeAviso)){
-    remove_aviso(saudeAviso);
+    removeAviso(saudeAviso);
   } else if(!estudoAviso.isEmpty() && !avisos.contains(saudeAviso)){
     avisos.add(saudeAviso);
   } 
@@ -1193,7 +1193,7 @@ public class Pet extends Game.Default {
     }
   }
   if(disciplinaAviso.isEmpty() && avisos.contains(disciplinaAviso)){
-    remove_aviso(disciplinaAviso);
+    removeAviso(disciplinaAviso);
   } else if(!disciplinaAviso.isEmpty()  && !avisos.contains(disciplinaAviso)){
     avisos.add(disciplinaAviso);
   } 
@@ -1202,31 +1202,31 @@ public class Pet extends Game.Default {
     //Alcool
     if (alcool_<=0){
       if (!alcoolAviso.getAviso().equals(""))
-              remove_aviso(alcoolAviso);
+              removeAviso(alcoolAviso);
       //normal
     } else if (alcool_ <= 3) {
        if (!alcoolAviso.getAviso().equals(""))        
-              remove_aviso(alcoolAviso);
+              removeAviso(alcoolAviso);
       //normal
     } else if(alcool_<=6) {
         if (!alcoolAviso.getAviso().equals("Pingo esta bebado")) {
           alcoolAviso.setAviso("Pingo esta bebado");
-          if(aviso_atual==alcoolAviso)
-            atualiza_aviso();
+          if(avisoAtual==alcoolAviso)
+            atualizaAviso();
         }
         //bebado
       } else if(alcool_<=9) {
         if(!alcoolAviso.getAviso().equals("Pingo esta muito bebado para executar certas atividades")){     
          alcoolAviso.setAviso("Pingo esta muito bebado para executar certas atividades");
-          if(aviso_atual==alcoolAviso)
-         atualiza_aviso();
+          if(avisoAtual==alcoolAviso)
+         atualizaAviso();
         }
         //bebado + vomitando
       } else if(alcool_<=10) {
         if(!alcoolAviso.getAviso().equals("Pingo entrou em coma alcoólico")) {
           alcoolAviso.setAviso("Pingo entrou em coma alcoólico");
-          if(aviso_atual==alcoolAviso)
-          atualiza_aviso();
+          if(avisoAtual==alcoolAviso)
+          atualizaAviso();
         }
         //em coma
       }
@@ -1290,7 +1290,7 @@ public class Pet extends Game.Default {
 }//fim da Classe Pet
 
 /*
-   remove_aviso (cara)
+   removeAviso (cara)
    {
 // compara com os ponteiros importantes tipo aviso_status_bar se  o cara esta sendo apontado por algum
 // em caso afirmativo, seta o ponteiro em questao para o proximo elemento valido
