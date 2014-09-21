@@ -202,8 +202,8 @@ public class Pet extends Game.Default {
   private int higiene_ = 30;
   private int higiene_passivo_ = -5;
   private int higiene_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./2.,1); //30 min
-  private int higiene_max_ = 120;
-  private int higiene_min_ = -20;
+  private int higieneMax_ = 120;
+  private int higieneMin_ = -20;
 
   private int estudo_ = 0;
   private int estudo_passivo_ = -1;
@@ -216,11 +216,11 @@ public class Pet extends Game.Default {
   private int saude_passivo_ = -1;
   private int saude_passivo_beats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1);//? por idade (em dias?)
   private int saude_max_ = 10;
-  private int saude_min_ = -5;
+  private int saudeMin_ = -5;
 
   private int disciplina_ = 0;
-  private int disciplina_max_ = 10;
-  private int disciplina_min_ = -5;
+  private int disciplinaMax_ = 10;
+  private int disciplinaMin_ = -5;
 
   private final Randoms _rando = Randoms.with(new Random());//Para gerar numeros aleatorios
   private int r;//excluir depois
@@ -231,7 +231,7 @@ public class Pet extends Game.Default {
   }
 
   //--------------------------------------------------------------------------------
-  private void make_statusbar() {
+  private void makeStatusbar() {
     // create and add the status title layer using drawings for faster loading
     CanvasImage bgtile = graphics().createImage(480, 119);
     bgtile.canvas().setFillColor(0xFFFFFFFF);
@@ -261,11 +261,11 @@ public class Pet extends Game.Default {
     final int mainStatWidth = 200;
 
     // sm stands for statbar_margin
-    TableLayout statbar_layout = new TableLayout(
+    TableLayout statbarLayout = new TableLayout(
       COL.minWidth(mainStatWidth).alignLeft().fixed(), 
       COL.minWidth(30).stretch()).gaps(mae,mae).alignTop();
 
-//    AxisLayout statbar_layout = new AxisLayout.horizontal().add(
+//    AxisLayout statbarLayout = new AxisLayout.horizontal().add(
 //      COL.minWidth(250).alignLeft().fixed(), 
 //      COL.minWidth(30).stretch()).gaps(mae,mae).alignTop();
     // the left status plus is the left column
@@ -315,7 +315,7 @@ public class Pet extends Game.Default {
               ))
           );
 
-    Group statbar = new Group (statbar_layout).add (
+    Group statbar = new Group (statbarLayout).add (
         mainStat_,
         rightStatbarGroup_
         ).addStyles(Style.VALIGN.top);
@@ -374,7 +374,7 @@ public class Pet extends Game.Default {
     //      label("", Background.image(testBg)),
     //    );
 
-    final ArrayList<Image> img_butt_solto = 
+    final ArrayList<Image> imgButtSolto = 
       new ArrayList<Image>(Arrays.asList(
             assets().getImage("pet/main-buttons/01_comida_principal.png"),
             assets().getImage("pet/main-buttons/02_diversao_principal.png"),
@@ -386,7 +386,7 @@ public class Pet extends Game.Default {
             assets().getImage("pet/main-buttons/08_disciplina_principal.png")
             ));
 
-    final ArrayList<Image> img_butt_apertado = 
+    final ArrayList<Image> imgButtApertado = 
       new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
             assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
@@ -398,9 +398,9 @@ public class Pet extends Game.Default {
             assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
             ));
 
-    ArrayList< ArrayList<Image> > s_img_butt_secondary = new ArrayList< ArrayList<Image> > (0);
+    ArrayList< ArrayList<Image> > s_imgButtSecondary = new ArrayList< ArrayList<Image> > (0);
 
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/011_comida.png"),
             assets().getImage("pet/main-buttons/012_comida.png"),
@@ -408,7 +408,7 @@ public class Pet extends Game.Default {
             assets().getImage("pet/main-buttons/014_comida.png")
             )));
 
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/021_diversao.png"),
             assets().getImage("pet/main-buttons/022_diversao.png"),
@@ -416,33 +416,33 @@ public class Pet extends Game.Default {
             assets().getImage("pet/main-buttons/024_diversao.png")
             )));
 
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (0)
         );
 
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/041_higiene.png"),
             assets().getImage("pet/main-buttons/042_higiene.png"),
             assets().getImage("pet/main-buttons/043_higiene.png"),
             assets().getImage("pet/main-buttons/044_higiene.png")
             )));
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/051_obrigacoes.png"),
             assets().getImage("pet/main-buttons/052_obrigacoes.png")
             )));
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/061_saude.png"),
             assets().getImage("pet/main-buttons/062_saude.png")
             )));
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/071_lazer.png"), // licor
             assets().getImage("pet/main-buttons/072_lazer.png")
             )));
-    s_img_butt_secondary.add(
+    s_imgButtSecondary.add(
         new ArrayList<Image> (Arrays.asList(
             assets().getImage("pet/main-buttons/081_disciplina.png"),
             assets().getImage("pet/main-buttons/082_disciplina.png"),
@@ -450,7 +450,7 @@ public class Pet extends Game.Default {
             assets().getImage("pet/main-buttons/084_disciplina.png")
             )));
 
-    final ArrayList< ArrayList<Image> > img_butt_secondary = s_img_butt_secondary;
+    final ArrayList< ArrayList<Image> > imgButtSecondary = s_imgButtSecondary;
   
     /*
       Posicao de cada "butt"
@@ -474,20 +474,20 @@ public class Pet extends Game.Default {
     };
     /*-------------------------------------------------------------------------------*/
 
-    final int num_main_butts = img_butt_solto.size();
+    final int numMainButts = imgButtSolto.size();
     final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
     
-    for (int b =0; b < num_main_butts; ++b) {
-      final int b_final = b;
-      ToggleButton but = new ToggleButton (Icons.image(img_butt_solto.get(0)));
+    for (int b =0; b < numMainButts; ++b) {
+      final int bFinal = b;
+      ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(0)));
       buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
       // add button b's secondary buttons TODO: use animated sheets for them
       sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
-      for (int s = 0; s < img_butt_secondary.get(b).size(); ++s) {
-        Button sbut = new Button(Icons.image(img_butt_secondary.get(b).get(s)));
+      for (int s = 0; s < imgButtSecondary.get(b).size(); ++s) {
+        Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut, 
           topleft_secondary[s][0], topleft_secondary[s][1], 120, 120));
         /*
@@ -579,14 +579,14 @@ public class Pet extends Game.Default {
       but.selected().map(new Function <Boolean,Icon>() {
         public Icon apply (Boolean selected) {
           if (selected)
-             return Icons.image(img_butt_apertado.get(b_final));
+             return Icons.image(imgButtApertado.get(bFinal));
           else
-             return Icons.image(img_butt_solto.get(b_final));
+             return Icons.image(imgButtSolto.get(bFinal));
         }
       }).connectNotify(but.icon.slot());
       // all secondary buttons are added; toggle visibility only
-      root_.add(AbsoluteLayout.at(sbuttons.get(b_final), 0, 0, width(), 120));
-      sbuttons.get(b_final).setVisible(false);
+      root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
+      sbuttons.get(bFinal).setVisible(false);
     }
     
     Selector sel = new Selector(buttons, null);
@@ -600,7 +600,7 @@ public class Pet extends Game.Default {
           for (Group sb : sbuttons)
             sb.setVisible(false);
         } else {
-          for (int i=0; i < num_main_butts; ++i) {
+          for (int i=0; i < numMainButts; ++i) {
             if (buttons.childAt(i) == (ToggleButton) event && 
               sbuttons.get(i).childCount() != 0) {
               sbuttons.get(i).setVisible(true);
@@ -637,7 +637,7 @@ public class Pet extends Game.Default {
     petSheet_ = PetStyles.newSheet();
 
     // ------------------------------------------------------------------
-    make_statusbar();
+    makeStatusbar();
     make_background_init();
     make_buttons();
     // ------------------------------------------------------------------
@@ -949,7 +949,7 @@ public class Pet extends Game.Default {
        social_ += social_passivo_;
 
        if ((beat % higiene_passivo_beats_) == 0)
-       if (higiene_ > higiene_min_)
+       if (higiene_ > higieneMin_)
        higiene_ += higiene_passivo_;
     /*Após a matricula
     if ((beat % estudo_passivo_beats_) == 0)
@@ -958,7 +958,7 @@ public class Pet extends Game.Default {
 
 
     if ((beat % saude_passivo_beats_) == 0)
-    if (saude_ > saude_min_)
+    if (saude_ > saudeMin_)
     saude_ += saude_passivo_;*/
     //fim dos passivos atributos
   }
