@@ -74,24 +74,34 @@ import static tripleplay.ui.layout.TableLayout.COL;
 
 
 public class Pet extends Game.Default {
-  // obs: global class member variables are always appended with a trailing underscore
-  /*
-    Informacoes que aparecem no topo.
-  */
-  protected  static final String STAT_ALERT_1 = "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
+  /*-------------------------------------------------------------------------------*/
+  /* Game config data */
+
+  protected PetJson petJson_;
+
+  /*-------------------------------------------------------------------------------*/
+  /* Status info shown on top */
+
+  protected  static final String STAT_ALERT_1 =
+    "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
   protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Sede: %d/%d\n";
   protected  static final String STAT_FILLER_2 = "\nFome: %d/%d\n Alcool: %d/%d";
 
   /*-------------------------------------------------------------------------------*/
+  /* Layers, groups & associated resources */
 
-  /*
-    Informacoes referentes as instancias criadas.
-  */
   private ImageLayer bgLayer_ = null;
   private Image bgImageDay_, bgImageNight_;
   private GroupLayer layer_;
-  private Sound somArroto_ = assets().getSound("pet/sprites/arroto_01");
-  private Sound somSoluco_ = assets().getSound("pet/sprites/soluco_01");
+  protected Group mainStat_;
+  private Group rightStatbarGroup_;
+  private TableLayout rightPartLayout_;
+  private Interface iface_, statbarIface_;
+  private Image exclamacao_;
+
+  /*-------------------------------------------------------------------------------*/
+  /* Pet Sprites */
+
   protected Pingo pingo_ = null;
   protected PingoMorto pingoMorto_ = null;
   protected PingoVomitando pingoVomitando_ = null;
@@ -105,48 +115,42 @@ public class Pet extends Game.Default {
   protected PingoDormindo pingoDormindo_ = null;
   protected PingoChorando pingoChorando_ = null;
   protected PingoTriste pingoTriste_ = null;
-  //protected PetJson petJson;
-  //private Sprite sprite;
-  /*-------------------------------------------------------------------------------*/
 
-  protected Group mainStat_;
-  private Group rightStatbarGroup_;
-  private Image exclamacao_;
-  private TableLayout rightPartLayout_;
+  /*-------------------------------------------------------------------------------*/
+  /* Sounds */
+
+  private Sound somArroto_ = assets().getSound("pet/sprites/arroto_01");
+  private Sound somSoluco_ = assets().getSound("pet/sprites/soluco_01");
+
+  /*-------------------------------------------------------------------------------*/
 
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties.
-  /*
-    Posicao do pingo na tela.
-  */
-  public int width() { return 480; }
+  public int width()  { return 480; }
   public int height() { return 800; }
+
   /*-------------------------------------------------------------------------------*/
+  /* Time */
 
   public static final int UPDATE_RATE = 100; // ms
   protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
-
-  private int beat_ = 0; // number of updates
+  private int beat_ = 0; // total number of updates so far
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
   public int idadeCoelhoHoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
 
-  private Interface iface_, statbarIface_;
-
   /*-------------------------------------------------------------------------------*/
-  /* Informacoes referente aos atributos do pingo */
+  /* Pet attribute info */
 
   private int sede_ = 5;
   private int sedePassivo_ = 1;
   private int sedePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60*60,1);
   private int sedeMax_ = 10;
   private int sedeMin_ = 0;
-  //PetJson.parseJson("pet/jsons/atributos.json","fome_");
+
   private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome();
-
-
   //private int fome_ = 20;
   private int fomePassivo_ = 10;
   private int fomePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60*60,1);
@@ -603,6 +607,8 @@ public class Pet extends Game.Default {
           for (int i=0; i < numMainButts; ++i) {
             if (buttons.childAt(i) == (ToggleButton) event &&
               sbuttons.get(i).childCount() != 0) {
+
+
               sbuttons.get(i).setVisible(true);
             } else {
               sbuttons.get(i).setVisible(false);
@@ -636,19 +642,13 @@ public class Pet extends Game.Default {
     graphics().rootLayer().add(layer_);
     petSheet_ = PetStyles.newSheet();
 
-    // ------------------------------------------------------------------
     makeStatusbar();
     makeBackgroundInit();
     makeButtons();
-    // ------------------------------------------------------------------
 
-    /*
-      Removi a criacao inicial do pingo_, ja que agora isto depende da hora.
-    */
     // sprites
     pingo_ = new Pingo(layer_, width() / 2, height() / 2);
 
-    // pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
     //Adicionando avisos na lista
     avisos.add(fomeAviso);
     avisos.add(humorAviso);
@@ -883,16 +883,13 @@ public class Pet extends Game.Default {
     passivoAtributos();
     verificaAvisos();
 
-    if (beat_ % alcoolPassivoBeats_ ==0){ // a cada hora
+    if (beat_ % alcoolPassivoBeats_ == 0) // a cada hora
       mudaAviso();
-    }
 
-
-    if(beat_ % (2*alcoolPassivoBeats_) ==0){
+    if(beat_ % (2*alcoolPassivoBeats_) == 0)
       piscar();
-    }
     //System.out.println(_rando.getInRange(1,10));
-  } //fim do update
+  } // end update
 
   public void passivoAtributos() {
     //inicio dos passivos dos atributos
@@ -977,7 +974,7 @@ public class Pet extends Game.Default {
       if(!elementos.hasNext()) {
         elementos = avisos.listIterator();
       }
-        aux = elementos.next();
+      aux = elementos.next();
     }
     if(aux.getAviso().isEmpty()){
       avisoAtual = new Aviso("Sem Avisos");
@@ -1235,15 +1232,15 @@ public class Pet extends Game.Default {
 
   void piscar() {
     //Pingo piscando
-       if(pingoPiscando_ != null && pingoDormindo_ == null){
-         pingoPiscando_.detatch(layer_);
-         pingoPiscando_ = null;
-         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-       } else if(pingo_ != null && pingoDormindo_==null){
-         pingo_.detatch(layer_);
-         pingo_ = null;
-         pingoPiscando_ = new PingoPiscando(layer_, width() / 2, height() / 2);
-       }
+    if(pingoPiscando_ != null && pingoDormindo_ == null){
+      pingoPiscando_.detatch(layer_);
+      pingoPiscando_ = null;
+      pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+    } else if(pingo_ != null && pingoDormindo_==null){
+      pingo_.detatch(layer_);
+      pingo_ = null;
+      pingoPiscando_ = new PingoPiscando(layer_, width() / 2, height() / 2);
+    }
 
     /*
        if(pingo != null && beat>6){
@@ -1286,7 +1283,6 @@ public class Pet extends Game.Default {
          a = i.next();
       }
   }
-
 }//fim da Classe Pet
 
 /*
