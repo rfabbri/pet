@@ -1,5 +1,9 @@
 package com.pulapirata.core.utils;
 
+import java.util.Map;
+import java.util.HashMap;
+
+
 import playn.core.Json;
 import static playn.core.PlayN.log;
 import playn.core.util.Callback;
@@ -55,7 +59,10 @@ public class PetAttributes {
   private PetAttribute disciplina_;
   public PetAttribute disciplina() { return disciplina_; }
 
+  public Map<String, PetAttribute> m = new HashMap<String, PetAttribute>();
+
   public PetAttributes(double beatsCoelhoHora) {
+    // defalt values. values in the json will take precedence if available
     alcool_   = new PetAttribute("Alcool", 3, 0, 10, -1, (int)beatsCoelhoHora);
     fome_     = new PetAttribute("Fome", 13, -20, 120, 10, (int)beatsCoelhoHora);
     humor_    = new PetAttribute("Humor", 30, -20, 120, -5, (int)(beatsCoelhoHora/3.));
@@ -68,7 +75,8 @@ public class PetAttributes {
       //? por idade (em dias?)
     disciplina_ = new PetAttribute("Disciplina", 0, -5, 10, -5, (int)beatsCoelhoHora);
 
-
+    // map by name
+    m.put(alcool().name(), alcool());
 
     // for i in attribute_list, set
 

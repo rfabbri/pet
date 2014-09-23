@@ -38,10 +38,14 @@ public class PetAttributesLoader {
         // parse the attributes, adding each asset to the asset watcher
         Json.Array jsonAttributes = document.getArray("Attributes");
         for (int i = 0; i < jsonAttributes.length(); i++) {
-          Json.Object jsonAttribute = jsonAttributes.getObject(i);
+          Json.Object jatt = jsonAttributes.getObject(i);
           //String type = jsonEntity.getString("type");
-          int x = (int)jsonAttribute.getNumber("fome");
-          attribs.fome().set(x);
+          int x = (int)jatt.getNumber("fome");
+          // for each attrib
+          // set
+//          at.set(
+//            jatt.getString("name");
+//          );
         }
 
         // start the watcher (it will call the callback when everything is
