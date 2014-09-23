@@ -27,22 +27,22 @@ public class PetJson {
     System.out.println("Antes do onSuccess");
     PlayN.assets().getText(jsonPath, new Callback<String>() {
            @Override
-	public void onSuccess(String json) {
-	  try {
-	    Json.Object document = PlayN.json().parse(json);
-	    // parse the sprite images
-	    Json.Array jsonEntities = document.getArray("Entities");
-	    for (int i = 0; i < jsonEntities.length(); i++) {
-	      Json.Object jsonEntity = jsonEntities.getObject(i);
-	      System.out.println("Fome via arquivo antes de atribuir: "+atributos.fome());
-	      atributos.set_fome((int)jsonEntity.getNumber("fome"));
-      	      System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome());	      
-	      //atributos.set_fome(jsonEntity.getNumber(field));
-            }		    
-	    test = atributos.fome();
-	    System.out.println("Test depois de receber fome:"+test);
-	  }
-	  catch (Throwable err) {
+  public void onSuccess(String json) {
+    try {
+      Json.Object document = PlayN.json().parse(json);
+      // parse the sprite images
+      Json.Array jsonEntities = document.getArray("Entities");
+      for (int i = 0; i < jsonEntities.length(); i++) {
+        Json.Object jsonEntity = jsonEntities.getObject(i);
+        System.out.println("Fome via arquivo antes de atribuir: "+atributos.fome());
+        atributos.set_fome((int)jsonEntity.getNumber("fome"));
+              System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome());
+        //atributos.set_fome(jsonEntity.getNumber(field));
+            }
+      test = atributos.fome();
+      System.out.println("Test depois de receber fome:"+test);
+    }
+    catch (Throwable err) {
             //sprite.error(err);
             return;
           }
@@ -55,16 +55,16 @@ public class PetJson {
     System.out.println("test final do arquivo: "+test);
     return atributos;
   }*/
-  public static void pausa(){ 
-    try { 
-	      Thread.sleep(1000); 
-    } 
-    catch (Exception ignored) {} 
-  } 
+  public static void pausa(){
+    try {
+        Thread.sleep(1000);
+    }
+    catch (Exception ignored) {}
+  }
 
-  public static PetAttributes readJson(String jsonPath, final String field){
+  public static PetAttributes readJson(String jsonPath, final String field, float beatsCoelhoHora) {
 //    Timer time = new Timer();
-    final PetAttributes atributos = new PetAttributes();  
+    final PetAttributes atributos = new PetAttributes(beatsCoelhoHora);
     PlayN.assets().getText(jsonPath, new Callback<String>() {
 //      Thread.yield();
 
@@ -72,9 +72,9 @@ public class PetJson {
       public void onSuccess(String json) {
         try {
           Thread.yield();
-	        System.out.println("ENTROU NO TRY");
+          System.out.println("ENTROU NO TRY");
           parseJson(atributos, json, field);
-	        //atributos.set_fome(parseJson(atributos, json, field)); //Coloquei pra parseJson retornar int / PetAttributes, mas continuou o erro
+          //atributos.set_fome(parseJson(atributos, json, field)); //Coloquei pra parseJson retornar int / PetAttributes, mas continuou o erro
 
           /*for (SpriteImage spriteImage : sprite.spriteImages()) {
             watcher.add(spriteImage.image());
@@ -90,7 +90,7 @@ public class PetJson {
       @Override
       public void onFailure(Throwable err) {
         System.out.println("Entrou no onFailure");
-	//sprite.error(err);
+  //sprite.error(err);
       }
     });
 //    pausa();
@@ -107,11 +107,11 @@ public class PetJson {
     Json.Array jsonEntities = document.getArray("Entities");
     for (int i = 0; i < jsonEntities.length(); i++) {
       Json.Object jsonEntity = jsonEntities.getObject(i);
-      System.out.println("Fome via arquivo antes de atribuir: "+atributos.fome());
-      atributos.set_fome((int)jsonEntity.getNumber(field));
-      System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome());	      
-    }		    
-    System.out.println("Fome final do metodo PARSEJSON: "+atributos.fome());
+      System.out.println("Fome via arquivo antes de atribuir: "+atributos.fome().val());
+      atributos.fome().set((int)jsonEntity.getNumber(field));
+      System.out.println("Fome via arquivo depois de atribuir: "+atributos.fome().val());
+    }
+    System.out.println("Fome final do metodo PARSEJSON: "+atributos.fome().val());
   }
 
 }

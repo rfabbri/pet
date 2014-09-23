@@ -39,6 +39,7 @@ import com.pulapirata.core.sprites.PingoDormindo;
 import com.pulapirata.core.sprites.PingoChorando;
 import com.pulapirata.core.sprites.PingoTriste;
 import com.pulapirata.core.utils.PetJson;
+import com.pulapirata.core.utils.PetAttributes;
 import com.pulapirata.core.Aviso;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
@@ -120,24 +121,15 @@ public class Pet extends Game.Default {
   /*-------------------------------------------------------------------------------*/
   /* Pet attributes & info */
 
+  protected PetAttributes a = new PetAttributes(beatsCoelhoHora_);
+
   private int sede_ = 5;
   private int sedePassivo_ = 1;
   private int sedePassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);
   private int sedeMax_ = 10;
   private int sedeMin_ = 0;
 
-  private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome().val();
-  // private int fome_ = 20;
-  private int fomePassivo_ = 10;
-  private int fomePassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);
-  private int fomeMax_ = 120;
-  private int fomeMin_ = -20;
-
-  private int alcool_ = 3;
-  private int alcoolPassivo_ = -1;
-  private int alcoolPassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);
-  private int alcoolMax_ = 10;
-  private int alcoolMin_ = 0;
+  // private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome().val();
 
   private int humor_ = 30;
   private int humorPassivo_ = -5;
@@ -248,7 +240,7 @@ public class Pet extends Game.Default {
       return String.format(STAT_FILLER_1, idadeCoelhoDias(), " dias", sede_, sedeMax_);
   }
   public String idadeCoelhoDiasStr2() {
-      return String.format(STAT_FILLER_2, fome_ , fomeMax_, alcool_, alcoolMax_);
+    return String.format(STAT_FILLER_2, a.fome().val(), a.fome().max(), a.alcool().val(), a.alcool().max());
   }
 
   //--------------------------------------------------------------------------------
@@ -531,7 +523,7 @@ public class Pet extends Game.Default {
                 pingo_.detatch(layer_);
                 pingo_ = null;
               }
-              //fome_ = fomeMax_;
+              //fome_ = a.fome().max();
             }
           }
         });
@@ -545,7 +537,7 @@ public class Pet extends Game.Default {
                   pingo_ = null;
                 }
               }
-            //fome_ = fomeMax_;
+            //fome_ = a.fome().max();
             }
         });
 
@@ -571,28 +563,28 @@ public class Pet extends Game.Default {
                 pingo_ = null;
               }
             }
-            //fome_ = fomeMax_;
+            //fome_ = a.fome().max();
           }
         });
 
         if(b == 5 && s == 0)sbut.clicked().connect(new UnitSlot(){
           public void onEmit(){//Quando o pingo estiver em coma, deve-se dar a injecao a ele
-            if(alcool_== alcoolMax_){
-              alcool_ = alcool_ - 1;
+            if(a.alcool().val()== a.alcool().max()){
+              a.alcool().set(a.alcool().val() - 1);
               pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
               if (pingoComa_ != null) {
                 pingoComa_.detatch(layer_);
                 pingoComa_ = null;
               }
             }
-            //fome_ = fomeMax_;
+            //fome_ = a.fome().max();
           }
         });
 
         if (b == 6 /* diversao */ && s == 0/* licor */)sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
               if(dormir_== false && diaProibidoBeber_ != idadeCoelhoDias()){
-                alcool_ = alcoolMax_; // TODO modificar de acordo com folha
+                a.alcool().set(a.alcool().max()); // TODO modificar de acordo com folha
               }
             }
           });
@@ -653,7 +645,7 @@ public class Pet extends Game.Default {
 
   @Override
   public void init() {
-    System.out.println("passivo is " + alcoolPassivoBeats_);
+    System.out.println("passivo is " + a.alcool().passiveBeats());
     System.out.println("coelho seg " + beatsCoelhoSegundo_);
 
     // create a group layer_ to hold everything
@@ -737,8 +729,8 @@ public class Pet extends Game.Default {
     }
     else {
       // update properties
-      if(fome_ <= fomeMin_ && pingoComendoSopaCenoura_ != null && pingo_ == null){
-        fome_ = fomeMin_;
+      if(a.fome().val() <= a.fome().min() && pingoComendoSopaCenoura_ != null && pingo_ == null){
+        a.fome().set(a.fome().min());
         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
         pingoComendoSopaCenoura_.detatch(layer_);
         pingoComendoSopaCenoura_ = null;
@@ -755,8 +747,8 @@ public class Pet extends Game.Default {
           pingoDormindo_ = null;
         }*/
       }
-      if(fome_ <= fomeMin_ && pingoComendoSopaBacon_ != null && pingo_ == null){
-        fome_ = fomeMin_;
+      if(a.fome().val() <= a.fome().min() && pingoComendoSopaBacon_ != null && pingo_ == null){
+        a.fome().set(a.fome().min());
         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
         pingoComendoSopaBacon_.detatch(layer_);
         pingoComendoSopaBacon_ = null;
@@ -772,8 +764,8 @@ public class Pet extends Game.Default {
         somArroto_.play();
       }
 
-      if(fome_ <= fomeMin_ && pingoBebendoLeite_ != null && pingo_ == null){
-        fome_ = fomeMin_;
+      if(a.fome().val() <= a.fome().min() && pingoBebendoLeite_ != null && pingo_ == null){
+        a.fome().set(a.fome().min());
         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
         pingoBebendoLeite_.detatch(layer_);
         pingoBebendoLeite_ = null;
@@ -832,7 +824,7 @@ public class Pet extends Game.Default {
         }
       }
 
-      if (alcool_ == 10) {
+      if (a.alcool().val() == 10) {
         diaProibidoBeber_ = idadeCoelhoDias();
         if (pingoComa_ == null) {
             pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
@@ -848,7 +840,7 @@ public class Pet extends Game.Default {
           pingoComa_ = null;
         }
 
-        if (alcool_ >= 7 && alcool_<=9) {
+        if (a.alcool().val() >= 7 && a.alcool().val()<=9) {
           if (pingoVomitando_ == null) {
             if (pingo_ != null) {
               pingo_.detatch(layer_);//remove the layer_
@@ -863,7 +855,7 @@ public class Pet extends Game.Default {
             pingoVomitando_ = null;
           }
 
-          if (alcool_ >= 4) {
+          if (a.alcool().val() >= 4) {
             if (pingoBebado_ == null) {
               if (pingo_ != null) {
                 pingo_.detatch(layer_);
@@ -902,19 +894,19 @@ public class Pet extends Game.Default {
     passivoAtributos();
     verificaAvisos();
 
-    if (beat_ % alcoolPassivoBeats_ == 0) // a cada hora
+    if (beat_ % a.alcool().passiveBeats() == 0) // a cada hora
       mudaAviso();
 
-    if(beat_ % (2*alcoolPassivoBeats_) == 0)
+    if(beat_ % (2*a.alcool().passiveBeats()) == 0)
       piscar();
     //System.out.println(_rando.getInRange(1,10));
   } // end update
 
   public void passivoAtributos() {
     //inicio dos passivos dos atributos
-    if ((beat_ % alcoolPassivoBeats_) == 0) {
-      if (alcool_ > alcoolMin_ && alcool_ < alcoolMax_) {
-        alcool_ += alcoolPassivo_;
+    if ((beat_ % a.alcool().passiveBeats()) == 0) {
+      if (a.alcool().val() > a.alcool().min() && a.alcool().val() < a.alcool().max()) {
+        a.alcool().set(a.alcool().val() + a.alcool().passive());
       }
     }
     /*
@@ -933,22 +925,22 @@ public class Pet extends Game.Default {
         }
     } /* Se for o pingo_ normal, a fome_ aumenta.  */
     if (pingo_ != null) {
-      if ((beat_ % fomePassivoBeats_) == 0)
-        if (fome_ >= fomeMin_ && fome_ < fomeMax_)
-          fome_ += fomePassivo_;
+      if ((beat_ % a.fome().passiveBeats()) == 0)
+        if (a.fome().val() >= a.fome().min() && a.fome().val() < a.fome().max())
+          a.fome().set(a.fome().val() + a.fome().passive());
     } /* Não achei necessidade (ainda) de criar um código apenas para pingo_
          comendo cenoura, já que possuem mesmas funcionalidades.  */
     else if (pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null) {
-      // se for o pingo_ comendo sopa de bacon, a fome_ dele deve diminuir
-      if ((beat_ % fomePassivoBeats_) == 0)
-        if (fome_ <= fomeMax_ && fome_ > fomeMin_) {
-          fome_ -= fomePassivo_;
+      // se for o pingo_ comendo sopa de bacon, a a.fome().val() dele deve diminuir
+      if ((beat_ % a.fome().passiveBeats()) == 0)
+        if (a.fome().val() <= a.fome().max() && a.fome().val() > a.fome().min()) {
+          a.fome().set(a.fome().val() - a.fome().passive());
         }
     } else if(pingoBebendoLeite_ != null) {
-     //Se for o pingo_ bebendo leite, a fome_ dele deve diminuir
-      if ((beat_ % fomePassivoBeats_) == 0)
-        if (fome_ <= fomeMax_ && fome_ > fomeMin_) {
-          fome_ -= fomePassivo_;
+     //Se for o pingo_ bebendo leite, a a.fome().val() dele deve diminuir
+      if ((beat_ % a.fome().passiveBeats()) == 0)
+        if (a.fome().val() <= a.fome().max() && a.fome().val() > a.fome().min()) {
+          a.fome().set(a.fome().val() - a.fome().passive());
         }
     }
     /*
@@ -1038,35 +1030,35 @@ public class Pet extends Game.Default {
   }
 
   void verificaAvisos() {
-    if(fome_ >=80){
+    if(a.fome().val() >= 80){
       if(!fomeAviso_.getAviso().equals("Pingo esta ficando fraco!")){
         fomeAviso_.setAviso("Pingo esta ficando fraco!");
         if(avisoAtual_==fomeAviso_)
             atualizaAviso();
         }
     //chorando
-    } else if(fome_ >= 60){
+    } else if(a.fome().val() >= 60){
       if(!fomeAviso_.getAviso().equals("Pingo esta com muita fome!")){
         fomeAviso_.setAviso("Pingo esta com muita fome!");
         if(avisoAtual_==fomeAviso_)
             atualizaAviso();
         }
     //chorando
-    } else if(fome_ >= 40){
+    } else if(a.fome().val() >= 40){
      if (!fomeAviso_.getAviso().equals(""))
               removeAviso(fomeAviso_);
        //triste
-    } else if(fome_ >= 20){
+    } else if(a.fome().val() >= 20){
       if (!fomeAviso_.getAviso().equals(""))
               removeAviso(fomeAviso_);
-    } else if(fome_ >= 0){
+    } else if(a.fome().val() >= 0){
       if(!fomeAviso_.getAviso().equals("Pingo esta cheio")){
         fomeAviso_.setAviso("Pingo esta cheio");
         if(avisoAtual_==fomeAviso_)
             atualizaAviso();
       }
     //normal
-    }else if(fome_ >= -20){
+    }else if(a.fome().val() >= -20){
       if(!fomeAviso_.getAviso().equals("Pingo comeu demais e esta passando mal")){
         fomeAviso_.setAviso("Pingo comeu demais e esta passando mal");
         if(avisoAtual_==fomeAviso_)
@@ -1216,29 +1208,29 @@ public class Pet extends Game.Default {
 
   */
     //Alcool
-    if (alcool_<=0){
+    if (a.alcool().val()<=0){
       if (!alcoolAviso_.getAviso().equals(""))
               removeAviso(alcoolAviso_);
       //normal
-    } else if (alcool_ <= 3) {
+    } else if (a.alcool().val() <= 3) {
        if (!alcoolAviso_.getAviso().equals(""))
               removeAviso(alcoolAviso_);
       //normal
-    } else if(alcool_<=6) {
+    } else if(a.alcool().val()<=6) {
         if (!alcoolAviso_.getAviso().equals("Pingo esta bebado")) {
           alcoolAviso_.setAviso("Pingo esta bebado");
           if(avisoAtual_==alcoolAviso_)
             atualizaAviso();
         }
         //bebado
-      } else if(alcool_<=9) {
+      } else if(a.alcool().val()<=9) {
         if(!alcoolAviso_.getAviso().equals("Pingo esta muito bebado para executar certas atividades")){
          alcoolAviso_.setAviso("Pingo esta muito bebado para executar certas atividades");
           if(avisoAtual_==alcoolAviso_)
          atualizaAviso();
         }
         //bebado + vomitando
-      } else if(alcool_<=10) {
+      } else if(a.alcool().val()<=10) {
         if(!alcoolAviso_.getAviso().equals("Pingo entrou em coma alcoólico")) {
           alcoolAviso_.setAviso("Pingo entrou em coma alcoólico");
           if(avisoAtual_==alcoolAviso_)
