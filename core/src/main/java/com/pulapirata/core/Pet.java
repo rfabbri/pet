@@ -112,6 +112,7 @@ public class Pet extends Game.Default {
   private int beat_ = 0; // total number of updates so far
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
+  private float beatsCoelhoHora_ = (float)beatsCoelhoDia_/24.;
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
   public int idadeCoelhoHoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
@@ -121,38 +122,38 @@ public class Pet extends Game.Default {
 
   private int sede_ = 5;
   private int sedePassivo_ = 1;
-  private int sedePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60*60,1);
+  private int sedePassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);
   private int sedeMax_ = 10;
   private int sedeMin_ = 0;
 
   private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome();
   // private int fome_ = 20;
   private int fomePassivo_ = 10;
-  private int fomePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60*60,1);
+  private int fomePassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);
   private int fomeMax_ = 120;
   private int fomeMin_ = -20;
 
   private int alcool_ = 3;
   private int alcoolPassivo_ = -1;
-  private int alcoolPassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.,1);
+  private int alcoolPassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);
   private int alcoolMax_ = 10;
   private int alcoolMin_ = 0;
 
   private int humor_ = 30;
   private int humorPassivo_ = -5;
-  private int humorPassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./3.,1); //20 min
+  private int humorPassivoBeats_ = (int) Math.max(beatsCoelhoHora_/3.,1); //20 min
   private int humorMax_ = 120;
   private int humorMin_ = -20;
 
   private int social_ = 30;
   private int socialPassivo_ = -5;
-  private int socialPassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.*2./3.,1); //40min
+  private int socialPassivoBeats_ = (int) Math.max(beatsCoelhoHora_*2./3.,1); //40min
   private int socialMax_ = 120;
   private int socialMin_ = -20;
 
   private int higiene_ = 30;
   private int higienePassivo_ = -5;
-  private int higienePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60./2.,1); //30 min
+  private int higienePassivoBeats_ = (int) Math.max(beatsCoelhoHora_/2.,1); //30 min
   private int higieneMax_ = 120;
   private int higieneMin_ = -20;
 
@@ -160,13 +161,13 @@ public class Pet extends Game.Default {
   private int estudoPassivo_ = -1;
   // private int estudoPassivo_beats_ = ;
   //  ? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
-  // (int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1); //dia
+  // (int) Math.max(beatsCoelhoHora_*24.,1); //dia
   private int estudoMax_ = 10;
   private int estudoMin_ = -5;
 
   private int saude_ = 5;
   private int saudePassivo_ = -1;
-  private int saudePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1);//? por idade (em dias?)
+  private int saudePassivoBeats_ = (int) Math.max(beatsCoelhoHora_*24.,1);//? por idade (em dias?)
   private int saudeMax_ = 10;
   private int saudeMin_ = -5;
 
@@ -1273,7 +1274,7 @@ public class Pet extends Game.Default {
     /*
     //Pingo piscando
     r_ = _rando.getInRange(1,11);//de 1 a 10
-    if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beatsCoelhoSegundo_*60.*60.*2.,1))%r_==0){
+    if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beatsCoelhoHora_*2.,1))%r_==0){
     //System.out.println(r_ +" horas");
     pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
     pingo.detatch(layer);
