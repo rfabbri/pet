@@ -34,10 +34,34 @@ public class PetAttributes {
   public PetAttribute alcool() { return alcool_; }
   private PetAttribute fome_;
   public PetAttribute fome() { return fome_; }
+  private PetAttribute humor_;
+  public PetAttribute humor() { return humor_; }
+  private PetAttribute sede_;
+  public PetAttribute sede() { return sede_; }
+  private PetAttribute social_;
+  public PetAttribute social() { return social_; }
+  private PetAttribute higiene_;
+  public PetAttribute higiene() { return higiene_; }
+  private PetAttribute estudo_;
+  public PetAttribute estudo() { return estudo_; }
+  private PetAttribute saude_;
+  public PetAttribute saude() { return saude_; }
+  private PetAttribute disciplina_;
+  public PetAttribute disciplina() { return disciplina_; }
 
   public PetAttributes(float beatsCoelhoHora) {
-    alcool_ = new PetAttribute("Alcool", 3, 0, 10, -1, (int)beatsCoelhoHora);
-    fome_ = new PetAttribute("Fome", 13, -20, 120, 10, (int)beatsCoelhoHora);
+    alcool_   = new PetAttribute("Alcool", 3, 0, 10, -1, (int)beatsCoelhoHora);
+    fome_     = new PetAttribute("Fome", 13, -20, 120, 10, (int)beatsCoelhoHora);
+    humor_    = new PetAttribute("Humor", 30, -20, 120, -5, (int)beatsCoelhoHora/3.);
+    sede_     = new PetAttribute("Sede", 5, 0, 10, 1, (int)beatsCoelhoHora);
+    social_   = new PetAttribute("Social", 30, -20, 120, -5, (int)beatsCoelhoHora*2./3.);
+    higiene_  = new PetAttribute("Higiene", 30, -20, 120, -5, (int)beatsCoelhoHora/2.);
+    estudo_   = new PetAttribute("Estudo", 0, -1, -5, 10, (int)beatsCoelhoHora/24.);
+      //? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
+    saude_ = new PetAttribute("Saude", 5, -5, 10, -1, (int)beatsCoelhoHora*24.);
+      //? por idade (em dias?)
+    disciplina_ = new PetAttribute("Disciplina", 0, -5, 10, -5, (int)beatsCoelhoHora);
+
     // for i in attribute_list, set
 
     // TODO populateFromJson();

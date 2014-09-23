@@ -123,52 +123,6 @@ public class Pet extends Game.Default {
 
   protected PetAttributes a = new PetAttributes(beatsCoelhoHora_);
 
-  private int sede_ = 5;
-  private int sedePassivo_ = 1;
-  private int sedePassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);
-  private int sedeMax_ = 10;
-  private int sedeMin_ = 0;
-
-  // private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome().val();
-
-  private int humor_ = 30;
-  private int humorPassivo_ = -5;
-  private int humorPassivoBeats_ = (int) Math.max(beatsCoelhoHora_/3.,1); //20 min
-  private int humorMax_ = 120;
-  private int humorMin_ = -20;
-
-  private int social_ = 30;
-  private int socialPassivo_ = -5;
-  private int socialPassivoBeats_ = (int) Math.max(beatsCoelhoHora_*2./3.,1); //40min
-  private int socialMax_ = 120;
-  private int socialMin_ = -20;
-
-  private int higiene_ = 30;
-  private int higienePassivo_ = -5;
-  private int higienePassivoBeats_ = (int) Math.max(beatsCoelhoHora_/2.,1); //30 min
-  private int higieneMax_ = 120;
-  private int higieneMin_ = -20;
-
-  private int estudo_ = 0;
-  private int estudoPassivo_ = -1;
-  // private int estudoPassivo_beats_ = ;
-  //  ? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
-  // (int) Math.max(beatsCoelhoHora_*24.,1); //dia
-  private int estudoMax_ = 10;
-  private int estudoMin_ = -5;
-
-  private int saude_ = 5;
-  private int saudePassivo_ = -1;
-  private int saudePassivoBeats_ = (int) Math.max(beatsCoelhoHora_*24.,1);//? por idade (em dias?)
-  private int saudeMax_ = 10;
-  private int saudeMin_ = -5;
-
-  private int disciplina_ = 0;
-  private int disciplinaMax_ = 10;
-  private int disciplinaMin_ = -5;
-
-  /*-------------------------------------------------------------------------------*/
-
   private boolean dormir_ = false;
   private int diaProibidoBeber_ = 0;
 
