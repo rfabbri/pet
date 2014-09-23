@@ -112,7 +112,7 @@ public class Pet extends Game.Default {
   private int beat_ = 0; // total number of updates so far
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
-  private float beatsCoelhoHora_ = (float)beatsCoelhoDia_/24.;
+  private float beatsCoelhoHora_ = (float)beatsCoelhoDia_/24.f;
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
   public int idadeCoelhoHoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
   public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
@@ -126,7 +126,7 @@ public class Pet extends Game.Default {
   private int sedeMax_ = 10;
   private int sedeMin_ = 0;
 
-  private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome();
+  private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome().val();
   // private int fome_ = 20;
   private int fomePassivo_ = 10;
   private int fomePassivoBeats_ = (int) Math.max(beatsCoelhoHora_,1);

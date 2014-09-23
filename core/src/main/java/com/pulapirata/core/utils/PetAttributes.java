@@ -1,6 +1,8 @@
-package .pulapirata.core.utils;
+package com.pulapirata.core.utils;
 
-// A simple class hierarchy for character attributes
+import com.pulapirata.core.utils.PetAttribute;
+
+// A simple set of classes for character attributes
 //
 // This is a simple class holding and managing a list of attributes, which is
 // basically the game state.
@@ -28,57 +30,24 @@ package .pulapirata.core.utils;
 //   - based on the attributes we determine which actions are allowed or not
 //
 public class PetAttributes {
+  private PetAttribute alcool_;
+  public PetAttribute alcool() { return alcool_; }
+  private PetAttribute fome_;
+  public PetAttribute fome() { return fome_; }
 
-  public PetAttribute<int> fome() { return fome_; }
-
-  private PetAttribute<int> fome_ = new PetAttribute("Fome", 13, -20, 120, 10, 60*60);
-
-  public PetAttributes(beatsCoelhoSegundo) {
+  public PetAttributes(float beatsCoelhoHora) {
+    alcool_ = new PetAttribute("Alcool", 3, 0, 10, -1, (int)beatsCoelhoHora);
+    fome_ = new PetAttribute("Fome", 13, -20, 120, 10, (int)beatsCoelhoHora);
+    // for i in attribute_list, set
 
     // TODO populateFromJson();
   }
 
-  public void populateFromJson();
+// TODO  public void populateFromJson();
 
 
-
-//  private alcool_ = new Attribute("Alcool", 3, 0, 10, -1,  (int) Math.max(beats_coelhosegundo*60.*60.,1));
-// public Attribute alcool() { return alcool_; }
-
-//  private ArrayList<Attribute> attribute =
+//  TODO needed? private ArrayList<Attribute> attribute =
 //        new ArrayList<Attribute>(Arrays.asList(
 //        alcool_
 //        ));
-}
-
-public abstract class PetAttribute<T> {
-  public PetAttribute(String name, T startVal, T min, T max, T passive, T passiveBeats) {
-    name_ = name;
-    val_ = startVal;
-    min_ = min;
-    max_ = max;
-    passive_ = passive;
-    passiveBeats_ = passiveBeats;
-  }
-
-  public T val() { return val_; }
-  public T min() { return min_; }
-  public T max() { return max_; }
-  public T passive() { return passive_; }
-  // the speed in 'beats'
-  public T passiveBeats() { return passiveBeats_; }
-
-  public void set(T v) { val_ = v; }
-  public void setMin(T v) { min_ = v; // TODO do some checking }
-  public void setMax(T v) { max_ = v; }
-  public void setPassive(T p) { passive_ = p; }
-  public void setPassiveBeats(T b) { passiveBeats_ = b; }
-  // TODO updatePassivo();
-
-  protected String name_;
-  protected T val_;
-  protected T min_;
-  protected T max_;
-  protected T passive_;
-  protected T passiveBeats_;
 }
