@@ -1,5 +1,14 @@
 {
   "Attributes": [
-    {"name": "fome",  :69}
+ // Example:
+ //
+ // {"name": "fome",
+ // "startValue": 13,
+ // "min": -20,
+ // "max": 120,
+ // "passive":10,
+ // "passiveBeats":1}  passiveBeats is given in beatsCoelhoHora units
+
+    {"name": "fome", "startValue": 13, "min": -20, "max": 120, "passive":10, "passiveBeats":1}
   ]
 }

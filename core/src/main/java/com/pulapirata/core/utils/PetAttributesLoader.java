@@ -40,12 +40,14 @@ public class PetAttributesLoader {
         for (int i = 0; i < jsonAttributes.length(); i++) {
           Json.Object jatt = jsonAttributes.getObject(i);
           //String type = jsonEntity.getString("type");
-          int x = (int)jatt.getNumber("fome");
-          // for each attrib
-          // set
-//          at.set(
-//            jatt.getString("name");
-//          );
+          attribs.m.get(jatt.getString("name")).set(
+            jatt.getString("name"),
+            jatt.getInt("startValue"),
+            jatt.getInt("min"),
+            jatt.getInt("max"),
+            jatt.getInt("passive"),
+            jatt.getInt("passiveBeats")
+          )
         }
 
         // start the watcher (it will call the callback when everything is

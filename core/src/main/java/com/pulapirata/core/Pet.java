@@ -117,6 +117,7 @@ public class Pet extends Game.Default {
 
   protected PetAttributes a = new PetAttributes(beatsCoelhoHora_);
   private boolean attributesLoaded = false;
+  private boolean printIniDbg = false;
 
   private boolean dormir_ = false;
   private int diaProibidoBeber_ = 0;
@@ -681,6 +682,10 @@ public class Pet extends Game.Default {
       pingoDormindo_.update(delta);
 
     if (attributesLoaded) {
+      if (printIniDbg) {
+        a.print();
+        printIniDbg = false;
+      }
       /*
         Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
       */

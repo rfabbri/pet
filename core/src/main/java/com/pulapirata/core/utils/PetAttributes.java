@@ -61,6 +61,11 @@ public class PetAttributes {
 
   public Map<String, PetAttribute> m = new HashMap<String, PetAttribute>();
 
+  // map by name
+  void mapAttrib(PetAttribute att) {
+    m.put(att.name(), att);
+  }
+
   public PetAttributes(double beatsCoelhoHora) {
     // defalt values. values in the json will take precedence if available
     alcool_   = new PetAttribute("Alcool", 3, 0, 10, -1, (int)beatsCoelhoHora);
@@ -75,12 +80,24 @@ public class PetAttributes {
       //? por idade (em dias?)
     disciplina_ = new PetAttribute("Disciplina", 0, -5, 10, -5, (int)beatsCoelhoHora);
 
-    // map by name
-    m.put(alcool().name(), alcool());
-
+    mapAttrib(alcool());
+    mapAttrib(fome());
+    mapAttrib(humor());
+    mapAttrib(sede());
+    mapAttrib(social());
+    mapAttrib(higiene());
+    mapAttrib(estudo());
+    mapAttrib(saude());
+    mapAttrib(disciplina());
     // for i in attribute_list, set
 
     // TODO populateFromJson();
+  }
+
+  void print() {
+    for(String key : m.keySet()) {
+        mapA.get(key).print();
+    }
   }
 
 //  public void populateFromJson() {
