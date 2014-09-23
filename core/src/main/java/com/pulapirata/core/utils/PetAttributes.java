@@ -1,6 +1,9 @@
 package com.pulapirata.core.utils;
 
 import playn.core.Json;
+import static playn.core.PlayN.log;
+import playn.core.util.Callback;
+
 import com.pulapirata.core.utils.PetAttribute;
 
 // A simple set of classes for character attributes
@@ -31,8 +34,7 @@ import com.pulapirata.core.utils.PetAttribute;
 //   - based on the attributes we determine which actions are allowed or not
 //
 public class PetAttributes {
-
-  protected PetJson petJson_;
+  public static String JSON = "pet/jsons/atributos.json";
 
   private PetAttribute alcool_;
   public PetAttribute alcool() { return alcool_; }
@@ -73,8 +75,10 @@ public class PetAttributes {
     // TODO populateFromJson();
   }
 
-// TODO  public void populateFromJson();
-
+//  public void populateFromJson() {
+//    petJson.parseJson("pet/jsons/atributos.json","fome_");
+//    fome().set(PetJson.readJson("pet/jsons/atributos.json","fome").fome());
+//  }
 
 //  TODO needed? private ArrayList<Attribute> attribute =
 //        new ArrayList<Attribute>(Arrays.asList(

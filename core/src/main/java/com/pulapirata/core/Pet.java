@@ -114,6 +114,7 @@ public class Pet extends Game.Default {
   /* Pet attributes & info */
 
   protected PetAttributes a = new PetAttributes(beatsCoelhoHora_);
+  private bool AttributesLoaded = false;
 
   private boolean dormir_ = false;
   private int diaProibidoBeber_ = 0;
@@ -591,6 +592,7 @@ public class Pet extends Game.Default {
 
   @Override
   public void init() {
+
     System.out.println("passivo is " + a.alcool().passiveBeats());
     System.out.println("coelho seg " + beatsCoelhoSegundo_);
 
@@ -605,8 +607,23 @@ public class Pet extends Game.Default {
 
     // sprites
     pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+    // load attributes
 
-    //Adicionando avisos_ na lista
+    PetAttributesLoader.CreateAttributes("pet/jsons/atributos.json", beatsCoelhoHora_,
+    new Callback<PetAttributes>() {
+      @Override
+      public void onSuccess(PetAttributes resource) {
+        a = resource;
+        attributesLoaded = true;
+      }
+
+      @Override
+      public void onFailure(Throwable err) {
+        PlayN.log().error("Error loading pet attributes: " + err.getMessage());
+      }
+    });
+
+    // Adicionando avisos_ na lista
     avisos_.add(fomeAviso_);
     avisos_.add(humorAviso_);
     avisos_.add(socialAviso_);
@@ -661,191 +678,195 @@ public class Pet extends Game.Default {
     else if(pingoDormindo_ != null)
       pingoDormindo_.update(delta);
 
-    /*
-      Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
-    */
-    if (idadeCoelhoDias() >= 6) {
-      if (pingoMorto_ == null) {
-        // pingo morre
-        pingoMorto_ = new PingoMorto(layer_, width() / 2, height() / 2);
-        pingo_.detatch(layer_);
-        pingo_ = null;
-      } else
-        pingoMorto_.update(delta);
-    }
-    else {
-      // update properties
-      if(a.fome().val() <= a.fome().min() && pingoComendoSopaCenoura_ != null && pingo_ == null){
-        a.fome().set(a.fome().min());
-        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-        pingoComendoSopaCenoura_.detatch(layer_);
-        pingoComendoSopaCenoura_ = null;
-        somArroto_.play();
-      }
-      else if (pingo_ != null && pingoDormindo_ != null) { // TENTAR RESOLVER AKI
-        pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width() / 2, height() / 2);
-        if (pingo_ != null) {
+    if (attributesLoaded) {
+      /*
+        Eh realizada a verificacao de todos os atributos, e tomando acoes de acordo com cada funcionalidade
+      */
+      if (idadeCoelhoDias() >= 6) {
+        if (pingoMorto_ == null) {
+          // pingo morre
+          pingoMorto_ = new PingoMorto(layer_, width() / 2, height() / 2);
           pingo_.detatch(layer_);
           pingo_ = null;
-        }
-/*        else if(pingoDormindo_!=null){
-          pingoDormindo_.detatch(layer_);
-          pingoDormindo_ = null;
-        }*/
+        } else
+          pingoMorto_.update(delta);
       }
-      if(a.fome().val() <= a.fome().min() && pingoComendoSopaBacon_ != null && pingo_ == null){
-        a.fome().set(a.fome().min());
-        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-        pingoComendoSopaBacon_.detatch(layer_);
-        pingoComendoSopaBacon_ = null;
-        somArroto_.play();
-      }
-
-      //Quando a sede_ for 0, aqui é realizada a troca do layer_ dele bebendo agua para normal
-      if(a.sede().val() <= a.sede().min() && pingoBebendoAgua_ != null && pingo_ == null){
-        // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
-        a.sede().set(a.sede().min());
-        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-        pingoBebendoAgua_.detatch(layer_);
-        pingoBebendoAgua_ = null;
-        somArroto_.play();
-      }
-
-      if(a.fome().val() <= a.fome().min() && pingoBebendoLeite_ != null && pingo_ == null){
-        a.fome().set(a.fome().min());
-        pingo_ = new Pingo(layer_, width() / 2, height() / 2);
-        pingoBebendoLeite_.detatch(layer_);
-        pingoBebendoLeite_ = null;
-        somArroto_.play();
-      }
-      // FIXME estamos confundindo tempo de vida com hora de relogio.
-      // Pet esta nascendo `a meia noite sempre - 0 horas
-      int horaDoDia = idadeCoelhoHoras()-idadeCoelhoDias()*24;
-      if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8)
-          && idadeCoelhoDias() >= 1 && pingoPiscando_==null &&
-          (pingo_!=null || pingoComendoSopaCenoura_ !=null
-          || pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null
-          || pingoBebendoAgua_ != null || pingoBebendoLeite_ != null
-          || pingoComa_ != null || pingoVomitando_ != null
-          || pingoBebado_ != null)) {
-        dormir_ = true;
-        setBackgroundNight();
-
-        pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
-        if (pingo_ != null) {
-          pingo_.detatch(layer_);
-          pingo_ = null;
-        } else if(pingoPiscando_ != null) {
-          pingoPiscando_.detatch(layer_);
-          pingoPiscando_ = null;
-        }        else if(pingoComendoSopaCenoura_ != null){
+      else {
+        // update properties
+        if(a.fome().val() <= a.fome().min() && pingoComendoSopaCenoura_ != null && pingo_ == null){
+          a.fome().set(a.fome().min());
+          pingo_ = new Pingo(layer_, width() / 2, height() / 2);
           pingoComendoSopaCenoura_.detatch(layer_);
           pingoComendoSopaCenoura_ = null;
-        } else if(pingoComendoSopaBacon_ != null){
-          pingoComendoSopaBacon_.detatch(layer_);
-          pingoComendoSopaBacon_ = null;
-        } else if(pingoBebendoAgua_ != null){
-          pingoBebendoAgua_.detatch(layer_);
-          pingoBebendoAgua_ = null;
-        } else if(pingoBebendoLeite_ != null){
-          pingoBebendoLeite_.detatch(layer_);
-          pingoBebendoLeite_ = null;
-        } else if(pingoComa_ != null){
-          pingoComa_.detatch(layer_);
-          pingoComa_ = null;
-        } else if(pingoVomitando_ != null){
-          pingoVomitando_.detatch(layer_);
-          pingoVomitando_ = null;
-        } else if(pingoBebado_ != null){
-          pingoBebado_.detatch(layer_);
-          pingoBebado_ = null;
+          somArroto_.play();
         }
-      }
-      else if (horaDoDia < 22 && horaDoDia > 8) {
-        if (pingoDormindo_ != null && pingo_ == null && pingoPiscando_ == null) {
-          dormir_ = false;
-          setBackgroundDay();
-          pingo_ = new Pingo(layer_, width()/2, height()/2);
-          pingoDormindo_.detatch(layer_);
-          pingoDormindo_ = null;
-        }
-      }
-
-      if (a.alcool().val() == 10) {
-        diaProibidoBeber_ = idadeCoelhoDias();
-        if (pingoComa_ == null) {
-            pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
-            somSoluco_.play();
+        else if (pingo_ != null && pingoDormindo_ != null) { // TENTAR RESOLVER AKI
+          pingoComendoSopaCenoura_ = new PingoComendoSopaCenoura(layer_, width() / 2, height() / 2);
           if (pingo_ != null) {
-            pingo_.detatch(layer_);//remove the layer_
+            pingo_.detatch(layer_);
             pingo_ = null;
           }
+  /*        else if(pingoDormindo_!=null){
+            pingoDormindo_.detatch(layer_);
+            pingoDormindo_ = null;
+          }*/
         }
-      } else {
-        if (pingoComa_ != null) {
-          pingoComa_.detatch(layer_);
-          pingoComa_ = null;
+        if(a.fome().val() <= a.fome().min() && pingoComendoSopaBacon_ != null && pingo_ == null){
+          a.fome().set(a.fome().min());
+          pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+          pingoComendoSopaBacon_.detatch(layer_);
+          pingoComendoSopaBacon_ = null;
+          somArroto_.play();
         }
 
-        if (a.alcool().val() >= 7 && a.alcool().val()<=9) {
-          if (pingoVomitando_ == null) {
+        //Quando a sede_ for 0, aqui é realizada a troca do layer_ dele bebendo agua para normal
+        if(a.sede().val() <= a.sede().min() && pingoBebendoAgua_ != null && pingo_ == null){
+          // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
+          a.sede().set(a.sede().min());
+          pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+          pingoBebendoAgua_.detatch(layer_);
+          pingoBebendoAgua_ = null;
+          somArroto_.play();
+        }
+
+        if(a.fome().val() <= a.fome().min() && pingoBebendoLeite_ != null && pingo_ == null){
+          a.fome().set(a.fome().min());
+          pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+          pingoBebendoLeite_.detatch(layer_);
+          pingoBebendoLeite_ = null;
+          somArroto_.play();
+        }
+        // FIXME estamos confundindo tempo de vida com hora de relogio.
+        // Pet esta nascendo `a meia noite sempre - 0 horas
+        int horaDoDia = idadeCoelhoHoras()-idadeCoelhoDias()*24;
+        if (dormir_ == false && (horaDoDia >= 22 || horaDoDia <= 8)
+            && idadeCoelhoDias() >= 1 && pingoPiscando_==null &&
+            (pingo_!=null || pingoComendoSopaCenoura_ !=null
+            || pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null
+            || pingoBebendoAgua_ != null || pingoBebendoLeite_ != null
+            || pingoComa_ != null || pingoVomitando_ != null
+            || pingoBebado_ != null)) {
+          dormir_ = true;
+          setBackgroundNight();
+
+          pingoDormindo_ = new PingoDormindo(layer_, width()/2, height()/2);
+          if (pingo_ != null) {
+            pingo_.detatch(layer_);
+            pingo_ = null;
+          } else if(pingoPiscando_ != null) {
+            pingoPiscando_.detatch(layer_);
+            pingoPiscando_ = null;
+          }        else if(pingoComendoSopaCenoura_ != null){
+            pingoComendoSopaCenoura_.detatch(layer_);
+            pingoComendoSopaCenoura_ = null;
+          } else if(pingoComendoSopaBacon_ != null){
+            pingoComendoSopaBacon_.detatch(layer_);
+            pingoComendoSopaBacon_ = null;
+          } else if(pingoBebendoAgua_ != null){
+            pingoBebendoAgua_.detatch(layer_);
+            pingoBebendoAgua_ = null;
+          } else if(pingoBebendoLeite_ != null){
+            pingoBebendoLeite_.detatch(layer_);
+            pingoBebendoLeite_ = null;
+          } else if(pingoComa_ != null){
+            pingoComa_.detatch(layer_);
+            pingoComa_ = null;
+          } else if(pingoVomitando_ != null){
+            pingoVomitando_.detatch(layer_);
+            pingoVomitando_ = null;
+          } else if(pingoBebado_ != null){
+            pingoBebado_.detatch(layer_);
+            pingoBebado_ = null;
+          }
+        }
+        else if (horaDoDia < 22 && horaDoDia > 8) {
+          if (pingoDormindo_ != null && pingo_ == null && pingoPiscando_ == null) {
+            dormir_ = false;
+            setBackgroundDay();
+            pingo_ = new Pingo(layer_, width()/2, height()/2);
+            pingoDormindo_.detatch(layer_);
+            pingoDormindo_ = null;
+          }
+        }
+
+        if (a.alcool().val() == 10) {
+          diaProibidoBeber_ = idadeCoelhoDias();
+          if (pingoComa_ == null) {
+              pingoComa_ = new PingoComa(layer_, width() / 2, height() / 2);
+              somSoluco_.play();
             if (pingo_ != null) {
               pingo_.detatch(layer_);//remove the layer_
               pingo_ = null;
             }
-            pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
-            somSoluco_.play();
           }
         } else {
-          if (pingoVomitando_ != null) {
-            pingoVomitando_.detatch(layer_);
-            pingoVomitando_ = null;
+          if (pingoComa_ != null) {
+            pingoComa_.detatch(layer_);
+            pingoComa_ = null;
           }
 
-          if (a.alcool().val() >= 4) {
-            if (pingoBebado_ == null) {
+          if (a.alcool().val() >= 7 && a.alcool().val()<=9) {
+            if (pingoVomitando_ == null) {
               if (pingo_ != null) {
-                pingo_.detatch(layer_);
+                pingo_.detatch(layer_);//remove the layer_
                 pingo_ = null;
               }
-              pingoBebado_  = new PingoBebado(layer_, width() / 2, height() / 2);
-                    somSoluco_.play();
+              pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
+              somSoluco_.play();
             }
           } else {
-            if (pingoBebado_ != null) {
-              pingoBebado_.detatch(layer_);
-              pingoBebado_ = null;
-              pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+            if (pingoVomitando_ != null) {
+              pingoVomitando_.detatch(layer_);
+              pingoVomitando_ = null;
             }
-            if(pingoPiscando_ != null)
-              pingoPiscando_.update(delta);
+
+            if (a.alcool().val() >= 4) {
+              if (pingoBebado_ == null) {
+                if (pingo_ != null) {
+                  pingo_.detatch(layer_);
+                  pingo_ = null;
+                }
+                pingoBebado_  = new PingoBebado(layer_, width() / 2, height() / 2);
+                      somSoluco_.play();
+              }
+            } else {
+              if (pingoBebado_ != null) {
+                pingoBebado_.detatch(layer_);
+                pingoBebado_ = null;
+                pingo_ = new Pingo(layer_, width() / 2, height() / 2);
+              }
+              if(pingoPiscando_ != null)
+                pingoPiscando_.update(delta);
+            }
           }
         }
-      }
-    } // end if
+      } // end if
+
+
+      Label l = (Label) mainStat_.childAt(1);
+      l.text.update(idadeCoelhoDiasStr1());
+      l =  (Label) mainStat_.childAt(2);
+      l.text.update(idadeCoelhoDiasStr2());
+
+
+      passivoAtributos();
+      verificaAvisos();
+
+      if (beat_ % a.alcool().passiveBeats() == 0) // a cada hora
+        mudaAviso();
+
+      if(beat_ % (2*a.alcool().passiveBeats()) == 0)
+        piscar();
+    }
 
     // update clock and passives
     beat_++;
-
-    Label l = (Label) mainStat_.childAt(1);
-    l.text.update(idadeCoelhoDiasStr1());
-    l =  (Label) mainStat_.childAt(2);
-    l.text.update(idadeCoelhoDiasStr2());
 
     if (iface_ != null)
       iface_.update(delta);
 
     if (statbarIface_ != null)
       statbarIface_.update(delta);
-
-    passivoAtributos();
-    verificaAvisos();
-
-    if (beat_ % a.alcool().passiveBeats() == 0) // a cada hora
-      mudaAviso();
-
-    if(beat_ % (2*a.alcool().passiveBeats()) == 0)
-      piscar();
     //System.out.println(_rando.getInRange(1,10));
   } // end update
 
