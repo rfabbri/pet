@@ -74,8 +74,13 @@ import static tripleplay.ui.layout.TableLayout.COL;
 
 
 public class Pet extends Game.Default {
+
+  /*===============================================================================*/
+  /* Data                                                                          */
+  /*===============================================================================*/
+
   /*-------------------------------------------------------------------------------*/
-  /* Game config data */
+  /* Game config data management */
 
   protected PetJson petJson_;
 
@@ -86,35 +91,6 @@ public class Pet extends Game.Default {
     "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
   protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Sede: %d/%d\n";
   protected  static final String STAT_FILLER_2 = "\nFome: %d/%d\n Alcool: %d/%d";
-
-  /*-------------------------------------------------------------------------------*/
-  /* Layers, groups & associated resources */
-
-  private ImageLayer bgLayer_ = null;
-  private Image bgImageDay_, bgImageNight_;
-  private GroupLayer layer_;
-  protected Group mainStat_;
-  private Group rightStatbarGroup_;
-  private TableLayout rightPartLayout_;
-  private Interface iface_, statbarIface_;
-  private Image exclamacao_;
-
-  /*-------------------------------------------------------------------------------*/
-  /* Pet Sprites */
-
-  protected Pingo pingo_ = null;
-  protected PingoMorto pingoMorto_ = null;
-  protected PingoVomitando pingoVomitando_ = null;
-  protected PingoBebado pingoBebado_ = null;
-  protected PingoComa pingoComa_ = null;
-  protected PingoBebendoAgua pingoBebendoAgua_ = null;
-  protected PingoBebendoLeite pingoBebendoLeite_ = null;
-  protected PingoComendoSopaBacon pingoComendoSopaBacon_ = null;
-  protected PingoComendoSopaCenoura pingoComendoSopaCenoura_ = null;
-  protected PingoPiscando pingoPiscando_ = null;
-  protected PingoDormindo pingoDormindo_ = null;
-  protected PingoChorando pingoChorando_ = null;
-  protected PingoTriste pingoTriste_ = null;
 
   /*-------------------------------------------------------------------------------*/
   /* Sounds */
@@ -130,10 +106,9 @@ public class Pet extends Game.Default {
   public int height() { return 800; }
 
   /*-------------------------------------------------------------------------------*/
-  /* Time */
+  /* Time data */
 
   public static final int UPDATE_RATE = 100; // ms
-  protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
   private int beat_ = 0; // total number of updates so far
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
@@ -142,7 +117,7 @@ public class Pet extends Game.Default {
   public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
 
   /*-------------------------------------------------------------------------------*/
-  /* Pet attribute info */
+  /* Pet attributes & info */
 
   private int sede_ = 5;
   private int sedePassivo_ = 1;
@@ -151,7 +126,7 @@ public class Pet extends Game.Default {
   private int sedeMin_ = 0;
 
   private int fome_ = PetJson.readJson("pet/jsons/atributos.json","fome").fome();
-  //private int fome_ = 20;
+  // private int fome_ = 20;
   private int fomePassivo_ = 10;
   private int fomePassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60*60,1);
   private int fomeMax_ = 120;
@@ -162,23 +137,6 @@ public class Pet extends Game.Default {
   private int alcoolPassivoBeats_ = (int) Math.max(beatsCoelhoSegundo_*60.*60.,1);
   private int alcoolMax_ = 10;
   private int alcoolMin_ = 0;
-  /*-------------------------------------------------------------------------------*/
-  private boolean dormir_ = false;
-  private int diaProibidoBeber_ = 0;
-  private Stylesheet petSheet_;
-
-  private Aviso avisoAtual = new Aviso("Bem vindo ao jogo Pet");
-  private Aviso fomeAviso = new Aviso();
-  private Aviso humorAviso = new Aviso();
-  private Aviso socialAviso = new Aviso();
-  private Aviso higieneAviso = new Aviso();
-  private Aviso estudoAviso = new Aviso();
-  private Aviso saudeAviso = new Aviso();
-  private Aviso disciplinaAviso = new Aviso();
-  private Aviso alcoolAviso = new Aviso();
-  private List<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
-  //private String aviso_status_bar="ola";
-  private ListIterator<Aviso> elementos;
 
   private int humor_ = 30;
   private int humorPassivo_ = -5;
@@ -200,8 +158,9 @@ public class Pet extends Game.Default {
 
   private int estudo_ = 0;
   private int estudoPassivo_ = -1;
-  //private int estudoPassivo_beats_ = ;//? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
-  //(int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1); //dia
+  // private int estudoPassivo_beats_ = ;
+  //  ? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
+  // (int) Math.max(beatsCoelhoSegundo_*60.*60.*24.,1); //dia
   private int estudoMax_ = 10;
   private int estudoMin_ = -5;
 
@@ -215,11 +174,73 @@ public class Pet extends Game.Default {
   private int disciplinaMax_ = 10;
   private int disciplinaMin_ = -5;
 
-  private final Randoms _rando = Randoms.with(new Random());//Para gerar numeros aleatorios
-  private int r;//excluir depois
+  /*-------------------------------------------------------------------------------*/
+
+  private boolean dormir_ = false;
+  private int diaProibidoBeber_ = 0;
+
+  /*===============================================================================*/
+  /* Code                                                                          */
+  /*===============================================================================*/
+
+  /*-------------------------------------------------------------------------------*/
+  /* Misc variables */
+
+  private final Randoms _rando = Randoms.with(new Random());
+  private int r_; // excluir depois
+
+  protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
+
+  /*-------------------------------------------------------------------------------*/
+  /* Layers, groups & associated resources */
+
+  private ImageLayer bgLayer_ = null;
+  private Image bgImageDay_, bgImageNight_;
+  private GroupLayer layer_;
+  protected Group mainStat_;
+  private Group rightStatbarGroup_;
+  private TableLayout rightPartLayout_;
+  private Interface iface_, statbarIface_;
+  private Image exclamacao_;
+  private Stylesheet petSheet_;
+
+  /*-------------------------------------------------------------------------------*/
+  /* Pet Sprites */
+
+  protected Pingo pingo_ = null;
+  protected PingoMorto pingoMorto_ = null;
+  protected PingoVomitando pingoVomitando_ = null;
+  protected PingoBebado pingoBebado_ = null;
+  protected PingoComa pingoComa_ = null;
+  protected PingoBebendoAgua pingoBebendoAgua_ = null;
+  protected PingoBebendoLeite pingoBebendoLeite_ = null;
+  protected PingoComendoSopaBacon pingoComendoSopaBacon_ = null;
+  protected PingoComendoSopaCenoura pingoComendoSopaCenoura_ = null;
+  protected PingoPiscando pingoPiscando_ = null;
+  protected PingoDormindo pingoDormindo_ = null;
+  protected PingoChorando pingoChorando_ = null;
+  protected PingoTriste pingoTriste_ = null;
+
+  /*-------------------------------------------------------------------------------*/
+  /* Alerts/Avisos */
+
+  private Aviso avisoAtual = new Aviso("Bem vindo ao jogo Pet");
+  private Aviso fomeAviso = new Aviso();
+  private Aviso humorAviso = new Aviso();
+  private Aviso socialAviso = new Aviso();
+  private Aviso higieneAviso = new Aviso();
+  private Aviso estudoAviso = new Aviso();
+  private Aviso saudeAviso = new Aviso();
+  private Aviso disciplinaAviso = new Aviso();
+  private Aviso alcoolAviso = new Aviso();
+  private List<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
+  //private String aviso_status_bar="ola";
+  private ListIterator<Aviso> elementos;
+
 
   //--------------------------------------------------------------------------------
-  /* Funcao para setar as informacoes no topo corretamente.  */
+  /* funcoes para setar as informacoes no topo corretamente.  */
+
   public String idadeCoelhoDiasStr1() {
     if (idadeCoelhoDias() == 0)
       return String.format(STAT_FILLER_1, idadeCoelhoHoras(), "h", sede_, sedeMax_);
@@ -355,7 +376,7 @@ public class Pet extends Game.Default {
 
 
   //--------------------------------------------------------------------------------
-  /* Funcao responsavel por criar os butoes, estes sao colocados em um ArraList */
+  /* Funcao responsavel por criar os botoes, estes sao colocados em um ArraList */
 
   private void makeButtons() {
     // create our UI manager and configure it to process pointer events
@@ -515,7 +536,6 @@ public class Pet extends Game.Default {
           }
         });
 
-
         if(b == 0 && s == 1) sbut.clicked().connect(new UnitSlot(){
             public void onEmit(){//Atravez do evento comer sopa de bacon, cria um novo pingoComendoSopaBacon_
               if (dormir_== false) {
@@ -528,7 +548,6 @@ public class Pet extends Game.Default {
             //fome_ = fomeMax_;
             }
         });
-
 
         if(b == 0 && s == 2)sbut.clicked().connect(new UnitSlot(){
           public void onEmit(){//Atravez do evento beber agua, cria um novo pingoBebendoAgua_
@@ -1254,14 +1273,14 @@ public class Pet extends Game.Default {
      */
     /*
     //Pingo piscando
-    r = _rando.getInRange(1,11);//de 1 a 10
-    if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beatsCoelhoSegundo_*60.*60.*2.,1))%r==0){
-    //System.out.println(r +" horas");
+    r_ = _rando.getInRange(1,11);//de 1 a 10
+    if(pingo!=null && pingo.getTraversed() && beat/((int) Math.max(beatsCoelhoSegundo_*60.*60.*2.,1))%r_==0){
+    //System.out.println(r_ +" horas");
     pingopiscando = new PingoPiscando(layer, width() / 2, height() / 2);
     pingo.detatch(layer);
     pingo = null;
     }else if(pingopiscando!=null && pingopiscando.getTraversed()){
-    //System.out.println(r +" horas");
+    //System.out.println(r_ +" horas");
     System.out.println(pingopiscando.getTraversed());
     pingo = new Pingo(layer, width() / 2, height() / 2);
     pingopiscando.detatch(layer);
