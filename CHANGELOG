@@ -1,6 +1,8 @@
 Pet - Cross-Platform Pet simulator game engine
 ______________________________________________
 
+	+ attribute handling separated from code and controlled from a json file
+
 0.11.0.0
 	+ first step towards modularizing code: just functions for now
 	+ compiles with java 7 & Playn 1.9-SNAPSHOT

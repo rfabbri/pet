@@ -1,5 +1,13 @@
 {
   "Attributes": [
-    {"name": "Fome", "startValue": 11, "min": -20, "max": 120, "passive":10, "passiveBeats":1}
+    {"name": "Fome", "startValue": 13, "min": -20, "max": 120, "passive": 10, "passiveBeats": 1.0},
+    {"name": "Alcool", "startValue": 3, "min": 0, "max": 10, "passive": -1, "passiveBeats": 1.0},
+    {"name": "Humor", "startValue":  30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.333333, "comment": "passiveBeats = 1/3"},
+    {"name": "Sede", "startValue": 5, "min": 0, "max": 10, "passive": 1, "passiveBeats": 1},
+    {"name": "Social", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.666666, "comment": "passiveBeats = 2/3"},
+    {"name": "Higiene", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.5},
+    {"name": "Estudo", "startValue": 0, "min": -1, "max": -5, "passive": 10, "passiveBeats": 0.41666666, "comment": "passiveBeats = 1/24"},
+    {"name": "Saude", "startValue": 5, "min": -5, "max": 10, "passive": -1, "passiveBeats": 24.0},
+    {"name": "Disciplina", "startValue": 0, "min": -5, "max": 10, "passive": -5, "passiveBeats": 1.0}
   ]
 }

@@ -68,17 +68,17 @@ public class PetAttributes {
 
   public PetAttributes(double beatsCoelhoHora) {
     // defalt values. values in the json will take precedence if available
-    alcool_   = new PetAttribute("Alcool", 3, 0, 10, -1, (int)beatsCoelhoHora);
-    fome_     = new PetAttribute("Fome", 13, -20, 120, 10, (int)beatsCoelhoHora);
-    humor_    = new PetAttribute("Humor", 30, -20, 120, -5, (int)(beatsCoelhoHora/3.));
-    sede_     = new PetAttribute("Sede", 5, 0, 10, 1, (int)beatsCoelhoHora);
-    social_   = new PetAttribute("Social", 30, -20, 120, -5, (int)(beatsCoelhoHora*2./3.));
-    higiene_  = new PetAttribute("Higiene", 30, -20, 120, -5, (int)(beatsCoelhoHora/2.));
-    estudo_   = new PetAttribute("Estudo", 0, -1, -5, 10, (int)(beatsCoelhoHora/24.));
+    alcool_   = new PetAttribute("Alcool");
+    fome_     = new PetAttribute("Fome");
+    humor_    = new PetAttribute("Humor");
+    sede_     = new PetAttribute("Sede");
+    social_   = new PetAttribute("Social");
+    higiene_  = new PetAttribute("Higiene");
+    estudo_   = new PetAttribute("Estudo");
       //? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
-    saude_ = new PetAttribute("Saude", 5, -5, 10, -1, (int)(beatsCoelhoHora*24.));
+    saude_ = new PetAttribute("Saude");
       //? por idade (em dias?)
-    disciplina_ = new PetAttribute("Disciplina", 0, -5, 10, -5, (int)beatsCoelhoHora);
+    disciplina_ = new PetAttribute("Disciplina");
 
     mapAttrib(alcool());
     mapAttrib(fome());

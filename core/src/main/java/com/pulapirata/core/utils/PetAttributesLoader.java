@@ -46,7 +46,7 @@ public class PetAttributesLoader {
             jatt.getInt("min"),
             jatt.getInt("max"),
             jatt.getInt("passive"),
-            jatt.getInt("passiveBeats")
+            (int)(jatt.getDouble("passiveBeats")*beatsCoelhoHora)
           );
         }
 
