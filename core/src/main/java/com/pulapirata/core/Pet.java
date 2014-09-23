@@ -23,6 +23,7 @@ import playn.core.util.Clock;
 import playn.core.PlayN;
 import playn.core.Font;
 import playn.core.Sound;
+import playn.core.util.Callback;
 
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
@@ -38,6 +39,7 @@ import com.pulapirata.core.sprites.PingoDormindo;
 import com.pulapirata.core.sprites.PingoChorando;
 import com.pulapirata.core.sprites.PingoTriste;
 import com.pulapirata.core.utils.PetAttributes;
+import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.Aviso;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
@@ -114,7 +116,7 @@ public class Pet extends Game.Default {
   /* Pet attributes & info */
 
   protected PetAttributes a = new PetAttributes(beatsCoelhoHora_);
-  private bool AttributesLoaded = false;
+  private boolean attributesLoaded = false;
 
   private boolean dormir_ = false;
   private int diaProibidoBeber_ = 0;
