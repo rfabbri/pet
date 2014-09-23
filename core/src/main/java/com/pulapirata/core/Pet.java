@@ -237,7 +237,6 @@ public class Pet extends Game.Default {
   //private String aviso_status_bar="ola";
   private ListIterator<Aviso> elementos_;
 
-
   //--------------------------------------------------------------------------------
   /* funcoes para setar as informacoes no topo corretamente.  */
 
