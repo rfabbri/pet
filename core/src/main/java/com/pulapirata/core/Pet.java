@@ -189,9 +189,9 @@ public class Pet extends Game.Default {
 
   public String idadeCoelhoDiasStr1() {
     if (idadeCoelhoDias() == 0)
-      return String.format(STAT_FILLER_1, idadeCoelhoHoras(), "h", sede_, sedeMax_);
+      return String.format(STAT_FILLER_1, idadeCoelhoHoras(), "h", a.sede().get(), sedeMax_);
     else
-      return String.format(STAT_FILLER_1, idadeCoelhoDias(), " dias", sede_, sedeMax_);
+      return String.format(STAT_FILLER_1, idadeCoelhoDias(), " dias", a.sede().get(), sedeMax_);
   }
   public String idadeCoelhoDiasStr2() {
     return String.format(STAT_FILLER_2, a.fome().val(), a.fome().max(), a.alcool().val(), a.alcool().max());
@@ -710,8 +710,9 @@ public class Pet extends Game.Default {
       }
 
       //Quando a sede_ for 0, aqui é realizada a troca do layer_ dele bebendo agua para normal
-      if(sede_ <= sedeMin_ && pingoBebendoAgua_ != null && pingo_ == null){
-        sede_ = sedeMin_; // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
+      if(a.sede().get() <= sedeMin_ && pingoBebendoAgua_ != null && pingo_ == null){
+        // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
+        a.sede().set(a.sede().min());
         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
         pingoBebendoAgua_.detatch(layer_);
         pingoBebendoAgua_ = null;
@@ -868,14 +869,14 @@ public class Pet extends Game.Default {
     */
     if (pingo_ != null) {
       if ((beat_ % sedePassivoBeats_) == 0)
-      if (sede_ >= sedeMin_ && sede_ < sedeMax_) {
-        sede_ += sedePassivo_;
+      if (a.sede().get() >= sedeMin_ && a.sede().get() < sedeMax_) {
+        a.sede().sumPassive();
       }
     } /* Se for pingo_ bebendo agua, a sede_ deve diminuir.  */
     else if (pingoBebendoAgua_ != null) {
       if ((beat_ % sedePassivoBeats_) == 0)
-        if (sede_ <= sedeMax_ && sede_ > sedeMin_) {
-          sede_ -= sedePassivo_+1;
+        if (a.sede().get() <= sedeMax_ && a.sede().get() > sedeMin_) {
+          a.sede().sub(a.sede().passive() + 1);
         }
     } /* Se for o pingo_ normal, a fome_ aumenta.  */
     if (pingo_ != null) {
