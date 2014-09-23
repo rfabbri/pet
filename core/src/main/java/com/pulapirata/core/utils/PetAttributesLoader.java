@@ -47,7 +47,7 @@ public class PetAttributesLoader {
             jatt.getInt("max"),
             jatt.getInt("passive"),
             jatt.getInt("passiveBeats")
-          )
+          );
         }
 
         // start the watcher (it will call the callback when everything is

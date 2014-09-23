@@ -94,9 +94,9 @@ public class PetAttributes {
     // TODO populateFromJson();
   }
 
-  void print() {
-    for(String key : m.keySet()) {
-        mapA.get(key).print();
+  public void print() {
+    for (String key : m.keySet()) {
+      m.get(key).print();
     }
   }
 
