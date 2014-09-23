@@ -39,7 +39,7 @@ public class PetAttributesLoader {
         Json.Array jsonAttributes = document.getArray("Attributes");
         for (int i = 0; i < jsonAttributes.length(); i++) {
           Json.Object jatt = jsonAttributes.getObject(i);
-          //String type = jsonEntity.getString("type");
+          System.out.println("reading name: " + jatt.getString("name"));
           attribs.m.get(jatt.getString("name")).set(
             jatt.getString("name"),
             jatt.getInt("startValue"),

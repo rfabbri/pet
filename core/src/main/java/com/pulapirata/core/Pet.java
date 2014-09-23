@@ -117,7 +117,7 @@ public class Pet extends Game.Default {
 
   protected PetAttributes a = new PetAttributes(beatsCoelhoHora_);
   private boolean attributesLoaded = false;
-  private boolean printIniDbg = false;
+  private boolean printIniDbg = true;
 
   private boolean dormir_ = false;
   private int diaProibidoBeber_ = 0;
