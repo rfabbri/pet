@@ -23,7 +23,6 @@ import playn.core.util.Clock;
 import playn.core.PlayN;
 import playn.core.Font;
 import playn.core.Sound;
-import playn.core.Json;
 
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
@@ -38,7 +37,6 @@ import com.pulapirata.core.sprites.PingoPiscando;
 import com.pulapirata.core.sprites.PingoDormindo;
 import com.pulapirata.core.sprites.PingoChorando;
 import com.pulapirata.core.sprites.PingoTriste;
-import com.pulapirata.core.utils.PetJson;
 import com.pulapirata.core.utils.PetAttributes;
 import com.pulapirata.core.Aviso;
 
@@ -73,17 +71,11 @@ import tripleplay.util.Randoms;
 import static tripleplay.ui.layout.TableLayout.COL;
 
 
-
 public class Pet extends Game.Default {
 
   /*===============================================================================*/
   /* Data                                                                          */
   /*===============================================================================*/
-
-  /*-------------------------------------------------------------------------------*/
-  /* Game config data management */
-
-  protected PetJson petJson_;
 
   /*-------------------------------------------------------------------------------*/
   /* Status info shown on top */
@@ -861,7 +853,7 @@ public class Pet extends Game.Default {
     //inicio dos passivos dos atributos
     if ((beat_ % a.alcool().passiveBeats()) == 0) {
       if (a.alcool().val() > a.alcool().min() && a.alcool().val() < a.alcool().max()) {
-        a.alcool().set(a.alcool().val() + a.alcool().passive());
+        a.alcool().sumPassive();
       }
     }
     /*
@@ -882,20 +874,20 @@ public class Pet extends Game.Default {
     if (pingo_ != null) {
       if ((beat_ % a.fome().passiveBeats()) == 0)
         if (a.fome().val() >= a.fome().min() && a.fome().val() < a.fome().max())
-          a.fome().set(a.fome().val() + a.fome().passive());
+          a.fome().sumPassive();
     } /* Não achei necessidade (ainda) de criar um código apenas para pingo_
          comendo cenoura, já que possuem mesmas funcionalidades.  */
     else if (pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null) {
       // se for o pingo_ comendo sopa de bacon, a a.fome().val() dele deve diminuir
       if ((beat_ % a.fome().passiveBeats()) == 0)
         if (a.fome().val() <= a.fome().max() && a.fome().val() > a.fome().min()) {
-          a.fome().set(a.fome().val() - a.fome().passive());
+          a.fome().subPassive();
         }
     } else if(pingoBebendoLeite_ != null) {
      //Se for o pingo_ bebendo leite, a a.fome().val() dele deve diminuir
       if ((beat_ % a.fome().passiveBeats()) == 0)
         if (a.fome().val() <= a.fome().max() && a.fome().val() > a.fome().min()) {
-          a.fome().set(a.fome().val() - a.fome().passive());
+          a.fome().subPassive();
         }
     }
     /*
@@ -978,7 +970,7 @@ public class Pet extends Game.Default {
       //elementos_.remove();
       aviso_.remove();//string = ""
       mudaAviso();
-    }else{
+    } else {
       aviso_.remove();//Campo String = ""
     }
     imprime(avisos_);
@@ -1165,34 +1157,34 @@ public class Pet extends Game.Default {
     //Alcool
     if (a.alcool().val()<=0){
       if (!alcoolAviso_.getAviso().equals(""))
-              removeAviso(alcoolAviso_);
+        removeAviso(alcoolAviso_);
       //normal
     } else if (a.alcool().val() <= 3) {
-       if (!alcoolAviso_.getAviso().equals(""))
-              removeAviso(alcoolAviso_);
+      if (!alcoolAviso_.getAviso().equals(""))
+        removeAviso(alcoolAviso_);
       //normal
     } else if(a.alcool().val()<=6) {
-        if (!alcoolAviso_.getAviso().equals("Pingo esta bebado")) {
-          alcoolAviso_.setAviso("Pingo esta bebado");
-          if(avisoAtual_==alcoolAviso_)
-            atualizaAviso();
-        }
-        //bebado
-      } else if(a.alcool().val()<=9) {
-        if(!alcoolAviso_.getAviso().equals("Pingo esta muito bebado para executar certas atividades")){
-         alcoolAviso_.setAviso("Pingo esta muito bebado para executar certas atividades");
-          if(avisoAtual_==alcoolAviso_)
-         atualizaAviso();
-        }
-        //bebado + vomitando
-      } else if(a.alcool().val()<=10) {
-        if(!alcoolAviso_.getAviso().equals("Pingo entrou em coma alcoólico")) {
-          alcoolAviso_.setAviso("Pingo entrou em coma alcoólico");
-          if(avisoAtual_==alcoolAviso_)
+      if (!alcoolAviso_.getAviso().equals("Pingo esta bebado")) {
+        alcoolAviso_.setAviso("Pingo esta bebado");
+        if(avisoAtual_==alcoolAviso_)
           atualizaAviso();
-        }
-        //em coma
       }
+      //bebado
+    } else if(a.alcool().val()<=9) {
+      if(!alcoolAviso_.getAviso().equals("Pingo esta muito bebado para executar certas atividades")){
+        alcoolAviso_.setAviso("Pingo esta muito bebado para executar certas atividades");
+        if(avisoAtual_==alcoolAviso_)
+          atualizaAviso();
+      }
+      //bebado + vomitando
+    } else if(a.alcool().val()<=10) {
+      if(!alcoolAviso_.getAviso().equals("Pingo entrou em coma alcoólico")) {
+        alcoolAviso_.setAviso("Pingo entrou em coma alcoólico");
+        if(avisoAtual_==alcoolAviso_)
+          atualizaAviso();
+      }
+      //em coma
+    }
   }
 
 

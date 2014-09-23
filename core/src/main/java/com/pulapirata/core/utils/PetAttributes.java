@@ -1,5 +1,6 @@
 package com.pulapirata.core.utils;
 
+import playn.core.Json;
 import com.pulapirata.core.utils.PetAttribute;
 
 // A simple set of classes for character attributes
@@ -30,6 +31,9 @@ import com.pulapirata.core.utils.PetAttribute;
 //   - based on the attributes we determine which actions are allowed or not
 //
 public class PetAttributes {
+
+  protected PetJson petJson_;
+
   private PetAttribute alcool_;
   public PetAttribute alcool() { return alcool_; }
   private PetAttribute fome_;
@@ -61,6 +65,8 @@ public class PetAttributes {
     saude_ = new PetAttribute("Saude", 5, -5, 10, -1, (int)(beatsCoelhoHora*24.));
       //? por idade (em dias?)
     disciplina_ = new PetAttribute("Disciplina", 0, -5, 10, -5, (int)beatsCoelhoHora);
+
+
 
     // for i in attribute_list, set
 
