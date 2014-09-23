@@ -113,9 +113,9 @@ public class Pet extends Game.Default {
   private int beat_ = 0; // total number of updates so far
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
-  private float beatsCoelhoHora_ = (float)beatsCoelhoDia_/24.f;
+  private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
   private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
-  public int idadeCoelhoHoras() { return (int)((float)beat_ / ((float)beatsCoelhoDia_/24f)); }
+  public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
   public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
 
   /*-------------------------------------------------------------------------------*/
@@ -189,9 +189,9 @@ public class Pet extends Game.Default {
 
   public String idadeCoelhoDiasStr1() {
     if (idadeCoelhoDias() == 0)
-      return String.format(STAT_FILLER_1, idadeCoelhoHoras(), "h", a.sede().get(), sedeMax_);
+      return String.format(STAT_FILLER_1, idadeCoelhoHoras(), "h", a.sede().val(), a.sede().max());
     else
-      return String.format(STAT_FILLER_1, idadeCoelhoDias(), " dias", a.sede().get(), sedeMax_);
+      return String.format(STAT_FILLER_1, idadeCoelhoDias(), " dias", a.sede().val(), a.sede().max());
   }
   public String idadeCoelhoDiasStr2() {
     return String.format(STAT_FILLER_2, a.fome().val(), a.fome().max(), a.alcool().val(), a.alcool().max());
@@ -710,7 +710,7 @@ public class Pet extends Game.Default {
       }
 
       //Quando a sede_ for 0, aqui é realizada a troca do layer_ dele bebendo agua para normal
-      if(a.sede().get() <= sedeMin_ && pingoBebendoAgua_ != null && pingo_ == null){
+      if(a.sede().val() <= a.sede().min() && pingoBebendoAgua_ != null && pingo_ == null){
         // para caso na hora de decrementar, resultar em um valor negativo. Assim o fará ser 0
         a.sede().set(a.sede().min());
         pingo_ = new Pingo(layer_, width() / 2, height() / 2);
@@ -868,14 +868,14 @@ public class Pet extends Game.Default {
       Se for pingo_ normal, a sede_ aumenta.
     */
     if (pingo_ != null) {
-      if ((beat_ % sedePassivoBeats_) == 0)
-      if (a.sede().get() >= sedeMin_ && a.sede().get() < sedeMax_) {
+      if ((beat_ % a.sede().passiveBeats()) == 0)
+      if (a.sede().val() >= a.sede().min() && a.sede().val() < a.sede().max()) {
         a.sede().sumPassive();
       }
     } /* Se for pingo_ bebendo agua, a sede_ deve diminuir.  */
     else if (pingoBebendoAgua_ != null) {
-      if ((beat_ % sedePassivoBeats_) == 0)
-        if (a.sede().get() <= sedeMax_ && a.sede().get() > sedeMin_) {
+      if ((beat_ % a.sede().passiveBeats()) == 0)
+        if (a.sede().val() <= a.sede().max() && a.sede().val() > a.sede().min()) {
           a.sede().sub(a.sede().passive() + 1);
         }
     } /* Se for o pingo_ normal, a fome_ aumenta.  */
