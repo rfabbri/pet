@@ -179,6 +179,7 @@ public class Pet extends Game.Default {
   private Aviso saude_aviso = new Aviso();
   private Aviso disciplina_aviso = new Aviso();
   private Aviso alcool_aviso = new Aviso();
+  private Aviso diaProibidoBeber_aviso= new Aviso();
   private List<Aviso> avisos = new ArrayList<Aviso>();//List que conterá os avisos
   //private String aviso_status_bar="ola"; 
   private ListIterator<Aviso> elementos;
@@ -550,7 +551,7 @@ public class Pet extends Game.Default {
 
         if(b == 5 && s == 0)sbut.clicked().connect(new UnitSlot(){
           public void onEmit(){//Quando o pingo estiver em coma, deve-se dar a injecao a ele
-	    if(alcool_== alcoolMax_){
+	    if(alcool_== alcoolMax_){		
 	      alcool_ = alcool_ - 1;
 	      pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
 	      if (pingoComa_ != null) {
@@ -654,9 +655,10 @@ public class Pet extends Game.Default {
     avisos.add(saude_aviso);
     avisos.add(disciplina_aviso);
     avisos.add(alcool_aviso);
+    avisos.add(diaProibidoBeber_aviso);
     //Iniciando o ListIterator e o Aviso atual 
     elementos = avisos.listIterator(); 
-    aviso_atual = elementos.next();
+    aviso_atual = elementos.next(); 
   }
 
 
@@ -1053,6 +1055,22 @@ public class Pet extends Game.Default {
             atualiza_aviso();
     //normal+vomitando
         }
+    }
+    if(idade_coelhodias() == 0){
+      diaProibidoBeber_aviso.setAviso("Pingo nao pode beber durante suas primeiras horas de vida"); 
+    }
+/*    else if (diaProibidoBeber_ != 0){
+      if (!diaProibidoBeber_aviso.getAviso().equals("")){	
+	remove_aviso(diaProibidoBeber_aviso);   
+      }
+    }*/
+    else if(diaProibidoBeber_ == idade_coelhodias() && diaProibidoBeber_ != 0){
+      diaProibidoBeber_aviso.setAviso("Pingo saiu do coma alcoolico hoje, entao Pingo nao pode beber mais neste dia");
+    }
+    else if(diaProibidoBeber_ != idade_coelhodias()){
+      if (!diaProibidoBeber_aviso.getAviso().equals("")){	
+	remove_aviso(diaProibidoBeber_aviso);   
+      }
     }
 /*
     //Humor 
