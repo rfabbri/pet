@@ -1059,11 +1059,6 @@ public class Pet extends Game.Default {
     if(idade_coelhodias() == 0){
       diaProibidoBeber_aviso.setAviso("Pingo nao pode beber durante suas primeiras horas de vida"); 
     }
-/*    else if (diaProibidoBeber_ != 0){
-      if (!diaProibidoBeber_aviso.getAviso().equals("")){	
-	remove_aviso(diaProibidoBeber_aviso);   
-      }
-    }*/
     else if(diaProibidoBeber_ == idade_coelhodias() && diaProibidoBeber_ != 0){
       diaProibidoBeber_aviso.setAviso("Pingo saiu do coma alcoolico hoje, entao Pingo nao pode beber mais neste dia");
     }
