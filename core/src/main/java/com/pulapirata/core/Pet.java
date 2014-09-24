@@ -97,6 +97,8 @@ public class Pet extends Game.Default {
 
   // FIXME graphics.width() is weird in html, not respecting #playn-root
   // properties.
+
+
   public int width()  { return 480; }
   public int height() { return 800; }
 
@@ -595,6 +597,7 @@ public class Pet extends Game.Default {
 
   @Override
   public void init() {
+    assert 1 == 2 : "FLAH+_+_+_+_+_+_+___+_+__";
 
     System.out.println("passivo is " + a.alcool().passiveBeats());
     System.out.println("coelho seg " + beatsCoelhoSegundo_);
