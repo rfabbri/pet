@@ -568,6 +568,9 @@ public class Pet extends Game.Default {
 	      if(dormir_== false && diaProibidoBeber_ != idade_coelhodias()){
                 alcool_ = alcoolMax_; // TODO modificar de acordo com folha
 	      }
+	      else if((dormir_== false && diaProibidoBeber_ == idade_coelhodias())){
+		System.out.println("Pingo nao pode beber neste dia");
+	      }
 	    }
           });
         }	
