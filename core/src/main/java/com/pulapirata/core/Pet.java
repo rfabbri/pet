@@ -178,6 +178,7 @@ public class Pet extends Game.Default {
   private Aviso saudeAviso_ = new Aviso();
   private Aviso disciplinaAviso_ = new Aviso();
   private Aviso alcoolAviso_ = new Aviso();
+  private Aviso diaProibidoBeberAviso_ = new Aviso();
   private List<Aviso> avisos_ = new ArrayList<Aviso>();//List que conterá os avisos_
   //private String aviso_status_bar="ola";
   private ListIterator<Aviso> elementos_;
@@ -535,8 +536,11 @@ public class Pet extends Game.Default {
 
         if (b == 6 /* diversao */ && s == 0/* licor */)sbut.clicked().connect(new UnitSlot() {
             public void onEmit() {
-              if(dormir_== false && diaProibidoBeber_ != idadeCoelhoDias()){
-                a.alcool().set(a.alcool().max()); // TODO modificar de acordo com folha
+              if  (dormir_ == false) {
+                if (diaProibidoBeber_ != idadeCoelhoDias())
+                  a.alcool().set(a.alcool().max()); // TODO modificar de acordo com folha
+                else
+                  System.out.println("Pingo nao pode beber neste dia.");
               }
             }
           });
@@ -637,7 +641,7 @@ public class Pet extends Game.Default {
     avisos_.add(estudoAviso_);
     avisos_.add(saudeAviso_);
     avisos_.add(disciplinaAviso_);
-    avisos_.add(alcoolAviso_);
+    avisos_.add(diaProibidoBeberAviso_);
     //Iniciando o ListIterator e o Aviso atual
     elementos_ = avisos_.listIterator();
     avisoAtual_ = elementos_.next();
@@ -1043,6 +1047,16 @@ public class Pet extends Game.Default {
             atualizaAviso();
     //normal+vomitando
         }
+    }
+
+    if (idadeCoelhoDias() == 0) {
+      diaProibidoBeberAviso_.setAviso("Pingo nao pode beber durante suas primeiras horas de vida");
+    } else if(diaProibidoBeber_ == idadeCoelhoDias() && diaProibidoBeber_ != 0) {
+      diaProibidoBeberAviso_.setAviso("Pingo saiu do coma alcoolico hoje, entao Pingo nao pode beber mais neste dia");
+    } else if(diaProibidoBeber_ != idadeCoelhoDias()) {
+      if (!diaProibidoBeberAviso_.getAviso().equals("")){
+        removeAviso(diaProibidoBeberAviso_);
+      }
     }
 /*
     //Humor
