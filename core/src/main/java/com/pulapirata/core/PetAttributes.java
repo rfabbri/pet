@@ -1,4 +1,4 @@
-package com.pulapirata.core.utils;
+package com.pulapirata.core;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import playn.core.Json;
 import static playn.core.PlayN.log;
 import playn.core.util.Callback;
 
-import com.pulapirata.core.utils.PetAttribute;
+import com.pulapirata.core.PetAttribute;
 
 // A simple set of classes for character attributes
 //

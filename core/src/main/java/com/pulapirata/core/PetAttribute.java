@@ -1,4 +1,4 @@
-package com.pulapirata.core.utils;
+package com.pulapirata.core;
 import java.util.*;
 import playn.core.PlayN;
 
