@@ -25,6 +25,9 @@ import playn.core.Font;
 import playn.core.Sound;
 import playn.core.util.Callback;
 
+import com.pulapirata.core.Aviso;
+import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;
 import com.pulapirata.core.sprites.PingoVomitando;
@@ -38,9 +41,6 @@ import com.pulapirata.core.sprites.PingoPiscando;
 import com.pulapirata.core.sprites.PingoDormindo;
 import com.pulapirata.core.sprites.PingoChorando;
 import com.pulapirata.core.sprites.PingoTriste;
-import com.pulapirata.core.utils.PetAttributes;
-import com.pulapirata.core.utils.PetAttributesLoader;
-import com.pulapirata.core.Aviso;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them
