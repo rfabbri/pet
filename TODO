@@ -1,17 +1,9 @@
 == Doing ==
 
-=== Minimal stuff for 0.3.1 ===
-Atributos do Pingo (sem classe separada por enqto)
+https://github.com/rfabbri/pet/issues
 
-+ Alcool (0-10), valor inicial 0, mod passivo -1 por hora
-
-+ dar licor simplesmente:
-  + causa Alcool = 10 de imediato (so pra gente brincar)
-  + animacao do pingo muda
-  + estado na statusbar muda
-  + ai espera o modificador passivo pra fazer ele sair de bebado e ver se
-    recuperar: verde -> vomitando -> bebbim -> normal
-
+Our social activity feed (AA):
+http://aaserver.herokuapp.com/minimumClient/
 
 == Extras ==
 - crunch the PNG's for faster loading (reduce colors since we dont use many
