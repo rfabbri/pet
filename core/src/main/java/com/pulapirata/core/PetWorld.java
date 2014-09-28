@@ -43,6 +43,7 @@ class PetWorld extends World {
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
     public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
+    public final Component.Generic<PetInnerWorld> pet_ = new Component.Generic<PetInnerWorld>(this);
     public final PetAtlas atlas_;  // shared atlas amongst all sprites
 
     /*-------------------------------------------------------------------------------*/
@@ -215,12 +216,12 @@ class PetWorld extends World {
             switch (type.get(e1.id) | type.get(e2.id)) {
             case PET_DROPPING:
                 if (type.get(e1.id) == PET) {
-                    if (mode.get(e1.id) == CLEANING) {
+                    if (pet_.get(e1.id).mode(pet_.ACTION) == pet_.CLEANING) {
                         sunder(e1);
                         e2.destroy();
                     }
                 } else {
-                    if (mode.get(e2.id) == CLEANING) {
+                    if (pet_.get(e2.id).mode(pet_.ACTION) == pet_.CLEANING) {
                         sunder(e2);
                         e1.destroy();
                     }
