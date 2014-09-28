@@ -11,8 +11,8 @@ class PetWorld extends World {
     /** Misc variables */
 
     public final GroupLayer layer_;
-    public final Signal<Key> keyDown = Signal.create();
-    public final Signal<Key> keyUp = Signal.create();
+    public final Signal<Key> keyDown_ = Signal.create();
+    public final Signal<Key> keyUp_ = Signal.create();
 
 
     /*-------------------------------------------------------------------------------*/
@@ -29,12 +29,12 @@ class PetWorld extends World {
      * Components are bags of types, positions, and other properties shared among
      * playable entities in Pet (like the bunny itself and its droppings)
      */
-    public final Component.IMask type = new Component.IMask(this);
-    public final Component.XY pos = new Component.XY(this);
-    public final Component.XY vel = new Component.XY(this); // pixels/ms
+    public final Component.IMask type_ = new Component.IMask(this);
+    public final Component.XY pos_ = new Component.XY(this);
+    public final Component.XY vel_ = new Component.XY(this); // pixels/ms
 
-    public final Component.IScalar expires = new Component.IScalar(this);
-    private final Randoms _rando = Randoms.with(new Random());
+    public final Component.IScalar expires_ = new Component.IScalar(this);
+    private final Randoms rando_ = Randoms.with(new Random());
 
     /*-------------------------------------------------------------------------------*/
     /** Time data */
@@ -73,6 +73,26 @@ class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Systems */
 
+    /** Simple motion. Handles updating entity position based on entity velocity */
+    public final System mover = new System(this, 0) {
+        @Override protected void update (int delta, Entities entities) {
+            Point p = pos_;
+            Vector v = vel_;
+            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
+                int eid = entities.get(ii);
+                pos_.get(eid, p); // get our current pos
+                vel.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
+                pos.set(eid, p.x + v.x, p.y + v.y); // add velocity
+            }
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return entity.has(pos) && entity.has(vel);
+        }
+
+        protected final Point  _pos = new Point();
+        protected final Vector _vel = new Vector();
+    };
 
     /** Use keys to control pet. Like in minigames. Pet should automatically move
      * and do something fun if no control is pressed. NOOP if touchscreen
