@@ -105,7 +105,6 @@ public class Pet extends Game.Default {
   /* Time data */
 
   public static final int UPDATE_RATE = 100; // ms
-  private int beat_ = 0; // total number of updates so far
    // the following is not static so that we can dynamically speedup the game if desired
   private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
   private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
