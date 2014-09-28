@@ -36,9 +36,9 @@ class PetWorld extends World {
      * playable entities in Pet (like the bunny itself and its droppings)
      */
     public final Component.IMask type_ = new Component.IMask(this);
-    public final Component.XY pos_ = new Component.XY(this);
+    public final Component.XY pos_  = new Component.XY(this);
     public final Component.XY opos_ = new Component.XY(this);  // old pos for interpolates
-    public final Component.XY vel_ = new Component.XY(this);  // pixels/ms
+    public final Component.XY vel_  = new Component.XY(this);  // pixels/ms
     public final Component.FScalar radius = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
     public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
@@ -217,12 +217,10 @@ class PetWorld extends World {
             case PET_DROPPING:
                 if (type.get(e1.id) == PET) {
                     if (pet_.get(e1.id).mode(pet_.ACTION) == pet_.CLEANING) {
-                        sunder(e1);
                         e2.destroy();
                     }
                 } else {
                     if (pet_.get(e2.id).mode(pet_.ACTION) == pet_.CLEANING) {
-                        sunder(e2);
                         e1.destroy();
                     }
                 }
