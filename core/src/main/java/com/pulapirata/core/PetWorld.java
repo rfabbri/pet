@@ -121,6 +121,14 @@ class PetWorld extends World {
             }
         }
 
+
+        @Override protected void update (int delta) {
+            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
+                int eid = entities.get(ii);
+                sprite_.get(eid).update(delta);
+            }
+        }
+
         @Override protected void wasAdded (Entity entity) {
             super.wasAdded(entity);
             layer_.addAt(spriteLayer_.get(entity.id), pos_.getX(entity.id), pos_.getX(entity.id));
@@ -267,13 +275,14 @@ class PetWorld extends World {
         pos.set(id, x, y);
         vel.set(id, 0, 0);
 
-        PetSprite ps(layer, atlas_);
+        // read imgLayer /sprite loader
+        PetSprite ps(imgLayer, atlas_);
+        sprite_.set(id, ps);
+        spriteLayer_.set(id, imgLayer);
 
-        sprite.set(id, ps);
-        spriteLayer.set(id, layer);
-        radius.set(id, 10);
+        radius.set(id, sprite_.boundingRadius());
         //radius.ComputeFromSprite(id, 10);
-        return ship;
+        return pet;
     }
 
     public void reset() {
