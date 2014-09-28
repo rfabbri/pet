@@ -59,7 +59,7 @@ class PetWorld extends World {
     }
 
     public PetWorld (GroupLayer stage) {
-        this.stage = stage;
+        this.layer_ = stage;
 
         keyboard().setListener(new Keyboard.Adapter() {
             @Override public void onKeyDown (Keyboard.Event event) {
