@@ -6,6 +6,12 @@ import tripleplay.entity.System;
 import tripleplay.entity.World;
 
 
+/**
+ * An entity world designed for character animation and interaction among
+ * multiple other objects. Call this the <em>extrinsic world</em>. Pet's extrinsic
+ * properties are efficiently updated together with the rest of the objects that
+ * share those properties - position, velocity, etc.
+ */
 class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Misc variables */
@@ -13,7 +19,6 @@ class PetWorld extends World {
     public final GroupLayer layer_;
     public final Signal<Key> keyDown_ = Signal.create();
     public final Signal<Key> keyUp_ = Signal.create();
-
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -32,7 +37,6 @@ class PetWorld extends World {
     public final Component.IMask type_ = new Component.IMask(this);
     public final Component.XY pos_ = new Component.XY(this);
     public final Component.XY vel_ = new Component.XY(this); // pixels/ms
-
     public final Component.IScalar expires_ = new Component.IScalar(this);
     private final Randoms rando_ = Randoms.with(new Random());
 
