@@ -19,6 +19,7 @@ class PetWorld extends World {
     public final GroupLayer layer_;
     public final Signal<Key> keyDown_ = Signal.create();
     public final Signal<Key> keyUp_ = Signal.create();
+    private final Randoms rando_ = Randoms.with(new Random());
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -38,7 +39,7 @@ class PetWorld extends World {
     public final Component.XY pos_ = new Component.XY(this);
     public final Component.XY vel_ = new Component.XY(this); // pixels/ms
     public final Component.IScalar expires_ = new Component.IScalar(this);
-    private final Randoms rando_ = Randoms.with(new Random());
+    public final Component.Generic<Layer> sprite_ = new Component.Generic<Layer>(this);
 
     /*-------------------------------------------------------------------------------*/
     /** Time data */
@@ -98,9 +99,9 @@ class PetWorld extends World {
         protected final Vector _vel = new Vector();
     };
 
-    /** Use keys to control pet. Like in minigames. Pet should automatically move
-     * and do something fun if no control is pressed. NOOP if touchscreen
-     * or gamepad are available.
+    /** Use keys to control pet. Like in minigames inside this game. Pet should
+     * automatically move and do something fun if no control is pressed. NOOP if
+     * touchscreen or gamepad are available.
      */
     public final System walkControls = new System(this, 1) {
         /* ctor */ {
