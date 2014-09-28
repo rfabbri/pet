@@ -37,9 +37,10 @@ class PetWorld extends World {
      */
     public final Component.IMask type_ = new Component.IMask(this);
     public final Component.XY pos_ = new Component.XY(this);
-    public final Component.XY opos_ = new Component.XY(this); // old pos for interpolates
-    public final Component.XY vel_ = new Component.XY(this); // pixels/ms
-    public final Component.IScalar expires_ = new Component.IScalar(this);
+    public final Component.XY opos_ = new Component.XY(this);  // old pos for interpolates
+    public final Component.XY vel_ = new Component.XY(this);  // pixels/ms
+    public final Component.FScalar radius = new Component.FScalar(this); // diameter
+    public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
     public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final PetAtlas atlas_;  // shared atlas amongst all sprites
@@ -103,7 +104,7 @@ class PetWorld extends World {
         protected final Vector innerVel_ = new Vector();
     };
 
-    /** updates sprite layers to interpolated position of entities on each paint() call */
+    /** Updates sprite layers to interpolated position of entities on each paint() call */
     public final System spriteMover = new System(this, 0) {
         @Override protected void paint (Clock clock, Entities entities) {
             float alpha = clock.alpha();
@@ -179,6 +180,61 @@ class PetWorld extends World {
         }
 
         protected Vector vel_ = new Vector();
+    };
+
+    /** Checks for collisions. Like between PET and DROPPING. Models everything as a sphere. */
+    public final System collider = new System(this, 1) {
+        @Override protected void update (int delta, Entities entities) {
+            // simple O(n^2) collision check; no need for anything fancy here
+            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
+                int eid1 = entities.get(ii);
+                Entity e1 = world.entity(eid1);
+                if (e1.isDestroyed()) continue;
+                pos.get(eid1, p1_);
+                float r1 = radius.get(eid1);
+                for (int jj = ii+1; jj < ll; jj++) {
+                    int eid2 = entities.get(jj);
+                    Entity e2 = world.entity(eid2);
+                    if (e2.isDestroyed()) continue;
+                    pos.get(eid2, p2_);
+                    float r2 = radius.get(eid2), dr = r2+r1;
+                    float dist2 = _p1.distanceSq(_p2);
+                    if (dist2 <= dr*dr) {
+                        collide(e1, e2);
+                        break; // don't collide e1 with any other entities
+                    }
+                }
+            }
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return entity.has(pos) && entity.has(radius);
+        }
+
+        private void collide (Entity e1, Entity e2) {
+            switch (type.get(e1.id) | type.get(e2.id)) {
+            case PET_DROPPING:
+                if (type.get(e1.id) == PET) {
+                    if (mode.get(e1.id) == CLEANING) {
+                        sunder(e1);
+                        e2.destroy();
+                    }
+                } else {
+                    if (mode.get(e2.id) == CLEANING) {
+                        sunder(e2);
+                        e1.destroy();
+                    }
+                }
+                break;
+            default: break; // nada
+            }
+        }
+
+        protected static final int PET_DROPPING = PET|DROPPING;
+        protected static final int PET_VOMIT = PET|VOMIT;
+        protected static final int PET_DIARRHEA = PET|DIARRHEA;
+
+        protected final Point _p1 = new Point(), _p2 = new Point();
     };
 
     /*-------------------------------------------------------------------------------*/
