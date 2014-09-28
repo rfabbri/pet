@@ -37,9 +37,11 @@ class PetWorld extends World {
      */
     public final Component.IMask type_ = new Component.IMask(this);
     public final Component.XY pos_ = new Component.XY(this);
+    public final Component.XY opos_ = new Component.XY(this); // old pos for interpolates
     public final Component.XY vel_ = new Component.XY(this); // pixels/ms
     public final Component.IScalar expires_ = new Component.IScalar(this);
-    public final Component.Generic<Layer> sprite_ = new Component.Generic<Layer>(this);
+    public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
+    public final PetAtlas atlas_;  // shared atlas amongst all sprites
 
     /*-------------------------------------------------------------------------------*/
     /** Time data */
@@ -79,24 +81,58 @@ class PetWorld extends World {
     /** Motion Systems */
 
     /** Simple motion. Handles updating entity position based on entity velocity */
-    public final System mover = new System(this, 0) {
+    public final System logicMover = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
-            Point p = pos_;
-            Vector v = vel_;
+            Point p = innerPos_;
+            Vector v = innerVel_;
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
                 pos_.get(eid, p); // get our current pos
+                opos_.set(eid, p);
                 vel.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
                 pos.set(eid, p.x + v.x, p.y + v.y); // add velocity
             }
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(pos) && entity.has(vel);
+            return entity.has(opos) && entity.has(pos) && entity.has(vel);
         }
 
-        protected final Point  _pos = new Point();
-        protected final Vector _vel = new Vector();
+        protected final Point  innerPos_ = new Point();
+        protected final Vector innerVel_ = new Vector();
+    };
+
+    /** updates sprite layers to interpolated position of entities on each paint() call */
+    public final System spriteMover = new System(this, 0) {
+        @Override protected void paint (Clock clock, Entities entities) {
+            float alpha = clock.alpha();
+            Point op = innerOldPos_, p = innerPos_;
+            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
+                int eid = entities.get(ii);
+                // interpolate between opos and pos and use that to update the sprite position
+                opos_.get(eid, op);
+                pos_.get(eid, p);
+                // wrap our interpolated position as we may interpolate off the screen
+                sprite_.get(eid).layer().setTranslation(wrapx(MathUtil.lerp(op.x, p.x, alpha)),
+                                                        wrapy(MathUtil.lerp(op.y, p.y, alpha)));
+            }
+        }
+
+        @Override protected void wasAdded (Entity entity) {
+            super.wasAdded(entity);
+            layer_.addAt(sprite_.get(entity.id).layer(), pos_.getX(entity.id), pos_.getX(entity.id));
+        }
+
+        @Override protected void wasRemoved (Entity entity, int index) {
+            super.wasRemoved(entity, index);
+            layer_.remove(sprite_.get(entity.id).layer());
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return entity.has(opos) && entity.has(pos) && entity.has(sprite_);
+        }
+
+        protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
     };
 
     /** Use keys to control pet. Like in minigames inside this game. Pet should
