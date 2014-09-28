@@ -41,6 +41,7 @@ class PetWorld extends World {
     public final Component.XY vel_ = new Component.XY(this); // pixels/ms
     public final Component.IScalar expires_ = new Component.IScalar(this);
     public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
+    public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final PetAtlas atlas_;  // shared atlas amongst all sprites
 
     /*-------------------------------------------------------------------------------*/
@@ -113,23 +114,23 @@ class PetWorld extends World {
                 opos_.get(eid, op);
                 pos_.get(eid, p);
                 // wrap our interpolated position as we may interpolate off the screen
-                sprite_.get(eid).layer().setTranslation(wrapx(MathUtil.lerp(op.x, p.x, alpha)),
-                                                        wrapy(MathUtil.lerp(op.y, p.y, alpha)));
+                spriteLayer_.get(eid).setTranslation(wrapx(MathUtil.lerp(op.x, p.x, alpha)),
+                                                     wrapy(MathUtil.lerp(op.y, p.y, alpha)));
             }
         }
 
         @Override protected void wasAdded (Entity entity) {
             super.wasAdded(entity);
-            layer_.addAt(sprite_.get(entity.id).layer(), pos_.getX(entity.id), pos_.getX(entity.id));
+            layer_.addAt(spriteLayer_.get(entity.id), pos_.getX(entity.id), pos_.getX(entity.id));
         }
 
         @Override protected void wasRemoved (Entity entity, int index) {
             super.wasRemoved(entity, index);
-            layer_.remove(sprite_.get(entity.id).layer());
+            layer_.remove(sprite_Layer_.get(entity.id));
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(opos) && entity.has(pos) && entity.has(sprite_);
+            return entity.has(opos) && entity.has(pos) && entity.has(spriteLayer_);
         }
 
         protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
