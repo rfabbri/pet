@@ -75,7 +75,7 @@ class PetWorld extends World {
     }
 
     /*-------------------------------------------------------------------------------*/
-    /** Systems */
+    /** Motion Systems */
 
     /** Simple motion. Handles updating entity position based on entity velocity */
     public final System mover = new System(this, 0) {
@@ -143,4 +143,21 @@ class PetWorld extends World {
         protected Vector vel_ = new Vector();
     };
 
+    /*-------------------------------------------------------------------------------*/
+    /** Game logic that generalizes among many entities */
+
+    // expires things with limited lifespan
+    public final System expirer = new System(this, 0) {
+        @Override protected void update (int delta, Entities entities) {
+            int now = this.beat_;
+            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
+                int eid = entities.get(ii);
+                if (expires_.get(eid) <= now) world.entity(eid).destroy();
+            }
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return entity.has(expires);
+        }
+    };
 }
