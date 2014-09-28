@@ -253,4 +253,34 @@ class PetWorld extends World {
             return entity.has(expires);
         }
     };
+
+    /*-------------------------------------------------------------------------------*/
+    /** Entity creation */
+
+    protected Entity createPet (float x, float y) {
+        Entity pet = create(true);
+        pet.add(type, pet_, sprite_, spriteLayer_, opos_, pos_, vel_, radius_, expires_);
+
+        int id = pet.id;
+        type.set(id, PET);
+        opos.set(id, x, y);
+        pos.set(id, x, y);
+        vel.set(id, 0, 0);
+
+        PetSprite ps(layer, atlas_);
+
+        sprite.set(id, ps);
+        spriteLayer.set(id, layer);
+        radius.set(id, 10);
+        //radius.ComputeFromSprite(id, 10);
+        return ship;
+    }
+
+    public void reset() {
+        Iterator<Entity> iter = entities();
+        while (iter.hasNext()) iter.next().destroy();
+        createPet(swidth/2, sheight/2);
+    }
+
+    /* TODO load atlas */
 }
