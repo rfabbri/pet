@@ -1,6 +1,11 @@
 core/target
 java/target
+html/target
+assets/target
 .project
 .settings
 .classpath
 tags
+*.orig
+use_java7
+textput.log

@@ -1,0 +1,15 @@
+- strings devem ir para um json  game_text-pt_BR.json ou, por hora, no mesmo
+  json de atributos...
+- posicao do pet - colocar la, e inicializar o sprite nesse lugar.
+  - posicao do pet deve ser de 0 a 1 em x e y (0% a 100% width etc).
+  - ja da pra brincar um pouco com animacao dele aqui - ver Peas
+-** uma vez criado estado (enum dizendo se esta dormindo, bebendo agua, etc),
+ja mudar passivoAtributos p/ ser membro de Atributos. Cada atributo tera
+seu passiveUpdate(), e cada atributo faz seus ifs diferentemente.
+- pre-alocar sprite piscando, pra ao menos eliminar os new.
+- piscar() nao esta certo
+-- tempo de piscar sendo setado mais ou menos 2*alcool passivo
+-- pode tirar traversed() dos sprites
+- escrever classe de avisos e colocar fora de pet.java
+- sprite eu quero fazer um Atlas manager q carrega tudo e as outras classes pegam dele
+-- ver tb atlas manager em ForScene.
