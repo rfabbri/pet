@@ -16,9 +16,9 @@ class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Misc variables */
 
-    public final GroupLayer layer_;
-    public final Signal<Key> keyDown_ = Signal.create();
-    public final Signal<Key> keyUp_ = Signal.create();
+    public  final GroupLayer layer_;
+    public  final Signal<Key> keyDown_ = Signal.create();
+    public  final Signal<Key> keyUp_ = Signal.create();
     private final Randoms rando_ = Randoms.with(new Random());
 
     /*-------------------------------------------------------------------------------*/
