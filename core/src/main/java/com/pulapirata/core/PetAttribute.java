@@ -13,7 +13,7 @@ public class PetAttribute extends IntValue {
 
     public PetAttribute(String name, int startVal, int min, int max, int passive, int passiveBeats) {
         super(startVal);
-        set(name, startVal, min, max, passive, passiveBeats);
+        set(name, min, max, passive, passiveBeats);
         assert inv();
     }
 
@@ -21,8 +21,12 @@ public class PetAttribute extends IntValue {
      * start with easily identifiable dummy default values
      */
     public PetAttribute(String name) {
-      set(name, -6969, -696969, 696969, 6969, 9696);
+      super(-6969);
+      connect(state_.slot()); /** Hook qualitative attributes */
+      set(name, -696969, 696969, 6969, 9696);
+      assert inv();
     }
+
 
     public int val() { return get(); }
     public int min() { return min_; }

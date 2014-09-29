@@ -81,16 +81,14 @@ public class PetAttributes {
 
     public PetAttributes(double beatsCoelhoHora) {
         // defalt values. values in the json will take precedence if available
-        alcool_   = new PetAttribute("Alcool");
-        fome_     = new PetAttribute("Fome");
-        humor_    = new PetAttribute("Humor");
-        sede_     = new PetAttribute("Sede");
-        social_   = new PetAttribute("Social");
-        higiene_  = new PetAttribute("Higiene");
-        estudo_   = new PetAttribute("Estudo");
-          //? por dia a partir da matricula (colocar um valor inicial depois da matricula mudar)
-        saude_ = new PetAttribute("Saude");
-          //? por idade (em dias?)
+        alcool_     = new PetAttribute("Alcool");
+        fome_       = new PetAttribute("Fome");
+        humor_      = new PetAttribute("Humor");
+        sede_       = new PetAttribute("Sede");
+        social_     = new PetAttribute("Social");
+        higiene_    = new PetAttribute("Higiene");
+        estudo_     = new PetAttribute("Estudo");
+        saude_      = new PetAttribute("Saude");
         disciplina_ = new PetAttribute("Disciplina");
 
         mapAttrib(alcool());
@@ -102,10 +100,10 @@ public class PetAttributes {
         mapAttrib(estudo());
         mapAttrib(saude());
         mapAttrib(disciplina());
-        // for i in attribute_list, set
 
-        /** Hook qualitative attributes */
-        value.connect(sAlcool.slot());
+        PetAttributeState sAlcool_(alcool(), statelist, intervals);
+
+
         /* XXX
          * inside a rule that depends on QualitativeAttribute, there will be a
          * slot() function. QualtiativeAttribute will fire its value only when
