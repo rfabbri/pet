@@ -104,6 +104,15 @@ public class PetAttributes {
         mapAttrib(disciplina());
         // for i in attribute_list, set
 
+        /** Hook qualitative attributes */
+        value.connect(sAlcool.slot());
+        /* XXX
+         * inside a rule that depends on QualitativeAttribute, there will be a
+         * slot() function. QualtiativeAttribute will fire its value only when
+         * the qualitative state changes.
+         */
+
+
         // TODO populateFromJson();
     }
 
