@@ -152,7 +152,7 @@ class PetWorld extends World {
      */
     public final System walkControls = new System(this, 1) {
         /* ctor */ {
-            keyDown.connect(new Slot<Key>() {
+            keyDown_.connect(new Slot<Key>() {
                 @Override public void onEmit (Key key) {
                     switch (key) {
                       // TODO colocar estado walk_velocity_ na classe pet?
@@ -166,7 +166,7 @@ class PetWorld extends World {
                     }
                 }
             });
-            keyUp.connect(new Slot<Key>() {
+            keyUp_.connect(new Slot<Key>() {
                 @Override public void onEmit (Key key) {
                     switch (key) {
                       case LEFT:  vel_.x = 0; vel_.y = 0; break;

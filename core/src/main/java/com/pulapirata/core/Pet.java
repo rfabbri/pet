@@ -87,19 +87,9 @@ public class Pet extends Game.Default {
   protected  static final String STAT_FILLER_2 = "\nFome: %d/%d\n Alcool: %d/%d";
 
   /*-------------------------------------------------------------------------------*/
-  /* Sounds */
-
-  private Sound somArroto_ = assets().getSound("pet/sprites/arroto_01");
-  private Sound somSoluco_ = assets().getSound("pet/sprites/soluco_01");
-
-  /*-------------------------------------------------------------------------------*/
-
-  // FIXME graphics.width() is weird in html, not respecting #playn-root
-  // properties.
 
   public int width()  { return 480; }
   public int height() { return 800; }
-
 
   /*-------------------------------------------------------------------------------*/
   /* Time data */
@@ -115,16 +105,11 @@ public class Pet extends Game.Default {
   /*-------------------------------------------------------------------------------*/
   /* Pet attributes & info */
 
-  protected PetAttributes a = new PetAttributes(beatsCoelhoHora_);
   private boolean attributesLoaded = false;
   private boolean printIniDbg = true;
 
-  private boolean dormir_ = false;
-  private int diaProibidoBeber_ = 0;
   /*-------------------------------------------------------------------------------*/
   /* Misc variables */
-
-  private int r_; // excluir depois
 
   protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
 
@@ -140,6 +125,8 @@ public class Pet extends Game.Default {
   private Interface iface_, statbarIface_;
   private Image exclamacao_;
   private Stylesheet petSheet_;
+
+  protected PetWorld world_;
 
   //--------------------------------------------------------------------------------
   public Pet() {
@@ -242,7 +229,7 @@ public class Pet extends Game.Default {
     //petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
     Root statbarRoot = statbarIface_.createRoot(new AbsoluteLayout(), petSheet_);
 
-    statbarRoot.setSize(width(), 120); // this includes the secondary buttons
+    statbarRoot.setSize(width(), 120);  // this includes the secondary buttons
 
     layer_.addAt(statbarRoot.layer, 0, 0);
     statbarRoot.add(AbsoluteLayout.at(statbar, mae, mte, width()-mae, 120-mte));
@@ -253,7 +240,7 @@ public class Pet extends Game.Default {
     bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
     bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
     bgLayer_ = graphics().createImageLayer(bgImageDay_);
-    layer_.addAt(bgLayer_, 0, 120); //janela do quarto do pingo
+    layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
   }
 
   //--------------------------------------------------------------------------------
@@ -448,8 +435,8 @@ public class Pet extends Game.Default {
     makeButtons();
 
     // sprites
-    pingo_ = new Pingo(layer_, width() / 2, height() / 2);
     // load attributes
+    world_ = new PetWorld(layer_);
 
     PetAttributesLoader.CreateAttributes("pet/jsons/atributos.json", beatsCoelhoHora_,
       new Callback<PetAttributes>() {
@@ -473,29 +460,34 @@ public class Pet extends Game.Default {
     // will paint itself, the background, and the sprites group layer_ automatically
     // so no need to do anything here!
 
+    if (_world != null)
+        world_.paint(clock);
+
     if (iface_ != null)
-      iface_.paint(clock_);
+        iface_.paint(clock_);
 
     if (statbarIface_ != null)
-      statbarIface_.paint(clock_);
+        statbarIface_.paint(clock_);
   }
 
   //--------------------------------------------------------------------------------
   @Override
   public void update(int delta) {
-    /*
-      Aqui que sao realizadas as atualizacoes dos sprites, sem isto o sprite ficaria estatico
-    */
-    clock_.update(delta);
+      /*
+        Aqui que sao realizadas as atualizacoes dos sprites, sem isto o sprite ficaria estatico
+      */
+      clock_.update(delta);
 
-    // update clock and passives
-    beat_++;
+      // update clock and passives
+      beat_++;
 
-    if (iface_ != null)
-      iface_.update(delta);
+      if (world_ != null)
+          world_.update(delta);
 
-    if (statbarIface_ != null)
-      statbarIface_.update(delta);
+      if (iface_ != null)
+          iface_.update(delta);
+
+      if (statbarIface_ != null)
+          statbarIface_.update(delta);
   }
-
 }

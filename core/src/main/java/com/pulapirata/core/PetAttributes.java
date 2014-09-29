@@ -101,17 +101,15 @@ public class PetAttributes {
         mapAttrib(saude());
         mapAttrib(disciplina());
 
+        // TODO read satelist, intervals from Json.
+        // perhaps populateFromJson();
+
+        // I don't put into an array because I want a direct handle on each
+        // attribute state when programming. Actual logic can't be generic,
+        // after all the game has a well-defined personality!
         PetAttributeState sAlcool_(alcool(), statelist, intervals);
-
-
-        /* XXX
-         * inside a rule that depends on QualitativeAttribute, there will be a
-         * slot() function. QualtiativeAttribute will fire its value only when
-         * the qualitative state changes.
-         */
-
-
-        // TODO populateFromJson();
+        PetAttributeState sFome_(alcool(), statelist, intervals);
+        // .... TODO//
     }
 
     /**
@@ -127,6 +125,10 @@ public class PetAttributes {
     public QualitativeAttributeMode dominantMode() {
         return qattr_(id).mode();
     }
+
+    /**
+     * example of game logic depending on multiple attributes
+     */
 
     public void print() {
         for (String key : m.keySet()) {
