@@ -43,7 +43,7 @@ class PetWorld extends World {
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
     public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
-    public final Component.Generic<PetInnerWorld> pet_ = new Component.Generic<PetInnerWorld>(this);
+    public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
     public final PetAtlas atlas_;  // shared atlas amongst all sprites
 
     /*-------------------------------------------------------------------------------*/
