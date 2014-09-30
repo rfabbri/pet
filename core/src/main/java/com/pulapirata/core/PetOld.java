@@ -386,7 +386,7 @@ public class Pet extends Game.Default {
         sbuttons.get(b).add(AbsoluteLayout.at(sbut,
           topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
         /*
-          Acesso todos os butoes primarios (b) e secundarios (s) de forma a criar
+          Acesso todos os botoes primarios (b) e secundarios (s) de forma a criar
           cada evento. Feito isso, apos instancia uma classe/sprite referente a
           aquela acao.  A funcao "detatch" eh utilziada para remover o sprite de
           tela, e em seguida seta-se a classe pingo para null. Provavelmente tera

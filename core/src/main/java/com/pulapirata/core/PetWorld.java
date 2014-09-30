@@ -45,6 +45,9 @@ class PetWorld extends World {
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
     public final PetAtlas atlas_;  // shared atlas amongst all sprites
+    public PetAttributes mainPet_ = null ;  // direct handle on the attributes of the main pet
+
+    public PetAttributes mainPet() { return mainPet_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Time data */
@@ -69,14 +72,14 @@ class PetWorld extends World {
     }
 
     protected String typeName (int id) {
-        switch (type.get(id)) {
+        switch (type_.get(id)) {
         case PET: return "pet";
         case DROPPING: return "dropping";
         case VOMIT: return "vomit";
         case DIARRHEA: return "diarrhea";
         case MOSQUITOS: return "mosquitos";
         case STINKY_MOSQUITOS: return "stinky_mosquitos";
-        default: return "unknown:" + type.get(id);
+        default: return "unknown:" + type_.get(id);
       }
     }
 
@@ -269,11 +272,12 @@ class PetWorld extends World {
         Entity pet = create(true);
         pet.add(type, pet_, sprite_, spriteLayer_, opos_, pos_, vel_, radius_, expires_);
 
-        int id = pet.id;
-        type.set(id, PET);
-        opos.set(id, x, y);
-        pos.set(id, x, y);
-        vel.set(id, 0, 0);
+        int id = pet_.id;
+        type_.set(id, PET);
+        opos_.set(id, x, y);
+        pos_.set(id, x, y);
+        vel_.set(id, 0, 0);
+        mainPet_ = pet_.get(id);
 
         // read imgLayer /sprite loader
         PetSprite ps(imgLayer, atlas_);

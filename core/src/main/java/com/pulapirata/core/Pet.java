@@ -379,10 +379,32 @@ public class Pet extends Game.Default {
       sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
-      for (int s = 0; s < imgButtSecondary.get(b).size(); ++s) {
+      for (int s = 0; s < imgButtSecondary.get(b).size(); ++s)
         Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut,
           topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
+
+        if (b == 5 && s == 0)sbut.clicked().connect(new UnitSlot() {
+          public void onEmit() {//Quando o pingo estiver em coma, deve-se dar a injecao a ele
+            if (a.alcool().val()== a.alcool().max()) {
+              a.alcool().set(a.alcool().val() - 1);
+              pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
+              if (pingoComa_ != null) {
+                pingoComa_.detatch(layer_);
+                pingoComa_ = null;
+              }
+            }
+            //fome_ = a.fome().max();
+          }
+        });
+
+        if (b == 6 /* diversao */ && s == 0/* licor */)
+            sbut.clicked().filter(
+            Functions.constant(world_.mainPet().alcool().max())).connect(
+                world_.mainPet().alcool().slot());
+        }
+
+        /*-------------------------------------------------------------------------------*/
         but.selected().map(new Function <Boolean, Icon>() {
           public Icon apply (Boolean selected) {
             if (selected)
