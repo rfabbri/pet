@@ -384,25 +384,17 @@ public class Pet extends Game.Default {
         sbuttons.get(b).add(AbsoluteLayout.at(sbut,
           topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
 
-        if (b == 5 && s == 0)sbut.clicked().connect(new UnitSlot() {
-          public void onEmit() {//Quando o pingo estiver em coma, deve-se dar a injecao a ele
-            if (a.alcool().val()== a.alcool().max()) {
-              a.alcool().set(a.alcool().val() - 1);
-              pingoVomitando_ = new PingoVomitando(layer_, width() / 2, height() / 2);
-              if (pingoComa_ != null) {
-                pingoComa_.detatch(layer_);
-                pingoComa_ = null;
-              }
-            }
-            //fome_ = a.fome().max();
-          }
-        });
+        if (b == 5 && s == 0)
+            sbut.clicked().connect(new UnitSlot() {
+                public void onEmit() {
+                    world_.mainPet.alcool().sub(1);
+                }
+            });
 
         if (b == 6 /* diversao */ && s == 0/* licor */)
             sbut.clicked().filter(
-            Functions.constant(world_.mainPet().alcool().max())).connect(
+            Functions.constant(world_.mainPet().alcool().max()) ).connect(
                 world_.mainPet().alcool().slot());
-        }
 
         /*-------------------------------------------------------------------------------*/
         but.selected().map(new Function <Boolean, Icon>() {
@@ -456,23 +448,9 @@ public class Pet extends Game.Default {
     makeBackgroundInit();
     makeButtons();
 
-    // sprites
+
     // load attributes
     world_ = new PetWorld(layer_);
-
-    PetAttributesLoader.CreateAttributes("pet/jsons/atributos.json", beatsCoelhoHora_,
-      new Callback<PetAttributes>() {
-        @Override
-        public void onSuccess(PetAttributes resource) {
-          a = resource;
-          attributesLoaded = true;
-        }
-
-        @Override
-        public void onFailure(Throwable err) {
-          PlayN.log().error("Error loading pet attributes: " + err.getMessage());
-        }
-      });
   }
 
   //--------------------------------------------------------------------------------

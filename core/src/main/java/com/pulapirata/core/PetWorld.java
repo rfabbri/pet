@@ -62,6 +62,21 @@ class PetWorld extends World {
     }
 
     public PetWorld (GroupLayer stage) {
+        // load attributes
+        PetAttributesLoader.CreateAttributes("pet/jsons/atributos.json", beatsCoelhoHora_,
+          new Callback<PetAttributes>() {
+            @Override
+            public void onSuccess(PetAttributes resource) {
+              a = resource;
+              attributesLoaded = true;
+            }
+
+            @Override
+            public void onFailure(Throwable err) {
+              PlayN.log().error("Error loading pet attributes: " + err.getMessage());
+            }
+          });
+
         this.layer_ = stage;
 
         keyboard().setListener(new Keyboard.Adapter() {
