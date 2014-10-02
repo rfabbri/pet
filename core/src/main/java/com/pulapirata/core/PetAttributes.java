@@ -61,6 +61,7 @@ public class PetAttributes {
     public PetAttribute disciplina() { return disciplina_; }
 
     public Map<String, PetAttribute> m = new HashMap<String, PetAttribute>();
+    public Map<String, PetAttributeState> ms = new HashMap<String, PetAttributeState>();
 
     /*-------------------------------------------------------------------------------*/
     /** Qualitative attributes holding states for each attrib */
@@ -68,16 +69,26 @@ public class PetAttributes {
     private PetQAttribute qalcool_;  // hook to alcool_
 
     public enum QualitativeAttributeMode {
-        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // alcool
-        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE // humor
+        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
+        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
+        SOBRIO, BEBADO, RESSACA, COMA // alcool
     }
 
     public enum VisibleCondition {
         NORMAL,
         BEBADO, VOMITANDO,
         DOENTE,
-        MORTO
+        MORTO,
+        UNDETERMINED,
     }
+
+    /* TODO: use more efficient array structure for this simple thing.
+     * This is very readable, tho. */
+    public Map<VisibleCondition, int> prio_
+        = new HashMap<VisibleCondition, int>();
+
+    public Map<QualitativeAttributeMode, VisibleCondition> q2vis_
+        = new HashMap<QualitativeAttributeMode, VisibleCondition >();
 
     IntValue vis_ = new IntValue(NORMAL);  // reactive ids into VisibleCondition
 
@@ -89,6 +100,12 @@ public class PetAttributes {
     }
 
     public PetAttributes(double beatsCoelhoHora) {
+        prio.put(MORTO, 500);
+        prio.put(VOMITANDO, 300);
+        prio.put(BEBADO, 400);
+        prio.put(DOENTE, 40);
+        // ... XXX
+
         // defalt values. values in the json will take precedence if available
         alcool_     = new PetAttribute("Alcool");
         fome_       = new PetAttribute("Fome");
@@ -109,6 +126,13 @@ public class PetAttributes {
         mapAttrib(estudo());
         mapAttrib(saude());
         mapAttrib(disciplina());
+
+        q2vis_.put(FAMINTO, UNDETERMINED);
+        q2vis_.put(MUITA_FOME, UNDETERMINED);
+        q2vis_.put(FOME, UNDETERMINED);
+        q2vis_.put(SATISFEITO, UNDETERMINED);
+        q2vis_.put(RESSACA, VOMITANDO);
+        // XXX
 
         // TODO read satelist, intervals from Json.
         // perhaps populateFromJson();
@@ -135,7 +159,8 @@ public class PetAttributes {
      * returns the dominant mode among the ones available
      */
     public VisibleCondition visibleCondition() {
-        return vis_;
+        for (Group sb : sbuttons)
+            return vis_;
     }
 
     /**
@@ -148,9 +173,16 @@ public class PetAttributes {
      * states, not the visible state directly.
      */
     VisibleCondition determineVisibleCondition() {
+        // priority
 
-        // XXX
-        vis_ = ;
+        int maxPrio = -1;
+        for (AttributeState state : ms.keySet()) {
+            if (prio[q2vis_[state.get()]] > maxPrio) {
+                vis_ = q2vis_[state.get()];
+                maxPrio = prio[vis_.get()];
+            }
+        }
+        assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
         return vis_;
     }
 
@@ -160,7 +192,7 @@ public class PetAttributes {
      */
     public void print() {
         for (String key : m.keySet()) {
-          m.get(key).print();
+            m.get(key).print();
         }
         // TODO print remaining - qattribs
     }
