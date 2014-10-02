@@ -72,6 +72,15 @@ public class PetAttributes {
         BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE // humor
     }
 
+    public enum VisibleCondition {
+        NORMAL,
+        BEBADO, VOMITANDO,
+        DOENTE,
+        MORTO
+    }
+
+    IntValue vis_ = new IntValue(NORMAL);  // reactive ids into VisibleCondition
+
     /**
      * map by name
      */
@@ -110,6 +119,9 @@ public class PetAttributes {
         PetAttributeState sAlcool_(alcool(), statelist, intervals);
         PetAttributeState sFome_(alcool(), statelist, intervals);
         // .... TODO//
+
+        /* Dominant appearance to the outside world */
+        determineVisibleCondition();
     }
 
     /**
@@ -122,14 +134,30 @@ public class PetAttributes {
     /**
      * returns the dominant mode among the ones available
      */
-    public QualitativeAttributeMode dominantMode() {
-        return qattr_(id).mode();
+    public VisibleCondition visibleCondition() {
+        return vis_;
     }
+
+    /**
+     * computes the dominant appearance from the internal attribute state.
+     * there might be external rules as well, and for such cases there might be a
+     * variant of this function with the needed extra parameters (ie, weather
+     * state, latitude, event history, etc..). However, for now this function
+     * solely determines visible state from the internal states from a priority
+     * table. It does not do any logic, which should first reflect internal
+     * states, not the visible state directly.
+     */
+    VisibleCondition determineVisibleCondition() {
+
+        // XXX
+        vis_ = ;
+        return vis_;
+    }
+
 
     /**
      * example of game logic depending on multiple attributes
      */
-
     public void print() {
         for (String key : m.keySet()) {
           m.get(key).print();

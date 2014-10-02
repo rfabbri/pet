@@ -139,7 +139,6 @@ class PetWorld extends World {
             }
         }
 
-
         @Override protected void update (int delta) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
@@ -159,6 +158,34 @@ class PetWorld extends World {
 
         @Override protected boolean isInterested (Entity entity) {
             return entity.has(opos) && entity.has(pos) && entity.has(spriteLayer_);
+        }
+
+        protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
+    };
+
+    /**
+     * Updates pet sprites to reflect inner state.
+     */
+    public final System spriteLinker = new System(this, 0) {
+        @Override protected void update (int delta) {
+            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
+                int eid = entities.get(ii);
+                sprite_.get(eid).update(delta);
+            }
+        }
+
+        @Override protected void wasAdded (Entity entity) {
+            super.wasAdded(entity);
+            layer_.addAt(spriteLayer_.get(entity.id), pos_.getX(entity.id), pos_.getX(entity.id));
+        }
+
+        @Override protected void wasRemoved (Entity entity, int index) {
+            super.wasRemoved(entity, index);
+            layer_.remove(sprite_Layer_.get(entity.id));
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return type.get(entity.id) == PET;
         }
 
         protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
@@ -296,6 +323,8 @@ class PetWorld extends World {
 
         // read imgLayer /sprite loader
         PetSprite ps(imgLayer, atlas_);
+
+        // -> pet.connect(ps.slot());
         sprite_.set(id, ps);
         spriteLayer_.set(id, imgLayer);
 

@@ -27,7 +27,6 @@ public class PetAttribute extends IntValue {
       assert inv();
     }
 
-
     public int val() { return get(); }
     public int min() { return min_; }
     public int max() { return max_; }
