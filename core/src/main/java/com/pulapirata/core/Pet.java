@@ -864,8 +864,13 @@ public class Pet extends Game.Default {
       l =  (Label) mainStat_.childAt(2);
       l.text.update(idadeCoelhoDiasStr2());
 
+      if (dormir_ == false){
+	passivoAtributosDia();
+      }
+      else{
+        passivoAtributosNoite();     
+      }
 
-      passivoAtributos();
       verificaAvisos();
 
       if (beat_ % a.alcool().passiveBeats() == 0) // a cada hora
@@ -886,11 +891,11 @@ public class Pet extends Game.Default {
     //System.out.println(_rando.getInRange(1, 10));
   } // end update
 
-  public void passivoAtributos() {
+  public void passivoAtributosDia() {
     //inicio dos passivos dos atributos
     if ((beat_ % a.alcool().passiveBeats()) == 0) {
       if (a.alcool().val() > a.alcool().min() && a.alcool().val() < a.alcool().max()) {
-        a.alcool().sumPassive();
+        a.alcool().sumPassiveDay();
       }
     }
     /*
@@ -899,32 +904,32 @@ public class Pet extends Game.Default {
     if (pingo_ != null) {
       if ((beat_ % a.sede().passiveBeats()) == 0)
       if (a.sede().val() >= a.sede().min() && a.sede().val() < a.sede().max()) {
-        a.sede().sumPassive();
+        a.sede().sumPassiveDay();
       }
     } /* Se for pingo_ bebendo agua, a sede_ deve diminuir.  */
     else if (pingoBebendoAgua_ != null) {
       if ((beat_ % a.sede().passiveBeats()) == 0)
         if (a.sede().val() <= a.sede().max() && a.sede().val() > a.sede().min()) {
-          a.sede().sub(a.sede().passive() + 1);
+          a.sede().sub(a.sede().passiveDay() + 1);
         }
     } /* Se for o pingo_ normal, a fome_ aumenta.  */
     if (pingo_ != null) {
       if ((beat_ % a.fome().passiveBeats()) == 0)
-        if (a.fome().val() >= a.fome().min() && a.fome().val() < a.fome().max())
-          a.fome().sumPassive();
+        if (a.fome().val() < a.fome().max())
+          a.fome().sumPassiveDay();
     } /* Não achei necessidade (ainda) de criar um código apenas para pingo_
          comendo cenoura, já que possuem mesmas funcionalidades.  */
     else if (pingoComendoSopaBacon_ != null || pingoComendoSopaCenoura_ != null) {
       // se for o pingo_ comendo sopa de bacon, a a.fome().val() dele deve diminuir
       if ((beat_ % a.fome().passiveBeats()) == 0)
         if (a.fome().val() <= a.fome().max() && a.fome().val() > a.fome().min()) {
-          a.fome().subPassive();
+          a.fome().subPassiveDay();
         }
     } else if (pingoBebendoLeite_ != null) {
      //Se for o pingo_ bebendo leite, a a.fome().val() dele deve diminuir
       if ((beat_ % a.fome().passiveBeats()) == 0)
         if (a.fome().val() <= a.fome().max() && a.fome().val() > a.fome().min()) {
-          a.fome().subPassive();
+          a.fome().subPassiveDay();
         }
     }
     /*
@@ -955,6 +960,21 @@ public class Pet extends Game.Default {
     //fim dos passivos atributos
   }
 
+ public void passivoAtributosNoite() {
+    //inicio dos passivos dos atributos
+    if ((beat_ % a.alcool().passiveBeats()) == 0) {
+      if (a.alcool().val() > a.alcool().min() && a.alcool().val() <= a.alcool().max()) {
+        a.alcool().sumPassiveNight();
+      }
+      if ((beat_ % a.sede().passiveBeats()) == 0)
+        if (a.sede().val() > a.sede().min() && a.sede().val() <= a.sede().max()) {
+	  a.sede().sumPassiveNight();
+        }
+
+      if ((beat_ % a.fome().passiveBeats()) == 0)
+        if (a.fome().val() > a.fome().min() && a.fome().val() <= a.fome().max())
+          a.fome().sumPassiveNight();
+    }
 
   public void mudaAviso() {
     imprime(avisos_);
@@ -1282,10 +1302,10 @@ public class Pet extends Game.Default {
 
   public void imprime(List<Aviso> l) {
       ListIterator<Aviso> i = l.listIterator();
-      Aviso a;
+      Aviso av;
       //a= i.next();
       while (i.hasNext()) {
-         a = i.next();
+         av = i.next();
       }
   }
 }//fim da Classe Pet
