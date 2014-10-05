@@ -30,6 +30,7 @@ public class PetAttribute extends IntValue {
     public int val() { return get(); }
     public int min() { return min_; }
     public int max() { return max_; }
+    public boolean inRange(int v) { return v >= min() && v <= max(); }
     public int passive() { return passive_; }
     // the speed in 'beatsCoelhoHora'
     public int passiveBeats() { return passiveBeats_; }

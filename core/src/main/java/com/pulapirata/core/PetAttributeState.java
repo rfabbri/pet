@@ -53,7 +53,29 @@ class PetAttributeState extends IntValue {
         attr_.connect(slot());
     }
 
+    /**
+     * Returns a slot which can be used to wire this value to the emissions of a {@link Signal} or
+     * another value.
+     */
+    public Slot<int> slot () {
+        return new Slot<int> () {
+            @Override public void onEmit (int value) {
+                updateState(value);
+            }
+        };
+    }
 
+    State get() { return s_; }
 
+    State updateState(int v) {
+        assert attr_.inRange(v) : "received signal must be in this attribute's range";
+
+        for (int i = 0; i < intervals; ++i)  // TODO: binary search
+            if (v <= intervals[i])
+                s_ = stateList[i];
+    }
+
+    // pointer to the attribute corresponding to this state
     public PetAttribute attr_;
+    private State s_;
 }
