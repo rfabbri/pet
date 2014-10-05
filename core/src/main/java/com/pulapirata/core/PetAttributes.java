@@ -41,6 +41,14 @@ import com.pulapirata.core.PetAttribute;
 public class PetAttributes {
     public static String JSON = "pet/jsons/atributos.json";
 
+    public enum VisibleCondition {
+        NORMAL,
+        BEBADO, VOMITANDO,
+        DOENTE,
+        MORTO,
+        UNDETERMINED,
+    }
+
     private PetAttribute alcool_;
     public PetAttribute alcool() { return alcool_; }
     private PetAttribute fome_;
@@ -60,40 +68,36 @@ public class PetAttributes {
     private PetAttribute disciplina_;
     public PetAttribute disciplina() { return disciplina_; }
 
-    public Map<String, PetAttribute> m = new HashMap<String, PetAttribute>();
-    public Map<String, PetAttributeState> ms = new HashMap<String, PetAttributeState>();
+    public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
+    public Map<String, PetAttributeState> ms_ = new HashMap<String, PetAttributeState>();
 
     /*-------------------------------------------------------------------------------*/
     /** Qualitative attributes holding states for each attrib */
 
-    private PetQAttribute qalcool_;  // hook to alcool_
+    private PetAttributeState sAlcool_;   // hooks to alcool_
 
+    /*-------------------------------------------------------------------------------*/
+    /** Appearance from inner state */
 
-    public enum VisibleCondition {
-        NORMAL,
-        BEBADO, VOMITANDO,
-        DOENTE,
-        MORTO,
-        UNDETERMINED,
-    }
+    /**
+     * Priority of the visible conditions.
+     *
+     * Each visible condition has an int priority value associated to it. The
+     * greater this value, the more priority that visible condition has over the
+     * others to be displayed in the game.
+     * TODO: use more efficient array structure. This is readable, tho.
+     */
+    public Map<VisibleCondition, int> prio_ = new HashMap<VisibleCondition, int>();
 
-    /* TODO: use more efficient array structure for this simple thing.
-     * This is very readable, tho. */
-    public Map<VisibleCondition, int> prio_
-        = new HashMap<VisibleCondition, int>();
-
-    public Map<QualitativeAttributeMode, VisibleCondition> q2vis_
-        = new HashMap<QualitativeAttributeMode, VisibleCondition >();
+    /** Maps {@link PetAttributeState}s to visible conditions. */
+    public Map<PetAttributeState.State, VisibleCondition> s2vis_
+        = new HashMap<PetAttributeState.State, VisibleCondition>();
 
     IntValue vis_ = new IntValue(NORMAL);  // reactive ids into VisibleCondition
 
     /**
-     * map by name
+     * Constructor
      */
-    void mapAttrib(PetAttribute att) {
-        m.put(att.name(), att);
-    }
-
     public PetAttributes(double beatsCoelhoHora) {
         prio.put(MORTO, 500);
         prio.put(VOMITANDO, 300);
@@ -122,19 +126,16 @@ public class PetAttributes {
         mapAttrib(saude());
         mapAttrib(disciplina());
 
-        q2vis_.put(FAMINTO, UNDETERMINED);
-        q2vis_.put(MUITA_FOME, UNDETERMINED);
-        q2vis_.put(FOME, UNDETERMINED);
-        q2vis_.put(SATISFEITO, UNDETERMINED);
-        q2vis_.put(RESSACA, VOMITANDO);
+        s2vis_.put(FAMINTO, UNDETERMINED);
+        s2vis_.put(MUITA_FOME, UNDETERMINED);
+        s2vis_.put(FOME, UNDETERMINED);
+        s2vis_.put(SATISFEITO, UNDETERMINED);
+        s2vis_.put(RESSACA, VOMITANDO);
         // XXX
 
         // TODO read satelist, intervals from Json.
         // perhaps populateFromJson();
 
-        // I don't put into an array because I want a direct handle on each
-        // attribute state when programming. Actual logic can't be generic,
-        // after all the game has a well-defined personality!
         PetAttributeState sAlcool_(alcool(), statelist, intervals);
         PetAttributeState sFome_(alcool(), statelist, intervals);
         // .... TODO//
@@ -144,10 +145,17 @@ public class PetAttributes {
     }
 
     /**
+     * maps {@link PetAttribute}s by name.
+     */
+    void mapAttrib(PetAttribute att) {
+        m.put(att.name(), att);
+    }
+
+    /**
      * returns the mode for qualitative attribute with id enum AttributeID
      */
-    public QualitativeAttributeMode mode(AttributeID id) {
-        return qattr_(id).mode();
+    public PetAttributeState.State mode(AttributeID id) {
+        return sAttr_(id).get();
     }
 
     /**
@@ -172,8 +180,8 @@ public class PetAttributes {
 
         int maxPrio = -1;
         for (AttributeState state : ms.keySet()) {
-            if (prio[q2vis_[state.get()]] > maxPrio) {
-                vis_ = q2vis_[state.get()];
+            if (prio[s2vis_[state.get()]] > maxPrio) {
+                vis_ = s2vis_[state.get()];
                 maxPrio = prio[vis_.get()];
             }
         }
@@ -189,6 +197,6 @@ public class PetAttributes {
         for (String key : m.keySet()) {
             m.get(key).print();
         }
-        // TODO print remaining - qattribs
+        // TODO print remaining - sAttribs
     }
 }

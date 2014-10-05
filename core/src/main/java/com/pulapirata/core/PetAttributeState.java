@@ -17,27 +17,28 @@ class PetAttributeState extends IntValue {
     public enum State {
         FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
         BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
-        SOBRIO, BEBADO, RESSACA, COMA // alcool
+        SOBRIO, BEBADO, RESSACA, COMA, // alcool
+        //XXX finish
     }
 
     /**
      * Construct for a given {@link PetAttribute} attr.
      *
      * @param attr      the image to be drawn
-     * @param statelist an array of PetAttributeState.State for that attr
+     * @param states an array of PetAttributeState.State for that attr
      * @param intervals an array boundaries partitioning attr's range. For
-     * instance, if statelist == (A,B), then the interval will be:
+     * instance, if states == (A,B), then the interval will be:
      *      A is from attr.min() inclusive to intervals[0] inclusive
      *      B is from intervals[0]+1 inclusive to intervals[1] inclusive
      */
     public PetAttributeState(
         PetAttribute attr,
-        ArrayList<State> statelist,
+        ArrayList<State> states,
         ArrayList<int> intervals) {
         // make sure supplied intervals partitions the range of that
         // parameter
 
-        assert intervals.size() == statelist.size() : "Intervals and stateslist must be same-sized.":
+        assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.":
 
         assert intervals[0] > attr.min();
 
@@ -49,6 +50,8 @@ class PetAttributeState extends IntValue {
 
         /* hook qualitative attributes to reduce ifs - make logic more
          * declarative */
+        intervals_ = intervals;
+        states_ = states;
         attr_ = attr;
         attr_.connect(slot());
     }
@@ -71,11 +74,13 @@ class PetAttributeState extends IntValue {
         assert attr_.inRange(v) : "received signal must be in this attribute's range";
 
         for (int i = 0; i < intervals; ++i)  // TODO: binary search
-            if (v <= intervals[i])
-                s_ = stateList[i];
+            if (v <= intervals_[i])
+                s_ = states_[i];
     }
 
     // pointer to the attribute corresponding to this state
     public PetAttribute attr_;
     private State s_;
+    ArrayList<State> states_,
+    ArrayList<int> intervals_;
 }
