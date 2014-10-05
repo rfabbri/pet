@@ -68,11 +68,6 @@ public class PetAttributes {
 
     private PetQAttribute qalcool_;  // hook to alcool_
 
-    public enum QualitativeAttributeMode {
-        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
-        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
-        SOBRIO, BEBADO, RESSACA, COMA // alcool
-    }
 
     public enum VisibleCondition {
         NORMAL,
