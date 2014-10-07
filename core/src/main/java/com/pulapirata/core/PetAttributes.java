@@ -113,7 +113,7 @@ public class PetAttributes {
     /**
      * Constructor
      */
-    public PetAttributes(double beatsCoelhoHora) {
+    public PetAttributes() {
         prio.put(MORTO, 500);
         prio.put(VOMITANDO, 300);
         prio.put(BEBADO, 400);
