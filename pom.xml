@@ -118,6 +118,16 @@
   </pluginRepositories>
 
   <build>
+  <!--
+      <resources>
+      <resource>
+      <directory>src/main/java/com/pulapirata/core</directory>
+      <excludes>
+      <exclude>PetOld.java</exclude>
+      </excludes>
+      </resource>
+      </resources>
+      -->
       <plugins>
           <plugin>
               <groupId>net.kindleit</groupId>
@@ -154,6 +164,9 @@
               <arg>-Xlint:-serial</arg>
               <arg>-Xlint:-path</arg>
             </compilerArgs>
+            <excludes>
+              <exclude>**/PetOld.java</exclude>
+            </excludes>
           </configuration>
         </plugin>
 <!--        <plugin>    <groupId>org.apache.maven.plugins</groupId>
