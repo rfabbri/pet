@@ -17,6 +17,8 @@ class PetWorld extends World {
     /** Misc variables */
 
     public  final GroupLayer layer_;
+    public  final float width_;
+    public  final float height_;
     public  final Signal<Key> keyDown_ = Signal.create();
     public  final Signal<Key> keyUp_ = Signal.create();
     private final Randoms rando_ = Randoms.with(new Random());
@@ -47,7 +49,8 @@ class PetWorld extends World {
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
     public final PetAtlas atlas_;  // shared atlas amongst all sprites
-    public PetAttributes mainPet_ = null ;  // direct handle on the attributes of the main pet
+    public PetAttributes mainPet_;  // direct handle on the attributes of the main pet
+    public int mainID_ = -1;
 
     public PetAttributes mainPet() { return mainPet_; }
 
@@ -63,13 +66,19 @@ class PetWorld extends World {
         super.update(delta);
     }
 
-    public PetWorld (GroupLayer stage) {
-        // load attributes
+    public PetWorld (GroupLayer layer, float width, float height) {
+        this.layer_ = layer;
+        this.width_ = width;
+        this.height_ = height;
+
+        // load attributes. Only 1 pet attribute set is supported for now
         PetAttributesLoader.CreateAttributes("pet/jsons/atributos.json", beatsCoelhoHora_,
           new Callback<PetAttributes>() {
             @Override
             public void onSuccess(PetAttributes resource) {
-              a = resource;
+              mainPet_ = resource;
+              if (mainID_ != -1)
+                pet_(mainID_).didChange();
               attributesLoaded_ = true;
             }
 
@@ -79,15 +88,16 @@ class PetWorld extends World {
             }
           });
 
-        this.layer_ = stage;
 
         keyboard().setListener(new Keyboard.Adapter() {
             @Override public void onKeyDown (Keyboard.Event event) {
                 keyReloadGameFile.emit(event.key());
             }
         });
+        reset();
     }
 
+    // XXX enum has something like this.
     protected String typeName (int id) {
         switch (type_.get(id)) {
         case PET: return "pet";
@@ -323,7 +333,8 @@ class PetWorld extends World {
         opos_.set(id, x, y);
         pos_.set(id, x, y);
         vel_.set(id, 0, 0);
-        mainPet_ = pet_.get(id);
+        pet_.set(id, mainPet_); // only 1 pet for now, but more are easily supported
+        mainID_ = id;
 
         // read imgLayer /sprite loader
         PetSprite ps(imgLayer, atlas_);
@@ -340,7 +351,7 @@ class PetWorld extends World {
     public void reset() {
         Iterator<Entity> iter = entities();
         while (iter.hasNext()) iter.next().destroy();
-        createPet(swidth/2, sheight/2);
+        createPet(width_/2., height_/2.);
     }
 
     /* TODO load atlas */
