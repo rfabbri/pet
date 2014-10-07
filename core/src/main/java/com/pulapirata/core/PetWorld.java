@@ -20,6 +20,7 @@ class PetWorld extends World {
     public  final Signal<Key> keyDown_ = Signal.create();
     public  final Signal<Key> keyUp_ = Signal.create();
     private final Randoms rando_ = Randoms.with(new Random());
+    private boolean attributesLoaded_ = false;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -69,7 +70,7 @@ class PetWorld extends World {
             @Override
             public void onSuccess(PetAttributes resource) {
               a = resource;
-              attributesLoaded = true; // XXX do if (attributesLoaded = true)
+              attributesLoaded_ = true;
             }
 
             @Override
@@ -267,19 +268,21 @@ class PetWorld extends World {
         }
 
         private void collide (Entity e1, Entity e2) {
-            switch (type.get(e1.id) | type.get(e2.id)) {
-            case PET_DROPPING:
-                if (type.get(e1.id) == PET) {
-                    if (pet_.get(e1.id).mode(pet_.sAction()) == PetAttributeState.CLEANING) {
-                        e2.destroy();
+            if (attributesLoaded_) {
+                switch (type.get(e1.id) | type.get(e2.id)) {
+                case PET_DROPPING:
+                    if (type.get(e1.id) == PET) {
+                        if (pet_.get(e1.id).mode(pet_.sAction()) == PetAttributeState.CLEANING) {
+                            e2.destroy();
+                        }
+                    } else {
+                        if (pet_.get(e2.id).mode(pet_.sAction()) == PetAttributeState.CLEANING) {
+                            e1.destroy();
+                        }
                     }
-                } else {
-                    if (pet_.get(e2.id).mode(pet_.sAction()) == PetAttributeState.CLEANING) {
-                        e1.destroy();
-                    }
+                    break;
+                default: break; // nada
                 }
-                break;
-            default: break; // nada
             }
         }
 

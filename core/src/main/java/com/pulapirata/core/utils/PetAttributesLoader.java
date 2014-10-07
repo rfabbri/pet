@@ -62,7 +62,7 @@ public class PetAttributesLoader {
                         System.out.println("reading state: " + js.getString("name"));
                         s.add(s.State.valueOf(js.getString("name")));
                         iv.add(js.getInt("max"));
-                        assert k == 0 && js.getInt("min") == attribs.get(jatt.getString("name")).min()
+                        assert k != 0 || js.getInt("min") == attribs.get(jatt.getString("name")).min()
                             : "json not consistent with assumption of min of interval equal min of first state";
                     }
 
