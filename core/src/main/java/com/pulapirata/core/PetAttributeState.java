@@ -78,6 +78,18 @@ class PetAttributeState extends IntValue {
                 s_ = states_[i];
     }
 
+    public void print() {
+        System.out.println("associated attr name: " + attr_.name() + " state: " + get());
+        System.out.println("associated attr val: " + attr_.val());
+        System.out.println("possible states and corresp intervals:");
+
+        System.out.println("state: " + states_[0] + "interval: " + attr_.min() + " to " + intervals_[0]);
+
+        for (i = 0; i < states_.size(); ++i) {
+            System.out.println("state: " + states_[i] + "interval: " + attr_.min() + " to " + intervals_[i]);
+        }
+    }
+
     // pointer to the attribute corresponding to this state
     public PetAttribute attr_;
     private State s_;

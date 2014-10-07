@@ -49,6 +49,20 @@ public class PetAttributes {
         UNDETERMINED,
     }
 
+    /** lists all attributes in the form of enum. */
+    public enum AttributeID {
+        ALCOOL,
+        FOME,
+        HUMOR,
+        SEDE,
+        SOCIAL,
+        HIGIENE,
+        ESTUDO,
+        SAUDE,
+        DISCIPLINA,
+        ACTION
+    }
+
     private PetAttribute alcool_;
     public PetAttribute alcool() { return alcool_; }
     private PetAttribute fome_;
@@ -70,6 +84,7 @@ public class PetAttributes {
 
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
     public Map<String, PetAttributeState> ms_ = new HashMap<String, PetAttributeState>();
+    public Map<AttributeID, PetAttributeState> sAttr_ = new HashMap<AttributeID, PetAttributeState>();
 
     /*-------------------------------------------------------------------------------*/
     /** Qualitative attributes holding states for each attrib */
@@ -140,6 +155,10 @@ public class PetAttributes {
         PetAttributeState sFome_(alcool(), statelist, intervals);
         // .... TODO//
 
+        sAttr.put(AttributeID.ALCOOL, sAlcool_);
+        sAttr.put(AttributeID.FOME, sFome_);
+        // .... TODO//
+
         /* Dominant appearance to the outside world */
         determineVisibleCondition();
     }
@@ -156,14 +175,6 @@ public class PetAttributes {
      */
     public PetAttributeState.State mode(AttributeID id) {
         return sAttr_(id).get();
-    }
-
-    /**
-     * returns the dominant mode among the ones available
-     */
-    public VisibleCondition visibleCondition() {
-        for (Group sb : sbuttons)
-            return vis_;
     }
 
     /**
@@ -189,12 +200,14 @@ public class PetAttributes {
         return vis_;
     }
 
-
     /**
      * example of game logic depending on multiple attributes
      */
     public void print() {
         for (String key : m.keySet()) {
+            m.get(key).print();
+        }
+        for (String key : ms.keySet()) {
             m.get(key).print();
         }
         // TODO print remaining - sAttribs

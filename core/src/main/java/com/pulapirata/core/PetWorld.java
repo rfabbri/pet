@@ -31,7 +31,8 @@ class PetWorld extends World {
     public static final int STINKY_MOSQUITOS = (1 << 5);
 
     /*-------------------------------------------------------------------------------*/
-    /** Components.
+    /**
+     * Components.
      * Components are bags of types, positions, and other properties shared among
      * playable entities in Pet (like the bunny itself and its droppings)
      */
@@ -269,11 +270,11 @@ class PetWorld extends World {
             switch (type.get(e1.id) | type.get(e2.id)) {
             case PET_DROPPING:
                 if (type.get(e1.id) == PET) {
-                    if (pet_.get(e1.id).mode(pet_.ACTION) == pet_.CLEANING) {
+                    if (pet_.get(e1.id).mode(pet_.sAction()) == PetAttributeState.CLEANING) {
                         e2.destroy();
                     }
                 } else {
-                    if (pet_.get(e2.id).mode(pet_.ACTION) == pet_.CLEANING) {
+                    if (pet_.get(e2.id).mode(pet_.sAction()) == PetAttributeState.CLEANING) {
                         e1.destroy();
                     }
                 }
