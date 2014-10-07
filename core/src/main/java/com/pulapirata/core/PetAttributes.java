@@ -46,7 +46,7 @@ public class PetAttributes {
         BEBADO, VOMITANDO,
         DOENTE,
         MORTO,
-        UNDETERMINED,
+        UNDETERMINED
     }
 
     /** lists all attributes in the form of enum. */
@@ -147,7 +147,7 @@ public class PetAttributes {
         mapAttrib(saude());
         mapAttrib(disciplina());
 
-        s2vis_.put(FAMINTO, UNDETERMINED);
+        s2vis_.put(PetAttributeState.FAMINTO, UNDETERMINED);
         s2vis_.put(MUITA_FOME, UNDETERMINED);
         s2vis_.put(FOME, UNDETERMINED);
         s2vis_.put(SATISFEITO, UNDETERMINED);
@@ -157,9 +157,8 @@ public class PetAttributes {
         // TODO read satelist, intervals from Json.
         // perhaps populateFromJson();
 
-        PetAttributeState sAlcool_(alcool(), statelist, intervals);
-        PetAttributeState sFome_(alcool(), statelist, intervals);
-        // .... TODO//
+        sAlcool_.set(alcool());
+        sFome_.set(fome());
 
         sAttr.put(AttributeID.ALCOOL, sAlcool());
         sAttr.put(AttributeID.FOME, sFome());

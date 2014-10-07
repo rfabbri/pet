@@ -148,6 +148,7 @@
             <target>1.7</target>
             <showDeprecation>true</showDeprecation>
             <showWarnings>true</showWarnings>
+<!--            <failOnError>false</failOnError> -->
             <compilerArgs>
               <arg>-Xlint</arg>
               <arg>-Xlint:-serial</arg>

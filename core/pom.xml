@@ -57,6 +57,8 @@
   </dependencies>
 
   <build>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>tests</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -79,5 +81,11 @@
       </plugin>
       -->
     </plugins>
+
+    <testResources>
+      <testResource>
+        <directory>${basedir}/tests</directory>
+      </testResource>
+    </testResources>
   </build>
 </project>

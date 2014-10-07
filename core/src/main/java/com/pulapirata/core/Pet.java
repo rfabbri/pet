@@ -379,7 +379,7 @@ public class Pet extends Game.Default {
       sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
-      for (int s = 0; s < imgButtSecondary.get(b).size(); ++s)
+      for (int s = 0; s < imgButtSecondary.get(b).size(); ++s) {
         Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
         sbuttons.get(b).add(AbsoluteLayout.at(sbut,
           topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));

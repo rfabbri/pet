@@ -17,7 +17,7 @@ class PetAttributeState extends IntValue {
     public enum State {
         FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
         BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
-        SOBRIO, BEBADO, RESSACA, COMA, // alcool
+        SOBRIO, BEBADO, RESSACA, COMA  // alcool
         //XXX finish
     }
 
@@ -44,12 +44,17 @@ class PetAttributeState extends IntValue {
         att_.connect(slot());
     }
 
+    void set(PetAttribute att) {
+        att_ = att;
+        att_.connect(slot());
+    }
+
     void set(ArrayList<State> states, ArrayList<int> intervals) {
         // make sure supplied intervals partitions the range of that
         // parameter:
-        assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.":
+        assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.";
 
-        assert intervals[0] > att.min();
+        assert intervals[0] > att.min() : "Interval 0 is not beyond att.min(), which should be the first interval boundary";
 
         for (i = 1; i < intervals.size(); ++i) {
             assert intervals[i] > intervals[i-1] : "entries in intervals vector must be decreasing";
@@ -101,7 +106,7 @@ class PetAttributeState extends IntValue {
     // pointer to the attribute corresponding to this state
     public PetAttribute att_;
     private State s_;
-    ArrayList<State> states_,
+    ArrayList<State> states_;
     ArrayList<int> intervals_;
     boolean initialized_ = false;
 }
