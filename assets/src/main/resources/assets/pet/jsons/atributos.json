@@ -10,4 +10,6 @@
     {"name": "Saude", "startValue": 5, "min": -5, "max": 10, "passive": -1, "passiveBeats": 24.0},
     {"name": "Disciplina", "startValue": 0, "min": -5, "max": 10, "passive": -5, "passiveBeats": 1.0}
   ]
+  "AttributeStates": [
+  ]
 }

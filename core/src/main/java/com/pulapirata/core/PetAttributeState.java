@@ -22,17 +22,17 @@ class PetAttributeState extends IntValue {
     }
 
     /**
-     * Construct for a given {@link PetAttribute} attr.
+     * Construct for a given {@link PetAttribute} att.
      *
-     * @param attr      the image to be drawn
-     * @param states an array of PetAttributeState.State for that attr
-     * @param intervals an array boundaries partitioning attr's range. For
+     * @param att      the image to be drawn
+     * @param states an array of PetAttributeState.State for that att
+     * @param intervals an array boundaries partitioning att's range. For
      * instance, if states == (A,B), then the interval will be:
-     *      A is from attr.min() inclusive to intervals[0] inclusive
+     *      A is from att.min() inclusive to intervals[0] inclusive
      *      B is from intervals[0]+1 inclusive to intervals[1] inclusive
      */
     public PetAttributeState(
-        PetAttribute attr,
+        PetAttribute att,
         ArrayList<State> states,
         ArrayList<int> intervals) {
         // make sure supplied intervals partitions the range of that
@@ -40,20 +40,20 @@ class PetAttributeState extends IntValue {
 
         assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.":
 
-        assert intervals[0] > attr.min();
+        assert intervals[0] > att.min();
 
         for (i = 1; i < intervals.size(); ++i) {
             assert intervals[i] > intervals[i-1] : "entries in intervals vector must be decreasing";
         }
 
-        assert intervals.last() == attr.max() : "last element must be attr max";
+        assert intervals.last() == att.max() : "last element must be att max";
 
         /* hook qualitative attributes to reduce ifs - make logic more
          * declarative */
         intervals_ = intervals;
         states_ = states;
-        attr_ = attr;
-        attr_.connect(slot());
+        att_ = att;
+        att_.connect(slot());
     }
 
     /**
@@ -71,7 +71,7 @@ class PetAttributeState extends IntValue {
     State get() { return s_; }
 
     State updateState(int v) {
-        assert attr_.inRange(v) : "received signal must be in this attribute's range";
+        assert att_.inRange(v) : "received signal must be in this attribute's range";
 
         for (int i = 0; i < intervals; ++i)  // TODO: binary search
             if (v <= intervals_[i])
@@ -79,19 +79,19 @@ class PetAttributeState extends IntValue {
     }
 
     public void print() {
-        System.out.println("associated attr name: " + attr_.name() + " state: " + get());
-        System.out.println("associated attr val: " + attr_.val());
+        System.out.println("associated att name: " + att_.name() + " state: " + get());
+        System.out.println("associated att val: " + att_.val());
         System.out.println("possible states and corresp intervals:");
 
-        System.out.println("state: " + states_[0] + "interval: " + attr_.min() + " to " + intervals_[0]);
+        System.out.println("state: " + states_[0] + "interval: " + att_.min() + " to " + intervals_[0]);
 
         for (i = 0; i < states_.size(); ++i) {
-            System.out.println("state: " + states_[i] + "interval: " + attr_.min() + " to " + intervals_[i]);
+            System.out.println("state: " + states_[i] + "interval: " + att_.min() + " to " + intervals_[i]);
         }
     }
 
     // pointer to the attribute corresponding to this state
-    public PetAttribute attr_;
+    public PetAttribute att_;
     private State s_;
     ArrayList<State> states_,
     ArrayList<int> intervals_;

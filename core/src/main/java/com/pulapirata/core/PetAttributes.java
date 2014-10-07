@@ -83,13 +83,19 @@ public class PetAttributes {
     public PetAttribute disciplina() { return disciplina_; }
 
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
+    public PetAttribute get(String s) { return m_.get(s); }
+
     public Map<String, PetAttributeState> ms_ = new HashMap<String, PetAttributeState>();
-    public Map<AttributeID, PetAttributeState> sAttr_ = new HashMap<AttributeID, PetAttributeState>();
+    public PetAttribute sAtt(String s) { return ms_.get(s); }
+
+    public Map<AttributeID, PetAttributeState> sAtt_ = new HashMap<AttributeID, PetAttributeState>();
+    public PetAttribute sAtt(AttributeID id) { return sAtt_.get(id); }
 
     /*-------------------------------------------------------------------------------*/
     /** Qualitative attributes holding states for each attrib */
 
     private PetAttributeState sAlcool_;   // hooks to alcool_
+    public PetAttributeState sAlcool() { return sAlcool_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Appearance from inner state */
@@ -155,8 +161,10 @@ public class PetAttributes {
         PetAttributeState sFome_(alcool(), statelist, intervals);
         // .... TODO//
 
-        sAttr.put(AttributeID.ALCOOL, sAlcool_);
-        sAttr.put(AttributeID.FOME, sFome_);
+        sAttr.put(AttributeID.ALCOOL, sAlcool());
+        sAttr.put(AttributeID.FOME, sFome());
+
+        mapAttrib(sAlcool());
         // .... TODO//
 
         /* Dominant appearance to the outside world */
@@ -167,7 +175,11 @@ public class PetAttributes {
      * maps {@link PetAttribute}s by name.
      */
     void mapAttrib(PetAttribute att) {
-        m.put(att.name(), att);
+        m_.put(att.name(), att);
+    }
+
+    void mapAttrib(PetAttributeState sAtt) {
+        ms_.put(sAtt.att.name(), sAtt);
     }
 
     /**
