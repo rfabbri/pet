@@ -1,15 +1,82 @@
 {
   "Attributes": [
-    {"name": "Fome", "startValue": 13, "min": -20, "max": 120, "passive": 10, "passiveBeats": 1.0},
-    {"name": "Alcool", "startValue": 3, "min": 0, "max": 10, "passive": -1, "passiveBeats": 1.0},
-    {"name": "Humor", "startValue":  30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.333333, "comment": "passiveBeats = 1/3"},
-    {"name": "Sede", "startValue": 5, "min": 0, "max": 10, "passive": 1, "passiveBeats": 1},
-    {"name": "Social", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.666666, "comment": "passiveBeats = 2/3"},
-    {"name": "Higiene", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.5},
-    {"name": "Estudo", "startValue": 0, "min": -1, "max": -5, "passive": 10, "passiveBeats": 0.41666666, "comment": "passiveBeats = 1/24"},
-    {"name": "Saude", "startValue": 5, "min": -5, "max": 10, "passive": -1, "passiveBeats": 24.0},
-    {"name": "Disciplina", "startValue": 0, "min": -5, "max": 10, "passive": -5, "passiveBeats": 1.0}
-  ]
-  "AttributeStates": [
+    {"name": "Nutricao", "startValue": 30, "min": -20, "max": 120, "passive": 10, "passiveBeats": 1.0,
+      "States": [
+        {"name": "faminto", "min": -20, "max": 0},
+        {"name": "muita fome", "min": 01, "max": 20},
+        {"name": "fome", "min": 21, "max": 40},
+        {"name": "satisfeito", "min": 41, "max": 60},
+        {"name": "cheio", "min": 61, "max": 80},
+        {"name": "lotado", "min": 81, "max": 100}
+      ]
+    },
+    {"name": "Humor", "startValue":  30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.333333, "comment": "passiveBeats = 1/3",
+      "States": [
+        {"name": "bravo", "min": -20, "max": 0},
+        {"name": "irritado", "min": 01, "max": 20},
+        {"name": "entediado", "min": 21, "max": 40},
+        {"name": "entretido", "min": 41, "max": 60},
+        {"name": "alegre", "min": 61, "max": 80},
+        {"name": "muito alegre", "min": 81, "max": 100}
+      ]
+    },
+    {"name": "Social", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.666666, "comment": "passiveBeats = 2/3",
+      "States": [
+        {"name": "depressao", "min": -20, "max": 0},
+        {"name": "sozinho", "min": 01, "max": 20},
+        {"name": "poucos amigos", "min": 21, "max": 40},
+        {"name": "normal", "min": 41, "max": 60},
+        {"name": "popular", "min": 61, "max": 80},
+        {"name": "superstar", "min": 81, "max": 100}
+      ]
+    },
+    {"name": "Higiene", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.5,
+      "States": [
+        {"name": "imundo", "min": -20, "max": 0},
+        {"name": "muito sujo", "min": 01, "max": 20},
+        {"name": "sujo", "min": 21, "max": 40},
+        {"name": "limpo", "min": 41, "max": 80},
+        {"name": "muito alegre", "min": 81, "max": 100}
+      ]
+    },
+    {"name": "Estudo", "startValue": 0, "min": -1, "max": -5, "passive": 10, "passiveBeats": 0.41666666, "comment": "passiveBeats = 1/24",
+      "States": [
+        {"name": "expulso", "min": -5, "max": -5},
+        {"name": "reprovado", "min": -4, "max": 0},
+        {"name": "recuperacao", "min": 1, "max": 3},
+        {"name": "mediano", "min": 4, "max": 6},
+        {"name": "bom aluno", "min": 7, "max": 9},
+        {"name": "melhor da sala", "min": 10, "max": 10},
+      ]
+    },
+    {"name": "Saude", "startValue": 5, "min": -5, "max": 10, "passive": -1, "passiveBeats": 24.0,
+      "States": [
+        {"name": "doente terminal", "min": -5, "max": -5},
+        {"name": "doente", "min": -4, "max": 0},
+        {"name": "fragil", "min": 1, "max": 3},
+        {"name": "estavel", "min": 4, "max": 6},
+        {"name": "saudavel", "min": 7, "max": 9},
+        {"name": "atleta", "min": 10, "max": 10},
+      ]
+    },
+    {"name": "Disciplina", "startValue": 0, "min": -5, "max": 10, "passive": -5, "passiveBeats": 1.0,
+      "States": [
+        {"name": "criminoso", "min": -5, "max": -5},
+        {"name": "rebelde", "min": -4, "max": 0},
+        {"name": "teimoso", "min": 1, "max": 3},
+        {"name": "obediente", "min": 4, "max": 6},
+        {"name": "responsavel", "min": 7, "max": 9},
+        {"name": "maquina disciplinar", "min": 10, "max": 10},
+      ]
+    },
+    {"name": "Alcool", "startValue": 0, "min": 0, "max": 10, "passive": -1, "passiveBeats": 1.0,
+      "States": [
+        {"name": "normal", "min": 0, "max": 0},
+        {"name": "tonto", "min": 1, "max": 3},
+        {"name": "bebado", "min": 4, "max": 6},
+        {"name": "muito bebado", "min": 7, "max": 9},
+        {"name": "coma alcoolico", "min": 10, "max": 10},
+      ]
+    }
   ]
 }

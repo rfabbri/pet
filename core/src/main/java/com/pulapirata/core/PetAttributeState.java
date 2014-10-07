@@ -21,6 +21,7 @@ class PetAttributeState extends IntValue {
         //XXX finish
     }
 
+
     /**
      * Construct for a given {@link PetAttribute} att.
      *
@@ -32,12 +33,20 @@ class PetAttributeState extends IntValue {
      *      B is from intervals[0]+1 inclusive to intervals[1] inclusive
      */
     public PetAttributeState(
-        PetAttribute att,
-        ArrayList<State> states,
-        ArrayList<int> intervals) {
-        // make sure supplied intervals partitions the range of that
-        // parameter
+                PetAttribute att, ArrayList<State> states, ArrayList<int> intervals) {
+        this(att);
+        set(states, intervals);
+    }
 
+    public PetAttributeState(PetAttribute att)
+    {
+        att_ = att;
+        att_.connect(slot());
+    }
+
+    void set(ArrayList<State> states, ArrayList<int> intervals) {
+        // make sure supplied intervals partitions the range of that
+        // parameter:
         assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.":
 
         assert intervals[0] > att.min();
@@ -52,8 +61,7 @@ class PetAttributeState extends IntValue {
          * declarative */
         intervals_ = intervals;
         states_ = states;
-        att_ = att;
-        att_.connect(slot());
+        initialized_ = true;
     }
 
     /**
@@ -95,4 +103,5 @@ class PetAttributeState extends IntValue {
     private State s_;
     ArrayList<State> states_,
     ArrayList<int> intervals_;
+    boolean initialized_ = false;
 }

@@ -212,15 +212,23 @@ public class PetAttributes {
         return vis_;
     }
 
+    boolean isInitialized() {
+        for (String key : ms.keySet()) {
+            if (!ms_.get(key).isInitialized())
+                return false;
+        }
+        return true;
+    }
+
     /**
      * example of game logic depending on multiple attributes
      */
     public void print() {
-        for (String key : m.keySet()) {
-            m.get(key).print();
+        for (String key : m_.keySet()) {
+            m_.get(key).print();
         }
-        for (String key : ms.keySet()) {
-            m.get(key).print();
+        for (String key : ms_.keySet()) {
+            ms_.get(key).print();
         }
         // TODO print remaining - sAttribs
     }
