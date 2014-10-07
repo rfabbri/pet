@@ -8,7 +8,10 @@ import playn.core.util.Callback;
 
 
 
-// mimmicks PeaLoader.java
+/**
+ * Reads game attribute data from a .json file.
+ * mimmicks PeaLoader.java
+ */
 public class PetAttributesLoader {
 
   public static void CreateAttributes(String path, final double beatsCoelhoHora,

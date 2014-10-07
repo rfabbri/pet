@@ -69,7 +69,7 @@ class PetWorld extends World {
             @Override
             public void onSuccess(PetAttributes resource) {
               a = resource;
-              attributesLoaded = true;
+              attributesLoaded = true; // XXX do if (attributesLoaded = true)
             }
 
             @Override
