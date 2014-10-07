@@ -22,7 +22,6 @@ public class PetAttribute extends IntValue {
      */
     public PetAttribute(String name) {
       super(-6969);
-      connect(state_.slot()); /** Hook qualitative attributes */
       set(name, -696969, 696969, 6969, 9696);
       assert inv();
     }
@@ -65,11 +64,11 @@ public class PetAttribute extends IntValue {
      * Class invariant that min, max, val, etc are consistent.
      */
     boolean inv() {
-      if (min_ > val_ || val_ > max_) {
+      if (min_ > val() || val() > max_) {
           System.out.println("Inconsistency in attribute " + name_);
           PlayN.log().error("Inconsistency in attribute " + name_);
       }
-      return (min_ <= val() && val_ <= max_);
+      return (min_ <= val() && val() <= max_);
     }
 
     public void sum(int v) { incrementClamp(v, min_, max_); }
@@ -83,7 +82,7 @@ public class PetAttribute extends IntValue {
     // TODO updatePassivo();
 
     public void print() {
-        System.out.println("name: " + name_ + " val: " + val_
+        System.out.println("name: " + name_ + " val: " + val()
           + " min: " + min_ + " max: " + max_ + " passive: " + passive_
           + " passiveBeats: " + passiveBeats_);
     }
