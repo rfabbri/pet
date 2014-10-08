@@ -176,11 +176,11 @@ public class PetAttributes {
     /**
      * maps {@link PetAttribute}s by name.
      */
-    void mapAttrib(PetAttribute att) {
+    protected void mapAttrib(PetAttribute att) {
         m_.put(att.name(), att);
     }
 
-    void mapAttrib(PetAttributeState sAtt) {
+    protected void mapAttrib(PetAttributeState sAtt) {
         ms_.put(sAtt.att_.name(), sAtt);
     }
 
@@ -204,18 +204,18 @@ public class PetAttributes {
         // priority
 
         int maxPrio = -1;
-        for (AttributeState state : ms.keySet()) {
-            if (prio_.get(s2vis_.get(state.get())) > maxPrio) {
-                vis_ = s2vis_.get(state.get());
-                maxPrio = prio.get(vis_.get());
+        for (AttributeID a : sAtt_.keySet()) {
+            if (prio_.get(s2vis_.get(sAtt_.get(a).getState())) > maxPrio) {
+                vis_.update(s2vis_.get(sAtt_.get(a).getState()).ordinal());
+                maxPrio = prio_.get(vis_);
             }
         }
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
-        return vis_;
+        return VisibleCondition.values()[vis_.get()];
     }
 
     boolean isInitialized() {
-        for (String key : ms.keySet()) {
+        for (String key : ms_.keySet()) {
             if (!ms_.get(key).isInitialized())
                 return false;
         }

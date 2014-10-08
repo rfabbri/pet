@@ -110,6 +110,10 @@ class PetAttributeState extends IntValue {
         return State.values()[get()];
     }
 
+    public boolean isInitialized() {
+        return initialized_;
+    }
+
     public void print() {
         System.out.println("associated att name: " + att_.name() + " state: " + get());
         System.out.println("associated att val: " + att_.val());
