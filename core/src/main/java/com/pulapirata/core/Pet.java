@@ -27,6 +27,7 @@ import playn.core.util.Callback;
 
 import com.pulapirata.core.Aviso;
 import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.PetWorld;
 import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.sprites.Pingo;
 import com.pulapirata.core.sprites.PingoMorto;

@@ -166,6 +166,8 @@
             </compilerArgs>
             <excludes>
               <exclude>**/PetOld.java</exclude>
+              <exclude>**/PetInnerWorld.java</exclude>
+              <exclude>**/PetJson.java</exclude>
             </excludes>
           </configuration>
         </plugin>

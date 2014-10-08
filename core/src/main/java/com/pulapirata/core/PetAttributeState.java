@@ -1,6 +1,8 @@
 package com.pulapirata.core;
 
+import java.util.ArrayList;
 import react.IntValue;
+import react.Slot;
 
 
 /**
@@ -17,8 +19,30 @@ class PetAttributeState extends IntValue {
     public enum State {
         FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
         BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
-        SOBRIO, BEBADO, RESSACA, COMA  // alcool
+        SOBRIO, BEBADO,
+        RESSACA, COMA,  // alcool
+        ONONOONO // impossivel - invalido
+        ;
         //XXX finish
+
+        /*
+        private final int value_;
+
+        private State(int value) {
+            this.value_ = value;
+        }
+
+        public int value() {
+            return value_;
+        }
+        */
+    }
+
+    /**
+     * start with easily identifiable dummy default values
+     */
+    public PetAttributeState() {
+      super(-696);
     }
 
 
@@ -32,35 +56,23 @@ class PetAttributeState extends IntValue {
      *      A is from att.min() inclusive to intervals[0] inclusive
      *      B is from intervals[0]+1 inclusive to intervals[1] inclusive
      */
-    public PetAttributeState(
-                PetAttribute att, ArrayList<State> states, ArrayList<int> intervals) {
-        this(att);
-        set(states, intervals);
-    }
-
-    public PetAttributeState(PetAttribute att)
-    {
-        att_ = att;
-        att_.connect(slot());
-    }
-
     void set(PetAttribute att) {
         att_ = att;
         att_.connect(slot());
     }
 
-    void set(ArrayList<State> states, ArrayList<int> intervals) {
+    void set(ArrayList<State> states, ArrayList<Integer> intervals) {
         // make sure supplied intervals partitions the range of that
         // parameter:
         assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.";
 
-        assert intervals[0] > att.min() : "Interval 0 is not beyond att.min(), which should be the first interval boundary";
+        assert intervals.get(0) > att_.min() : "Interval 0 is not beyond att.min(), which should be the first interval boundary";
 
-        for (i = 1; i < intervals.size(); ++i) {
-            assert intervals[i] > intervals[i-1] : "entries in intervals vector must be decreasing";
+        for (int i = 1; i < intervals.size(); ++i) {
+            assert intervals.get(i) > intervals.get(i-1) : "entries in intervals vector must be decreasing";
         }
 
-        assert intervals.last() == att.max() : "last element must be att max";
+        assert intervals.get(intervals.size()-1) == att_.max() : "last element must be att max";
 
         /* hook qualitative attributes to reduce ifs - make logic more
          * declarative */
@@ -73,22 +85,29 @@ class PetAttributeState extends IntValue {
      * Returns a slot which can be used to wire this value to the emissions of a {@link Signal} or
      * another value.
      */
-    public Slot<int> slot () {
-        return new Slot<int> () {
-            @Override public void onEmit (int value) {
+    public Slot<Integer> slot () {
+        return new Slot<Integer> () {
+            @Override public void onEmit (Integer value) {
                 updateState(value);
             }
         };
     }
 
-    State get() { return s_; }
-
     State updateState(int v) {
         assert att_.inRange(v) : "received signal must be in this attribute's range";
 
-        for (int i = 0; i < intervals; ++i)  // TODO: binary search
-            if (v <= intervals_[i])
-                s_ = states_[i];
+        State s = State.ONONOONO;
+
+        for (int i = 0; i < intervals_.size(); ++i)  // TODO: binary search
+            if (v <= intervals_.get(i))
+                s = states_.get(i);
+
+        updateInt(s.ordinal());
+        return s;
+    }
+
+    public State getState() {
+        return State.values()[get()];
     }
 
     public void print() {
@@ -96,17 +115,16 @@ class PetAttributeState extends IntValue {
         System.out.println("associated att val: " + att_.val());
         System.out.println("possible states and corresp intervals:");
 
-        System.out.println("state: " + states_[0] + "interval: " + att_.min() + " to " + intervals_[0]);
+        System.out.println("state: " + states_.get(0) + "interval: " + att_.min() + " to " + intervals_.get(0));
 
-        for (i = 0; i < states_.size(); ++i) {
-            System.out.println("state: " + states_[i] + "interval: " + att_.min() + " to " + intervals_[i]);
+        for (int i = 0; i < states_.size(); ++i) {
+            System.out.println("state: " + states_.get(i) + "interval: " + att_.min() + " to " + intervals_.get(i));
         }
     }
 
     // pointer to the attribute corresponding to this state
     public PetAttribute att_;
-    private State s_;
     ArrayList<State> states_;
-    ArrayList<int> intervals_;
+    ArrayList<Integer> intervals_;
     boolean initialized_ = false;
 }

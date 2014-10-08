@@ -1,9 +1,23 @@
 package com.pulapirata.core;
 
+import java.util.Iterator;
+import java.util.Random;
+
+import react.Signal;
+import react.Slot;
+
+import playn.core.*;
+import playn.core.util.Clock;
+import static playn.core.PlayN.*;
+
 import tripleplay.entity.Component;
 import tripleplay.entity.Entity;
 import tripleplay.entity.System;
 import tripleplay.entity.World;
+import tripleplay.util.Randoms;
+
+
+
 
 
 /**
@@ -45,10 +59,10 @@ class PetWorld extends World {
     public final Component.XY vel_  = new Component.XY(this);  // pixels/ms
     public final Component.FScalar radius = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
-    public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
+// XXX    public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
-    public final PetAtlas atlas_;  // shared atlas amongst all sprites
+// XXX     public final PetAtlas atlas_;  // shared atlas amongst all sprites
     public PetAttributes mainPet_;  // direct handle on the attributes of the main pet
     public int mainID_ = -1;
 
@@ -154,7 +168,7 @@ class PetWorld extends World {
         @Override protected void update (int delta) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
-                sprite_.get(eid).update(delta);
+// XXX                sprite_.get(eid).update(delta);
             }
         }
 
@@ -165,11 +179,11 @@ class PetWorld extends World {
 
         @Override protected void wasRemoved (Entity entity, int index) {
             super.wasRemoved(entity, index);
-            layer_.remove(sprite_Layer_.get(entity.id));
+            layer_.remove(spriteLayer_.get(entity.id));
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(opos) && entity.has(pos) && entity.has(spriteLayer_);
+            return entity.has(opos_) && entity.has(pos_) && entity.has(spriteLayer_);
         }
 
         protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
@@ -182,7 +196,7 @@ class PetWorld extends World {
         @Override protected void update (int delta) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
-                sprite_.get(eid).update(delta);
+// XXX               sprite_.get(eid).update(delta);
             }
         }
 
@@ -193,7 +207,7 @@ class PetWorld extends World {
 
         @Override protected void wasRemoved (Entity entity, int index) {
             super.wasRemoved(entity, index);
-            layer_.remove(sprite_Layer_.get(entity.id));
+            layer_.remove(spriteLayer_.get(entity.id));
         }
 
         @Override protected boolean isInterested (Entity entity) {
@@ -326,7 +340,7 @@ class PetWorld extends World {
 
     protected Entity createPet (float x, float y) {
         Entity pet = create(true);
-        pet.add(type, pet_, sprite_, spriteLayer_, opos_, pos_, vel_, radius_, expires_);
+        pet.add(type, pet_, /*XXX sprite_, */spriteLayer_, opos_, pos_, vel_, radius_, expires_);
 
         int id = pet_.id;
         type_.set(id, PET);
@@ -340,10 +354,10 @@ class PetWorld extends World {
         // XXX PetSprite ps(imgLayer, atlas_);
 
         // -> pet.connect(ps.slot());
-        sprite_.set(id, ps);
+// XXX        sprite_.set(id, ps);
         spriteLayer_.set(id, imgLayer);
 
-        radius.set(id, sprite_.boundingRadius());
+// XXX        radius.set(id, sprite_.boundingRadius());
         //radius.ComputeFromSprite(id, 10);
         return pet;
     }
