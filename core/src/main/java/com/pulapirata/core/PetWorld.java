@@ -17,9 +17,6 @@ import tripleplay.entity.World;
 import tripleplay.util.Randoms;
 
 
-
-
-
 /**
  * An entity world designed for character animation and interaction among
  * multiple other objects. Call this the <em>extrinsic world</em>. Pet's extrinsic
@@ -270,15 +267,15 @@ class PetWorld extends World {
                 int eid1 = entities.get(ii);
                 Entity e1 = world.entity(eid1);
                 if (e1.isDestroyed()) continue;
-                pos.get(eid1, p1_);
+                pos_.get(eid1, p1);
                 float r1 = radius.get(eid1);
                 for (int jj = ii+1; jj < ll; jj++) {
                     int eid2 = entities.get(jj);
                     Entity e2 = world.entity(eid2);
                     if (e2.isDestroyed()) continue;
-                    pos.get(eid2, p2_);
+                    pos.get(eid2, p2);
                     float r2 = radius.get(eid2), dr = r2+r1;
-                    float dist2 = _p1.distanceSq(_p2);
+                    float dist2 = p1.distanceSq(p2);
                     if (dist2 <= dr*dr) {
                         collide(e1, e2);
                         break; // don't collide e1 with any other entities
