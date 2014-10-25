@@ -60,6 +60,32 @@ public class PetAttributes {
         ACTION
     }
 
+    public enum State {
+        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
+        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
+        SOBRIO, BEBADO, RESSACA, COMA,  // alcool
+        ONONOONO // impossivel - invalido
+        ;
+        //XXX finish
+
+        /*
+        private final int value_;
+
+        private State(int value) {
+            this.value_ = value;
+        }
+
+        public int value() {
+            return value_;
+        }
+        */
+    }
+
+    public enum ActionState {
+        VARRENDO, JOGANDO
+        // XXX finish
+    }
+
     private PetAttribute alcool_;
     public  PetAttribute alcool() { return alcool_; }
     private PetAttribute nutricao_;
@@ -85,21 +111,21 @@ public class PetAttributes {
 
     /** attributeState name to object map */
     public Map<String, PetAttributeState> ms_ = new HashMap<String, PetAttributeState>();
-    public PetAttributeState sAtt(String s) { return ms_.get(s); }
+    public PetAttributeState<State> sAtt(String s) { return ms_.get(s); }
 
     /** attributeID enum to attributeState object map */
     public Map<AttributeID, PetAttributeState> sAtt_ = new HashMap<AttributeID, PetAttributeState>();
-    public PetAttributeState sAtt(AttributeID id) { return sAtt_.get(id); }
+    public PetAttributeState<State> sAtt(AttributeID id) { return sAtt_.get(id); }
 
     /*-------------------------------------------------------------------------------*/
     /** Qualitative attributes holding states for each attrib */
 
-    private PetAttributeState sAlcool_;
-    public  PetAttributeState sAlcool() { return sAlcool_; }
-    private PetAttributeState sNutricao_;
-    public  PetAttributeState sNutricao() { return sNutricao_; }
-    private PetAttributeState sAction_;
-    public  PetAttributeState sAction() { return sAction_; }
+    private PetAttributeState<State> sAlcool_;
+    public  PetAttributeState<State> sAlcool() { return sAlcool_; }
+    private PetAttributeState<State> sNutricao_;
+    public  PetAttributeState<State> sNutricao() { return sNutricao_; }
+    private PetAttributeState<ActionState> sAction_;
+    public  PetAttributeState<ActionState> sAction() { return sAction_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */
@@ -161,8 +187,10 @@ public class PetAttributes {
         // TODO read satelist, intervals from Json.
         // perhaps populateFromJson();
 
-        sAlcool_ = new PetAttributeState();
+        sAlcool_   = new PetAttributeState();
+        sNutricao_ = new PetAttributeState();
 
+        // XXX intervals?
         sAlcool_.set(alcool());
         sNutricao_.set(nutricao());
 
@@ -193,7 +221,7 @@ public class PetAttributes {
     /**
      * returns the mode for qualitative attribute with id enum AttributeID
      */
-    public PetAttributeState.State mode(AttributeID id) {
+    public State mode(AttributeID id) {
         return sAtt_.get(id).getState();
     }
 
@@ -232,11 +260,10 @@ public class PetAttributes {
      * example of game logic depending on multiple attributes
      */
     public void print() {
-        for (String key : m_.keySet()) {
+        for (String key : m_.keySet())
             m_.get(key).print();
-        }
-        for (String key : ms_.keySet()) {
+        for (String key : ms_.keySet())
             ms_.get(key).print();
-        }
+        sAction_.print();
     }
 }

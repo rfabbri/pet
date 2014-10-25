@@ -1,49 +1,20 @@
 package com.pulapirata.core;
 
 import java.util.ArrayList;
-import react.IntValue;
 import react.Slot;
+import react.IntValue;
 
 
 /**
  * A class that just partitions values into qualitative states.
  * For instance: Alcool: drunk, sober, hangover etc.
  *
- * Inside a rule that depends on QualitativeAttribute, there will be a
- * slot() function. PetAttributeState will fire its value only when
+ * Inside a rule that depends on a PetAttributeState, there will be a
+ * slot() function. PetAttributeState will emit a signal only when
  * its qualitative state changes.
  *
- * TODO implement.
  */
-class PetAttributeState extends IntValue {
-    public enum State {
-        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
-        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
-        SOBRIO, BEBADO,
-        RESSACA, COMA,  // alcool
-        ONONOONO // impossivel - invalido
-        ;
-        //XXX finish
-
-        /*
-        private final int value_;
-
-        private State(int value) {
-            this.value_ = value;
-        }
-
-        public int value() {
-            return value_;
-        }
-        */
-    }
-
-    /**
-     * start with easily identifiable dummy default values
-     */
-    public PetAttributeState() {
-        super(-696);
-    }
+class PetAttributeState<State extends Enum<State>>  extends PetAttributeEnum<State extends Enum<State>> {
 
     /**
      * Construct for a given {@link PetAttribute} att.
@@ -105,15 +76,11 @@ class PetAttributeState extends IntValue {
         return s;
     }
 
-    public State getState() {
-        return State.values()[get()];
-    }
-
     public boolean isInitialized() {
         return initialized_;
     }
 
-    public void print() {
+    @Override public void print() {
         System.out.println("associated att name: " + att_.name() + " state: " + get());
         System.out.println("associated att val: " + att_.val());
         System.out.println("possible states and corresp intervals:");
