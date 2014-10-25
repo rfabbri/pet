@@ -1,3 +1,5 @@
+- See https://github.com/rfabbri/pet/issues, In particular #1
+
 Importantes
 ===========
 
@@ -21,4 +23,4 @@ seu passiveUpdate(), e cada atributo faz seus ifs diferentemente.
 - pre-alocar sprite piscando, pra ao menos eliminar os new.
 - piscar() nao esta certo
 -- tempo de piscar sendo setado mais ou menos 2*alcool passivo
--- pode tirar traversed() dos sprites
+-- podae tirar traversed() dos sprites

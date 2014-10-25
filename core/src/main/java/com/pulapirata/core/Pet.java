@@ -142,19 +142,16 @@ public class Pet extends Game.Default {
     bgtile.canvas().fillRect(0, 0, 480, 119);
     bgtile.canvas().setFillColor(0xFF333366);
     bgtile.canvas().fillRect(4, 4, 472, 112);
-    //Fonte
-    //Font font = graphics().createFont("earthboundzero", Font.Style.PLAIN, 18);
+
+    // Font font = graphics().createFont("earthboundzero", Font.Style.PLAIN, 18);
     ImageLayer statlayer = graphics().createImageLayer(bgtile);
     //
     //  statlayer.setWidth(graphics().width());
     // FIXME: problem with graphics.width not being set correctly in html;
     // it always seems to give 640
     //
-    statlayer.setHeight(120);//altura do retangulo de informacoes
+    statlayer.setHeight(120);   // altura do retangulo de informacoes
     layer_.add(statlayer);
-
-    // test: write something in white letters: Pet
-
 
     // ------ The text in the status bar as a tripleplay nested layout interface
 
@@ -164,21 +161,21 @@ public class Pet extends Game.Default {
 
     final int mainStatWidth = 200;
 
-    // sm stands for statbar_margin
     TableLayout statbarLayout = new TableLayout(
       COL.minWidth(mainStatWidth).alignLeft().fixed(),
       COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
 
-//    AxisLayout statbarLayout = new AxisLayout.horizontal().add(
-//      COL.minWidth(250).alignLeft().fixed(),
-//      COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
+    // AxisLayout statbarLayout = new AxisLayout.horizontal().add(
+    //   COL.minWidth(250).alignLeft().fixed(),
+    //   COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
+
     // the left status plus is the left column
     // the (!) icon plust the right text is the right column
 
-    rightPartLayout_ = new TableLayout(COL.fixed().minWidth(30), COL.alignLeft()).gaps(mae, mae).alignTop();
+    rightPartLayout_ = new TableLayout(COL.fixed().minWidth(30),
+            COL.alignLeft()).gaps(mae, mae).alignTop();
 
     exclamacao_ = assets().getImage("pet/images/exclamacao.png");
-
 
     // Cria um grupo para os caras da esquerda
     // Basicamente 2 labels: nome grandao e indicadores em fonte menor
@@ -209,7 +206,7 @@ public class Pet extends Game.Default {
         ).addStyles(Styles.make(Style.HALIGN.left));
 
     rightStatbarGroup_ = new Group(rightPartLayout_).add (
-          new Button(Icons.image(exclamacao_)), // FIXME an icon goes here or else blank space w icon's size
+          new Button(Icons.image(exclamacao_)),
           // TODO in future this button will actually be an animation sprite
           new Label("Hello, world!").addStyles(Styles.make(
               Style.COLOR.is(0xFFFFFFFF),
@@ -244,19 +241,19 @@ public class Pet extends Game.Default {
     layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
   }
 
-  //--------------------------------------------------------------------------------
-  /* Funcao responsavel por criar os botoes, estes sao colocados em um ArraList */
-
+  /**
+   * Funcao responsavel por criar os botoes
+   */
   private void makeButtons() {
     // create our UI manager and configure it to process pointer events
     iface_ = new Interface();
 
-    //petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+    // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
     Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
     root_.setSize(width(), 354); // this includes the secondary buttons
-    //    root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-    layer_.addAt(root_.layer, 0, 442); //Position of buttons
+            // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
+    layer_.addAt(root_.layer, 0, 442); // position of buttons
 
     final Group buttons = new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.blank()));
@@ -350,7 +347,7 @@ public class Pet extends Game.Default {
       Posicao de cada "butt"
     */
     final int[][] topleft = new int [][] {
-      {0, 0},
+        {0, 0},
         {120, 0},
         {240, 0},
         {360, 0},
@@ -361,7 +358,7 @@ public class Pet extends Game.Default {
     };
 
     final int[][] topleftSecondary = new int [][] {
-      {0, 0},
+        {0, 0},
         {120, 0},
         {240, 0},
         {360, 0},
@@ -371,12 +368,12 @@ public class Pet extends Game.Default {
     final int numMainButts = imgButtSolto.size();
     final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
 
-    for (int b =0; b < numMainButts; ++b) {
+    for (int b = 0; b < numMainButts; ++b) {
       final int bFinal = b;
       ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(0)));
       buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
-      // add button b's secondary buttons TODO: use animated sheets for them
+      // add button b's secondary buttons
       sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
         Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
@@ -388,11 +385,14 @@ public class Pet extends Game.Default {
         if (b == 5 && s == 0)
             sbut.clicked().connect(new UnitSlot() {
                 public void onEmit() {
-                    world_.mainPet.alcool().sub(1);
+                    world_.mainPet().alcool().sub(1);
                 }
             });
 
         if (b == 6 /* diversao */ && s == 0/* licor */)
+            // hooks up the liquor button to setting alcool to max.  button
+            // press event is filtered to emit alcool().max() to the
+            // alcool() attribute.
             sbut.clicked().filter(
             Functions.constant(world_.mainPet().alcool().max()) ).connect(
                 world_.mainPet().alcool().slot());
