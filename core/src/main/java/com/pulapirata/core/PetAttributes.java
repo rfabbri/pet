@@ -83,7 +83,7 @@ public class PetAttributes {
     }
 
     public enum ActionState {
-        DEFAULT, VARRENDO, JOGANDO
+        DEFAULT, VARRENDO, JOGANDO, CLEANING
         // XXX finish
     }
 
@@ -244,7 +244,7 @@ public class PetAttributes {
         return VisibleCondition.values()[vis_.get()];
     }
 
-    boolean isInitialized() {
+    public boolean isInitialized() {
         for (String key : ms_.keySet()) {
             if (!ms_.get(key).isInitialized())
                 return false;

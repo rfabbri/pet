@@ -1,5 +1,6 @@
 package com.pulapirata.core.utils;
 
+import java.util.ArrayList;
 import com.pulapirata.core.PetAttributes;
 import playn.core.AssetWatcher;
 import playn.core.Json;
@@ -52,14 +53,14 @@ public class PetAttributesLoader {
                         (int)(jatt.getDouble("passiveBeats")*beatsCoelhoHora)
                     );
 
-                    ArrayList<PetAttributeState.State> s;
-                    ArrayList<int> iv;
+                    ArrayList<PetAttributes.State> s = new ArrayList<PetAttributes.State>();
+                    ArrayList<Integer> iv = new ArrayList<Integer>();
 
                     Json.Array jsonStates = document.getArray("States");
                     for (int k = 0; k < jsonStates.length(); k++) {
                         Json.Object js = jsonStates.getObject(i);
                         System.out.println("reading state: " + js.getString("name"));
-                        s.add(s.State.valueOf(js.getString("name")));
+                        s.add(PetAttributes.State.valueOf(js.getString("name")));
                         iv.add(js.getInt("max"));
                         assert k != 0 || js.getInt("min") == attribs.get(jatt.getString("name")).min()
                             : "json not consistent with assumption of min of interval equal min of first state";

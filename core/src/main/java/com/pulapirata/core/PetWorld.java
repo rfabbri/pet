@@ -6,6 +6,11 @@ import java.util.Random;
 import react.Signal;
 import react.Slot;
 
+import pythagoras.f.FloatMath;
+import pythagoras.f.MathUtil;
+import pythagoras.f.Point;
+import pythagoras.f.Vector;
+
 import playn.core.*;
 import playn.core.util.Clock;
 import playn.core.util.Callback;
@@ -18,6 +23,7 @@ import tripleplay.entity.World;
 import tripleplay.util.Randoms;
 
 import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.utils.PetAttributesLoader;
 
 
 /**
@@ -56,7 +62,7 @@ class PetWorld extends World {
     public final Component.XY pos_  = new Component.XY(this);
     public final Component.XY opos_ = new Component.XY(this);  // old pos for interpolates
     public final Component.XY vel_  = new Component.XY(this);  // pixels/ms
-    public final Component.FScalar radius = new Component.FScalar(this); // diameter
+    public final Component.FScalar radius_ = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
         // XXX    public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
@@ -70,7 +76,7 @@ class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Time data */
 
-    private int beat_ = 0; // total number of updates so far
+    public int beat_ = 0; // total number of updates so far
     // the following is not static so that we can dynamically speedup the game if desired
     private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
     private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
@@ -98,8 +104,8 @@ class PetWorld extends World {
                 @Override
                 public void onSuccess(PetAttributes resource) {
                     mainPet_ = resource;
-                    if (mainID_ != -1)
-                        pet_.get(mainID_).didChange();
+                    // if (mainID_ != -1)
+                    //     pet_.get(mainID_).didChange();
                     attributesLoaded_ = true;
                 }
 
@@ -109,12 +115,15 @@ class PetWorld extends World {
                 }
             });
 
-
         keyboard().setListener(new Keyboard.Adapter() {
             @Override public void onKeyDown (Keyboard.Event event) {
-                keyReloadGameFile.emit(event.key());
+                keyDown_.emit(event.key());
+            }
+            @Override public void onKeyUp (Keyboard.Event event) {
+                keyUp_.emit(event.key());
             }
         });
+
         reset();
     }
 
@@ -143,13 +152,13 @@ class PetWorld extends World {
                 int eid = entities.get(ii);
                 pos_.get(eid, p); // get our current pos
                 opos_.set(eid, p);
-                vel.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
-                pos.set(eid, p.x + v.x, p.y + v.y); // add velocity
+                vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
+                pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity
             }
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(opos) && entity.has(pos) && entity.has(vel);
+            return entity.has(opos_) && entity.has(pos_) && entity.has(vel_);
         }
 
         protected final Point  innerPos_ = new Point();
@@ -167,12 +176,12 @@ class PetWorld extends World {
                 opos_.get(eid, op);
                 pos_.get(eid, p);
                 // wrap our interpolated position as we may interpolate off the screen
-                spriteLayer_.get(eid).setTranslation(wrapx(MathUtil.lerp(op.x, p.x, alpha)),
-                                                     wrapy(MathUtil.lerp(op.y, p.y, alpha)));
+                spriteLayer_.get(eid).setTranslation(MathUtil.lerp(op.x, p.x, alpha),
+                                                     MathUtil.lerp(op.y, p.y, alpha));
             }
         }
 
-        @Override protected void update (int delta) {
+        @Override protected void update (int delta, Entities entities) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
                 // XXX                sprite_.get(eid).update(delta);
@@ -200,7 +209,7 @@ class PetWorld extends World {
      * Updates pet sprites to reflect inner state.
      */
     public final System spriteLinker = new System(this, 0) {
-        @Override protected void update (int delta) {
+        @Override protected void update (int delta, Entities entities) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
 // XXX               sprite_.get(eid).update(delta);
@@ -218,7 +227,7 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return type.get(entity.id) == PET;
+            return type_.get(entity.id) == PET;
         }
 
         protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
@@ -228,7 +237,12 @@ class PetWorld extends World {
      * automatically move and do something fun if no control is pressed. NOOP if
      * touchscreen or gamepad are available.
      */
-    public final System walkControls = new System(this, 1) {
+    public final System keyControls = new System(this, 1) {
+        public static final float WALK_VELOCITY = 1f;
+        // actually, use just accel
+        public static final float ACCEL = 0.01f;
+
+
         /* ctor */ {
             keyDown_.connect(new Slot<Key>() {
                 @Override public void onEmit (Key key) {
@@ -238,9 +252,13 @@ class PetWorld extends World {
                       case RIGHT: vel_.x  =  WALK_VELOCITY;  vel_.y = 0;  break;
                       case UP:    vel_.x  =  0;  vel_.y =  WALK_VELOCITY;  break;
                       case DOWN:  vel_.x  =  0;  vel_.y = -WALK_VELOCITY;  break;
-                      case SPACE: System.out.println("Key SPACE pressed: u mean jump?"); break;
-                      case C: System.out.println("Key C pressed: u mean taka dump?"); break;
-                    default: break;
+                      case SPACE:
+                        java.lang.System.out.println("Key SPACE pressed: u mean jump?"); break;
+                      case C:
+                        java.lang.System.out.println("Key C pressed: u mean taka dump?"); break;
+                      case R:
+                        java.lang.System.out.println("Key R pressed: u mean reload attributes file?"); break;
+                      default: break;
                     }
                 }
             });
@@ -259,14 +277,15 @@ class PetWorld extends World {
 
         @Override protected void wasAdded (Entity entity) {
             super.wasAdded(entity);
-            _ship = entity;
+            innerPet_ = entity;
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return type.get(entity.id) == PET;
+            return type_.get(entity.id) == PET;
         }
 
         protected Vector vel_ = new Vector();
+        protected Entity innerPet_;
     };
 
     /** Checks for collisions. Like between PET and DROPPING. Models everything as a sphere. */
@@ -277,15 +296,15 @@ class PetWorld extends World {
                 int eid1 = entities.get(ii);
                 Entity e1 = world.entity(eid1);
                 if (e1.isDestroyed()) continue;
-                pos_.get(eid1, p1);
-                float r1 = radius.get(eid1);
+                pos_.get(eid1, p1_);
+                float r1 = radius_.get(eid1);
                 for (int jj = ii+1; jj < ll; jj++) {
                     int eid2 = entities.get(jj);
                     Entity e2 = world.entity(eid2);
                     if (e2.isDestroyed()) continue;
-                    pos.get(eid2, p2);
-                    float r2 = radius.get(eid2), dr = r2+r1;
-                    float dist2 = p1.distanceSq(p2);
+                    pos_.get(eid2, p2_);
+                    float r2 = radius_.get(eid2), dr = r2+r1;
+                    float dist2 = p1_.distanceSq(p2_);
                     if (dist2 <= dr*dr) {
                         collide(e1, e2);
                         break; // don't collide e1 with any other entities
@@ -295,19 +314,19 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(pos) && entity.has(radius);
+            return entity.has(pos_) && entity.has(radius_);
         }
 
         private void collide (Entity e1, Entity e2) {
             if (attributesLoaded_) {
-                switch (type.get(e1.id) | type.get(e2.id)) {
+                switch (type_.get(e1.id) | type_.get(e2.id)) {
                 case PET_DROPPING:
-                    if (type.get(e1.id) == PET) {
-                        if (pet_.get(e1.id).mode(pet_.get(e1.id).sAction()) == PetAttributesActionState.CLEANING) {
+                    if (type_.get(e1.id) == PET) {
+                        if (pet_.get(e1.id).sAction().getState() == PetAttributes.ActionState.CLEANING) {
                             e2.destroy();
                         }
                     } else {
-                        if (pet_.get(e2.id).mode(pet_.get(e1.id).sAction()) == PetAttributesActionState.CLEANING) {
+                        if (pet_.get(e2.id).sAction().getState() == PetAttributes.ActionState.CLEANING) {
                             e1.destroy();
                         }
                     }
@@ -321,7 +340,7 @@ class PetWorld extends World {
         protected static final int PET_VOMIT = PET|VOMIT;
         protected static final int PET_DIARRHEA = PET|DIARRHEA;
 
-        protected final Point _p1 = new Point(), _p2 = new Point();
+        protected final Point p1_ = new Point(), p2_ = new Point();
     };
 
     /*-------------------------------------------------------------------------------*/
@@ -330,7 +349,7 @@ class PetWorld extends World {
     // expires things with limited lifespan
     public final System expirer = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
-            int now = this.beat_;
+            int now = beat_;
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
                 if (expires_.get(eid) <= now) world.entity(eid).destroy();
@@ -338,7 +357,7 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(expires);
+            return entity.has(expires_);
         }
     };
 
@@ -347,9 +366,9 @@ class PetWorld extends World {
 
     protected Entity createPet (float x, float y) {
         Entity pet = create(true);
-        pet.add(type, pet_, /* XXX sprite_, */spriteLayer_, opos_, pos_, vel_, radius_, expires_);
+        pet.add(type_, pet_, /* XXX sprite_, */spriteLayer_, opos_, pos_, vel_, radius_, expires_);
 
-        int id = pet_.id;
+        int id = pet.id;
         type_.set(id, PET);
         opos_.set(id, x, y);
         pos_.set(id, x, y);
@@ -362,7 +381,7 @@ class PetWorld extends World {
 
         // -> pet.connect(ps.slot());
         // XXX        sprite_.set(id, ps);
-        spriteLayer_.set(id, imgLayer);
+        // spriteLayer_.set(id, imgLayer);
 
         // XXX        radius.set(id, sprite_.boundingRadius());
         // radius.ComputeFromSprite(id, 10);
@@ -372,7 +391,7 @@ class PetWorld extends World {
     public void reset() {
         Iterator<Entity> iter = entities();
         while (iter.hasNext()) iter.next().destroy();
-        createPet(width_/2., height_/2.);
+        createPet(width_/2.f, height_/2.f);
     }
 
     /* TODO load atlas */

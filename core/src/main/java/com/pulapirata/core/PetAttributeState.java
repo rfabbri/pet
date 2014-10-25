@@ -27,12 +27,12 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
      *      A is from att.min() inclusive to intervals[0] inclusive
      *      B is from intervals[0]+1 inclusive to intervals[1] inclusive
      */
-    void set(PetAttribute att) {
+    public void set(PetAttribute att) {
         att_ = att;
         att_.connect(slot());
     }
 
-    void set(ArrayList<State> states, ArrayList<Integer> intervals) {
+    public void set(ArrayList<State> states, ArrayList<Integer> intervals) {
         // make sure supplied intervals partitions the range of that
         // parameter:
         assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.";
