@@ -47,6 +47,7 @@ import com.pulapirata.core.sprites.PingoTriste;
 // them
 
 import react.Function;
+import react.Functions;
 import react.UnitSlot;
 import react.Slot;
 
@@ -73,424 +74,435 @@ import tripleplay.ui.layout.AxisLayout;
 import tripleplay.util.Randoms;
 import static tripleplay.ui.layout.TableLayout.COL;
 
-
 public class Pet extends Game.Default {
-  /*===============================================================================*/
-  /* Data                                                                          */
-  /*===============================================================================*/
+    /*===============================================================================*/
+    /* Data                                                                          */
+    /*===============================================================================*/
 
-  /*-------------------------------------------------------------------------------*/
-  /* Status info shown on top */
+    /*-------------------------------------------------------------------------------*/
+    /* Status info shown on top */
 
-  protected  static final String STAT_ALERT_1 =
-    "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-  protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Sede: %d/%d\n";
-  protected  static final String STAT_FILLER_2 = "\nFome: %d/%d\n Alcool: %d/%d";
+    protected  static final String STAT_ALERT_1 =
+        "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
+    protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Sede: %d/%d\n";
+    protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Alcool: %d/%d";
 
-  /*-------------------------------------------------------------------------------*/
-
-  public int width()  { return 480; }
-  public int height() { return 800; }
-
-  /*-------------------------------------------------------------------------------*/
-  /* Time data */
-
-  public static final int UPDATE_RATE = 100; // ms
-   // the following is not static so that we can dynamically speedup the game if desired
-  private int beatsCoelhoDia_ = 600; // beats por 1 coelho dia.
-  private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
-  private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
-  public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
-  public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
-
-  /*-------------------------------------------------------------------------------*/
-  /* Pet attributes & info */
-
-  private boolean attributesLoaded = false;
-  private boolean printIniDbg = true;
-
-  /*-------------------------------------------------------------------------------*/
-  /* Misc variables */
-
-  protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
-
-  /*-------------------------------------------------------------------------------*/
-  /* Layers, groups & associated resources */
-
-  private ImageLayer bgLayer_ = null;
-  private Image bgImageDay_, bgImageNight_;
-  private GroupLayer layer_;
-  protected Group mainStat_;
-  private Group rightStatbarGroup_;
-  private TableLayout rightPartLayout_;
-  private Interface iface_, statbarIface_;
-  private Image exclamacao_;
-  private Stylesheet petSheet_;
-
-  protected PetWorld world_;
-
-  //--------------------------------------------------------------------------------
-  public Pet() {
-    super(UPDATE_RATE);
-  }
-
-  //--------------------------------------------------------------------------------
-  private void makeStatusbar() {
-    // create and add the status title layer using drawings for faster loading
-    CanvasImage bgtile = graphics().createImage(480, 119);
-    bgtile.canvas().setFillColor(0xFFFFFFFF);
-    bgtile.canvas().fillRect(0, 0, 480, 119);
-    bgtile.canvas().setFillColor(0xFF333366);
-    bgtile.canvas().fillRect(4, 4, 472, 112);
-
-    // Font font = graphics().createFont("earthboundzero", Font.Style.PLAIN, 18);
-    ImageLayer statlayer = graphics().createImageLayer(bgtile);
-    //
-    //  statlayer.setWidth(graphics().width());
-    // FIXME: problem with graphics.width not being set correctly in html;
-    // it always seems to give 640
-    //
-    statlayer.setHeight(120);   // altura do retangulo de informacoes
-    layer_.add(statlayer);
-
-    // ------ The text in the status bar as a tripleplay nested layout interface
-
-    // TODO: e o tal do gaps?
-    final int mae = 20; // mae == margin on the sides of exlamation
-    final int mte = 18; // mae == margin on top of exlamation
-
-    final int mainStatWidth = 200;
-
-    TableLayout statbarLayout = new TableLayout(
-      COL.minWidth(mainStatWidth).alignLeft().fixed(),
-      COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
-
-    // AxisLayout statbarLayout = new AxisLayout.horizontal().add(
-    //   COL.minWidth(250).alignLeft().fixed(),
-    //   COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
-
-    // the left status plus is the left column
-    // the (!) icon plust the right text is the right column
-
-    rightPartLayout_ = new TableLayout(COL.fixed().minWidth(30),
-            COL.alignLeft()).gaps(mae, mae).alignTop();
-
-    exclamacao_ = assets().getImage("pet/images/exclamacao.png");
-
-    // Cria um grupo para os caras da esquerda
-    // Basicamente 2 labels: nome grandao e indicadores em fonte menor
-
-    String age1 = idadeCoelhoDiasStr1();
-    String age2 = idadeCoelhoDiasStr2();
-
-    mainStat_ = new SizableGroup (AxisLayout.vertical(), mainStatWidth, 0).add (
-        new Label("PINGO").addStyles(Styles.make(
-            Style.COLOR.is(0xFFFFFFFF),
-            Style.HALIGN.left,
-            //Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
-            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 31)),
-            Style.AUTO_SHRINK.is(true)
-        )),
-        new Label(age1).addStyles(Styles.make(
-            Style.COLOR.is(0xFFFFFFFF),
-            Style.HALIGN.left,
-            Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16)),
-            Style.AUTO_SHRINK.is(true)
-        )),
-        new Label(age2).addStyles(Styles.make(
-                    Style.COLOR.is(0xFFFFFFFF),
-                    Style.HALIGN.left,
-                    Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16)),
-                    Style.AUTO_SHRINK.is(true)
-                ))
-        ).addStyles(Styles.make(Style.HALIGN.left));
-
-    rightStatbarGroup_ = new Group(rightPartLayout_).add (
-          new Button(Icons.image(exclamacao_)),
-          // TODO in future this button will actually be an animation sprite
-          new Label("Hello, world!").addStyles(Styles.make(
-              Style.COLOR.is(0xFFFFFFFF),
-              Style.TEXT_WRAP.is(true),
-              Style.HALIGN.left,
-              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
-              ))
-          );
-
-    Group statbar = new Group (statbarLayout).add (
-        mainStat_,
-        rightStatbarGroup_
-        ).addStyles(Style.VALIGN.top);
-
-    // create our UI manager and configure it to process pointer events
-    statbarIface_ = new Interface();
-
-    //petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
-    Root statbarRoot = statbarIface_.createRoot(new AbsoluteLayout(), petSheet_);
-
-    statbarRoot.setSize(width(), 120);  // this includes the secondary buttons
-
-    layer_.addAt(statbarRoot.layer, 0, 0);
-    statbarRoot.add(AbsoluteLayout.at(statbar, mae, mte, width()-mae, 120-mte));
-  }
-
-  //--------------------------------------------------------------------------------
-  private void makeBackgroundInit() {
-    bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
-    bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
-    bgLayer_ = graphics().createImageLayer(bgImageDay_);
-    layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
-  }
-
-  /*-------------------------------------------------------------------------------*/
-  /**
-   * Funcao responsavel por criar os botoes
-   */
-  private void makeButtons() {
-    // create our UI manager and configure it to process pointer events
-    iface_ = new Interface();
-
-    // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
-    Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
-
-    // XXX conferir se ta certo abaixo
-    root_.setSize(width(), 354); // this includes the secondary buttons
-            // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-    layer_.addAt(root_.layer, 0, 442); // position of buttons
-
-    final Group buttons = new Group(new AbsoluteLayout()).addStyles(
-        Style.BACKGROUND.is(Background.blank()));
-
-    // TODO we could use TableLayout in the future but I dont trust it now;
-    // I prefer pixel control for now.
-    //
-    //    Group iface_ = Group(new TableLayout(4).gaps(0, 0)).add(
-    //      label("", Background.image(testBg)),
-    //    );
-
-    final ArrayList<Image> imgButtSolto =
-      new ArrayList<Image>(Arrays.asList(
-            assets().getImage("pet/main-buttons/01_comida_principal.png"),
-            assets().getImage("pet/main-buttons/02_diversao_principal.png"),
-            assets().getImage("pet/main-buttons/03_social_principal.png"),
-            assets().getImage("pet/main-buttons/04_higiene_principal.png"),
-            assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
-            assets().getImage("pet/main-buttons/06_saude_principal.png"),
-            assets().getImage("pet/main-buttons/07_lazer_principal.png"),
-            assets().getImage("pet/main-buttons/08_disciplina_principal.png")
-            ));
-
-    final ArrayList<Image> imgButtApertado =
-      new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
-            assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
-            assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
-            assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
-            assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
-            assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
-            assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
-            assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
-            ));
-
-    ArrayList< ArrayList<Image> > s_imgButtSecondary = new ArrayList< ArrayList<Image> > (0);
-
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/011_comida.png"),
-            assets().getImage("pet/main-buttons/012_comida.png"),
-            assets().getImage("pet/main-buttons/013_comida.png"),
-            assets().getImage("pet/main-buttons/014_comida.png")
-            )));
-
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/021_diversao.png"),
-            assets().getImage("pet/main-buttons/022_diversao.png"),
-            assets().getImage("pet/main-buttons/023_diversao.png"),
-            assets().getImage("pet/main-buttons/024_diversao.png")
-            )));
-
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (0)
-        );
-
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/041_higiene.png"),
-            assets().getImage("pet/main-buttons/042_higiene.png"),
-            assets().getImage("pet/main-buttons/043_higiene.png"),
-            assets().getImage("pet/main-buttons/044_higiene.png")
-            )));
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/051_obrigacoes.png"),
-            assets().getImage("pet/main-buttons/052_obrigacoes.png")
-            )));
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/061_saude.png"),
-            assets().getImage("pet/main-buttons/062_saude.png")
-            )));
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/071_lazer.png"), // licor
-            assets().getImage("pet/main-buttons/072_lazer.png")
-            )));
-    s_imgButtSecondary.add(
-        new ArrayList<Image> (Arrays.asList(
-            assets().getImage("pet/main-buttons/081_disciplina.png"),
-            assets().getImage("pet/main-buttons/082_disciplina.png"),
-            assets().getImage("pet/main-buttons/083_disciplina.png"),
-            assets().getImage("pet/main-buttons/084_disciplina.png")
-            )));
-
-    final ArrayList< ArrayList<Image> > imgButtSecondary = s_imgButtSecondary;
-
-    /*
-      Posicao de cada "butt"
-    */
-    final int[][] topleft = new int [][] {
-        {0, 0},
-        {120, 0},
-        {240, 0},
-        {360, 0},
-        {0, 120},
-        {120, 120},
-        {240, 120},
-        {360, 120},
-    };
-
-    final int[][] topleftSecondary = new int [][] {
-        {0, 0},
-        {120, 0},
-        {240, 0},
-        {360, 0},
-    };
     /*-------------------------------------------------------------------------------*/
 
-    final int numMainButts = imgButtSolto.size();
-    final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
+    public int width()  { return 480; }
+    public int height() { return 800; }
+    public PetAttributes a() { return world_.mainPet(); }   // shortcut
 
-    for (int b = 0; b < numMainButts; ++b) {
-      final int bFinal = b;
-      ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(0)));
-      buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
+    /*-------------------------------------------------------------------------------*/
+    /* Time data */
 
-      // add button b's secondary buttons
-      sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
-        Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
+    public static final int UPDATE_RATE = 100; // ms
 
-      for (int s = 0; s < imgButtSecondary.get(b).size(); ++s) {
-        Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
-        sbuttons.get(b).add(AbsoluteLayout.at(sbut,
-          topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
-
-        if (b == 5 && s == 0)
-            sbut.clicked().connect(new UnitSlot() {
-                public void onEmit() {
-                    world_.mainPet().alcool().sub(1);
-                }
-            });
-
-        if (b == 6 /* diversao */ && s == 0/* licor */)
-            // hooks up the liquor button to setting alcool to max.  button
-            // press event is filtered to emit alcool().max() to the
-            // alcool() attribute.
-            sbut.clicked().filter(
-            Functions.constant(world_.mainPet().alcool().max()) ).connect(
-                world_.mainPet().alcool().slot());
-
-        /*-------------------------------------------------------------------------------*/
-        but.selected().map(new Function <Boolean, Icon>() {
-          public Icon apply (Boolean selected) {
-            if (selected)
-               return Icons.image(imgButtApertado.get(bFinal));
-            else
-               return Icons.image(imgButtSolto.get(bFinal));
-          }
-        }).connectNotify(but.icon.slot());
-        // all secondary buttons are added; toggle visibility only
-        root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
-        sbuttons.get(bFinal).setVisible(false);
-      }
-
-      Selector sel = new Selector(buttons, null);
-      root_.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
-
-      // TODO: improve this part with a button-> index map so we don't go through
-      // all butts
-      sel.selected.connect(new Slot<Element<?>>() {
-        @Override public void onEmit (Element<?> event) {
-          if (event == null) {
-            for (Group sb : sbuttons)
-              sb.setVisible(false);
-          } else {
-            for (int i=0; i < numMainButts; ++i) {
-              if (buttons.childAt(i) == (ToggleButton) event &&
-                  sbuttons.get(i).childCount() != 0) {
-                sbuttons.get(i).setVisible(true);
-              } else {
-                sbuttons.get(i).setVisible(false);
-              }
-            }
-          }
-        }
-      });
+    public String idadeCoelhoDiasStr1() {
+        if (world_.idadeCoelhoDias() == 0)
+            return String.format(
+                  STAT_FILLER_1,
+                  world_.idadeCoelhoHoras(), "h",
+                  a().sede().val(),
+                  a().sede().max());
+        else
+            return String.format(STAT_FILLER_1,
+                  world_.idadeCoelhoDias(), " dias",
+                  a().sede().val(),
+                  a().sede().max());
     }
-  }
 
-  @Override
-  public void init() {
-    assert 1 == 2 : "Asserts are on +_+_+_+_+_+_+___+_+__";
+    public String idadeCoelhoDiasStr2() {
+        return String.format(STAT_FILLER_2,
+                a().nutricao().val(), a().nutricao().max(),
+                a().alcool().val(), a().alcool().max());
+    }
 
-    // create a group layer_ to hold everything
-    layer_ = graphics().createGroupLayer();
-    graphics().rootLayer().add(layer_);
-    petSheet_ = PetStyles.newSheet();
+    /*-------------------------------------------------------------------------------*/
+    /* Pet attributes & info */
 
-    makeStatusbar();
-    makeBackgroundInit();
-    makeButtons();
+    private boolean attributesLoaded = false;
+    private boolean printIniDbg = true;
+
+    /*-------------------------------------------------------------------------------*/
+    /* Misc variables */
+
+    protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
+
+    /*-------------------------------------------------------------------------------*/
+    /* Layers, groups & associated resources */
+
+    private ImageLayer bgLayer_ = null;
+    private Image bgImageDay_, bgImageNight_;
+    private GroupLayer layer_;
+    protected Group mainStat_;
+    private Group rightStatbarGroup_;
+    private TableLayout rightPartLayout_;
+    private Interface iface_, statbarIface_;
+    private Image exclamacao_;
+    private Stylesheet petSheet_;
+
+    protected PetWorld world_;
+
+    //--------------------------------------------------------------------------------
+    public Pet() {
+      super(UPDATE_RATE);
+    }
+
+    //--------------------------------------------------------------------------------
+    private void makeStatusbar() {
+      // create and add the status title layer using drawings for faster loading
+      CanvasImage bgtile = graphics().createImage(480, 119);
+      bgtile.canvas().setFillColor(0xFFFFFFFF);
+      bgtile.canvas().fillRect(0, 0, 480, 119);
+      bgtile.canvas().setFillColor(0xFF333366);
+      bgtile.canvas().fillRect(4, 4, 472, 112);
+
+      // Font font = graphics().createFont("earthboundzero", Font.Style.PLAIN, 18);
+      ImageLayer statlayer = graphics().createImageLayer(bgtile);
+      //
+      //  statlayer.setWidth(graphics().width());
+      // FIXME: problem with graphics.width not being set correctly in html;
+      // it always seems to give 640
+      //
+      statlayer.setHeight(120);   // altura do retangulo de informacoes
+      layer_.add(statlayer);
+
+      // ------ The text in the status bar as a tripleplay nested layout interface
+
+      // TODO: e o tal do gaps?
+      final int mae = 20; // mae == margin on the sides of exlamation
+      final int mte = 18; // mae == margin on top of exlamation
+
+      final int mainStatWidth = 200;
+
+      TableLayout statbarLayout = new TableLayout(
+        COL.minWidth(mainStatWidth).alignLeft().fixed(),
+        COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
+
+      // AxisLayout statbarLayout = new AxisLayout.horizontal().add(
+      //   COL.minWidth(250).alignLeft().fixed(),
+      //   COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
+
+      // the left status plus is the left column
+      // the (!) icon plust the right text is the right column
+
+      rightPartLayout_ = new TableLayout(COL.fixed().minWidth(30),
+              COL.alignLeft()).gaps(mae, mae).alignTop();
+
+      exclamacao_ = assets().getImage("pet/images/exclamacao.png");
+
+      // Cria um grupo para os caras da esquerda
+      // Basicamente 2 labels: nome grandao e indicadores em fonte menor
+
+      String age1 = idadeCoelhoDiasStr1();
+      String age2 = idadeCoelhoDiasStr2();
+
+      mainStat_ = new SizableGroup (AxisLayout.vertical(), mainStatWidth, 0).add (
+          new Label("PINGO").addStyles(Styles.make(
+              Style.COLOR.is(0xFFFFFFFF),
+              Style.HALIGN.left,
+              //Style.FONT.is(PlayN.graphics().createFont("Helvetica", Font.Style.PLAIN, 24))
+              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 31)),
+              Style.AUTO_SHRINK.is(true)
+          )),
+          new Label(age1).addStyles(Styles.make(
+              Style.COLOR.is(0xFFFFFFFF),
+              Style.HALIGN.left,
+              Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16)),
+              Style.AUTO_SHRINK.is(true)
+          )),
+          new Label(age2).addStyles(Styles.make(
+                      Style.COLOR.is(0xFFFFFFFF),
+                      Style.HALIGN.left,
+                      Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16)),
+                      Style.AUTO_SHRINK.is(true)
+                  ))
+          ).addStyles(Styles.make(Style.HALIGN.left));
+
+      rightStatbarGroup_ = new Group(rightPartLayout_).add (
+            new Button(Icons.image(exclamacao_)),
+            // TODO in future this button will actually be an animation sprite
+            new Label("Hello, world!").addStyles(Styles.make(
+                Style.COLOR.is(0xFFFFFFFF),
+                Style.TEXT_WRAP.is(true),
+                Style.HALIGN.left,
+                Style.FONT.is(PlayN.graphics().createFont("EarthboundZero", Font.Style.PLAIN, 16))
+                ))
+            );
+
+      Group statbar = new Group (statbarLayout).add (
+          mainStat_,
+          rightStatbarGroup_
+          ).addStyles(Style.VALIGN.top);
+
+      // create our UI manager and configure it to process pointer events
+      statbarIface_ = new Interface();
+
+      //petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+      Root statbarRoot = statbarIface_.createRoot(new AbsoluteLayout(), petSheet_);
+
+      statbarRoot.setSize(width(), 120);  // this includes the secondary buttons
+
+      layer_.addAt(statbarRoot.layer, 0, 0);
+      statbarRoot.add(AbsoluteLayout.at(statbar, mae, mte, width()-mae, 120-mte));
+    }
+
+    //--------------------------------------------------------------------------------
+    private void makeBackgroundInit() {
+      bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
+      bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
+      bgLayer_ = graphics().createImageLayer(bgImageDay_);
+      layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
+    }
+
+    /*-------------------------------------------------------------------------------*/
+    /**
+     * Funcao responsavel por criar os botoes
+     */
+    private void makeButtons() {
+        // create our UI manager and configure it to process pointer events
+        iface_ = new Interface();
+
+        // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+        Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
+
+        // XXX conferir se ta certo abaixo
+        root_.setSize(width(), 354); // this includes the secondary buttons
+                // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
+        layer_.addAt(root_.layer, 0, 442); // position of buttons
+
+        final Group buttons = new Group(new AbsoluteLayout()).addStyles(
+            Style.BACKGROUND.is(Background.blank()));
+
+        // TODO we could use TableLayout in the future but I dont trust it now;
+        // I prefer pixel control for now.
+        //
+        //    Group iface_ = Group(new TableLayout(4).gaps(0, 0)).add(
+        //      label("", Background.image(testBg)),
+        //    );
+
+        final ArrayList<Image> imgButtSolto =
+            new ArrayList<Image>(Arrays.asList(
+                assets().getImage("pet/main-buttons/01_comida_principal.png"),
+                assets().getImage("pet/main-buttons/02_diversao_principal.png"),
+                assets().getImage("pet/main-buttons/03_social_principal.png"),
+                assets().getImage("pet/main-buttons/04_higiene_principal.png"),
+                assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
+                assets().getImage("pet/main-buttons/06_saude_principal.png"),
+                assets().getImage("pet/main-buttons/07_lazer_principal.png"),
+                assets().getImage("pet/main-buttons/08_disciplina_principal.png")
+                ));
+
+        final ArrayList<Image> imgButtApertado =
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
+                assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
+                assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
+                assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
+                assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
+                assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
+                assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
+                assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
+                ));
+
+        ArrayList< ArrayList<Image> > s_imgButtSecondary = new ArrayList< ArrayList<Image> > (0);
+
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/011_comida.png"),
+                assets().getImage("pet/main-buttons/012_comida.png"),
+                assets().getImage("pet/main-buttons/013_comida.png"),
+                assets().getImage("pet/main-buttons/014_comida.png")
+                )));
+
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/021_diversao.png"),
+                assets().getImage("pet/main-buttons/022_diversao.png"),
+                assets().getImage("pet/main-buttons/023_diversao.png"),
+                assets().getImage("pet/main-buttons/024_diversao.png")
+                )));
+
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (0)
+            );
+
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/041_higiene.png"),
+                assets().getImage("pet/main-buttons/042_higiene.png"),
+                assets().getImage("pet/main-buttons/043_higiene.png"),
+                assets().getImage("pet/main-buttons/044_higiene.png")
+                )));
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/051_obrigacoes.png"),
+                assets().getImage("pet/main-buttons/052_obrigacoes.png")
+                )));
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/061_saude.png"),
+                assets().getImage("pet/main-buttons/062_saude.png")
+                )));
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/071_lazer.png"), // licor
+                assets().getImage("pet/main-buttons/072_lazer.png")
+                )));
+        s_imgButtSecondary.add(
+            new ArrayList<Image> (Arrays.asList(
+                assets().getImage("pet/main-buttons/081_disciplina.png"),
+                assets().getImage("pet/main-buttons/082_disciplina.png"),
+                assets().getImage("pet/main-buttons/083_disciplina.png"),
+                assets().getImage("pet/main-buttons/084_disciplina.png")
+                )));
+
+        final ArrayList< ArrayList<Image> > imgButtSecondary = s_imgButtSecondary;
+
+        /*
+          Posicao de cada "butt"
+        */
+        final int[][] topleft = new int [][] {
+            {0, 0},
+            {120, 0},
+            {240, 0},
+            {360, 0},
+            {0, 120},
+            {120, 120},
+            {240, 120},
+            {360, 120},
+        };
+
+        final int[][] topleftSecondary = new int [][] {
+            {0, 0},
+            {120, 0},
+            {240, 0},
+            {360, 0},
+        };
+        /*-------------------------------------------------------------------------------*/
+
+        final int numMainButts = imgButtSolto.size();
+        final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
 
 
-    // load attributes
-    world_ = new PetWorld(layer_, width(), height());
-  }
+        for (int b = 0; b < numMainButts; ++b) {
+            final int bFinal = b;
+            ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(0)));
+            buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
-  //--------------------------------------------------------------------------------
-  @Override
-  public void paint(float alpha) {
-    // layers automatically paint themselves (and their children). The rootlayer
-    // will paint itself, the background, and the sprites group layer_ automatically
-    // so no need to do anything here!
+            // add button b's secondary buttons
+            sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
+              Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
-    if (_world != null)
-        world_.paint(clock);
+            for (int s = 0; s < imgButtSecondary.get(b).size(); ++s) {
+                Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
+                sbuttons.get(b).add(AbsoluteLayout.at(sbut,
+                  topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
 
-    if (iface_ != null)
-        iface_.paint(clock_);
+                if (b == 5 && s == 0)
+                    sbut.clicked().connect(new UnitSlot() {
+                        public void onEmit() {
+                            a().alcool().sub(1);
+                        }
+                    });
 
-    if (statbarIface_ != null)
-        statbarIface_.paint(clock_);
-  }
+                if (b == 6 /* diversao */ && s == 0/* licor */)
+                    // hooks up the liquor button to setting alcool to max.  button
+                    // press event is filtered to emit alcool().max() to the
+                    // alcool() attribute.
+                    sbut.clicked().map(
+                        Functions.constant( a().alcool().max()) ).connect(a().alcool().slot());
 
-  //--------------------------------------------------------------------------------
-  @Override
-  public void update(int delta) {
-      /*
-        Aqui que sao realizadas as atualizacoes dos sprites, sem isto o sprite ficaria estatico
-      */
-      clock_.update(delta);
+                /*-------------------------------------------------------------------------------*/
+                but.selected().map(new Function <Boolean, Icon>() {
+                    public Icon apply (Boolean selected) {
+                        if (selected)
+                            return Icons.image(imgButtApertado.get(bFinal));
+                        else
+                            return Icons.image(imgButtSolto.get(bFinal));
+                    }
+                }).connectNotify(but.icon.slot());
+                // all secondary buttons are added; toggle visibility only
+                root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
+                sbuttons.get(bFinal).setVisible(false);
+            }
 
-      // update clock and passives
-      beat_++;
+            Selector sel = new Selector(buttons, null);
+            root_.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
+
+            // TODO: improve this part with a button-> index map so we don't go through
+            // all butts
+            sel.selected.connect(new Slot<Element<?>>() {
+              @Override public void onEmit (Element<?> event) {
+                if (event == null) {
+                    for (Group sb : sbuttons)
+                        sb.setVisible(false);
+                } else {
+                    for (int i=0; i < numMainButts; ++i) {
+                        if (buttons.childAt(i) == (ToggleButton) event &&
+                                sbuttons.get(i).childCount() != 0) {
+                            sbuttons.get(i).setVisible(true);
+                        } else {
+                            sbuttons.get(i).setVisible(false);
+                        }
+                    }
+                }
+              }
+            });
+        }
+    }
+
+    @Override
+    public void init() {
+      assert 1 == 2 : "Asserts are on +_+_+_+_+_+_+___+_+__";
+
+      // create a group layer_ to hold everything
+      layer_ = graphics().createGroupLayer();
+      graphics().rootLayer().add(layer_);
+      petSheet_ = PetStyles.newSheet();
+
+      makeStatusbar();
+      makeBackgroundInit();
+      makeButtons();
+
+
+      // load attributes
+      world_ = new PetWorld(layer_, width(), height());
+    }
+
+    //--------------------------------------------------------------------------------
+    @Override
+    public void paint(float alpha) {
+      // layers automatically paint themselves (and their children). The rootlayer
+      // will paint itself, the background, and the sprites group layer_ automatically
+      // so no need to do anything here!
 
       if (world_ != null)
-          world_.update(delta);
+          world_.paint(clock_);
 
       if (iface_ != null)
-          iface_.update(delta);
+          iface_.paint(clock_);
 
       if (statbarIface_ != null)
-          statbarIface_.update(delta);
-  }
+          statbarIface_.paint(clock_);
+    }
+
+    //--------------------------------------------------------------------------------
+    @Override
+    public void update(int delta) {
+        /*
+          Aqui que sao realizadas as atualizacoes dos sprites, sem isto o sprite ficaria estatico
+        */
+        clock_.update(delta);
+
+        if (world_ != null)
+            world_.update(delta);
+
+        if (iface_ != null)
+            iface_.update(delta);
+
+        if (statbarIface_ != null)
+            statbarIface_.update(delta);
+    }
 }

@@ -36,7 +36,7 @@ import com.pulapirata.core.PetAttribute;
  *      - but there's also the running table of statistics (attributesCheck)..
  */
 public class PetAttributes {
-    public static String JSON = "pet/jsons/atributos.json";
+    public static String JSON_PATH = "pet/jsons/atributos.json";
 
     public enum VisibleCondition {
         NORMAL,
@@ -82,7 +82,7 @@ public class PetAttributes {
     }
 
     public enum ActionState {
-        VARRENDO, JOGANDO
+        DEFAULT, VARRENDO, JOGANDO
         // XXX finish
     }
 
@@ -141,8 +141,8 @@ public class PetAttributes {
     public Map<VisibleCondition, Integer> prio_ = new HashMap<VisibleCondition, Integer>();
 
     /** Maps {@link PetAttributeState}s to visible conditions. */
-    public Map<PetAttributeState.State, VisibleCondition> s2vis_
-        = new HashMap<PetAttributeState.State, VisibleCondition>();
+    public Map<State, VisibleCondition> s2vis_
+        = new HashMap<State, VisibleCondition>();
 
     IntValue vis_ = new IntValue(VisibleCondition.NORMAL.ordinal());  // reactive ids into VisibleCondition
 
@@ -177,30 +177,26 @@ public class PetAttributes {
         mapAttrib(saude());
         mapAttrib(disciplina());
 
-        s2vis_.put(PetAttributeState.State.FAMINTO, VisibleCondition.UNDETERMINED);
-        s2vis_.put(PetAttributeState.State.MUITA_FOME, VisibleCondition.UNDETERMINED);
-        s2vis_.put(PetAttributeState.State.FOME, VisibleCondition.UNDETERMINED);
-        s2vis_.put(PetAttributeState.State.SATISFEITO, VisibleCondition.UNDETERMINED);
-        s2vis_.put(PetAttributeState.State.RESSACA, VisibleCondition.VOMITANDO);
+        s2vis_.put(State.FAMINTO, VisibleCondition.UNDETERMINED);
+        s2vis_.put(State.MUITA_FOME, VisibleCondition.UNDETERMINED);
+        s2vis_.put(State.FOME, VisibleCondition.UNDETERMINED);
+        s2vis_.put(State.SATISFEITO, VisibleCondition.UNDETERMINED);
+        s2vis_.put(State.RESSACA, VisibleCondition.VOMITANDO);
         // XXX
-
-        // TODO read satelist, intervals from Json.
-        // perhaps populateFromJson();
 
         sAlcool_   = new PetAttributeState();
         sNutricao_ = new PetAttributeState();
+        sAction_.updateState(ActionState.DEFAULT);
 
-        // XXX intervals?
         sAlcool_.set(alcool());
         sNutricao_.set(nutricao());
+        // intervals are set from json in PetAttributesLoader
 
         sAtt_.put(AttributeID.ALCOOL, sAlcool());
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
-        sAtt_.put(AttributeID.ACTION, sAction());
 
         mapAttrib(sAlcool());
         mapAttrib(sNutricao());
-        mapAttrib(sAaction());
         // .... TODO//
 
         /* Dominant appearance to the outside world */
@@ -222,7 +218,7 @@ public class PetAttributes {
      * returns the mode for qualitative attribute with id enum AttributeID
      */
     public State mode(AttributeID id) {
-        return sAtt_.get(id).getState();
+        return sAtt(id).getState();
     }
 
     /**
@@ -264,6 +260,6 @@ public class PetAttributes {
             m_.get(key).print();
         for (String key : ms_.keySet())
             ms_.get(key).print();
-        sAction_.print();
+        sAction().print();
     }
 }

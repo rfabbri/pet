@@ -36,7 +36,6 @@ public class PetAttributesLoader {
                     }
                 });
 
-                // parse the level
                 Json.Object document = PlayN.json().parse(resource);
 
                 // parse the attributes, adding each asset to the asset watcher

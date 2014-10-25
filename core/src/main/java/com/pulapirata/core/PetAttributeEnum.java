@@ -18,10 +18,21 @@ public class PetAttributeEnum<State extends Enum<State>> extends IntValue {
     }
 
     public State getState() {
-        return State.values()[get()];
+        return s_;
+    }
+
+    /**
+     * Convenience method
+     */
+    public State updateState(State s) {
+        s_ = s;
+        updateInt(s.ordinal());
+        return s;
     }
 
     public void print() {
-        System.out.println(java.util.Arrays.asList(State.values()));
+        System.out.println(java.util.Arrays.asList(this.s_.getClass().getEnumConstants()));
     }
+
+    public State s_;
 }

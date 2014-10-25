@@ -3,6 +3,7 @@ package com.pulapirata.core;
 import java.util.ArrayList;
 import react.Slot;
 import react.IntValue;
+import com.pulapirata.core.PetAttributeEnum;
 
 
 /**
@@ -14,7 +15,7 @@ import react.IntValue;
  * its qualitative state changes.
  *
  */
-class PetAttributeState<State extends Enum<State>>  extends PetAttributeEnum<State extends Enum<State>> {
+public class PetAttributeState<State extends Enum<State>>  extends PetAttributeEnum<State> {
 
     /**
      * Construct for a given {@link PetAttribute} att.
@@ -66,14 +67,14 @@ class PetAttributeState<State extends Enum<State>>  extends PetAttributeEnum<Sta
     State updateState(int v) {
         assert att_.inRange(v) : "received signal must be in this attribute's range";
 
-        State s = State.ONONOONO;
+        State s = null;
 
         for (int i = 0; i < intervals_.size(); ++i)  // TODO: binary search
             if (v <= intervals_.get(i))
                 s = states_.get(i);
+        assert s != null : "state not set in updateState..";
 
-        updateInt(s.ordinal());
-        return s;
+        return updateState(s);
     }
 
     public boolean isInitialized() {
