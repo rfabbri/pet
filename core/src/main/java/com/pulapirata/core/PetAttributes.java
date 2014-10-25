@@ -1,6 +1,7 @@
 package com.pulapirata.core;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.EnumMap;
 import react.IntValue;
 import playn.core.Json;
 import static playn.core.PlayN.log;
@@ -114,7 +115,7 @@ public class PetAttributes {
     public PetAttributeState<State> sAtt(String s) { return ms_.get(s); }
 
     /** attributeID enum to attributeState object map */
-    public Map<AttributeID, PetAttributeState> sAtt_ = new HashMap<AttributeID, PetAttributeState>();
+    public EnumMap<AttributeID, PetAttributeState> sAtt_ = new EnumMap<AttributeID, PetAttributeState>(AttributeID.class);
     public PetAttributeState<State> sAtt(AttributeID id) { return sAtt_.get(id); }
 
     /*-------------------------------------------------------------------------------*/
@@ -138,11 +139,10 @@ public class PetAttributes {
      * others to be displayed in the game.
      * TODO: use more efficient array structure. This is readable, tho.
      */
-    public Map<VisibleCondition, Integer> prio_ = new HashMap<VisibleCondition, Integer>();
+    public EnumMap<VisibleCondition, Integer> prio_ = new EnumMap<VisibleCondition, Integer>(VisibleCondition.class);
 
     /** Maps {@link PetAttributeState}s to visible conditions. */
-    public Map<State, VisibleCondition> s2vis_
-        = new HashMap<State, VisibleCondition>();
+    public EnumMap<State, VisibleCondition> s2vis_ = new EnumMap<State, VisibleCondition>(State.class);
 
     IntValue vis_ = new IntValue(VisibleCondition.NORMAL.ordinal());  // reactive ids into VisibleCondition
 

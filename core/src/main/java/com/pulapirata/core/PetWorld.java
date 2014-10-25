@@ -8,6 +8,7 @@ import react.Slot;
 
 import playn.core.*;
 import playn.core.util.Clock;
+import playn.core.util.Callback;
 import static playn.core.PlayN.*;
 
 import tripleplay.entity.Component;
@@ -15,6 +16,8 @@ import tripleplay.entity.Entity;
 import tripleplay.entity.System;
 import tripleplay.entity.World;
 import tripleplay.util.Randoms;
+
+import com.pulapirata.core.PetAttributes;
 
 
 /**
@@ -96,7 +99,7 @@ class PetWorld extends World {
                 public void onSuccess(PetAttributes resource) {
                     mainPet_ = resource;
                     if (mainID_ != -1)
-                        pet_(mainID_).didChange();
+                        pet_.get(mainID_).didChange();
                     attributesLoaded_ = true;
                 }
 
