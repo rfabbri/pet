@@ -241,6 +241,7 @@ public class Pet extends Game.Default {
     layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
   }
 
+  /*-------------------------------------------------------------------------------*/
   /**
    * Funcao responsavel por criar os botoes
    */
@@ -251,6 +252,7 @@ public class Pet extends Game.Default {
     // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
     Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
+    // XXX conferir se ta certo abaixo
     root_.setSize(width(), 354); // this includes the secondary buttons
             // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
     layer_.addAt(root_.layer, 0, 442); // position of buttons
@@ -451,7 +453,7 @@ public class Pet extends Game.Default {
 
 
     // load attributes
-    world_ = new PetWorld(layer_);
+    world_ = new PetWorld(layer_, width(), height());
   }
 
   //--------------------------------------------------------------------------------

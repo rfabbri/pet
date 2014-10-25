@@ -1,43 +1,39 @@
 package com.pulapirata.core;
-
 import java.util.Map;
 import java.util.HashMap;
-
 import react.IntValue;
-
 import playn.core.Json;
 import static playn.core.PlayN.log;
 import playn.core.util.Callback;
-
 import com.pulapirata.core.PetAttribute;
 
 /**
- * A simple set of classes for character attributes.
+ * A simple set of character attributes.
  *
  * This is a simple class holding and managing a list of attributes, which is
- * basically the game state.
+ * basically the game state internal to Pet.
  *
- * - this takes attribute listing and handling off of the main update() loop
+ * - takes attribute plumbing, listing and handling code out of the main
+ *   update() loop
  *
- * - this also validates sets
+ * - after each "set" in the attribute, it updates its state to a qualitative
+ *   one based on interval boundaries, eg, for alcool the qualitative state can be
+ *   "coma", "vomiting", "dizzy" or "normal". Hooking up of the attribute to its
+ *   attributeState is done by this class.
  *
- * - after each "set" in the attribute, the attribute updates
- * its state to a qualitative one based on set boundaries,
- * eg, for alcool the qualitative state can be "coma", "vomiting",
- * "dizzy" or "normal".
- *
- * - when updating the game sprite, we follow sprite update logic in
- * update(), e.g., we check the status of all attributes and follow a table of
- * priority to set the current sprite based on that.
- *   - based on such priority we also determine which attributes should be
- *   listed on the statusbar.
- *   - determine also if an alert should be placed.
- *   - each attribute can claim a certain priority level, and the policy to
- *   decide between more than one w same priority can be handled externally,
- *   eg, show alternating messages. But a final external table should order up each
- *   attribute in case of conflicts.
- *   - the state of the game is determined by the collection of attributes
- *   - based on the attributes we determine which actions are allowed or not
+ * - when updating the game sprite, we follow sprite update logic in update(),
+ *   e.g., we check the status of all attributes and follow a table of priority
+ *   to set the current sprite based on that.
+ *      - based on such priority we also determine which attributes should be
+ *      listed on the statusbar.
+ *      - determine also if an alert should be placed.
+ *      - each attribute can claim a certain priority level, and the policy to
+ *      decide between more than one w same priority can be handled externally,
+ *      eg, show alternating messages. But a final external table should order up each
+ *      attribute in case of conflicts.
+ *      - the inner state of the game is determined by the collection of attributes
+ *      - based on the attributes we determine which actions are allowed or not
+ *      - but there's also the running table of statistics (attributesCheck)..
  */
 public class PetAttributes {
     public static String JSON = "pet/jsons/atributos.json";
@@ -65,43 +61,48 @@ public class PetAttributes {
     }
 
     private PetAttribute alcool_;
-    public PetAttribute alcool() { return alcool_; }
+    public  PetAttribute alcool() { return alcool_; }
     private PetAttribute nutricao_;
-    public PetAttribute nutricao() { return nutricao_; }
+    public  PetAttribute nutricao() { return nutricao_; }
     private PetAttribute humor_;
-    public PetAttribute humor() { return humor_; }
+    public  PetAttribute humor() { return humor_; }
     private PetAttribute sede_;
-    public PetAttribute sede() { return sede_; }
+    public  PetAttribute sede() { return sede_; }
     private PetAttribute social_;
-    public PetAttribute social() { return social_; }
+    public  PetAttribute social() { return social_; }
     private PetAttribute higiene_;
-    public PetAttribute higiene() { return higiene_; }
+    public  PetAttribute higiene() { return higiene_; }
     private PetAttribute estudo_;
-    public PetAttribute estudo() { return estudo_; }
+    public  PetAttribute estudo() { return estudo_; }
     private PetAttribute saude_;
-    public PetAttribute saude() { return saude_; }
+    public  PetAttribute saude() { return saude_; }
     private PetAttribute disciplina_;
-    public PetAttribute disciplina() { return disciplina_; }
+    public  PetAttribute disciplina() { return disciplina_; }
 
+    /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
     public PetAttribute get(String s) { return m_.get(s); }
 
+    /** attributeState name to object map */
     public Map<String, PetAttributeState> ms_ = new HashMap<String, PetAttributeState>();
     public PetAttributeState sAtt(String s) { return ms_.get(s); }
 
+    /** attributeID enum to attributeState object map */
     public Map<AttributeID, PetAttributeState> sAtt_ = new HashMap<AttributeID, PetAttributeState>();
     public PetAttributeState sAtt(AttributeID id) { return sAtt_.get(id); }
 
     /*-------------------------------------------------------------------------------*/
     /** Qualitative attributes holding states for each attrib */
 
-    private PetAttributeState sAlcool_;   // hooks to alcool_
-    public PetAttributeState sAlcool() { return sAlcool_; }
-    private PetAttributeState sNutricao_;   // hooks to nutricao_
-    public PetAttributeState sNutricao() { return sNutricao_; }
+    private PetAttributeState sAlcool_;
+    public  PetAttributeState sAlcool() { return sAlcool_; }
+    private PetAttributeState sNutricao_;
+    public  PetAttributeState sNutricao() { return sNutricao_; }
+    private PetAttributeState sAction_;
+    public  PetAttributeState sAction() { return sAction_; }
 
     /*-------------------------------------------------------------------------------*/
-    /** Appearance from inner state */
+    /** Logical appearance from inner state */
 
     /**
      * Priority of the visible conditions.
@@ -160,13 +161,18 @@ public class PetAttributes {
         // TODO read satelist, intervals from Json.
         // perhaps populateFromJson();
 
+        sAlcool_ = new PetAttributeState();
+
         sAlcool_.set(alcool());
         sNutricao_.set(nutricao());
 
         sAtt_.put(AttributeID.ALCOOL, sAlcool());
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
+        sAtt_.put(AttributeID.ACTION, sAction());
 
         mapAttrib(sAlcool());
+        mapAttrib(sNutricao());
+        mapAttrib(sAaction());
         // .... TODO//
 
         /* Dominant appearance to the outside world */
@@ -232,6 +238,5 @@ public class PetAttributes {
         for (String key : ms_.keySet()) {
             ms_.get(key).print();
         }
-        // TODO print remaining - sAttribs
     }
 }

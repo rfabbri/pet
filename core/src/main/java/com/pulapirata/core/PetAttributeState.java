@@ -11,7 +11,7 @@ import react.Slot;
  *
  * Inside a rule that depends on QualitativeAttribute, there will be a
  * slot() function. PetAttributeState will fire its value only when
- * the qualitative state changes.
+ * its qualitative state changes.
  *
  * TODO implement.
  */
@@ -42,9 +42,8 @@ class PetAttributeState extends IntValue {
      * start with easily identifiable dummy default values
      */
     public PetAttributeState() {
-      super(-696);
+        super(-696);
     }
-
 
     /**
      * Construct for a given {@link PetAttribute} att.
@@ -85,7 +84,7 @@ class PetAttributeState extends IntValue {
      * Returns a slot which can be used to wire this value to the emissions of a {@link Signal} or
      * another value.
      */
-    public Slot<Integer> slot () {
+    @Override public Slot<Integer> slot () {
         return new Slot<Integer> () {
             @Override public void onEmit (Integer value) {
                 updateState(value);
