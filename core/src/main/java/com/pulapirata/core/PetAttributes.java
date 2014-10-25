@@ -146,6 +146,8 @@ public class PetAttributes {
 
     IntValue vis_ = new IntValue(VisibleCondition.NORMAL.ordinal());  // reactive ids into VisibleCondition
 
+    public IntValue vis() { return vis_; }
+
     /**
      * Constructor
      */

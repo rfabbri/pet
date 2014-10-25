@@ -28,19 +28,6 @@ import com.pulapirata.core.Aviso;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetWorld;
 import com.pulapirata.core.utils.PetAttributesLoader;
-import com.pulapirata.core.sprites.Pingo;
-import com.pulapirata.core.sprites.PingoMorto;
-import com.pulapirata.core.sprites.PingoVomitando;
-import com.pulapirata.core.sprites.PingoBebado;
-import com.pulapirata.core.sprites.PingoComa;
-import com.pulapirata.core.sprites.PingoBebendoAgua;
-import com.pulapirata.core.sprites.PingoBebendoLeite;
-import com.pulapirata.core.sprites.PingoComendoSopaBacon;
-import com.pulapirata.core.sprites.PingoComendoSopaCenoura;
-import com.pulapirata.core.sprites.PingoPiscando;
-import com.pulapirata.core.sprites.PingoDormindo;
-import com.pulapirata.core.sprites.PingoChorando;
-import com.pulapirata.core.sprites.PingoTriste;
 
 // TODO: we need a generic sprite class; or the layer could automatically update
 // them

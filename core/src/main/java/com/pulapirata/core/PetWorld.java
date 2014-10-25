@@ -64,10 +64,10 @@ class PetWorld extends World {
     public final Component.XY vel_  = new Component.XY(this);  // pixels/ms
     public final Component.FScalar radius_ = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
-        // XXX    public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
+    public final Component.Generic<Sprite> sprite_ = new Component.Generic<Sprite>(this);
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
-        // XXX     public final PetAtlas atlas_;  // shared atlas amongst all sprites
+    public final PetAtlas atlas_;  // shared atlas amongst all sprites
     protected PetAttributes mainPet_;  // direct handle on the attributes of the main pet
     public int mainID_ = -1;
 
@@ -184,7 +184,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
-                // XXX                sprite_.get(eid).update(delta);
+                sprite_.get(eid).update(delta);
             }
         }
 
@@ -212,7 +212,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
-// XXX               sprite_.get(eid).update(delta);
+                sprite_.get(eid).update(delta);
             }
         }
 
@@ -229,8 +229,6 @@ class PetWorld extends World {
         @Override protected boolean isInterested (Entity entity) {
             return type_.get(entity.id) == PET;
         }
-
-        protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
     };
 
     /** Use keys to control pet. Like in minigames inside this game. Pet should
@@ -366,7 +364,7 @@ class PetWorld extends World {
 
     protected Entity createPet (float x, float y) {
         Entity pet = create(true);
-        pet.add(type_, pet_, /* XXX sprite_, */spriteLayer_, opos_, pos_, vel_, radius_, expires_);
+        pet.add(type_, pet_, sprite_, spriteLayer_, opos_, pos_, vel_, radius_, expires_);
 
         int id = pet.id;
         type_.set(id, PET);
@@ -376,15 +374,14 @@ class PetWorld extends World {
         pet_.set(id, mainPet_); // only 1 pet for now, but more are easily supported
         mainID_ = id;
 
-        // read imgLayer /sprite loader
-        // XXX PetSprite ps(imgLayer, atlas_);
+        // read imgLayer / sprite loader
+        PetSprite ps(imgLayer, atlas_);
+        mainPet_.vis().connect(ps.slot());
 
-        // -> pet.connect(ps.slot());
-        // XXX        sprite_.set(id, ps);
-        // spriteLayer_.set(id, imgLayer);
+        sprite_.set(id, ps);
+        spriteLayer_.set(id, imgLayer);
 
-        // XXX        radius.set(id, sprite_.boundingRadius());
-        // radius.ComputeFromSprite(id, 10);
+        radius_.set(id, sprite_.boundingRadius());
         return pet;
     }
 
