@@ -124,8 +124,8 @@ public class PetAttributes {
     public  PetAttributeState<State> sAlcool() { return sAlcool_; }
     private PetAttributeState<State> sNutricao_;
     public  PetAttributeState<State> sNutricao() { return sNutricao_; }
-    private PetAttributeState<ActionState> sAction_;
-    public  PetAttributeState<ActionState> sAction() { return sAction_; }
+    private PetAttributeEnum<ActionState> sAction_;
+    public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */

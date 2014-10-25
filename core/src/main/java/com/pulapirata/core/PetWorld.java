@@ -292,12 +292,11 @@ class PetWorld extends World {
                 switch (type.get(e1.id) | type.get(e2.id)) {
                 case PET_DROPPING:
                     if (type.get(e1.id) == PET) {
-                        if (pet_.get(e1.id).mode(pet_.get(e1.id).sAction()) == PetAttributeState.CLEANING) {
+                        if (pet_.get(e1.id).mode(pet_.get(e1.id).sAction()) == PetAttributesActionState.CLEANING) {
                             e2.destroy();
                         }
                     } else {
-                        // XXX conferir se ta certo abaixo
-                        if (pet_.get(e2.id).mode(pet_.get(e1.id).sAction()) == PetAttributeState.CLEANING) {
+                        if (pet_.get(e2.id).mode(pet_.get(e1.id).sAction()) == PetAttributesActionState.CLEANING) {
                             e1.destroy();
                         }
                     }

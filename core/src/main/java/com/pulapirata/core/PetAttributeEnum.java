@@ -9,7 +9,7 @@ import react.Slot;
  * The values are stored in a reactive int which is the ordinal value of an
  * enum.
  */
-public abstract class PetAttributeEnum<State extends Enum<State>> extends IntValue {
+public class PetAttributeEnum<State extends Enum<State>> extends IntValue {
     /**
      * start with easily identifiable dummy default values
      */
@@ -18,14 +18,10 @@ public abstract class PetAttributeEnum<State extends Enum<State>> extends IntVal
     }
 
     public State getState() {
-        return state_.values()[get()];
+        return State.values()[get()];
     }
 
     public void print() {
-        for (int i = 0; i < states_.size(); ++i) {
-            System.out.println("state: " + states_.get(i));
-        }
+        System.out.println(java.util.Arrays.asList(State.values()));
     }
-
-    public final State state_;
 }
