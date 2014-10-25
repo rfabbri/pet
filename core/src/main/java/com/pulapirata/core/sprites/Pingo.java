@@ -66,7 +66,7 @@ public class Pingo {
       sprite.setSprite(spriteIndex);
       // sprite.layer().setRotation(angle);
     if(spriteIndex == sprite.numSprites()-1){
-        traversed = true;   	 
+        traversed = true;
      }
     }
   }
@@ -74,8 +74,8 @@ public class Pingo {
   public void detatch(GroupLayer pingoLayer) {
     pingoLayer.remove(sprite.layer());
   }
-  
-   public boolean getTraversed(){
+
+  public boolean getTraversed(){
      return traversed;
   }
 }

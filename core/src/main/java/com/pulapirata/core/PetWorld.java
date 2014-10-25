@@ -375,7 +375,7 @@ class PetWorld extends World {
         mainID_ = id;
 
         // read imgLayer / sprite loader
-        PetSprite ps(imgLayer, atlas_);
+        PetSprite ps(imgLayer, x, y);
         mainPet_.vis().connect(ps.slot());
 
         sprite_.set(id, ps);

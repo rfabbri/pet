@@ -10,15 +10,24 @@ import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
  * based on the set state.
  */
 public class PetSprite {
+    public static String IMAGE = "pet/sprites/atlas.png";
+    public static String JSON = "pet/sprites/atlas.json";
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
     private HashMap<VisibleCondition, SpriteBase> animMap;
     private SpriteBase sprite;   // the current sprite animation
     private int spriteIndex = 0;
-
+    private boolean hasLoaded = false; // set to true when resources have loaded and we can update
+    private boolean traversed = false;
 
     /** pointer to attributes (mainly to get visible condition) */
     PetAttributes attribs;
+
+    public PetSprite(final Grouplayer petLayer, float x, float y) {
+
+    }
+
+
 
     /**
      * Sets animation based on pet's current visible condition
@@ -49,5 +58,8 @@ public class PetSprite {
      */
     public float boundingRadius() {
         return 1.0 + Math.sqrt(sprite.width()*sprite.width() + sprite.height().sprite.height());
+    }
+    public boolean getTraversed(){
+       return traversed;
     }
 }
