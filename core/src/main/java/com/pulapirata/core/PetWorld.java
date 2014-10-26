@@ -90,9 +90,22 @@ class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Misc methods */
 
+    public boolean worldLoaded() {
+        return attributesLoaded_ &&  sprite_.get(mainID_).hasLoaded();
+    }
+
     @Override public void update (int delta) {
-        beat_ += delta;
-        super.update(delta);
+        if (worldLoaded()) {
+            beat_ += delta;
+            super.update(delta);
+            if (mainPet_ == null)
+                FinishCreatingPetAfterLoaded();
+        }
+    }
+
+    @Override public void paint(Clock clock) {
+        if (worldLoaded())
+            super.paint(clock);
     }
 
     public PetWorld (GroupLayer layer, float width, float height) {
@@ -214,6 +227,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
+                pet_.get(eid).determineVisibleCondition();
                 sprite_.get(eid).update(delta);
             }
         }
@@ -373,18 +387,21 @@ class PetWorld extends World {
         opos_.set(id, x, y);
         pos_.set(id, x, y);
         vel_.set(id, 0, 0);
-        pet_.set(id, mainPet_); // only 1 pet for now, but more are easily supported
         mainID_ = id;
 
         // read imgLayer / sprite loader
         PetSpriter ps = new PetSpriter(layer_, x, y);
-        mainPet_.vis().connect(ps.slot());
-
         sprite_.set(id, ps);
-        // spriteLayer_.set(id, layer_);
 
-        radius_.set(id, ps.boundingRadius());
         return pet;
+    }
+
+    protected void FinishCreatingPetAfterLoaded() {
+        PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+        mainPet_.vis().connect(ps.slot());
+        pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
+        radius_.set(mainID_, ps.boundingRadius());
+        // spriteLayer_.set(id, layer_);
     }
 
     public void reset() {

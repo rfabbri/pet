@@ -85,6 +85,9 @@ public class Pet extends Game.Default {
     public static final int UPDATE_RATE = 100; // ms
 
     public String idadeCoelhoDiasStr1() {
+        if (world_ == null)
+            return "initializing (.)(.) initializing";
+
         if (world_.idadeCoelhoDias() == 0)
             return String.format(
                   STAT_FILLER_1,
@@ -99,6 +102,9 @@ public class Pet extends Game.Default {
     }
 
     public String idadeCoelhoDiasStr2() {
+        if (world_ == null)
+            return "initializing (|) initializing";
+
         return String.format(STAT_FILLER_2,
                 a().nutricao().val(), a().nutricao().max(),
                 a().alcool().val(), a().alcool().max());
@@ -127,6 +133,7 @@ public class Pet extends Game.Default {
     private Interface iface_, statbarIface_;
     private Image exclamacao_;
     private Stylesheet petSheet_;
+    ButtonManager bm_ = new ButtonManager();
 
     protected PetWorld world_;
 
@@ -136,6 +143,7 @@ public class Pet extends Game.Default {
     }
 
     //--------------------------------------------------------------------------------
+
     private void makeStatusbar() {
       // create and add the status title layer using drawings for faster loading
       CanvasImage bgtile = graphics().createImage(480, 119);
@@ -244,200 +252,229 @@ public class Pet extends Game.Default {
 
     /*-------------------------------------------------------------------------------*/
     /**
-     * Funcao responsavel por criar os botoes
+     * Classe responsavel por criar os botoes
      */
-    private void makeButtons() {
-        // create our UI manager and configure it to process pointer events
-        iface_ = new Interface();
 
-        // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
-        Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
+    private class ButtonManager {
+        private boolean isWired_ = false;
 
-        // XXX conferir se ta certo abaixo
-        root_.setSize(width(), 354); // this includes the secondary buttons
-                // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-        layer_.addAt(root_.layer, 0, 442); // position of buttons
+        public boolean isWired() { return isWired_; }
 
-        final Group buttons = new Group(new AbsoluteLayout()).addStyles(
-            Style.BACKGROUND.is(Background.blank()));
+        protected int numMainButts_ = 0;
+        protected ArrayList< ArrayList<Button> > secondaryButtons_ = null;
 
-        // TODO we could use TableLayout in the future but I dont trust it now;
-        // I prefer pixel control for now.
-        //
-        //    Group iface_ = Group(new TableLayout(4).gaps(0, 0)).add(
-        //      label("", Background.image(testBg)),
-        //    );
+        public void makeButtons() {
+            // create our UI manager and configure it to process pointer events
+            iface_ = new Interface();
 
-        final ArrayList<Image> imgButtSolto =
-            new ArrayList<Image>(Arrays.asList(
-                assets().getImage("pet/main-buttons/01_comida_principal.png"),
-                assets().getImage("pet/main-buttons/02_diversao_principal.png"),
-                assets().getImage("pet/main-buttons/03_social_principal.png"),
-                assets().getImage("pet/main-buttons/04_higiene_principal.png"),
-                assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
-                assets().getImage("pet/main-buttons/06_saude_principal.png"),
-                assets().getImage("pet/main-buttons/07_lazer_principal.png"),
-                assets().getImage("pet/main-buttons/08_disciplina_principal.png")
-                ));
+            // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
+            Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
-        final ArrayList<Image> imgButtApertado =
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
-                assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
-                assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
-                assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
-                assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
-                assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
-                assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
-                assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
-                ));
+            // XXX conferir se ta certo abaixo
+            root_.setSize(width(), 354); // this includes the secondary buttons
+                    // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
+            layer_.addAt(root_.layer, 0, 442); // position of buttons
 
-        ArrayList< ArrayList<Image> > s_imgButtSecondary = new ArrayList< ArrayList<Image> > (0);
+            final Group buttons = new Group(new AbsoluteLayout()).addStyles(
+                Style.BACKGROUND.is(Background.blank()));
 
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/011_comida.png"),
-                assets().getImage("pet/main-buttons/012_comida.png"),
-                assets().getImage("pet/main-buttons/013_comida.png"),
-                assets().getImage("pet/main-buttons/014_comida.png")
-                )));
+            // TODO we could use TableLayout in the future but I dont trust it now;
+            // I prefer pixel control for now.
+            //
+            //    Group iface_ = Group(new TableLayout(4).gaps(0, 0)).add(
+            //      label("", Background.image(testBg)),
+            //    );
 
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/021_diversao.png"),
-                assets().getImage("pet/main-buttons/022_diversao.png"),
-                assets().getImage("pet/main-buttons/023_diversao.png"),
-                assets().getImage("pet/main-buttons/024_diversao.png")
-                )));
+            final ArrayList<Image> imgButtSolto =
+                new ArrayList<Image>(Arrays.asList(
+                    assets().getImage("pet/main-buttons/01_comida_principal.png"),
+                    assets().getImage("pet/main-buttons/02_diversao_principal.png"),
+                    assets().getImage("pet/main-buttons/03_social_principal.png"),
+                    assets().getImage("pet/main-buttons/04_higiene_principal.png"),
+                    assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
+                    assets().getImage("pet/main-buttons/06_saude_principal.png"),
+                    assets().getImage("pet/main-buttons/07_lazer_principal.png"),
+                    assets().getImage("pet/main-buttons/08_disciplina_principal.png")
+                    ));
 
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (0)
-            );
+            final ArrayList<Image> imgButtApertado =
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
+                    assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
+                    assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
+                    assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
+                    assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
+                    assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
+                    assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
+                    assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
+                    ));
 
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/041_higiene.png"),
-                assets().getImage("pet/main-buttons/042_higiene.png"),
-                assets().getImage("pet/main-buttons/043_higiene.png"),
-                assets().getImage("pet/main-buttons/044_higiene.png")
-                )));
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/051_obrigacoes.png"),
-                assets().getImage("pet/main-buttons/052_obrigacoes.png")
-                )));
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/061_saude.png"),
-                assets().getImage("pet/main-buttons/062_saude.png")
-                )));
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/071_lazer.png"), // licor
-                assets().getImage("pet/main-buttons/072_lazer.png")
-                )));
-        s_imgButtSecondary.add(
-            new ArrayList<Image> (Arrays.asList(
-                assets().getImage("pet/main-buttons/081_disciplina.png"),
-                assets().getImage("pet/main-buttons/082_disciplina.png"),
-                assets().getImage("pet/main-buttons/083_disciplina.png"),
-                assets().getImage("pet/main-buttons/084_disciplina.png")
-                )));
+            ArrayList< ArrayList<Image> > s_imgButtSecondary = new ArrayList< ArrayList<Image> > (0);
 
-        final ArrayList< ArrayList<Image> > imgButtSecondary = s_imgButtSecondary;
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/011_comida.png"),
+                    assets().getImage("pet/main-buttons/012_comida.png"),
+                    assets().getImage("pet/main-buttons/013_comida.png"),
+                    assets().getImage("pet/main-buttons/014_comida.png")
+                    )));
 
-        /*
-          Posicao de cada "butt"
-        */
-        final int[][] topleft = new int [][] {
-            {0, 0},
-            {120, 0},
-            {240, 0},
-            {360, 0},
-            {0, 120},
-            {120, 120},
-            {240, 120},
-            {360, 120},
-        };
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/021_diversao.png"),
+                    assets().getImage("pet/main-buttons/022_diversao.png"),
+                    assets().getImage("pet/main-buttons/023_diversao.png"),
+                    assets().getImage("pet/main-buttons/024_diversao.png")
+                    )));
 
-        final int[][] topleftSecondary = new int [][] {
-            {0, 0},
-            {120, 0},
-            {240, 0},
-            {360, 0},
-        };
-        /*-------------------------------------------------------------------------------*/
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (0)
+                );
 
-        final int numMainButts = imgButtSolto.size();
-        final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/041_higiene.png"),
+                    assets().getImage("pet/main-buttons/042_higiene.png"),
+                    assets().getImage("pet/main-buttons/043_higiene.png"),
+                    assets().getImage("pet/main-buttons/044_higiene.png")
+                    )));
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/051_obrigacoes.png"),
+                    assets().getImage("pet/main-buttons/052_obrigacoes.png")
+                    )));
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/061_saude.png"),
+                    assets().getImage("pet/main-buttons/062_saude.png")
+                    )));
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/071_lazer.png"), // licor
+                    assets().getImage("pet/main-buttons/072_lazer.png")
+                    )));
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/081_disciplina.png"),
+                    assets().getImage("pet/main-buttons/082_disciplina.png"),
+                    assets().getImage("pet/main-buttons/083_disciplina.png"),
+                    assets().getImage("pet/main-buttons/084_disciplina.png")
+                    )));
+
+            final ArrayList< ArrayList<Image> > imgButtSecondary = s_imgButtSecondary;
+
+            /*
+              Posicao de cada "butt"
+            */
+            final int[][] topleft = new int [][] {
+                {0, 0},
+                {120, 0},
+                {240, 0},
+                {360, 0},
+                {0, 120},
+                {120, 120},
+                {240, 120},
+                {360, 120},
+            };
+
+            final int[][] topleftSecondary = new int [][] {
+                {0, 0},
+                {120, 0},
+                {240, 0},
+                {360, 0},
+            };
+            /*-------------------------------------------------------------------------------*/
+
+            numMainButts_ = imgButtSolto.size();
+            final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
+
+            secondaryButtons_ = new ArrayList< ArrayList<Button> >(numMainButts_);
 
 
-        for (int b = 0; b < numMainButts; ++b) {
-            final int bFinal = b;
-            ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(0)));
-            buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
+            for (int b = 0; b < numMainButts_; ++b) {
+                final int bFinal = b;
+                ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(0)));
+                buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
 
-            // add button b's secondary buttons
-            sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
-              Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
+                // add button b's secondary buttons
+                sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
+                  Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
-            for (int s = 0; s < imgButtSecondary.get(b).size(); ++s) {
-                Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
-                sbuttons.get(b).add(AbsoluteLayout.at(sbut,
-                  topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
+                int numSecondaryButtons = imgButtSecondary.get(b).size();
+                secondaryButtons_.add(new ArrayList<Button>(numSecondaryButtons));
 
-                if (b == 5 && s == 0)
-                    sbut.clicked().connect(new UnitSlot() {
-                        public void onEmit() {
-                            a().alcool().sub(1);
+                for (int s = 0; s < numSecondaryButtons; ++s) {
+                    Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
+                    secondaryButtons_.get(b).add(sbut);
+                    sbuttons.get(b).add(AbsoluteLayout.at(sbut,
+                      topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
+
+                    but.selected().map(new Function <Boolean, Icon>() {
+                        public Icon apply (Boolean selected) {
+                            if (selected)
+                                return Icons.image(imgButtApertado.get(bFinal));
+                            else
+                                return Icons.image(imgButtSolto.get(bFinal));
                         }
-                    });
+                    }).connectNotify(but.icon.slot());
+                    // all secondary buttons are added; toggle visibility only
+                    root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
+                    sbuttons.get(bFinal).setVisible(false);
+                }
 
-                if (b == 6 /* diversao */ && s == 0/* licor */)
-                    // hooks up the liquor button to setting alcool to max.  button
-                    // press event is filtered to emit alcool().max() to the
-                    // alcool() attribute.
-                    sbut.clicked().map(
-                        Functions.constant( a().alcool().max()) ).connect(a().alcool().slot());
+                Selector sel = new Selector(buttons, null);
+                root_.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 
-                /*-------------------------------------------------------------------------------*/
-                but.selected().map(new Function <Boolean, Icon>() {
-                    public Icon apply (Boolean selected) {
-                        if (selected)
-                            return Icons.image(imgButtApertado.get(bFinal));
-                        else
-                            return Icons.image(imgButtSolto.get(bFinal));
+                // TODO: improve this part with a button-> index map so we don't go through
+                // all butts
+                sel.selected.connect(new Slot<Element<?>>() {
+                    @Override public void onEmit (Element<?> event) {
+                        if (event == null) {
+                            for (Group sb : sbuttons)
+                                sb.setVisible(false);
+                        } else {
+                            for (int i=0; i < numMainButts_; ++i) {
+                                if (buttons.childAt(i) == (ToggleButton) event &&
+                                        sbuttons.get(i).childCount() != 0) {
+                                    sbuttons.get(i).setVisible(true);
+                                } else {
+                                    sbuttons.get(i).setVisible(false);
+                                }
+                            }
+                        }
                     }
-                }).connectNotify(but.icon.slot());
-                // all secondary buttons are added; toggle visibility only
-                root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
-                sbuttons.get(bFinal).setVisible(false);
+                });
+            }
+        }
+
+        /**
+         * Connects button events to the internal world.
+         * This is usually called after world assets are loaded.
+         */
+        public void wireButtonsToWorld() {
+            assert numMainButts_ != 0 : "tried to wire world before constructing buttons.";
+            for (int b = 0; b < numMainButts_; ++b) {
+                for (int s = 0; s < secondaryButtons_.get(b).size(); ++s) {
+                    if (b == 5 && s == 0)
+                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
+                            public void onEmit() {
+                                a().alcool().sub(1);
+                            }
+                        });
+
+                    if (b == 6 /* diversao */ && s == 0/* licor */)
+                        // hooks up the liquor button to setting alcool to max.  button
+                        // press event is filtered to emit alcool().max() to the
+                        // alcool() attribute.
+                        secondaryButtons_.get(b).get(s).clicked().map(
+                            Functions.constant( a().alcool().max()) ).connect(a().alcool().slot());
+                }
             }
 
-            Selector sel = new Selector(buttons, null);
-            root_.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
-
-            // TODO: improve this part with a button-> index map so we don't go through
-            // all butts
-            sel.selected.connect(new Slot<Element<?>>() {
-              @Override public void onEmit (Element<?> event) {
-                if (event == null) {
-                    for (Group sb : sbuttons)
-                        sb.setVisible(false);
-                } else {
-                    for (int i=0; i < numMainButts; ++i) {
-                        if (buttons.childAt(i) == (ToggleButton) event &&
-                                sbuttons.get(i).childCount() != 0) {
-                            sbuttons.get(i).setVisible(true);
-                        } else {
-                            sbuttons.get(i).setVisible(false);
-                        }
-                    }
-                }
-              }
-            });
+            isWired_ = true;
         }
-    }
+    } // !ButtonManager
+
 
     @Override
     public void init() {
@@ -450,11 +487,8 @@ public class Pet extends Game.Default {
 
       makeStatusbar();
       makeBackgroundInit();
-      makeButtons();
-
-
-      // load attributes
       world_ = new PetWorld(layer_, width(), height());
+      bm_.makeButtons();
     }
 
     //--------------------------------------------------------------------------------
@@ -482,8 +516,12 @@ public class Pet extends Game.Default {
         */
         clock_.update(delta);
 
-        if (world_ != null)
+        if (world_ != null) {
+            if (world_.worldLoaded() && !bm_.isWired()) {
+                bm_.wireButtonsToWorld();
+            }
             world_.update(delta);
+        }
 
         if (iface_ != null)
             iface_.update(delta);

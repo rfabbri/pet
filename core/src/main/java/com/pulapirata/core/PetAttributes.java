@@ -65,7 +65,7 @@ public class PetAttributes {
     public enum State {
         FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
         BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
-        SOBRIO, BEBADO, RESSACA, COMA,  // alcool
+        NORMAL, TONTO, BEBADO, MUITO_BEBADO, COMA_ALCOOLICO, // alcool
         ONONOONO // impossivel - invalido
         ;
         //XXX finish
@@ -126,7 +126,7 @@ public class PetAttributes {
     public  PetAttributeState<State> sAlcool() { return sAlcool_; }
     private PetAttributeState<State> sNutricao_;
     public  PetAttributeState<State> sNutricao() { return sNutricao_; }
-    private PetAttributeEnum<ActionState> sAction_;
+    private PetAttributeEnum<ActionState> sAction_ = new PetAttributeEnum<ActionState>();
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
 
     /*-------------------------------------------------------------------------------*/
@@ -153,10 +153,13 @@ public class PetAttributes {
      * Constructor
      */
     public PetAttributes() {
+        prio_.put(VisibleCondition.UNDETERMINED, 1000);
         prio_.put(VisibleCondition.MORTO, 500);
         prio_.put(VisibleCondition.VOMITANDO, 300);
         prio_.put(VisibleCondition.BEBADO, 400);
         prio_.put(VisibleCondition.DOENTE, 40);
+        prio_.put(VisibleCondition.NORMAL, 5);
+        prio_.put(VisibleCondition.PULANDO, 10);
         // ... XXX
 
         // defalt values. values in the json will take precedence if available
@@ -184,7 +187,7 @@ public class PetAttributes {
         s2vis_.put(State.MUITA_FOME, VisibleCondition.UNDETERMINED);
         s2vis_.put(State.FOME, VisibleCondition.UNDETERMINED);
         s2vis_.put(State.SATISFEITO, VisibleCondition.UNDETERMINED);
-        s2vis_.put(State.RESSACA, VisibleCondition.VOMITANDO);
+        s2vis_.put(State.MUITO_BEBADO, VisibleCondition.VOMITANDO);
         // XXX
 
         sAlcool_   = new PetAttributeState();
@@ -201,9 +204,6 @@ public class PetAttributes {
         mapAttrib(sAlcool());
         mapAttrib(sNutricao());
         // .... TODO//
-
-        /* Dominant appearance to the outside world */
-        determineVisibleCondition();
     }
 
     /**
@@ -238,6 +238,8 @@ public class PetAttributes {
 
         int maxPrio = -1;
         for (AttributeID a : sAtt_.keySet()) {
+            sAtt_.get(a).print();
+            System.out.println("_+_+state:" + sAtt_.get(a).getState() + " att id " + a);
             if (prio_.get(s2vis_.get(sAtt_.get(a).getState())) > maxPrio) {
                 vis_.update(s2vis_.get(sAtt_.get(a).getState()).ordinal());
                 maxPrio = prio_.get(vis_);

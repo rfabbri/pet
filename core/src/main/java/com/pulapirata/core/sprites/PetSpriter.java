@@ -46,7 +46,7 @@ public class PetSpriter extends Spriter {
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
-    private HashMap<VisibleCondition, Sprite> animMap;
+    private HashMap<VisibleCondition, Sprite> animMap = new HashMap<VisibleCondition, Sprite> ();
     private Sprite sprite;   // the current sprite animation
     private int spriteIndex = 0;
     private int numLoaded = 0; // set to num of animations when resources have loaded and we can update
@@ -58,6 +58,7 @@ public class PetSpriter extends Spriter {
     public PetSpriter(final GroupLayer petLayer, final float x, final float y) {
         for (int i = 0; i < jsons.size(); i++) {
             sprite = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
+            //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
             animMap.put(vc.get(i), sprite);
 
             // Add a callback for when the image loads.
