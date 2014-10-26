@@ -60,6 +60,7 @@ public class Pingo {
     });
   }
 
+  @Override
   public void update(int delta) {
     if (hasLoaded) {
       spriteIndex = (spriteIndex + 1) % sprite.numSprites();

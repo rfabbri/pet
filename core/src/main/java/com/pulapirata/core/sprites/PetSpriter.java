@@ -9,7 +9,7 @@ import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
  * It is just like Sprite, but changes internal animation
  * based on the set state.
  */
-public class PetSprite {
+public class PetSpriter extends Spriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
@@ -81,6 +81,7 @@ public class PetSprite {
         sprite = animMap.get(s);
     }
 
+    @Override
     public boolean hasLoaded() {
         return numLoaded == jsons.size();
     }
@@ -96,6 +97,7 @@ public class PetSprite {
         }
     }
 
+    @Override
     public void detatch(GroupLayer petLayer) {
         petLayer.remove(sprite.layer());
     }
