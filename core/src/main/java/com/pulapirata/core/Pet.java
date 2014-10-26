@@ -296,6 +296,11 @@ public class Pet extends Game.Default {
         protected int numMainButts_ = 0;
         protected ArrayList< ArrayList<Button> > secondaryButtons_ = null;
 
+        protected int numLoadedButts_ = 0;
+        protected int totalNumButts_ = -1;
+
+        public boolean hasLoaded()  { return numLoadedButts_ == totalNumButts_;};
+
         public void makeButtons() {
             // create our UI manager and configure it to process pointer events
             iface_ = new Interface();
@@ -303,7 +308,6 @@ public class Pet extends Game.Default {
             // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
             Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
-            // XXX conferir se ta certo abaixo
             root_.setSize(width(), 354); // this includes the secondary buttons
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
             layer_.addAt(root_.layer, 0, 442); // position of buttons
@@ -423,6 +427,8 @@ public class Pet extends Game.Default {
 
             secondaryButtons_ = new ArrayList< ArrayList<Button> >(numMainButts_);
 
+            totalNumButts_ = numMainButts_;
+
 
             for (int b = 0; b < numMainButts_; ++b) {
                 final int bFinal = b;
@@ -436,8 +442,11 @@ public class Pet extends Game.Default {
                 int numSecondaryButtons = imgButtSecondary.get(b).size();
                 secondaryButtons_.add(new ArrayList<Button>(numSecondaryButtons));
 
+                totalNumButts_ += numSecondaryButtons;
+
                 for (int s = 0; s < numSecondaryButtons; ++s) {
-                    Button sbut = new Button(Icons.image(imgButtSecondary.get(b).get(s)));
+                    Image buttImage = imgButtSecondary.get(b).get(s);
+                    Button sbut = new Button(Icons.image(buttImage));
                     secondaryButtons_.get(b).add(sbut);
                     sbuttons.get(b).add(AbsoluteLayout.at(sbut,
                       topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
@@ -453,6 +462,18 @@ public class Pet extends Game.Default {
                     // all secondary buttons are added; toggle visibility only
                     root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
                     sbuttons.get(bFinal).setVisible(false);
+
+                    // callbacks for loading the data
+                    buttImage.addCallback(new Callback<Image> () {
+                            @Override
+                            public void onSuccess(Image resource) {
+                                numLoadedButts_++;
+                            }
+                            @Override
+                            public void onFailure(Throwable err) {
+                                error(err);
+                            }
+                    });
                 }
 
                 Selector sel = new Selector(buttons, null);
@@ -537,7 +558,7 @@ public class Pet extends Game.Default {
       if (world_ != null)
           world_.paint(clock_);
 
-      if (iface_ != null && bgLoaded_)
+      if (iface_ != null && bgLoaded_ && bm_.hasLoaded())
           iface_.paint(clock_);
 
       if (statbarIface_ != null)
@@ -559,7 +580,7 @@ public class Pet extends Game.Default {
             world_.update(delta);
         }
 
-        if (iface_ != null && bgLoaded_)
+        if (iface_ != null && bgLoaded_ && bm_.hasLoaded())
             iface_.update(delta);
 
         if (statbarIface_ != null)
