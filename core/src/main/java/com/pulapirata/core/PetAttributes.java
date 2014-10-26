@@ -194,16 +194,25 @@ public class PetAttributes {
         sNutricao_ = new PetAttributeState();
         sAction_.updateState(ActionState.DEFAULT);
 
-        sAlcool_.set(alcool());
-        sNutricao_.set(nutricao());
         // intervals are set from json in PetAttributesLoader
 
         sAtt_.put(AttributeID.ALCOOL, sAlcool());
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
+        // .... TODO//
+    }
 
+    /**
+     * To be called in PetAttributesLoader.
+     *
+     * This enables one to interconnect signals/slots after all basic components
+     * have been constructed.
+     */
+    public void hookupReactiveWires() {
+        // hookup AttributeStates to respond to Attributes
+        sAlcool_.set(alcool());
+        sNutricao_.set(nutricao());
         mapAttrib(sAlcool());
         mapAttrib(sNutricao());
-        // .... TODO//
     }
 
     /**

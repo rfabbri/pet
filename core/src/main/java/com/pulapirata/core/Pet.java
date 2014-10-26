@@ -296,6 +296,8 @@ public class Pet extends Game.Default {
         protected int numMainButts_ = 0;
         protected ArrayList< ArrayList<Button> > secondaryButtons_ = null;
 
+        // Used for asset loading. We could also use an asset watcher as in
+        // PeaLoader.java
         protected int numLoadedButts_ = 0;
         protected int totalNumButts_ = -1;
 

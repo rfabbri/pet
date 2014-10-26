@@ -8,7 +8,6 @@ import playn.core.PlayN;
 import playn.core.util.Callback;
 
 
-
 /**
  * Reads game attribute data from a .json file.
  * mimmicks PeaLoader.java
@@ -16,7 +15,7 @@ import playn.core.util.Callback;
 public class PetAttributesLoader {
 
     public static void CreateAttributes(String path, final double beatsCoelhoHora,
-    final Callback<PetAttributes> callback) {
+                                        final Callback<PetAttributes> callback) {
         final PetAttributes attribs = new PetAttributes();
 
         // load the attributes
@@ -68,6 +67,7 @@ public class PetAttributesLoader {
 
                     attribs.sAtt(jatt.getString("name")).set(s, iv);
                 }
+                attribs.hookupReactiveWires();
 
                 assert attribs.isInitialized() : "not all attributes initialized";
 
