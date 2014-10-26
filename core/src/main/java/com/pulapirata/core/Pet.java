@@ -126,8 +126,8 @@ public class Pet extends Game.Default {
     /*-------------------------------------------------------------------------------*/
     /* Pet attributes & info */
 
-    private boolean attributesLoaded = false;
-    private boolean printIniDbg = true;
+    private boolean bgLoaded_ = false;
+    private boolean printIniDbg_ = true;
 
     /*-------------------------------------------------------------------------------*/
     /* Misc variables */
@@ -152,7 +152,7 @@ public class Pet extends Game.Default {
 
     //--------------------------------------------------------------------------------
     public Pet() {
-      super(UPDATE_RATE);
+        super(UPDATE_RATE);
     }
 
     //--------------------------------------------------------------------------------
@@ -184,8 +184,8 @@ public class Pet extends Game.Default {
       final int mainStatWidth = 200;
 
       TableLayout statbarLayout = new TableLayout(
-        COL.minWidth(mainStatWidth).alignLeft().fixed(),
-        COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
+          COL.minWidth(mainStatWidth).alignLeft().fixed(),
+          COL.minWidth(30).stretch()).gaps(mae, mae).alignTop();
 
       // AxisLayout statbarLayout = new AxisLayout.horizontal().add(
       //   COL.minWidth(250).alignLeft().fixed(),
@@ -280,6 +280,7 @@ public class Pet extends Game.Default {
         bgLayer_ = graphics().createImageLayer(bgImageDay_);
         bgLayer_.setDepth(UIDepth.Z_BG.getZ());
         layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
+        bgLoaded_ = true;
     }
 
     /*-------------------------------------------------------------------------------*/
@@ -536,7 +537,7 @@ public class Pet extends Game.Default {
       if (world_ != null)
           world_.paint(clock_);
 
-      if (iface_ != null)
+      if (iface_ != null && bgLoaded_)
           iface_.paint(clock_);
 
       if (statbarIface_ != null)
@@ -558,7 +559,7 @@ public class Pet extends Game.Default {
             world_.update(delta);
         }
 
-        if (iface_ != null)
+        if (iface_ != null && bgLoaded_)
             iface_.update(delta);
 
         if (statbarIface_ != null)
