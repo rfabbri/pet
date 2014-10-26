@@ -80,7 +80,7 @@ public class Pet extends Game.Default {
     public PetAttributes a() { return world_.mainPet(); }   // shortcut
 
     public enum UIDepth {
-        Z_WORLD(10), Z_BG(20), Z_BUTTONS(25), Z_STATBAR(26);
+        Z_WORLD(100), Z_BG(50), Z_BUTTONS(25), Z_STATBAR(26);
         private final int z;
 
         UIDepth (int z) {
