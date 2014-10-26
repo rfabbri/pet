@@ -64,7 +64,7 @@ class PetWorld extends World {
     public final Component.XY vel_  = new Component.XY(this);  // pixels/ms
     public final Component.FScalar radius_ = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
-    public final Component.Generic<PetSprite> sprite_ = new Component.Generic<Sprite>(this);
+    public final Component.Generic<Spriter> sprite_ = new Component.Generic<Spriter>(this);
     public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
     public final PetAtlas atlas_;  // shared atlas amongst all sprites
@@ -375,7 +375,7 @@ class PetWorld extends World {
         mainID_ = id;
 
         // read imgLayer / sprite loader
-        PetSprite ps(imgLayer, x, y);
+        PetSpriter ps(imgLayer, x, y);
         mainPet_.vis().connect(ps.slot());
 
         sprite_.set(id, ps);

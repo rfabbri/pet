@@ -1,5 +1,7 @@
 package com.pulapirata.core.sprites;
 
+import react.Slot;
+
 import static com.pulapirata.core.PetAttributes.VisibleCondition;
 import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
 
@@ -81,6 +83,10 @@ public class PetSpriter extends Spriter {
         sprite = animMap.get(s);
     }
 
+    public void set(int i) {
+        set(VisibleCondition.values()[i]);
+    }
+
     @Override
     public boolean hasLoaded() {
         return numLoaded == jsons.size();
@@ -110,5 +116,17 @@ public class PetSpriter extends Spriter {
     }
     public boolean getTraversed(){
        return traversed;
+    }
+
+    /**
+     * Returns a slot which can be used to wire the current sprite animation to
+     * the emissions of a {@link Signal} or another value.
+     */
+    @Override public Slot<Integer> slot () {
+        return new Slot<Integer> () {
+            @Override public void onEmit (Integer value) {
+                set(value);
+            }
+        };
     }
 }

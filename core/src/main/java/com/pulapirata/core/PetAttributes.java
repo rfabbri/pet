@@ -144,7 +144,7 @@ public class PetAttributes {
     /** Maps {@link PetAttributeState}s to visible conditions. */
     public EnumMap<State, VisibleCondition> s2vis_ = new EnumMap<State, VisibleCondition>(State.class);
 
-    IntValue vis_ = new IntValue(VisibleCondition.NORMAL.ordinal());  // reactive ids into VisibleCondition
+    protected IntValue vis_ = new IntValue(VisibleCondition.NORMAL.ordinal());  // reactive ids into VisibleCondition
 
     public IntValue vis() { return vis_; }
 
