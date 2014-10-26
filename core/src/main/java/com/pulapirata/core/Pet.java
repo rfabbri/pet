@@ -79,6 +79,19 @@ public class Pet extends Game.Default {
     public int height() { return 800; }
     public PetAttributes a() { return world_.mainPet(); }   // shortcut
 
+    public enum UIDepth {
+        Z_WORLD(10), Z_BG(20), Z_BUTTONS(25), Z_STATBAR(26);
+        private final int z;
+
+        UIDepth (int z) {
+            this.z = z;
+        }
+
+        public int getZ() {
+            return z;
+        }
+    }
+
     /*-------------------------------------------------------------------------------*/
     /* Time data */
 
@@ -243,11 +256,30 @@ public class Pet extends Game.Default {
     }
 
     //--------------------------------------------------------------------------------
-    private void makeBackgroundInit() {
-      bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
-      bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
-      bgLayer_ = graphics().createImageLayer(bgImageDay_);
-      layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
+    /**
+     * Request background images to be loaded
+     */
+    private void startBackgroundInit() {
+        bgImageDay_ = assets().getImage("pet/images/cenario_quarto.png");
+        bgImageNight_ = assets().getImage("pet/images/cenario_quarto_noite.png");
+        bgImageDay_.addCallback(new Callback<Image>() {
+                @Override
+                public void onSuccess(Image resource) {
+                    installBackgroundInit();
+                }
+                @Override
+                public void onFailure(Throwable err) {
+                    error(err);
+                }
+        });
+    }
+    /**
+     * Install initially loaded background image
+     */
+    private void installBackgroundInit() {
+        bgLayer_ = graphics().createImageLayer(bgImageDay_);
+        bgLayer_.setDepth(UIDepth.Z_BG.getZ());
+        layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
     }
 
     /*-------------------------------------------------------------------------------*/
@@ -486,8 +518,11 @@ public class Pet extends Game.Default {
       petSheet_ = PetStyles.newSheet();
 
       makeStatusbar();
-      makeBackgroundInit();
-      world_ = new PetWorld(layer_, width(), height());
+      startBackgroundInit();
+      GroupLayer worldLayer_ = graphics().createGroupLayer();
+      worldLayer_.setDepth(UIDepth.Z_WORLD.getZ());
+      layer_.add(worldLayer_);
+      world_ = new PetWorld(worldLayer_, width(), height());
       bm_.makeButtons();
     }
 
@@ -528,5 +563,14 @@ public class Pet extends Game.Default {
 
         if (statbarIface_ != null)
             statbarIface_.update(delta);
+    }
+
+    /**
+     * Should be called if an error occurs when loading the sprite image or data. Will handle calling
+     * the {@link Callback} of the {@link Sprite}.
+     */
+    void error(Throwable err) {
+        // don't let the error fall on deaf ears
+        log().error("Error loading assets", err);
     }
 }
