@@ -37,10 +37,10 @@ public class PetSprite {
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
-    private HashMap<VisibleCondition, SpriteBase> animMap;
-    private SpriteBase sprite;   // the current sprite animation
+    private HashMap<VisibleCondition, Sprite> animMap;
+    private Sprite sprite;   // the current sprite animation
     private int spriteIndex = 0;
-    private boolean hasLoaded = false; // set to true when resources have loaded and we can update
+    private int numLoaded = 0; // set to num of animations when resources have loaded and we can update
     private boolean traversed = false;
 
     /** pointer to attributes (mainly to get visible condition) */
@@ -48,20 +48,20 @@ public class PetSprite {
 
     public PetSprite(final Grouplayer petLayer, float x, float y) {
         for (int i = 0; i < jsons.size(); i++) {
-            sprite = SpriteLoader.getSprite(images.get(i), jsons.get(i))
+            sprite = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i))
             animMap.put(vc.get(i), sprite);
 
             // Add a callback for when the image loads.
             // This is necessary because we can't use the width/height (to center the
             // image) until after the image has been loaded
-            sprite.addCallback(new Callback<SpriteBase>() {
+            sprite.addCallback(new Callback<Sprite>() {
                 @Override
-                public void onSuccess(SpriteBase sprite) {
+                public void onSuccess(Sprite sprite) {
                     sprite.setSprite(spriteIndex);
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
                     petLayer.add(sprite.layer());
-                    hasLoaded = true;
+                    numLoaded = has_loaded + 1;
                 }
 
                 @Override
@@ -69,7 +69,7 @@ public class PetSprite {
                     log().error("Error loading image!", err);
                 }
             });
-          }
+        }
     }
 
     /**
@@ -81,8 +81,12 @@ public class PetSprite {
         sprite = animMap.get(s);
     }
 
+    public boolean hasLoaded() {
+        return numLoaded == jsons.size();
+    }
+
     public void update(int delta) {
-        if (hasLoaded) {
+        if (hasLoaded()) {
             spriteIndex = (spriteIndex + 1) % sprite.numSprites();
             sprite.setSprite(spriteIndex);
             // sprite.layer().setRotation(angle);
