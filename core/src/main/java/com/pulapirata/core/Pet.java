@@ -299,7 +299,7 @@ public class Pet extends Game.Default {
         protected int numLoadedButts_ = 0;
         protected int totalNumButts_ = -1;
 
-        public boolean hasLoaded()  { return numLoadedButts_ == totalNumButts_;};
+        public boolean hasLoaded()  { return numLoadedButts_ == totalNumButts_;}
 
         public void makeButtons() {
             // create our UI manager and configure it to process pointer events
@@ -432,8 +432,19 @@ public class Pet extends Game.Default {
 
             for (int b = 0; b < numMainButts_; ++b) {
                 final int bFinal = b;
-                ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(0)));
+                ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(b)));
                 buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
+                // callbacks for loading the images
+                imgButtSolto.get(b).addCallback(new Callback<Image> () {
+                        @Override
+                        public void onSuccess(Image resource) {
+                            numLoadedButts_++;
+                        }
+                        @Override
+                        public void onFailure(Throwable err) {
+                            error(err);
+                        }
+                });
 
                 // add button b's secondary buttons
                 sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
@@ -463,7 +474,7 @@ public class Pet extends Game.Default {
                     root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
                     sbuttons.get(bFinal).setVisible(false);
 
-                    // callbacks for loading the data
+                    // callbacks for loading the images
                     buttImage.addCallback(new Callback<Image> () {
                             @Override
                             public void onSuccess(Image resource) {
