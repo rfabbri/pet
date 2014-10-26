@@ -10,8 +10,31 @@ import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
  * based on the set state.
  */
 public class PetSprite {
-    public static String IMAGE = "pet/sprites/atlas.png";
-    public static String JSON = "pet/sprites/atlas.json";
+//    public static String IMAGE = "pet/sprites/atlas.png";
+//    public static String JSON = "pet/sprites/atlas.json";
+
+    private final String prefix = "pet/sprites/";
+    private final ArrayList<String> images =
+        new ArrayList<String>(Arrays.asList(
+                    "pingo_bebe_pulando.png",
+                    "pingo_bebe_vomitando.png"
+                    // XXX
+                    ));
+
+    private final ArrayList<String> jsons =
+        new ArrayList<String>(Arrays.asList(
+                    "pingo_bebe_pulando.json",
+                    "pingo_bebe_vomitando.json"
+                    // XXX
+                    ));
+
+    private final ArrayList<VisibleCondition> vc =
+        new ArrayList<String>(Arrays.asList(
+                    PULANDO,
+                    VOMITANDO
+                    // XXX
+                    ));
+
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
     private HashMap<VisibleCondition, SpriteBase> animMap;
@@ -24,10 +47,30 @@ public class PetSprite {
     PetAttributes attribs;
 
     public PetSprite(final Grouplayer petLayer, float x, float y) {
+        for (int i = 0; i < jsons.size(); i++) {
+            sprite = SpriteLoader.getSprite(images.get(i), jsons.get(i))
+            animMap.put(vc.get(i), sprite);
 
+            // Add a callback for when the image loads.
+            // This is necessary because we can't use the width/height (to center the
+            // image) until after the image has been loaded
+            sprite.addCallback(new Callback<SpriteBase>() {
+                @Override
+                public void onSuccess(SpriteBase sprite) {
+                    sprite.setSprite(spriteIndex);
+                    sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
+                    sprite.layer().setTranslation(x, y);
+                    petLayer.add(sprite.layer());
+                    hasLoaded = true;
+                }
+
+                @Override
+                public void onFailure(Throwable err) {
+                    log().error("Error loading image!", err);
+                }
+            });
+          }
     }
-
-
 
     /**
      * Sets animation based on pet's current visible condition
