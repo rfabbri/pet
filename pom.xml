@@ -168,6 +168,9 @@
               <exclude>**/PetOld.java</exclude>
               <exclude>**/PetInnerWorld.java</exclude>
               <exclude>**/PetJson.java</exclude>
+              <exclude>**/SpriteBase.java</exclude>
+              <exclude>**/AtlasSpriteLoader.java</exclude>
+              <exclude>**/Atlas.java</exclude>
             </excludes>
           </configuration>
         </plugin>

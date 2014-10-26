@@ -1,8 +1,15 @@
 package com.pulapirata.core.sprites;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
 import react.Slot;
-
-import static com.pulapirata.core.PetAttributes.VisibleCondition;
+import playn.core.GroupLayer;
+import playn.core.ImageLayer;
+import playn.core.util.Callback;
+import static playn.core.PlayN.log;
+import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.PetAttributes.VisibleCondition;
 import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
 
 /**
@@ -31,7 +38,7 @@ public class PetSpriter extends Spriter {
                     ));
 
     private final ArrayList<VisibleCondition> vc =
-        new ArrayList<String>(Arrays.asList(
+        new ArrayList<VisibleCondition>(Arrays.asList(
                     PULANDO,
                     VOMITANDO
                     // XXX
@@ -48,9 +55,9 @@ public class PetSpriter extends Spriter {
     /** pointer to attributes (mainly to get visible condition) */
     PetAttributes attribs;
 
-    public PetSprite(final Grouplayer petLayer, float x, float y) {
+    public PetSpriter(final GroupLayer petLayer, final float x, final float y) {
         for (int i = 0; i < jsons.size(); i++) {
-            sprite = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i))
+            sprite = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
             animMap.put(vc.get(i), sprite);
 
             // Add a callback for when the image loads.
@@ -63,7 +70,7 @@ public class PetSpriter extends Spriter {
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
                     petLayer.add(sprite.layer());
-                    numLoaded = has_loaded + 1;
+                    numLoaded++;
                 }
 
                 @Override
@@ -77,7 +84,7 @@ public class PetSpriter extends Spriter {
     /**
      * Sets animation based on pet's current visible condition
      */
-    public void set(attribs.VisibleCondition s) {
+    public void set(VisibleCondition s) {
         // switch currentAnim to next anim
         spriteIndex = 0;
         sprite = animMap.get(s);
@@ -103,16 +110,11 @@ public class PetSpriter extends Spriter {
         }
     }
 
-    @Override
-    public void detatch(GroupLayer petLayer) {
-        petLayer.remove(sprite.layer());
-    }
-
     /**
      * The radius of the bounding sphere to the present sprite frame
      */
     public float boundingRadius() {
-        return 1.0 + Math.sqrt(sprite.width()*sprite.width() + sprite.height().sprite.height());
+        return 1.0f + (float) Math.sqrt(sprite.width()*sprite.width() + sprite.height()*sprite.height());
     }
     public boolean getTraversed(){
        return traversed;
@@ -122,11 +124,19 @@ public class PetSpriter extends Spriter {
      * Returns a slot which can be used to wire the current sprite animation to
      * the emissions of a {@link Signal} or another value.
      */
-    @Override public Slot<Integer> slot () {
+    public Slot<Integer> slot () {
         return new Slot<Integer> () {
             @Override public void onEmit (Integer value) {
                 set(value);
             }
         };
+    }
+
+    /**
+     * Return the current animation sprite {@link ImageLayer}.
+     */
+    @Override
+    public ImageLayer layer() {
+        return sprite.layer();
     }
 }

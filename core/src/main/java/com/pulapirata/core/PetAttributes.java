@@ -44,6 +44,7 @@ public class PetAttributes {
         BEBADO, VOMITANDO,
         DOENTE,
         MORTO,
+        PULANDO,
         UNDETERMINED
     }
 

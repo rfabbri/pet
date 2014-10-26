@@ -24,6 +24,8 @@ import tripleplay.util.Randoms;
 
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.utils.PetAttributesLoader;
+import com.pulapirata.core.sprites.Spriter;
+import com.pulapirata.core.sprites.PetSpriter;
 
 
 /**
@@ -65,9 +67,9 @@ class PetWorld extends World {
     public final Component.FScalar radius_ = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
     public final Component.Generic<Spriter> sprite_ = new Component.Generic<Spriter>(this);
-    public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
+    // public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
-    public final PetAtlas atlas_;  // shared atlas amongst all sprites
+    // public final PetAtlas atlas_;  // shared atlas amongst all sprites
     protected PetAttributes mainPet_;  // direct handle on the attributes of the main pet
     public int mainID_ = -1;
 
@@ -176,8 +178,8 @@ class PetWorld extends World {
                 opos_.get(eid, op);
                 pos_.get(eid, p);
                 // wrap our interpolated position as we may interpolate off the screen
-                spriteLayer_.get(eid).setTranslation(MathUtil.lerp(op.x, p.x, alpha),
-                                                     MathUtil.lerp(op.y, p.y, alpha));
+                sprite_.get(eid).layer().setTranslation(MathUtil.lerp(op.x, p.x, alpha),
+                                                        MathUtil.lerp(op.y, p.y, alpha));
             }
         }
 
@@ -190,16 +192,16 @@ class PetWorld extends World {
 
         @Override protected void wasAdded (Entity entity) {
             super.wasAdded(entity);
-            layer_.addAt(spriteLayer_.get(entity.id), pos_.getX(entity.id), pos_.getX(entity.id));
+            layer_.addAt(sprite_.get(entity.id).layer(), pos_.getX(entity.id), pos_.getX(entity.id));
         }
 
         @Override protected void wasRemoved (Entity entity, int index) {
             super.wasRemoved(entity, index);
-            layer_.remove(spriteLayer_.get(entity.id));
+            layer_.remove(sprite_.get(entity.id).layer());
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(opos_) && entity.has(pos_) && entity.has(spriteLayer_);
+            return entity.has(opos_) && entity.has(pos_) && entity.has(sprite_);
         }
 
         protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
@@ -218,12 +220,12 @@ class PetWorld extends World {
 
         @Override protected void wasAdded (Entity entity) {
             super.wasAdded(entity);
-            layer_.addAt(spriteLayer_.get(entity.id), pos_.getX(entity.id), pos_.getX(entity.id));
+            layer_.addAt(sprite_.get(entity.id).layer(), pos_.getX(entity.id), pos_.getX(entity.id));
         }
 
         @Override protected void wasRemoved (Entity entity, int index) {
             super.wasRemoved(entity, index);
-            layer_.remove(spriteLayer_.get(entity.id));
+            layer_.remove(sprite_.get(entity.id).layer());
         }
 
         @Override protected boolean isInterested (Entity entity) {
@@ -364,7 +366,7 @@ class PetWorld extends World {
 
     protected Entity createPet (float x, float y) {
         Entity pet = create(true);
-        pet.add(type_, pet_, sprite_, spriteLayer_, opos_, pos_, vel_, radius_, expires_);
+        pet.add(type_, pet_, sprite_, opos_, pos_, vel_, radius_, expires_);
 
         int id = pet.id;
         type_.set(id, PET);
@@ -375,13 +377,13 @@ class PetWorld extends World {
         mainID_ = id;
 
         // read imgLayer / sprite loader
-        PetSpriter ps(imgLayer, x, y);
+        PetSpriter ps = new PetSpriter(layer_, x, y);
         mainPet_.vis().connect(ps.slot());
 
         sprite_.set(id, ps);
-        spriteLayer_.set(id, imgLayer);
+        // spriteLayer_.set(id, layer_);
 
-        radius_.set(id, sprite_.boundingRadius());
+        radius_.set(id, ps.boundingRadius());
         return pet;
     }
 
