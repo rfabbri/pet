@@ -584,8 +584,14 @@ public class Pet extends Game.Default {
         clock_.update(delta);
 
         if (world_ != null) {
-            if (world_.worldLoaded() && !bm_.isWired()) {
-                bm_.wireButtonsToWorld();
+            if (world_.worldLoaded()) {
+                if (!bm_.isWired())
+                    bm_.wireButtonsToWorld();
+
+                if (printIniDbg_) {
+                    a().print();
+                    printIniDbg_ = false;
+                }
             }
             world_.update(delta);
         }
