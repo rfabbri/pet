@@ -48,16 +48,22 @@ public class PetAttributes {
      */
     public enum VisibleCondition {
         NORMAL,
-        MUITA_FOME,
-        FAMINTO,
+        TRISTE,
+        CHORANDO,
+        IRRITADO,
+        BRAVO,
         PULANDO,
         DOENTE,
+        MACHUCADO,
+        MUITO_MACHUCADO,
         BEBADO,
+        NORMAL_COM_VOMITO,
         VOMITANDO,
-        DOENTE_TERMINAL,
+        BEBADO_VOMITANDO,
         COMA,
         COMA_ALCOOLICO,
         MORTO,
+        COM_MOSQUITO,
         UNDETERMINED
     }
 
@@ -80,7 +86,7 @@ public class PetAttributes {
     public enum State {
         FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO,                                 // Nutricao
         BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE,                          // Humor
-        DEPRESSAO, SOZINHO, POUCOS AMIGOS, POPULAR, SUPERSTAR,                                // Social
+        DEPRESSAO, SOZINHO, POUCOS_AMIGOS, POPULAR, SUPERSTAR,                                // Social
         IMUNDO, MUITO_SUJO, SUJO, LIMPO, MUITO_LIMPO,                                         // Higiene
         EXPULSO, REPROVADO, RECUPERACAO, MEDIANO, BOM_ALUNO, MELHOR_DA_SALA,                  // Estudo
         DOENTE_TERMINAL, DOENTE, FRAGIL, ESTAVEL, SAUDAVEL, ATLETA,                           // Saude
@@ -92,18 +98,6 @@ public class PetAttributes {
         NORMAL,
         ONONOONO // impossivel - invalido
         ;
-
-        /*
-        private final int value_;
-
-        private State(int value) {
-            this.value_ = value;
-        }
-
-        public int value() {
-            return value_;
-        }
-        */
     }
 
     public enum ActionState {
@@ -219,12 +213,65 @@ public class PetAttributes {
         mapAttrib(saude());
         mapAttrib(disciplina());
 
-        s2vis_.put(State.FAMINTO, VisibleCondition.UNDETERMINED);
-        s2vis_.put(State.MUITA_FOME, VisibleCondition.UNDETERMINED);
-        s2vis_.put(State.FOME, VisibleCondition.UNDETERMINED);
-        s2vis_.put(State.SATISFEITO, VisibleCondition.UNDETERMINED);
-        s2vis_.put(State.MUITO_BEBADO, VisibleCondition.VOMITANDO);
-        // XXX
+        s2vis_.put(State.FAMINTO, VisibleCondition.CHORANDO);
+         s2vis_.put(State.MUITA_FOME, VisibleCondition.CHORANDO);
+         s2vis_.put(State.FOME, VisibleCondition.TRISTE);
+         s2vis_.put(State.SATISFEITO, VisibleCondition.NORMAL);
+         s2vis_.put(State.CHEIO, VisibleCondition.NORMAL);
+         s2vis_.put(State.LOTADO, VisibleCondition.NORMAL_COM_VOMITO);
+        s2vis_.put(State.BRAVO, VisibleCondition.BRAVO);
+         s2vis_.put(State.IRRITADO, VisibleCondition.IRRITADO);
+         s2vis_.put(State.ENTEDIADO, VisibleCondition.NORMAL);
+         s2vis_.put(State.ENTRETIDO, VisibleCondition.NORMAL);
+         s2vis_.put(State.ALEGRE, VisibleCondition.NORMAL);
+         s2vis_.put(State.MUITO_ALEGRE, VisibleCondition.NORMAL);
+        s2vis_.put(State.DEPRESSAO, VisibleCondition.CHORANDO);
+         s2vis_.put(State.SOZINHO, VisibleCondition.TRISTE);
+         s2vis_.put(State.POUCOS_AMIGOS, VisibleCondition.NORMAL);
+         s2vis_.put(State.POPULAR, VisibleCondition.NORMAL);
+         s2vis_.put(State.SUPERSTAR, VisibleCondition.NORMAL);
+        s2vis_.put(State.IMUNDO, VisibleCondition.COM_STINKY_MOSQUITO);
+         s2vis_.put(State.MUITO_SUJO, VisibleCondition.COM_MOSQUITO);
+         s2vis_.put(State.SUJO, VisibleCondition.COM_MOSQUITO);
+         s2vis_.put(State.LIMPO, VisibleCondition.NORMAL);
+         s2vis_.put(State.MUITO_LIMPO, VisibleCondition.NORMAL);
+        s2vis_.put(State.EXPULSO, VisibleCondition.NORMAL);
+         s2vis_.put(State.REPROVADO, VisibleCondition.NORMAL);
+         s2vis_.put(State.RECUPERACAO, VisibleCondition.NORMAL);
+         s2vis_.put(State.MEDIANO, VisibleCondition.NORMAL);
+         s2vis_.put(State.BOM_ALUNO, VisibleCondition.NORMAL);
+         s2vis_.put(State.MELHOR_DA_SALA, VisibleCondition.NORMAL);
+        s2vis_.put(State.DOENTE_TERMINAL, VisibleCondition.DOENTE);
+         s2vis_.put(State.DOENTE, VisibleCondition.DOENTE);
+         s2vis_.put(State.FRAGIL, VisibleCondition.NORMAL);
+         s2vis_.put(State.ESTAVEL, VisibleCondition.NORMAL);
+         s2vis_.put(State.SAUDAVEL, VisibleCondition.NORMAL);
+         s2vis_.put(State.ATLETA, VisibleCondition.NORMAL);
+        s2vis_.put(State.CRIMINOSO, VisibleCondition.NORMAL);
+         s2vis_.put(State.REBELDE, VisibleCondition.NORMAL);
+         s2vis_.put(State.TEIMOSO, VisibleCondition.NORMAL);
+         s2vis_.put(State.OBEDIENTE, VisibleCondition.NORMAL);
+         s2vis_.put(State.RESPONSAVEL, VisibleCondition.NORMAL);
+         s2vis_.put(State.MAQUINA_DISCIPLINAR, VisibleCondition.NORMAL);
+        s2vis_.put(State.SOBRIO, VisibleCondition.NORMAL);
+         s2vis_.put(State.TONTO, VisibleCondition.BEBADO);
+         s2vis_.put(State.BEBADO, VisibleCondition.BEBADO);
+         s2vis_.put(State.MUITO_BEBADO, VisibleCondition.BEBADO_VOMITANDO);
+         s2vis_.put(State.COMA_ALCOOLICO, VisibleCondition.COMA_ALCOOLICO);
+        s2vis_.put(State.COMA, VisibleCondition.COMA);
+         s2vis_.put(State.DILACERADO, VisibleCondition.MUITO_MACHUCADO);
+         s2vis_.put(State.MUITO_MACHUCADO, VisibleCondition.MUITO_MACHUCADO);
+         s2vis_.put(State.FERIDO, VisibleCondition.MACHUCADO);
+        s2vis_.put(State.ASSEXUADO, VisibleCondition.NORMAL);
+         s2vis_.put(State.VIRGEM, VisibleCondition.NORMAL);
+         s2vis_.put(State.APRECIADOR_DO_SEXO, VisibleCondition.NORMAL);
+         s2vis_.put(State.SEXO_SELVAGEM, VisibleCondition.NORMAL);
+         s2vis_.put(State.MICHAEL_DOUGLAS, VisibleCondition.NORMAL);
+         s2vis_.put(State.NINFOMANIACO, VisibleCondition.NORMAL);
+        s2vis_.put(State.ANTI_CRISTO, VisibleCondition.NORMAL);
+         s2vis_.put(State.FIEL_FERVOROSO, VisibleCondition.NORMAL);
+        s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
+        s2vis_.put(State.ONONOONO, VisibleCondition.NORMAL);
 
         sAlcool_   = new PetAttributeState();
         sNutricao_ = new PetAttributeState();
