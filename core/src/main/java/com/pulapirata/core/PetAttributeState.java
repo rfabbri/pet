@@ -77,11 +77,16 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
         State s = null;
 
         for (int i = 0; i < intervals_.size(); ++i)  // TODO: binary search
-            if (v <= intervals_.get(i))
+            if (v <= intervals_.get(i)) {
                 s = states_.get(i);
+                break;
+            }
         assert s != null : "state not set in updateState..";
 
-        return updateState(s);
+        State cs = updateState(s);
+        //print();
+        //System.out.println("_______________________ ENDState: " + cs);
+        return cs;
     }
 
     public boolean isInitialized() {
@@ -89,15 +94,19 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
     }
 
     @Override public void print() {
+        //super.print();
+        //if (att_.name().equals("Nutricao")) {
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXX State:");
         System.out.println("associated att name: " + att_.name() + " state: " + get());
         System.out.println("associated att val: " + att_.val());
         System.out.println("possible states and corresp intervals: ");
 
-        System.out.println("state: " + states_.get(0) + " interval: " + att_.min() + " to " + intervals_.get(0));
+        System.out.println("        state: " + states_.get(0) + " interval: " + att_.min() + " to " + intervals_.get(0));
 
-        for (int i = 0; i < states_.size(); ++i) {
-            System.out.println("state: " + states_.get(i) + " interval: " + att_.min() + " to " + intervals_.get(i));
+        for (int i = 1; i < states_.size(); ++i) {
+            System.out.println("        state: " + states_.get(i) + " interval: " + (intervals_.get(i-1)+1) + " to " + intervals_.get(i));
         }
+        //}
     }
 
     // pointer to the attribute corresponding to this state
