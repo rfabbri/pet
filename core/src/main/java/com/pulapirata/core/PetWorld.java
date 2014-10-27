@@ -92,7 +92,7 @@ class PetWorld extends World {
     /** Misc methods */
 
     public boolean worldLoaded() {
-        return attributesLoaded_ &&  sprite_.get(mainID_).hasLoaded();
+        return attributesLoaded_ &&  sprite_.get(mainID_) != null && sprite_.get(mainID_).hasLoaded();
     }
 
     @Override public void update (int delta) {
@@ -232,16 +232,6 @@ class PetWorld extends World {
                 pet_.get(eid).determineVisibleCondition();
                 sprite_.get(eid).update(delta);
             }
-        }
-
-        @Override protected void wasAdded (Entity entity) {
-            super.wasAdded(entity);
-            layer_.addAt(sprite_.get(entity.id).layer(), pos_.getX(entity.id), pos_.getX(entity.id));
-        }
-
-        @Override protected void wasRemoved (Entity entity, int index) {
-            super.wasRemoved(entity, index);
-            layer_.remove(sprite_.get(entity.id).layer());
         }
 
         @Override protected boolean isInterested (Entity entity) {
