@@ -95,8 +95,8 @@ public class Pet extends Game.Default {
     public static final int UPDATE_RATE = 100; // ms
 
     public String idadeCoelhoDiasStr1() {
-        if (world_ == null)
-            return "initializing (.)(.) initializing";
+        if (world_ == null || !world_.worldLoaded())
+            return "initializing (.)(.) initializing...";
 
         if (world_.idadeCoelhoDias() == 0)
             return String.format(
@@ -112,7 +112,7 @@ public class Pet extends Game.Default {
     }
 
     public String idadeCoelhoDiasStr2() {
-        if (world_ == null)
+        if (world_ == null || !world_.worldLoaded())
             return "initializing (|) initializing";
 
         return String.format(STAT_FILLER_2,
@@ -595,6 +595,10 @@ public class Pet extends Game.Default {
             }
             world_.update(delta);
         }
+        Label l = (Label) mainStat_.childAt(1);
+        l.text.update(idadeCoelhoDiasStr1());
+        l =  (Label) mainStat_.childAt(2);
+        l.text.update(idadeCoelhoDiasStr2());
 
         if (iface_ != null && bgLoaded_ && bm_.hasLoaded())
             iface_.update(delta);
