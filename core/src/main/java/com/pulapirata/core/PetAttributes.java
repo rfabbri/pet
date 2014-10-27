@@ -39,6 +39,13 @@ import com.pulapirata.core.PetAttribute;
 public class PetAttributes {
     public static String JSON_PATH = "pet/jsons/atributos.json";
 
+    /**
+     * Visible conditions and priority.
+     *
+     * Each visible condition has an int priority value associated to it, which
+     * is just the order in the enum. The greater this value, the more priority
+     * that visible condition has over the others to be displayed in the game.
+     */
     public enum VisibleCondition {
         NORMAL,
         MUITA_FOME,
@@ -64,7 +71,9 @@ public class PetAttributes {
         SAUDE,
         DISCIPLINA,
         ALCOOL,
-        SEDE,
+        VIDA,
+        SEXUALIDADE,
+        FE,
         ACTION
     }
 
@@ -177,15 +186,6 @@ public class PetAttributes {
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */
 
-    /**
-     * Priority of the visible conditions.
-     *
-     * Each visible condition has an int priority value associated to it. The
-     * greater this value, the more priority that visible condition has over the
-     * others to be displayed in the game.
-     * TODO: use more efficient array structure. This is readable, tho.
-     */
-    public EnumMap<VisibleCondition, Integer> prio_ = new EnumMap<VisibleCondition, Integer>(VisibleCondition.class);
 
     /** Maps {@link PetAttributeState}s to visible conditions. */
     public EnumMap<State, VisibleCondition> s2vis_ = new EnumMap<State, VisibleCondition>(State.class);
@@ -198,15 +198,6 @@ public class PetAttributes {
      * Constructor
      */
     public PetAttributes() {
-        prio_.put(VisibleCondition.UNDETERMINED, 1000);
-        prio_.put(VisibleCondition.MORTO, 500);
-        prio_.put(VisibleCondition.VOMITANDO, 300);
-        prio_.put(VisibleCondition.BEBADO, 400);
-        prio_.put(VisibleCondition.DOENTE, 40);
-        prio_.put(VisibleCondition.NORMAL, 5);
-        prio_.put(VisibleCondition.PULANDO, 10);
-        // ... XXX
-
         // defalt values. values in the json will take precedence if available
         alcool_     = new PetAttribute("Alcool");
         nutricao_   = new PetAttribute("Nutricao");
@@ -298,9 +289,9 @@ public class PetAttributes {
         for (AttributeID a : sAtt_.keySet()) {
             sAtt_.get(a).print();
             System.out.println("_+_+state:" + sAtt_.get(a).getState() + " att id " + a);
-            if (prio_.get(s2vis_.get(sAtt_.get(a).getState())) > maxPrio) {
+            if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio) {
                 vis_.update(s2vis_.get(sAtt_.get(a).getState()).ordinal());
-                maxPrio = prio_.get(vis_);
+                maxPrio = vis_.ordinal();
             }
         }
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
