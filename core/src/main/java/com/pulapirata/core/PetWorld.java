@@ -158,17 +158,22 @@ class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Motion Systems */
 
-    /** Simple motion. Handles updating entity position based on entity velocity */
-    public final System logicMover = new System(this, 0) {
+    /**
+     * Basic motion computation.
+     * Handles updating entity position based on entity velocity
+     */
+    public final System logicalMover = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             Point p = innerPos_;
             Vector v = innerVel_;
             for (int i = 0; i < entities.size(); i++) {
                 int eid = entities.get(i);
                 pos_.get(eid, p); // get our current pos
-                opos_.set(eid, p);
+                p.x = clampx(p.x);  // keep entity within screen dimensions
+                p.y = clampy(p.y);
+                opos_.set(eid, p);  // copy clamped pos to opos
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
-                pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity
+                pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
             }
         }
 
@@ -180,6 +185,13 @@ class PetWorld extends World {
         protected final Vector innerVel_ = new Vector();
     };
 
+    private float clampx(float x) {
+        return (x > width_) ? (width_) : ((x < 0) ? (0) : x);
+    }
+    private float clampy(float y) {
+        return (y > height_) ? (height_) : ((y < 0) ? (0) : y);
+    }
+
     /** Updates sprite layers to interpolated position of entities on each paint() call */
     public final System spriteMover = new System(this, 0) {
         @Override protected void paint (Clock clock, Entities entities) {
@@ -190,9 +202,9 @@ class PetWorld extends World {
                 // interpolate between opos and pos and use that to update the sprite position
                 opos_.get(eid, op);
                 pos_.get(eid, p);
-                // wrap our interpolated position as we may interpolate off the screen
-                sprite_.get(eid).layer().setTranslation(MathUtil.lerp(op.x, p.x, alpha),
-                                                        MathUtil.lerp(op.y, p.y, alpha));
+                // clamp our interpolated position as we may interpolate off the screen
+                sprite_.get(eid).layer().setTranslation(clampx(MathUtil.lerp(op.x, p.x, alpha)),
+                                                        clampy(MathUtil.lerp(op.y, p.y, alpha)));
             }
         }
 
@@ -274,7 +286,7 @@ class PetWorld extends World {
      * touchscreen or gamepad are available.
      */
     public final System keyControls = new System(this, 1) {
-        public static final float WALK_VELOCITY = 1f;
+        public static final float WALK_VELOCITY = 0; // 1f;
         // actually, use just accel
         public static final float ACCEL = 0.01f;
 
