@@ -1,6 +1,6 @@
 {
   "Attributes": [
-    {"name": "Nutricao", "startValue": 30, "min": -20, "max": 120, "passive": 10, "passiveBeats": 1.0,
+    {"name": "Nutricao", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.25,
       "States": [
         {"name": "faminto", "min": -20, "max": 0},
         {"name": "muita fome", "min": 1, "max": 20},
@@ -10,7 +10,7 @@
         {"name": "lotado", "min": 81, "max": 100}
       ]
     },
-    {"name": "Humor", "startValue":  30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.333333, "comment": "passiveBeats = 1/3",
+    {"name": "Humor", "startValue":  30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.333333, "comment": "passiveBeats = 1/3",
       "States": [
         {"name": "bravo", "min": -20, "max": 0},
         {"name": "irritado", "min": 1, "max": 20},
@@ -20,7 +20,7 @@
         {"name": "muito alegre", "min": 81, "max": 100}
       ]
     },
-    {"name": "Social", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.666666, "comment": "passiveBeats = 2/3",
+    {"name": "Social", "startValue": 0, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.666666, "comment": "passiveBeats = 2/3",
       "States": [
         {"name": "depressao", "min": -20, "max": 0},
         {"name": "sozinho", "min": 1, "max": 20},
@@ -30,53 +30,80 @@
         {"name": "superstar", "min": 81, "max": 100}
       ]
     },
-    {"name": "Higiene", "startValue": 30, "min": -20, "max": 120, "passive": -5, "passiveBeats": 0.5,
+    {"name": "Higiene", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.5,
       "States": [
         {"name": "imundo", "min": -20, "max": 0},
         {"name": "muito sujo", "min": 1, "max": 20},
         {"name": "sujo", "min": 21, "max": 40},
         {"name": "limpo", "min": 41, "max": 80},
-        {"name": "muito alegre", "min": 81, "max": 100}
+        {"name": "muito limpo", "min": 81, "max": 100}
       ]
     },
-    {"name": "Estudo", "startValue": 0, "min": -1, "max": -5, "passive": 10, "passiveBeats": 0.41666666, "comment": "passiveBeats = 1/24",
+    {"name": "Estudo", "startValue": 30, "min": -20, "max": 100, "passive": -10, "passiveBeats": 24, "comment": "passiveBeats = 1/24",
       "States": [
-        {"name": "expulso", "min": -5, "max": -5},
-        {"name": "reprovado", "min": -4, "max": 0},
-        {"name": "recuperacao", "min": 1, "max": 3},
-        {"name": "mediano", "min": 4, "max": 6},
-        {"name": "bom aluno", "min": 7, "max": 9},
-        {"name": "melhor da sala", "min": 10, "max": 10}
+        {"name": "expulso", "min": -20, "max": 0},
+        {"name": "reprovado", "min": 1, "max": 20},
+        {"name": "recuperacao", "min": 21, "max": 40},
+        {"name": "mediano", "min": 41, "max": 60},
+        {"name": "bom aluno", "min": 61, "max": 80},
+        {"name": "melhor da sala", "min": 81, "max": 100}
       ]
     },
-    {"name": "Saude", "startValue": 5, "min": -5, "max": 10, "passive": -1, "passiveBeats": 24.0,
+    {"name": "Saude", "startValue": 100, "min": -20, "max": 100, "passive": -10, "passiveBeats": 24.0,
       "States": [
-        {"name": "doente terminal", "min": -5, "max": -5},
-        {"name": "doente", "min": -4, "max": 0},
-        {"name": "fragil", "min": 1, "max": 3},
-        {"name": "estavel", "min": 4, "max": 6},
-        {"name": "saudavel", "min": 7, "max": 9},
-        {"name": "atleta", "min": 10, "max": 10}
+        {"name": "doente terminal", "min": -20, "max": 0},
+        {"name": "doente", "min": 1, "max": 20},
+        {"name": "fragil", "min": 21, "max": 40},
+        {"name": "estavel", "min": 41, "max": 60},
+        {"name": "saudavel", "min": 61, "max": 80},
+        {"name": "atleta", "min": 81, "max": 100}
       ]
     },
-    {"name": "Disciplina", "startValue": 0, "min": -5, "max": 10, "passive": -5, "passiveBeats": 1.0,
+    {"name": "Disciplina", "startValue": 0, "min": -20, "max": 100, "passive": 0, "passiveBeats": 0.0,
       "States": [
-        {"name": "criminoso", "min": -5, "max": -5},
-        {"name": "rebelde", "min": -4, "max": 0},
-        {"name": "teimoso", "min": 1, "max": 3},
-        {"name": "obediente", "min": 4, "max": 6},
-        {"name": "responsavel", "min": 7, "max": 9},
-        {"name": "maquina disciplinar", "min": 10, "max": 10}
+        {"name": "criminoso", "min": -20, "max": -1},
+        {"name": "rebelde", "min": 0, "max": 20},
+        {"name": "teimoso", "min": 21, "max": 40},
+        {"name": "obediente", "min": 41, "max": 60},
+        {"name": "responsavel", "min": 61, "max": 80},
+        {"name": "maquina disciplinar", "min": 81, "max": 100}
       ]
     },
-    {"name": "Alcool", "startValue": 0, "min": 0, "max": 10, "passive": -1, "passiveBeats": 1.0,
+    {"name": "Alcool", "startValue": 0, "min": -20, "max": 100, "passive": -10, "passiveBeats": 1.0,
       "States": [
-        {"name": "normal", "min": 0, "max": 0},
-        {"name": "tonto", "min": 1, "max": 3},
-        {"name": "bebado", "min": 4, "max": 6},
-        {"name": "muito bebado", "min": 7, "max": 9},
-        {"name": "coma alcoolico", "min": 10, "max": 10}
+        {"name": "sobrio", "min": -20, "max": 20},
+        {"name": "tonto", "min": 21, "max": 40},
+        {"name": "bebado", "min": 41, "max": 60},
+        {"name": "muito bebado", "min": 61, "max": 94},
+        {"name": "coma alcoolico", "min": 95, "max": 100}
       ]
-    }
+    },
+    {"name": "Vida", "startValue": 100, "min": -20, "max": 100, "passive": 10, "passiveBeats": 1.0,
+        "States": [
+          {"name": "coma", "min": -20, "max": -1},
+          {"name": "dilacerado", "min": 0, "max": 20},
+          {"name": "muito machucado", "min": 21, "max": 40},
+          {"name": "machucado", "min": 41, "max": 60},
+          {"name": "ferido", "min": 61, "max": 80},
+          {"name": "normal", "min": 81, "max": 100}
+        ]
+    },
+    {"name": "Sexualidade", "startValue": 0, "min": -20, "max": 100, "passive": 0, "passiveBeats": 0.0,
+        "States": [
+          {"name": "assexuado", "min": -20, "max": -1},
+          {"name": "virgem", "min": 0, "max": 20},
+          {"name": "apreciador do sexo", "min": 21, "max": 40},
+          {"name": "sexo selvagem", "min": 41, "max": 60},
+          {"name": "Michael Douglas", "min": 61, "max": 80},
+          {"name": "ninfomaniaco", "min": 81, "max": 100}
+        ]
+    },
+    {"name": "Fe", "startValue": 0, "min": -20, "max": 100, "passive": 0, "passiveBeats": 0.0,
+        "States": [
+          {"name": "anti cristo", "min": -20, "max": -10},
+          {"name": "fiel fervoroso", "min": 81, "max": 100}
+        ]
+    },
+    {"name": "Dinheiro", "startValue": 5, "min": 0, "max": 100, "passive": 0, "passiveBeats": 0.0}
   ]
 }

@@ -52,10 +52,12 @@ public class PetAttributesLoader {
                         (int)(jatt.getDouble("passiveBeats")*beatsCoelhoHora)
                     );
 
+                    Json.Array jsonStates = jsonAttributes.getObject(i).getArray("States");
+                    if (jsonStates == null)
+                       continue;
+
                     ArrayList<PetAttributes.State> s = new ArrayList<PetAttributes.State>();
                     ArrayList<Integer> iv = new ArrayList<Integer>();
-
-                    Json.Array jsonStates = jsonAttributes.getObject(i).getArray("States");
                     for (int k = 0; k < jsonStates.length(); k++) {
                         Json.Object js = jsonStates.getObject(k);
                         System.out.println("reading state: " + js.getString("name"));

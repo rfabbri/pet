@@ -41,10 +41,16 @@ public class PetAttributes {
 
     public enum VisibleCondition {
         NORMAL,
-        BEBADO, VOMITANDO,
-        DOENTE,
-        MORTO,
+        MUITA_FOME,
+        FAMINTO,
         PULANDO,
+        DOENTE,
+        BEBADO,
+        VOMITANDO,
+        DOENTE_TERMINAL,
+        COMA,
+        COMA_ALCOOLICO,
+        MORTO,
         UNDETERMINED
     }
 
@@ -63,12 +69,20 @@ public class PetAttributes {
     }
 
     public enum State {
-        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO, // nutricao
-        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE, // humor
-        NORMAL, TONTO, BEBADO, MUITO_BEBADO, COMA_ALCOOLICO, // alcool
+        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO,                                 // Nutricao
+        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE,                          // Humor
+        DEPRESSAO, SOZINHO, POUCOS AMIGOS, POPULAR, SUPERSTAR,                                // Social
+        IMUNDO, MUITO_SUJO, SUJO, LIMPO, MUITO_LIMPO,                                         // Higiene
+        EXPULSO, REPROVADO, RECUPERACAO, MEDIANO, BOM_ALUNO, MELHOR_DA_SALA,                  // Estudo
+        DOENTE_TERMINAL, DOENTE, FRAGIL, ESTAVEL, SAUDAVEL, ATLETA,                           // Saude
+        CRIMINOSO, REBELDE, TEIMOSO, OBEDIENTE, RESPONSAVEL, MAQUINA_DISCIPLINAR,             // Disciplina
+        SOBRIO, TONTO, BEBADO, MUITO_BEBADO, COMA_ALCOOLICO,                                  // Alcool
+        COMA, DILACERADO, MUITO_MACHUCADO, FERIDO,                                            // Vida
+        ASSEXUADO, VIRGEM, APRECIADOR_DO_SEXO, SEXO_SELVAGEM, MICHAEL_DOUGLAS, NINFOMANIACO,  // Sexualidade
+        ANTI_CRISTO, FIEL_FERVOROSO,                                                          // Fe
+        NORMAL,
         ONONOONO // impossivel - invalido
         ;
-        //XXX finish
 
         /*
         private final int value_;
@@ -84,8 +98,39 @@ public class PetAttributes {
     }
 
     public enum ActionState {
-        DEFAULT, VARRENDO, JOGANDO, CLEANING
-        // XXX finish
+        DEFAULT,
+        VARRENDO,
+        JOGANDO_BOLA,
+        COMENDO,
+        LIMPANDO,
+        JOGANDO_VIDEOGAME,
+        ASSITINDO_TV,
+        LENDO_QUADRINHOS,
+        LENDO_LIVRO,
+        ASSISTINDO_ANIME,
+        ASSISTINDO_CINE_PRIVE,
+        DESENHANDO,
+        USANDO_CELULAR,
+        USANDO_REDE_SOCIAL,
+        JOGANDO_RPG,
+        TOMANDO_BANHO,
+        ESCOVANDO_DENTES,
+        PASSANDO_PERFUME,
+        FUMANDO,
+        MASTURBANDO,
+        SAINDO_DE_CASA,
+        TOMANDO_GLICOSE,
+        TOMANDO_REMEDIO,
+        LEVANDO_CURATIVO,
+        TOMANDO_VACINA,
+        TOMANDO_ESTOMAZIL,
+        TOMANDO_ENGOV,
+        TOMANDO_VIAGRA,
+        LEVANDO_CHINELADA,
+        OUVIDO_GRITO,
+        SENDO_CASTIGADO,
+        LEVANDO_CHICOTADA,
+        GORFANDO  // vomitando de vez em quando soltando vomito
     }
 
     private PetAttribute alcool_;
@@ -247,6 +292,7 @@ public class PetAttributes {
      */
     VisibleCondition determineVisibleCondition() {
         // priority
+        // TODO: todos entre -20 e 0 tem prioridade mais alta que o resto.
 
         int maxPrio = -1;
         for (AttributeID a : sAtt_.keySet()) {
