@@ -32,5 +32,5 @@ public abstract class Spriter {
     /**
      * Return the sprite {@link ImageLayer}.
      */
-    public abstract ImageLayer layer();
+    public abstract GroupLayer.Clipped layer();
 }

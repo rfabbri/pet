@@ -6,6 +6,7 @@ import java.util.HashMap;
 import react.Slot;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
+import playn.core.PlayN;
 import playn.core.util.Callback;
 import static playn.core.PlayN.log;
 import com.pulapirata.core.PetAttributes;
@@ -87,23 +88,19 @@ public class PetSpriter extends Spriter {
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
-    private HashMap<VisibleCondition, Sprite> animMap = new HashMap<VisibleCondition, Sprite> ();
-    private Sprite currentSprite;   // the current sprite animation
-    private int spriteIndex = 0;
-    private int numLoaded = 0; // set to num of animations when resources have loaded and we can update
-    private boolean traversed = false;
-    protected GroupLayer petLayer_;
-
-    /** pointer to attributes (mainly to get visible condition) */
-    PetAttributes attribs;
+    private HashMap<VisibleCondition, Sprite> animMap_ = new HashMap<VisibleCondition, Sprite> ();
+    private Sprite currentSprite_;   // the current sprite animation
+    private int spriteIndex_ = 0;
+    private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
+    private boolean traversed_ = false;
+    protected GroupLayer.Clipped petLayer_;
 
     public PetSpriter(final GroupLayer stageLayer, final float x, final float y) {
-        petLayer_ = graphics().createGroupLayer();
         stageLayer.add(petLayer_);
         for (int i = 0; i < jsons.size(); i++) {
             Sprite s = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
-            animMap.put(vc.get(i), s);
+            animMap_.put(vc.get(i), s);
 
             // Add a callback for when the image loads.
             // This is necessary because we can't use the width/height (to center the
@@ -111,12 +108,17 @@ public class PetSpriter extends Spriter {
             s.addCallback(new Callback<Sprite>() {
                 @Override
                 public void onSuccess(Sprite sprite) {
-                    sprite.setSprite(spriteIndex);
+                    sprite.setSprite(spriteIndex_);
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
-                    sprite.layer().setVisible(false);
                     petLayer_.add(sprite.layer());
-                    numLoaded++;
+                    if (sprite == animMap_.get(NORMAL)) {
+                        petLayer_ = PlayN.graphics().createGroupLayer(sprite.width(), sprite.height());
+                        set(NORMAL);
+                    } else {
+                        sprite.layer().setVisible(false);
+                    }
+                    numLoaded_++;
                 }
 
                 @Override
@@ -127,13 +129,13 @@ public class PetSpriter extends Spriter {
         }
 
         // Error check of internal structures - ifndef NDEBUG
-        int n = VisibleCondition.values().size();
+        int n = VisibleCondition.values().length;
         boolean[] hasState = new boolean[n];
         for (int i = 0; i < vc.size(); ++i) {
-            hasState(vc(i)) = true;
+            hasState[vc.get(i).ordinal()] = true;
         }
         for (int i = 0; i < n; ++i) {
-            if (!hasState(i)) {
+            if (!hasState[i]) {
                 System.out.println("Warning: sprite file not specified for state " + VisibleCondition.values()[i]);
                 System.out.println("         make sure this is rendered some other way");
             }
@@ -145,10 +147,11 @@ public class PetSpriter extends Spriter {
      */
     public void set(VisibleCondition s) {
         // switch currentAnim to next anim
-        spriteIndex = 0;
-        currentSprite.setVisible(false);
-        currentSprite = animMap.get(s);
-        if (currentSPrite == null) {
+        spriteIndex_ = 0;
+        if (currentSprite_ != null)  // only happens during construction / asset loadding
+            currentSprite_.layer().setVisible(false);
+        currentSprite_ = animMap_.get(s);
+        if (currentSprite_ == null) {
             System.out.println("Warning: no direct anim for requested visibleCondition " + s);
             // Handle a different way of animating this visible
             // condition (composite anims or synthetic or flump)
@@ -165,7 +168,8 @@ public class PetSpriter extends Spriter {
             }
         }
 
-        currentSprite.setVisible(true);
+        petLayer_.setSize(currentSprite_.width(), currentSprite_.height());
+        currentSprite_.layer().setVisible(true);
     }
 
     public void set(int i) {
@@ -174,16 +178,16 @@ public class PetSpriter extends Spriter {
 
     @Override
     public boolean hasLoaded() {
-        return numLoaded == jsons.size();
+        return numLoaded_ == jsons.size();
     }
 
     public void update(int delta) {
         if (hasLoaded()) {
-            spriteIndex = (spriteIndex + 1) % currentSprite.numSprites();
-            currentSprite.setSprite(spriteIndex);
-            // currentSprite.layer().setRotation(angle);
-            if (spriteIndex == currentSprite.numSprites() - 1) {
-                traversed = true;
+            spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
+            currentSprite_.setSprite(spriteIndex_);
+            // currentSprite_.layer().setRotation(angle);
+            if (spriteIndex_ == currentSprite_.numSprites() - 1) {
+                traversed_ = true;
             }
         }
     }
@@ -193,11 +197,11 @@ public class PetSpriter extends Spriter {
      */
     public float boundingRadius() {
         return 1.0f + (float) Math.sqrt(
-                currentSprite.width()*currentSprite.width() +
-                currentSprite.height()*currentSprite.height());
+                currentSprite_.width()*currentSprite_.width() +
+                currentSprite_.height()*currentSprite_.height());
     }
-    public boolean getTraversed(){
-       return traversed;
+    public boolean getTraversed_(){
+       return traversed_;
     }
 
     /**
@@ -216,7 +220,18 @@ public class PetSpriter extends Spriter {
      * Return the current animation sprite {@link ImageLayer}.
      */
     @Override
-    public GroupLayer layer() {
+    public GroupLayer.Clipped layer() {
         return petLayer_;
     }
+
+//    /**
+//     * Return this PetSpriter's grouplayer which contains all sprites.
+//     * At any one point, the current sprite's layer is visible, the others are
+//     * invisible.
+//     *
+//     * TODO: make a sizable group layer of imagelayers.
+//     */
+//    public GroupLayer groupLayer() {
+//        return petLayer_;
+//    }
 }
