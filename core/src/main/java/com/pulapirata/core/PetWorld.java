@@ -86,6 +86,7 @@ class PetWorld extends World {
     // TODO: colocar em pet attributes?
     public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
+    final public int beatsMaxIdade_ = beatsCoelhoDia_*7;
 
     /*-------------------------------------------------------------------------------*/
     /** Misc methods */
@@ -98,7 +99,7 @@ class PetWorld extends World {
         if (worldLoaded()) {
             beat_ += delta;
             if (mainPet_ != null)
-                FinishCreatingPetAfterLoaded();
+                finishCreatingPetAfterLoaded();
             super.update(delta);
         }
     }
@@ -139,7 +140,7 @@ class PetWorld extends World {
             }
         });
 
-        reset();
+        createPet(width_/2.f, height_/2.f);
     }
 
     // FIXME use enum
@@ -388,6 +389,7 @@ class PetWorld extends World {
         opos_.set(id, x, y);
         pos_.set(id, x, y);
         vel_.set(id, 0, 0);
+        expires_.set(id, beatsMaxIdade_);
         mainID_ = id;
 
         // read imgLayer / sprite loader
@@ -397,7 +399,7 @@ class PetWorld extends World {
         return pet;
     }
 
-    protected void FinishCreatingPetAfterLoaded() {
+    protected void finishCreatingPetAfterLoaded() {
         PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
         mainPet_.vis().connect(ps.slot());
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported

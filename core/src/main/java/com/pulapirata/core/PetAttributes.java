@@ -413,6 +413,7 @@ public class PetAttributes {
             }
         }
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
+        System.out.println("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
         return VisibleCondition.values()[vis_.get()];
     }
 
