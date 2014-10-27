@@ -29,6 +29,12 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
      */
     public void set(PetAttribute att) {
         att_ = att;
+    }
+
+    /**
+     * Listen to the associated attribute for changes.
+     */
+    public void listen() {
         att_.connect(slot());
     }
 

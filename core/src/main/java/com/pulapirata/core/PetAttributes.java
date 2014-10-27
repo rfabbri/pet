@@ -196,6 +196,11 @@ public class PetAttributes {
 
         // intervals are set from json in PetAttributesLoader
 
+        sAlcool_.set(alcool());
+        sNutricao_.set(nutricao());
+        mapAttrib(sAlcool());
+        mapAttrib(sNutricao());
+
         sAtt_.put(AttributeID.ALCOOL, sAlcool());
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
         // .... TODO//
@@ -209,10 +214,8 @@ public class PetAttributes {
      */
     public void hookupReactiveWires() {
         // hookup AttributeStates to respond to Attributes
-        sAlcool_.set(alcool());
-        sNutricao_.set(nutricao());
-        mapAttrib(sAlcool());
-        mapAttrib(sNutricao());
+        sAlcool_.listen();
+        sNutricao_.listen();
     }
 
     /**
@@ -222,8 +225,8 @@ public class PetAttributes {
         m_.put(att.name(), att);
     }
 
-    protected void mapAttrib(PetAttributeState sAtt) {
-        ms_.put(sAtt.att_.name(), sAtt);
+    protected void mapAttrib(PetAttributeState s) {
+        ms_.put(s.att_.name(), s);
     }
 
     /**

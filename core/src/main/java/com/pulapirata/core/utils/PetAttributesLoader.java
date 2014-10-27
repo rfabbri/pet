@@ -55,11 +55,11 @@ public class PetAttributesLoader {
                     ArrayList<PetAttributes.State> s = new ArrayList<PetAttributes.State>();
                     ArrayList<Integer> iv = new ArrayList<Integer>();
 
-                    Json.Array jsonStates = document.getArray("States");
+                    Json.Array jsonStates = jsonAttributes.getObject(i).getArray("States");
                     for (int k = 0; k < jsonStates.length(); k++) {
-                        Json.Object js = jsonStates.getObject(i);
+                        Json.Object js = jsonStates.getObject(k);
                         System.out.println("reading state: " + js.getString("name"));
-                        s.add(PetAttributes.State.valueOf(js.getString("name")));
+                        s.add(PetAttributes.State.valueOf(js.getString("name").toUpperCase().replace(' ', '_')));
                         iv.add(js.getInt("max"));
                         assert k != 0 || js.getInt("min") == attribs.get(jatt.getString("name")).min()
                             : "json not consistent with assumption of min of interval equal min of first state";
