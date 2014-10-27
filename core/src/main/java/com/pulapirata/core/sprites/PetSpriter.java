@@ -73,6 +73,7 @@ public class PetSpriter extends Spriter {
                     sprite.setSprite(spriteIndex);
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
+                    sprite.layer().setVisible(false);
                     petLayer_.add(sprite.layer());
                     numLoaded++;
                 }
@@ -91,7 +92,9 @@ public class PetSpriter extends Spriter {
     public void set(VisibleCondition s) {
         // switch currentAnim to next anim
         spriteIndex = 0;
+        currentSprite.setVisible(false);
         currentSprite = animMap.get(s);
+        currentSprite.setVisible(true);
     }
 
     public void set(int i) {
