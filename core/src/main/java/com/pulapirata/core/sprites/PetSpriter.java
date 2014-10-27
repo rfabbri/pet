@@ -25,16 +25,32 @@ public class PetSpriter extends Spriter {
     private final String prefix = "pet/sprites/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
-                    "pingo_bebe_pulando.png",
-                    "pingo_bebe_vomitando.png"
-                    // XXX
-                    ));
+                "pingo_bebe_bebado.png",
+                "pingo_bebe_chorando.png",
+                "pingo_bebe_coma.png",
+                "pingo_bebe_comendo.png",
+                "pingo_bebe_dormindo.png",
+                "pingo_bebe_febre.png",
+                "pingo_bebe_morto.png",
+                "pingo_bebe_piscando.png",
+                "pingo_bebe_pulando.png",
+                "pingo_bebe_triste.png",
+                "pingo_bebe_vomitando.png"
+    ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
-                    "pingo_bebe_pulando.json",
-                    "pingo_bebe_vomitando.json"
-                    // XXX
+                "pingo_bebe_bebado.json",
+                "pingo_bebe_chorando.json",
+                "pingo_bebe_coma.json",
+                "pingo_bebe_comendo.json",
+                "pingo_bebe_dormindo.json",
+                "pingo_bebe_febre.json",
+                "pingo_bebe_morto.json",
+                "pingo_bebe_piscando.json",
+                "pingo_bebe_pulando.json",
+                "pingo_bebe_triste.json",
+                "pingo_bebe_vomitando.json"
                     ));
 
     private final ArrayList<VisibleCondition> vc =
@@ -84,6 +100,19 @@ public class PetSpriter extends Spriter {
                 }
             });
         }
+
+        // Error check of internal structures - ifndef NDEBUG
+        int n = VisibleCondition.values().size();
+        boolean[] hasState = new boolean[n];
+        for (int i = 0; i < vc.size(); ++i) {
+            hasState(vc(i)) = true;
+        }
+        for (int i = 0; i < n; ++i) {
+            if (!hasState(i)) {
+                log().error("Error: sprites not specified for state " + VisibleCondition.values()[i], err);
+                System.exit(0)
+            }
+        }
     }
 
     /**
@@ -94,6 +123,7 @@ public class PetSpriter extends Spriter {
         spriteIndex = 0;
         currentSprite.setVisible(false);
         currentSprite = animMap.get(s);
+        assert currentSprite == null : "Error: no anim for requested visibleCondition.";
         currentSprite.setVisible(true);
     }
 
