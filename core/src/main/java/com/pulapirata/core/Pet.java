@@ -77,7 +77,7 @@ public class Pet extends Game.Default {
     public PetAttributes a() { return world_.mainPet(); }   // shortcut
 
     public enum UIDepth {
-        Z_WORLD(100), Z_BG(50), Z_BUTTONS(25), Z_STATBAR(26);
+        Z_WORLD(100), Z_BG(20), Z_BUTTONS(26), Z_STATBAR(22);
         private final int z;
 
         UIDepth (int z) {
@@ -170,6 +170,7 @@ public class Pet extends Game.Default {
       // it always seems to give 640
       //
       statlayer.setHeight(120);   // altura do retangulo de informacoes
+      statlayer.setDepth(UIDepth.Z_STATBAR.getZ());
       layer_.add(statlayer);
 
       // ------ The text in the status bar as a tripleplay nested layout interface
@@ -247,6 +248,7 @@ public class Pet extends Game.Default {
       Root statbarRoot = statbarIface_.createRoot(new AbsoluteLayout(), petSheet_);
 
       statbarRoot.setSize(width(), 120);  // this includes the secondary buttons
+      statbarRoot.layer.setDepth(UIDepth.Z_STATBAR.getZ());
 
       layer_.addAt(statbarRoot.layer, 0, 0);
       statbarRoot.add(AbsoluteLayout.at(statbar, mae, mte, width()-mae, 120-mte));
@@ -304,11 +306,12 @@ public class Pet extends Game.Default {
             iface_ = new Interface();
 
             // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
-            Root root_ = iface_.createRoot(new AbsoluteLayout(), petSheet_);
+            Root broot = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
-            root_.setSize(width(), 354); // this includes the secondary buttons
+            broot.setSize(width(), 354); // this includes the secondary buttons
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
-            layer_.addAt(root_.layer, 0, 442); // position of buttons
+            broot.layer.setDepth(UIDepth.Z_BUTTONS.getZ());
+            layer_.addAt(broot.layer, 0, 442); // position of buttons
 
             final Group buttons = new Group(new AbsoluteLayout()).addStyles(
                 Style.BACKGROUND.is(Background.blank()));
@@ -469,7 +472,7 @@ public class Pet extends Game.Default {
                         }
                     }).connectNotify(but.icon.slot());
                     // all secondary buttons are added; toggle visibility only
-                    root_.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
+                    broot.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
                     sbuttons.get(bFinal).setVisible(false);
 
                     // callbacks for loading the images
@@ -486,7 +489,7 @@ public class Pet extends Game.Default {
                 }
 
                 Selector sel = new Selector(buttons, null);
-                root_.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
+                broot.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 
                 // TODO: improve this part with a button -> index map so we don't go through
                 // all butts
@@ -567,7 +570,7 @@ public class Pet extends Game.Default {
         if (world_ != null)
             world_.paint(clock_);
 
-        if (iface_ != null)
+        if (iface_ != null && bgLoaded_ && bm_.hasLoaded())
             iface_.paint(clock_);
 
         if (statbarIface_ != null)
@@ -577,9 +580,6 @@ public class Pet extends Game.Default {
     //--------------------------------------------------------------------------------
     @Override
     public void update(int delta) {
-        /*
-          Aqui que sao realizadas as atualizacoes dos sprites, sem isto o sprite ficaria estatico
-        */
         clock_.update(delta);
 
         if (world_ != null) {
@@ -591,8 +591,8 @@ public class Pet extends Game.Default {
                     a().print();
                     printIniDbg_ = false;
                 }
+                world_.update(delta);
             }
-            world_.update(delta);
         }
         Label l = (Label) mainStat_.childAt(1);
         l.text.update(idadeCoelhoDiasStr1());
