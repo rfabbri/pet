@@ -47,30 +47,33 @@ public class PetSpriter extends Spriter {
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
     private HashMap<VisibleCondition, Sprite> animMap = new HashMap<VisibleCondition, Sprite> ();
-    private Sprite sprite;   // the current sprite animation
+    private Sprite currentSprite;   // the current sprite animation
     private int spriteIndex = 0;
     private int numLoaded = 0; // set to num of animations when resources have loaded and we can update
     private boolean traversed = false;
+    protected GroupLayer petLayer_;
 
     /** pointer to attributes (mainly to get visible condition) */
     PetAttributes attribs;
 
-    public PetSpriter(final GroupLayer petLayer, final float x, final float y) {
+    public PetSpriter(final GroupLayer stageLayer, final float x, final float y) {
+        petLayer_ = graphics().createGroupLayer();
+        stageLayer.add(petLayer_);
         for (int i = 0; i < jsons.size(); i++) {
-            sprite = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
+            Sprite s = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
-            animMap.put(vc.get(i), sprite);
+            animMap.put(vc.get(i), s);
 
             // Add a callback for when the image loads.
             // This is necessary because we can't use the width/height (to center the
             // image) until after the image has been loaded
-            sprite.addCallback(new Callback<Sprite>() {
+            s.addCallback(new Callback<Sprite>() {
                 @Override
                 public void onSuccess(Sprite sprite) {
                     sprite.setSprite(spriteIndex);
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
-                    petLayer.add(sprite.layer());
+                    petLayer_.add(sprite.layer());
                     numLoaded++;
                 }
 
@@ -88,7 +91,7 @@ public class PetSpriter extends Spriter {
     public void set(VisibleCondition s) {
         // switch currentAnim to next anim
         spriteIndex = 0;
-        sprite = animMap.get(s);
+        currentSprite = animMap.get(s);
     }
 
     public void set(int i) {
@@ -102,10 +105,10 @@ public class PetSpriter extends Spriter {
 
     public void update(int delta) {
         if (hasLoaded()) {
-            spriteIndex = (spriteIndex + 1) % sprite.numSprites();
-            sprite.setSprite(spriteIndex);
-            // sprite.layer().setRotation(angle);
-            if (spriteIndex == sprite.numSprites() - 1) {
+            spriteIndex = (spriteIndex + 1) % currentSprite.numSprites();
+            currentSprite.setSprite(spriteIndex);
+            // currentSprite.layer().setRotation(angle);
+            if (spriteIndex == currentSprite.numSprites() - 1) {
                 traversed = true;
             }
         }
@@ -115,7 +118,9 @@ public class PetSpriter extends Spriter {
      * The radius of the bounding sphere to the present sprite frame
      */
     public float boundingRadius() {
-        return 1.0f + (float) Math.sqrt(sprite.width()*sprite.width() + sprite.height()*sprite.height());
+        return 1.0f + (float) Math.sqrt(
+                currentSprite.width()*currentSprite.width() +
+                currentSprite.height()*currentSprite.height());
     }
     public boolean getTraversed(){
        return traversed;
@@ -137,7 +142,7 @@ public class PetSpriter extends Spriter {
      * Return the current animation sprite {@link ImageLayer}.
      */
     @Override
-    public ImageLayer layer() {
-        return sprite.layer();
+    public GroupLayer layer() {
+        return petLayer_;
     }
 }
