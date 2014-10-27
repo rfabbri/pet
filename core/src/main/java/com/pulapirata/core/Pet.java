@@ -284,7 +284,6 @@ public class Pet extends Game.Default {
     /**
      * Classe responsavel por criar os botoes
      */
-
     private class ButtonManager {
         private boolean isWired_ = false;
 
