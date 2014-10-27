@@ -187,7 +187,7 @@ public class SpriteLoader {
       int imageId = jsonSpriteImage.getInt("url"); // will return 0 if not specified
       Asserts.checkElementIndex(imageId, images.length, "URL must be an index into the URLs array");
       int x = jsonSpriteImage.getInt("x");
-      System.out.println("Valor de X:"+x);
+//      System.out.println("Valor de X:"+x);
       int y = jsonSpriteImage.getInt("y");
       int width = jsonSpriteImage.getInt("w");
       int height = jsonSpriteImage.getInt("h");

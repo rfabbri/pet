@@ -49,7 +49,7 @@ public class PetAttributesLoader {
                         jatt.getInt("min"),
                         jatt.getInt("max"),
                         jatt.getInt("passive"),
-                        (int)(jatt.getDouble("passiveBeats")*beatsCoelhoHora)
+                        jatt.getDouble("passiveBeats")*beatsCoelhoHora
                     );
 
                     Json.Array jsonStates = jsonAttributes.getObject(i).getArray("States");

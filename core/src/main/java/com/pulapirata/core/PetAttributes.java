@@ -410,8 +410,8 @@ public class PetAttributes {
 
         int maxPrio = -1;
         for (AttributeID a : sAtt_.keySet()) {
-            sAtt_.get(a).print();
-            System.out.println("_+_+state: " + sAtt_.get(a).getState() + " attId: " + a);
+//            sAtt_.get(a).print();
+//            System.out.println("_+_+state: " + sAtt_.get(a).getState() + " attId: " + a);
             if (sAtt_.get(a).getState() == null)
                 continue;
             if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio) {
@@ -420,7 +420,7 @@ public class PetAttributes {
             }
         }
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
-        System.out.println("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
+//        System.out.println("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
         return VisibleCondition.values()[vis_.get()];
     }
 
@@ -449,8 +449,6 @@ public class PetAttributes {
     public void passiveUpdate(int beat) {
         // for each attribute, sum passive.
         for (String key : m_.keySet())
-            if (m_.get(key).passive() != 0.0 && beat % m_.get(key).passiveBeats() == 0) {
-                m_.get(key).sumPassive();
-            }
+            m_.get(key).updatePassive(beat);
     }
 }

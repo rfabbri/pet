@@ -81,7 +81,7 @@ class PetWorld extends World {
 
     public int beat_ = 0; // total number of updates so far
     // the following is not static so that we can dynamically speedup the game if desired
-    private int beatsCoelhoDia_ = 1200; // beats por 1 coelho dia.
+    private int beatsCoelhoDia_ = 40000; // beats por 1 coelho dia. // 600
     private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
     private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
     // TODO: colocar em pet attributes?

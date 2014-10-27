@@ -11,7 +11,7 @@ import react.IntValue;
  */
 public class PetAttribute extends IntValue {
 
-    public PetAttribute(String name, int startVal, int min, int max, int passive, int passiveBeats) {
+    public PetAttribute(String name, int startVal, int min, int max, int passive, double passiveBeats) {
         super(startVal);
         set(name, min, max, passive, passiveBeats);
         assert inv();
@@ -31,8 +31,9 @@ public class PetAttribute extends IntValue {
     public int max() { return max_; }
     public boolean inRange(int v) { return v >= min() && v <= max(); }
     public int passive() { return passive_; }
-    // the speed in 'beatsCoelhoHora'
-    public int passiveBeats() { return passiveBeats_; }
+    // the speed in 'beatsCoelhoHora', not an int as fractional counts matter
+    // for time accuracy.
+    public double passiveBeats() { return passiveBeats_; }
     public String name() { return name_; }
 
     public void set(int v) {
@@ -40,7 +41,7 @@ public class PetAttribute extends IntValue {
         assert inv();
     }
 
-    public void set(String name, int startVal, int min, int max, int passive, int passiveBeats) {
+    public void set(String name, int startVal, int min, int max, int passive, double passiveBeats) {
         name_ = name;
         min_ = min;
         max_ = max;
@@ -52,7 +53,7 @@ public class PetAttribute extends IntValue {
     /**
      * Sets everything except start value
      */
-    protected void set(String name, int min, int max, int passive, int passiveBeats) {
+    protected void set(String name, int min, int max, int passive, double passiveBeats) {
         name_ = name;
         min_ = min;
         max_ = max;
@@ -78,8 +79,16 @@ public class PetAttribute extends IntValue {
     public void setMin(int v) { min_ = v; assert inv(); }
     public void setMax(int v) { max_ = v; assert inv(); }
     public void setPassive(int p) { passive_ = p; assert inv(); }
-    public void setPassiveBeats(int b) { passiveBeats_ = (b>1)? b:1; }
-    // TODO updatePassivo();
+    public void setPassiveBeats(double b) { passiveBeats_ = (b>1)? b:1; }
+
+    /**
+     * Updates attribute passively with time
+     */
+    public void updatePassive(int beat) {
+        if (passive() != 0.0  &&  beat % passiveBeats() == 0) {
+            sumPassive();
+        }
+    }
 
     public void print() {
         System.out.println("name: " + name_ + " val: " + val()
@@ -91,5 +100,5 @@ public class PetAttribute extends IntValue {
     protected int min_;
     protected int max_;
     protected int passive_;
-    protected int passiveBeats_;
+    protected double passiveBeats_;
 }
