@@ -50,15 +50,15 @@ public class PetAttributes {
 
     /** lists all attributes in the form of enum. */
     public enum AttributeID {
-        ALCOOL,
         NUTRICAO,
         HUMOR,
-        SEDE,
         SOCIAL,
         HIGIENE,
         ESTUDO,
         SAUDE,
         DISCIPLINA,
+        ALCOOL,
+        SEDE,
         ACTION
     }
 

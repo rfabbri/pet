@@ -142,7 +142,7 @@ class PetWorld extends World {
         reset();
     }
 
-    // FIXME enum has something like this.
+    // FIXME use enum
     protected String typeName (int id) {
         switch (type_.get(id)) {
         case PET: return "pet";
@@ -152,7 +152,7 @@ class PetWorld extends World {
         case MOSQUITOS: return "mosquitos";
         case STINKY_MOSQUITOS: return "stinky_mosquitos";
         default: return "unknown:" + type_.get(id);
-      }
+        }
     }
 
     /*-------------------------------------------------------------------------------*/

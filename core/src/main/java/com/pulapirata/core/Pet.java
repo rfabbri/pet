@@ -29,9 +29,6 @@ import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetWorld;
 import com.pulapirata.core.utils.PetAttributesLoader;
 
-// TODO: we need a generic sprite class; or the layer could automatically update
-// them
-
 import react.Function;
 import react.Functions;
 import react.UnitSlot;
@@ -492,7 +489,7 @@ public class Pet extends Game.Default {
                 Selector sel = new Selector(buttons, null);
                 root_.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
 
-                // TODO: improve this part with a button-> index map so we don't go through
+                // TODO: improve this part with a button -> index map so we don't go through
                 // all butts
                 sel.selected.connect(new Slot<Element<?>>() {
                     @Override public void onEmit (Element<?> event) {
