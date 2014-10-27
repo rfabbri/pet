@@ -567,7 +567,7 @@ public class Pet extends Game.Default {
         if (world_ != null)
             world_.paint(clock_);
 
-        if (iface_ != null && bgLoaded_ && bm_.hasLoaded())
+        if (iface_ != null)
             iface_.paint(clock_);
 
         if (statbarIface_ != null)
