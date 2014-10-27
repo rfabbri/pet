@@ -44,6 +44,7 @@ class PetWorld extends World {
     public  final Signal<Key> keyUp_ = Signal.create();
     private final Randoms rando_ = Randoms.with(new Random());
     private boolean attributesLoaded_ = false;
+    private boolean isPetWired_ = false;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -101,8 +102,7 @@ class PetWorld extends World {
     }
 
     @Override public void paint(Clock clock) {
-        if (worldLoaded())
-            super.paint(clock);
+        super.paint(clock);
     }
 
     public PetWorld (GroupLayer layer, float width, float height) {
@@ -110,13 +110,15 @@ class PetWorld extends World {
         this.width_  = width;
         this.height_ = height;
 
+        attributesLoaded_ = false;
+        isPetWired_ = false;
+
         // load attributes. Only 1 pet attribute set is supported for now
         PetAttributesLoader.CreateAttributes(PetAttributes.JSON_PATH, beatsCoelhoHora_,
             new Callback<PetAttributes>() {
                 @Override
                 public void onSuccess(PetAttributes resource) {
                     mainPet_ = resource;
-                    finishCreatingPetAfterLoaded();
                     // if (mainID_ != -1)
                     //     pet_.get(mainID_).didChange();
                     attributesLoaded_ = true;
@@ -226,8 +228,16 @@ class PetWorld extends World {
             for (int i = 0; i < entities.size(); i++) {
                 int eid = entities.get(i);
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
-                pet_.get(eid).determineVisibleCondition();
-                sprite_.get(eid).update(delta);
+                if (attributesLoaded_ ) {
+                    if (sprite_.get(mainID_).hasLoaded()) {
+                        if (!isPetWired_) {
+                            finishCreatingPetAfterLoaded();
+                            isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
+                        }
+                        pet_.get(eid).determineVisibleCondition();
+                        sprite_.get(eid).update(delta);
+                    }
+                }
             }
         }
 
@@ -388,7 +398,7 @@ class PetWorld extends World {
 
     protected void finishCreatingPetAfterLoaded() {
         PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
-        mainPet_.vis().connect(ps.slot());
+        mainPet_.vis().connect(ps.slot());    // links sprite to animation
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
         radius_.set(mainID_, ps.boundingRadius());
         // spriteLayer_.set(id, layer_);

@@ -560,18 +560,18 @@ public class Pet extends Game.Default {
     //--------------------------------------------------------------------------------
     @Override
     public void paint(float alpha) {
-      // layers automatically paint themselves (and their children). The rootlayer
-      // will paint itself, the background, and the sprites group layer_ automatically
-      // so no need to do anything here!
+        // layers automatically paint themselves (and their children). The rootlayer
+        // will paint itself, the background, and the sprites group layer_ automatically
+        // so no need to do anything here!
 
-      if (world_ != null)
-          world_.paint(clock_);
+        if (world_ != null)
+            world_.paint(clock_);
 
-      if (iface_ != null && bgLoaded_ && bm_.hasLoaded())
-          iface_.paint(clock_);
+        if (iface_ != null && bgLoaded_ && bm_.hasLoaded())
+            iface_.paint(clock_);
 
-      if (statbarIface_ != null)
-          statbarIface_.paint(clock_);
+        if (statbarIface_ != null)
+            statbarIface_.paint(clock_);
     }
 
     //--------------------------------------------------------------------------------
