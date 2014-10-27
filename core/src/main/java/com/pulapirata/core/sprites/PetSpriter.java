@@ -96,7 +96,6 @@ public class PetSpriter extends Spriter {
     protected GroupLayer.Clipped petLayer_;
 
     public PetSpriter(final GroupLayer stageLayer, final float x, final float y) {
-        stageLayer.add(petLayer_);
         for (int i = 0; i < jsons.size(); i++) {
             Sprite s = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
@@ -114,6 +113,7 @@ public class PetSpriter extends Spriter {
                     petLayer_.add(sprite.layer());
                     if (sprite == animMap_.get(NORMAL)) {
                         petLayer_ = PlayN.graphics().createGroupLayer(sprite.width(), sprite.height());
+                        stageLayer.add(petLayer_);
                         set(NORMAL);
                     } else {
                         sprite.layer().setVisible(false);
