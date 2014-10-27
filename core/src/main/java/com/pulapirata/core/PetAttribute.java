@@ -72,7 +72,7 @@ public class PetAttribute extends IntValue {
     }
 
     public void sum(int v) { incrementClamp(v, min_, max_); }
-    public void sub(int v) { sum(-v); }
+    public void sub(int v) { sum(-v);  }
     public void sumPassive() { sum(passive()); }
     public void subPassive() { sub(passive()); }
     public void setMin(int v) { min_ = v; assert inv(); }

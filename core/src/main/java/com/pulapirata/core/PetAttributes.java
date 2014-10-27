@@ -442,4 +442,15 @@ public class PetAttributes {
             ms_.get(key).print();
         sAction().print();
     }
+
+    /**
+     * Updates attributes passively with time
+     */
+    public void passiveUpdate(int beat) {
+        // for each attribute, sum passive.
+        for (String key : m_.keySet())
+            if (m_.get(key).passive() != 0.0 && beat % m_.get(key).passiveBeats() == 0) {
+                m_.get(key).sumPassive();
+            }
+    }
 }

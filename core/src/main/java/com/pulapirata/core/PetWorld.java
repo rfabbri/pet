@@ -246,6 +246,29 @@ class PetWorld extends World {
         }
     };
 
+    /**
+     * Default updates to pet internal attributes and logic.
+     * Two future options for this
+     * 1) subclass from this PetWorld to have all internal pet updaters outside
+     * 2) create a PetAttribute().update()
+     */
+    public final System petUpdater = new System(this, 0) {
+        @Override protected void update (int delta, Entities entities) {
+            for (int i = 0; i < entities.size(); i++) {
+                int eid = entities.get(i);
+                if (isPetWired_) {
+                    pet_.get(eid).passiveUpdate(beat_);
+                    // other logic if-spaghetti goes here
+                }
+            }
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return type_.get(entity.id) == PET;
+        }
+    };
+
+
     /** Use keys to control pet. Like in minigames inside this game. Pet should
      * automatically move and do something fun if no control is pressed. NOOP if
      * touchscreen or gamepad are available.
@@ -398,7 +421,7 @@ class PetWorld extends World {
 
     protected void finishCreatingPetAfterLoaded() {
         PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
-        mainPet_.vis().connect(ps.slot());    // links sprite to animation
+        // XXX mainPet_.vis().connect(ps.slot());    // links sprite to animation
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
         radius_.set(mainID_, ps.boundingRadius());
         // spriteLayer_.set(id, layer_);
