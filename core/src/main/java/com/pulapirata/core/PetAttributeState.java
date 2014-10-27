@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import react.Slot;
 import react.IntValue;
 import com.pulapirata.core.PetAttributeEnum;
+import com.pulapirata.core.PetAttributes;
 
 
 /**
@@ -90,12 +91,12 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
     @Override public void print() {
         System.out.println("associated att name: " + att_.name() + " state: " + get());
         System.out.println("associated att val: " + att_.val());
-        System.out.println("possible states and corresp intervals:");
+        System.out.println("possible states and corresp intervals: ");
 
-        System.out.println("state: " + states_.get(0) + "interval: " + att_.min() + " to " + intervals_.get(0));
+        System.out.println("state: " + states_.get(0) + " interval: " + att_.min() + " to " + intervals_.get(0));
 
         for (int i = 0; i < states_.size(); ++i) {
-            System.out.println("state: " + states_.get(i) + "interval: " + att_.min() + " to " + intervals_.get(i));
+            System.out.println("state: " + states_.get(i) + " interval: " + att_.min() + " to " + intervals_.get(i));
         }
     }
 

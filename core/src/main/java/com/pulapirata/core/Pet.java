@@ -67,8 +67,8 @@ public class Pet extends Game.Default {
 
     protected  static final String STAT_ALERT_1 =
         "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-    protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Sede: %d/%d\n";
-    protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Alcool: %d/%d";
+    protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Vida: %d/%d\n";
+    protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Grana: %d/%d";
 
     /*-------------------------------------------------------------------------------*/
 
@@ -102,13 +102,13 @@ public class Pet extends Game.Default {
             return String.format(
                   STAT_FILLER_1,
                   world_.idadeCoelhoHoras(), "h",
-                  a().sede().val(),
-                  a().sede().max());
+                  a().vida().val(),
+                  a().vida().max());
         else
             return String.format(STAT_FILLER_1,
                   world_.idadeCoelhoDias(), " dias",
-                  a().sede().val(),
-                  a().sede().max());
+                  a().vida().val(),
+                  a().vida().max());
     }
 
     public String idadeCoelhoDiasStr2() {
@@ -117,7 +117,7 @@ public class Pet extends Game.Default {
 
         return String.format(STAT_FILLER_2,
                 a().nutricao().val(), a().nutricao().max(),
-                a().alcool().val(), a().alcool().max());
+                a().dinheiro().val(), a().dinheiro().max());
     }
 
     /*-------------------------------------------------------------------------------*/

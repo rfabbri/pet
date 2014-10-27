@@ -64,6 +64,7 @@ public class PetAttributes {
         COMA_ALCOOLICO,
         MORTO,
         COM_MOSQUITO,
+        COM_STINKY_MOSQUITO,
         UNDETERMINED
     }
 
@@ -93,7 +94,7 @@ public class PetAttributes {
         DOENTE_TERMINAL, DOENTE, FRAGIL, ESTAVEL, SAUDAVEL, ATLETA,                           // Saude
         CRIMINOSO, REBELDE, TEIMOSO, OBEDIENTE, RESPONSAVEL, MAQUINA_DISCIPLINAR,             // Disciplina
         SOBRIO, TONTO, BEBADO, MUITO_BEBADO, COMA_ALCOOLICO,                                  // Alcool
-        COMA, DILACERADO, MUITO_MACHUCADO, FERIDO,                                            // Vida
+        COMA, DILACERADO, MUITO_MACHUCADO, MACHUCADO, FERIDO,                                 // Vida
         ASSEXUADO, VIRGEM, APRECIADOR_DO_SEXO, SEXO_SELVAGEM, MICHAEL_DOUGLAS, NINFOMANIACO,  // Sexualidade
         ANTI_CRISTO, FIEL_FERVOROSO,                                                          // Fe
         NORMAL,
@@ -137,29 +138,31 @@ public class PetAttributes {
         GORFANDO  // vomitando de vez em quando soltando vomito
     }
 
-    private PetAttribute nutricao_
+    private PetAttribute nutricao_;
     public  PetAttribute nutricao() { return nutricao_; }
-    private PetAttribute humor_
+    private PetAttribute humor_;
     public  PetAttribute humor() { return humor_; }
-    private PetAttribute social_
+    private PetAttribute social_;
     public  PetAttribute social() { return social_; }
-    private PetAttribute higiene_
+    private PetAttribute higiene_;
     public  PetAttribute higiene() { return higiene_; }
-    private PetAttribute estudo_
+    private PetAttribute estudo_;
     public  PetAttribute estudo() { return estudo_; }
-    private PetAttribute saude_
+    private PetAttribute saude_;
     public  PetAttribute saude() { return saude_; }
-    private PetAttribute disciplina_
+    private PetAttribute disciplina_;
     public  PetAttribute disciplina() { return disciplina_; }
-    private PetAttribute alcool_
+    private PetAttribute alcool_;
     public  PetAttribute alcool() { return alcool_; }
-    private PetAttribute vida_
+    private PetAttribute vida_;
     public  PetAttribute vida() { return vida_; }
-    private PetAttribute sexualidade_
+    private PetAttribute sexualidade_;
     public  PetAttribute sexualidade() { return sexualidade_; }
-    private PetAttribute fe_
+    private PetAttribute fe_;
     public  PetAttribute fe() { return fe_; }
 
+    private PetAttribute dinheiro_;
+    public  PetAttribute dinheiro() { return dinheiro_; }
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
@@ -226,8 +229,9 @@ public class PetAttributes {
         disciplina_     = new PetAttribute("Disciplina");
         alcool_         = new PetAttribute("Alcool");
         vida_           = new PetAttribute("Vida");
-        sexualidade_    = new PetAttribute("Sede");
+        sexualidade_    = new PetAttribute("Sexualidade");
         fe_             = new PetAttribute("Fe");
+        dinheiro_       = new PetAttribute("Dinheiro");
 
         mapAttrib(nutricao());
         mapAttrib(humor());
@@ -240,6 +244,7 @@ public class PetAttributes {
         mapAttrib(vida());
         mapAttrib(sexualidade());
         mapAttrib(fe());
+        mapAttrib(dinheiro());
 
         s2vis_.put(State.FAMINTO, VisibleCondition.CHORANDO);
          s2vis_.put(State.MUITA_FOME, VisibleCondition.CHORANDO);
@@ -301,39 +306,44 @@ public class PetAttributes {
         s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
         s2vis_.put(State.ONONOONO, VisibleCondition.NORMAL);
 
-        sAlcool_   = new PetAttributeState();
         sNutricao_ = new PetAttributeState();
+        sHumor_ = new PetAttributeState();
+        sSocial_ = new PetAttributeState();
+        sHigiene_ = new PetAttributeState();
+        sEstudo_ = new PetAttributeState();
+        sSaude_ = new PetAttributeState();
+        sDisciplina_ = new PetAttributeState();
+        sAlcool_ = new PetAttributeState();
+        sVida_ = new PetAttributeState();
+        sSexualidade_ = new PetAttributeState();
+        sFe_ = new PetAttributeState();
+
         sAction_.updateState(ActionState.DEFAULT);
 
         // intervals are set from json in PetAttributesLoader
 
-        sAlcool_.set(alcool());
-            mapAttrib(sAlcool());
         sNutricao_.set(nutricao());
             mapAttrib(sNutricao());
-
-        sNutricao_.set(nutricao());
-            mapAttrib(sNutricao())
         sHumor_.set(humor());
-            mapAttrib(sHumor())
+            mapAttrib(sHumor());
         sSocial_.set(social());
-            mapAttrib(sSocial())
+            mapAttrib(sSocial());
         sHigiene_.set(higiene());
-            mapAttrib(sHigiene())
+            mapAttrib(sHigiene());
         sEstudo_.set(estudo());
-            mapAttrib(sEstudo())
+            mapAttrib(sEstudo());
         sSaude_.set(saude());
-            mapAttrib(sSaude())
+            mapAttrib(sSaude());
         sDisciplina_.set(disciplina());
-            mapAttrib(sDisciplina())
+            mapAttrib(sDisciplina());
         sAlcool_.set(alcool());
-            mapAttrib(sAlcool())
+            mapAttrib(sAlcool());
         sVida_.set(vida());
-            mapAttrib(sVida())
+            mapAttrib(sVida());
         sSexualidade_.set(sexualidade());
-            mapAttrib(sSexualidade())
+            mapAttrib(sSexualidade());
         sFe_.set(fe());
-            mapAttrib(sFe())
+            mapAttrib(sFe());
 
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
         sAtt_.put(AttributeID.HUMOR, sHumor());
@@ -394,10 +404,12 @@ public class PetAttributes {
         int maxPrio = -1;
         for (AttributeID a : sAtt_.keySet()) {
             sAtt_.get(a).print();
-            System.out.println("_+_+state:" + sAtt_.get(a).getState() + " att id " + a);
+            System.out.println("_+_+state: " + sAtt_.get(a).getState() + " attId: " + a);
+            if (sAtt_.get(a).getState() == null)
+                continue;
             if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio) {
                 vis_.update(s2vis_.get(sAtt_.get(a).getState()).ordinal());
-                maxPrio = vis_.ordinal();
+                maxPrio = vis_.get();
             }
         }
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";

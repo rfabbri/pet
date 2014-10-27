@@ -97,9 +97,9 @@ class PetWorld extends World {
     @Override public void update (int delta) {
         if (worldLoaded()) {
             beat_ += delta;
-            super.update(delta);
-            if (mainPet_ == null)
+            if (mainPet_ != null)
                 FinishCreatingPetAfterLoaded();
+            super.update(delta);
         }
     }
 
@@ -163,8 +163,8 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             Point p = innerPos_;
             Vector v = innerVel_;
-            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
-                int eid = entities.get(ii);
+            for (int i = 0; i < entities.size(); i++) {
+                int eid = entities.get(i);
                 pos_.get(eid, p); // get our current pos
                 opos_.set(eid, p);
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
@@ -225,8 +225,9 @@ class PetWorld extends World {
      */
     public final System spriteLinker = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
-            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
-                int eid = entities.get(ii);
+            for (int i = 0; i < entities.size(); i++) {
+                int eid = entities.get(i);
+                //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
                 pet_.get(eid).determineVisibleCondition();
                 sprite_.get(eid).update(delta);
             }
@@ -364,8 +365,8 @@ class PetWorld extends World {
     public final System expirer = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             int now = beat_;
-            for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
-                int eid = entities.get(ii);
+            for (int i = 0; i < entities.size(); i++) {
+                int eid = entities.get(i);
                 if (expires_.get(eid) <= now) world.entity(eid).destroy();
             }
         }
