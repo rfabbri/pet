@@ -93,9 +93,9 @@ public class PetSpriter extends Spriter {
     private int spriteIndex_ = 0;
     private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
     private boolean traversed_ = false;
-    protected GroupLayer.Clipped petLayer_;
+    protected GroupLayer.Clipped petLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
-    public PetSpriter(final GroupLayer stageLayer, final float x, final float y) {
+    public PetSpriter(final float x, final float y) {
         for (int i = 0; i < jsons.size(); i++) {
             Sprite s = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
@@ -110,14 +110,10 @@ public class PetSpriter extends Spriter {
                     sprite.setSprite(spriteIndex_);
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
-                    petLayer_.add(sprite.layer());
-                    if (sprite == animMap_.get(NORMAL)) {
-                        petLayer_ = PlayN.graphics().createGroupLayer(sprite.width(), sprite.height());
-                        stageLayer.add(petLayer_);
+                    if (sprite == animMap_.get(NORMAL))
                         set(NORMAL);
-                    } else {
+                    else
                         sprite.layer().setVisible(false);
-                    }
                     numLoaded_++;
                 }
 

@@ -393,8 +393,8 @@ class PetWorld extends World {
         mainID_ = id;
 
         // read imgLayer / sprite loader
-        PetSpriter ps = new PetSpriter(layer_, x, y);
-        sprite_.set(id, ps);
+        PetSpriter ps = new PetSpriter(x, y);   // the spriteLinker system links it to layer_
+        sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
         return pet;
     }
