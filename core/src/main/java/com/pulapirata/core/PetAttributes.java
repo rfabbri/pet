@@ -53,6 +53,7 @@ public class PetAttributes {
         IRRITADO,
         BRAVO,
         PULANDO,
+        FEBRE,
         DOENTE,
         MACHUCADO,
         MUITO_MACHUCADO,
@@ -60,6 +61,12 @@ public class PetAttributes {
         NORMAL_COM_VOMITO,
         VOMITANDO,
         BEBADO_VOMITANDO,
+
+        //--- Maioria das acoes entram nesta prioridade
+        COMENDO,
+        DORMINDO,
+
+        //--- Maioria das acoes entram nesta prioridade
         COMA,
         COMA_ALCOOLICO,
         MORTO,

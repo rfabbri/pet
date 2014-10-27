@@ -36,7 +36,7 @@ public class PetSpriter extends Spriter {
                 "pingo_bebe_pulando.png",
                 "pingo_bebe_triste.png",
                 "pingo_bebe_vomitando.png"
-    ));
+        ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
@@ -51,14 +51,39 @@ public class PetSpriter extends Spriter {
                 "pingo_bebe_pulando.json",
                 "pingo_bebe_triste.json",
                 "pingo_bebe_vomitando.json"
-                    ));
+        ));
 
     private final ArrayList<VisibleCondition> vc =
         new ArrayList<VisibleCondition>(Arrays.asList(
-                    PULANDO,
-                    VOMITANDO
-                    // XXX
-                    ));
+                BEBADO,
+                CHORANDO,
+                COMA,
+                COMENDO,
+                DORMINDO,
+                FEBRE,
+                MORTO,
+                NORMAL,
+                PULANDO,
+                TRISTE,
+                VOMITANDO
+        ));
+
+    // Atualmente nao tem sprite antigo para estes:
+    //        IRRITADO,
+    //        BRAVO,
+    //        DOENTE,
+    //        MACHUCADO,
+    //        MUITO_MACHUCADO,
+    //        COMA_ALCOOLICO,
+    //        COM_MOSQUITO,
+    //        COM_STINKY_MOSQUITO,
+    //        UNDETERMINED
+    // Novo nao tem:
+    //        MACHUCADO,
+    //        MUITO_MACHUCADO,
+    //        NORMAL_COM_VOMITO,
+    //        BEBADO_VOMITANDO,
+
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
@@ -109,8 +134,8 @@ public class PetSpriter extends Spriter {
         }
         for (int i = 0; i < n; ++i) {
             if (!hasState(i)) {
-                log().error("Error: sprites not specified for state " + VisibleCondition.values()[i], err);
-                System.exit(0)
+                System.out.println("Warning: sprite file not specified for state " + VisibleCondition.values()[i]);
+                System.out.println("         make sure this is rendered some other way");
             }
         }
     }
@@ -123,7 +148,23 @@ public class PetSpriter extends Spriter {
         spriteIndex = 0;
         currentSprite.setVisible(false);
         currentSprite = animMap.get(s);
-        assert currentSprite == null : "Error: no anim for requested visibleCondition.";
+        if (currentSPrite == null) {
+            System.out.println("Warning: no direct anim for requested visibleCondition " + s);
+            // Handle a different way of animating this visible
+            // condition (composite anims or synthetic or flump)
+            //
+            // setup quick and dirty handlers for now
+            switch (s) {
+                // reroute to some other available anim,
+                // or just print
+                case UNDETERMINED:
+                    System.out.println("Error:  " + s + " visible condition shouldn't occur!");
+                    set(MORTO);  // ideally have a ? sprite for UNDETERMINED, but better hide this from users.
+                    break;
+                default:
+            }
+        }
+
         currentSprite.setVisible(true);
     }
 
