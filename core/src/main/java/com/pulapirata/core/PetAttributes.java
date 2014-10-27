@@ -80,6 +80,7 @@ public class PetAttributes {
         VIDA,
         SEXUALIDADE,
         FE,
+        DINHEIRO,
         ACTION
     }
 
@@ -136,24 +137,29 @@ public class PetAttributes {
         GORFANDO  // vomitando de vez em quando soltando vomito
     }
 
-    private PetAttribute alcool_;
-    public  PetAttribute alcool() { return alcool_; }
-    private PetAttribute nutricao_;
+    private PetAttribute nutricao_
     public  PetAttribute nutricao() { return nutricao_; }
-    private PetAttribute humor_;
+    private PetAttribute humor_
     public  PetAttribute humor() { return humor_; }
-    private PetAttribute sede_;
-    public  PetAttribute sede() { return sede_; }
-    private PetAttribute social_;
+    private PetAttribute social_
     public  PetAttribute social() { return social_; }
-    private PetAttribute higiene_;
+    private PetAttribute higiene_
     public  PetAttribute higiene() { return higiene_; }
-    private PetAttribute estudo_;
+    private PetAttribute estudo_
     public  PetAttribute estudo() { return estudo_; }
-    private PetAttribute saude_;
+    private PetAttribute saude_
     public  PetAttribute saude() { return saude_; }
-    private PetAttribute disciplina_;
+    private PetAttribute disciplina_
     public  PetAttribute disciplina() { return disciplina_; }
+    private PetAttribute alcool_
+    public  PetAttribute alcool() { return alcool_; }
+    private PetAttribute vida_
+    public  PetAttribute vida() { return vida_; }
+    private PetAttribute sexualidade_
+    public  PetAttribute sexualidade() { return sexualidade_; }
+    private PetAttribute fe_
+    public  PetAttribute fe() { return fe_; }
+
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
@@ -170,10 +176,28 @@ public class PetAttributes {
     /*-------------------------------------------------------------------------------*/
     /** Qualitative attributes holding states for each attrib */
 
-    private PetAttributeState<State> sAlcool_;
-    public  PetAttributeState<State> sAlcool() { return sAlcool_; }
     private PetAttributeState<State> sNutricao_;
     public  PetAttributeState<State> sNutricao() { return sNutricao_; }
+    private PetAttributeState<State> sHumor_;
+    public  PetAttributeState<State> sHumor() { return sHumor_; }
+    private PetAttributeState<State> sSocial_;
+    public  PetAttributeState<State> sSocial() { return sSocial_; }
+    private PetAttributeState<State> sHigiene_;
+    public  PetAttributeState<State> sHigiene() { return sHigiene_; }
+    private PetAttributeState<State> sEstudo_;
+    public  PetAttributeState<State> sEstudo() { return sEstudo_; }
+    private PetAttributeState<State> sSaude_;
+    public  PetAttributeState<State> sSaude() { return sSaude_; }
+    private PetAttributeState<State> sDisciplina_;
+    public  PetAttributeState<State> sDisciplina() { return sDisciplina_; }
+    private PetAttributeState<State> sAlcool_;
+    public  PetAttributeState<State> sAlcool() { return sAlcool_; }
+    private PetAttributeState<State> sVida_;
+    public  PetAttributeState<State> sVida() { return sVida_; }
+    private PetAttributeState<State> sSexualidade_;
+    public  PetAttributeState<State> sSexualidade() { return sSexualidade_; }
+    private PetAttributeState<State> sFe_;
+    public  PetAttributeState<State> sFe() { return sFe_; }
     private PetAttributeEnum<ActionState> sAction_ = new PetAttributeEnum<ActionState>();
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
 
@@ -193,25 +217,29 @@ public class PetAttributes {
      */
     public PetAttributes() {
         // defalt values. values in the json will take precedence if available
-        alcool_     = new PetAttribute("Alcool");
-        nutricao_   = new PetAttribute("Nutricao");
-        humor_      = new PetAttribute("Humor");
-        sede_       = new PetAttribute("Sede");
-        social_     = new PetAttribute("Social");
-        higiene_    = new PetAttribute("Higiene");
-        estudo_     = new PetAttribute("Estudo");
-        saude_      = new PetAttribute("Saude");
-        disciplina_ = new PetAttribute("Disciplina");
+        nutricao_       = new PetAttribute("Nutricao");
+        humor_          = new PetAttribute("Humor");
+        social_         = new PetAttribute("Social");
+        higiene_        = new PetAttribute("Higiene");
+        estudo_         = new PetAttribute("Estudo");
+        saude_          = new PetAttribute("Saude");
+        disciplina_     = new PetAttribute("Disciplina");
+        alcool_         = new PetAttribute("Alcool");
+        vida_           = new PetAttribute("Vida");
+        sexualidade_    = new PetAttribute("Sede");
+        fe_             = new PetAttribute("Fe");
 
-        mapAttrib(alcool());
         mapAttrib(nutricao());
         mapAttrib(humor());
-        mapAttrib(sede());
         mapAttrib(social());
         mapAttrib(higiene());
         mapAttrib(estudo());
         mapAttrib(saude());
         mapAttrib(disciplina());
+        mapAttrib(alcool());
+        mapAttrib(vida());
+        mapAttrib(sexualidade());
+        mapAttrib(fe());
 
         s2vis_.put(State.FAMINTO, VisibleCondition.CHORANDO);
          s2vis_.put(State.MUITA_FOME, VisibleCondition.CHORANDO);
@@ -280,13 +308,44 @@ public class PetAttributes {
         // intervals are set from json in PetAttributesLoader
 
         sAlcool_.set(alcool());
+            mapAttrib(sAlcool());
         sNutricao_.set(nutricao());
-        mapAttrib(sAlcool());
-        mapAttrib(sNutricao());
+            mapAttrib(sNutricao());
 
-        sAtt_.put(AttributeID.ALCOOL, sAlcool());
+        sNutricao_.set(nutricao());
+            mapAttrib(sNutricao())
+        sHumor_.set(humor());
+            mapAttrib(sHumor())
+        sSocial_.set(social());
+            mapAttrib(sSocial())
+        sHigiene_.set(higiene());
+            mapAttrib(sHigiene())
+        sEstudo_.set(estudo());
+            mapAttrib(sEstudo())
+        sSaude_.set(saude());
+            mapAttrib(sSaude())
+        sDisciplina_.set(disciplina());
+            mapAttrib(sDisciplina())
+        sAlcool_.set(alcool());
+            mapAttrib(sAlcool())
+        sVida_.set(vida());
+            mapAttrib(sVida())
+        sSexualidade_.set(sexualidade());
+            mapAttrib(sSexualidade())
+        sFe_.set(fe());
+            mapAttrib(sFe())
+
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
-        // .... TODO//
+        sAtt_.put(AttributeID.HUMOR, sHumor());
+        sAtt_.put(AttributeID.SOCIAL, sSocial());
+        sAtt_.put(AttributeID.HIGIENE, sHigiene());
+        sAtt_.put(AttributeID.ESTUDO, sEstudo());
+        sAtt_.put(AttributeID.SAUDE, sSaude());
+        sAtt_.put(AttributeID.DISCIPLINA, sDisciplina());
+        sAtt_.put(AttributeID.ALCOOL, sAlcool());
+        sAtt_.put(AttributeID.VIDA, sVida());
+        sAtt_.put(AttributeID.SEXUALIDADE, sSexualidade());
+        sAtt_.put(AttributeID.FE, sFe());
     }
 
     /**
