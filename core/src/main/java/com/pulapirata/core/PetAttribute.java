@@ -85,7 +85,14 @@ public class PetAttribute extends IntValue {
      * Updates attribute passively with time
      */
     public void updatePassive(int beat) {
-        if (passive() != 0.0  &&  beat % passiveBeats() == 0) {
+        /*
+        if (name().equals("Nutricao"))
+        System.out.println(
+                "haha-passive: " + passive() + " passiveBeats:  " + passiveBeats() + " beat: " + beat
+                + " name: " + name() + " mod: " + (beat % passiveBeats())
+                );
+        */
+        if (passive() != 0.0  &&  (int)(beat % passiveBeats()) == 0) {
             sumPassive();
         }
     }
