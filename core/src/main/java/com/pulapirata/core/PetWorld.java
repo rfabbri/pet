@@ -92,16 +92,12 @@ class PetWorld extends World {
     /** Misc methods */
 
     public boolean worldLoaded() {
-        return attributesLoaded_ &&  sprite_.get(mainID_) != null && sprite_.get(mainID_).hasLoaded();
+        return attributesLoaded_;
     }
 
     @Override public void update (int delta) {
-        if (worldLoaded()) {
-            beat_ += delta;
-            if (mainPet_ != null)
-                finishCreatingPetAfterLoaded();
-            super.update(delta);
-        }
+        beat_ += delta;
+        super.update(delta);
     }
 
     @Override public void paint(Clock clock) {
@@ -120,6 +116,7 @@ class PetWorld extends World {
                 @Override
                 public void onSuccess(PetAttributes resource) {
                     mainPet_ = resource;
+                    finishCreatingPetAfterLoaded();
                     // if (mainID_ != -1)
                     //     pet_.get(mainID_).didChange();
                     attributesLoaded_ = true;
