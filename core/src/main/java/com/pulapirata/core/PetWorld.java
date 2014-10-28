@@ -171,8 +171,8 @@ class PetWorld extends World {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 pos_.get(eid, p); // get our current pos
-                p.x = clampx(p.x);  // keep entity within screen dimensions
-                p.y = clampy(p.y);
+
+                clampxy(p, radius_.get(eid));  // keep entity within screen dimensions
                 opos_.set(eid, p);  // copy clamped pos to opos
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
                 pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
@@ -192,6 +192,14 @@ class PetWorld extends World {
     }
     private float clampy(float y) {
         return (y > height_) ? (height_) : ((y < 0) ? (0) : y);
+    }
+
+    private void clampxy(Point p, float r) {
+        assert r < height_-4 : "radius must be small enough" ;
+        assert r < width_-4  : "radius must be small enough" ;
+
+        p.y = (p.y + r + 2 > height_) ? (height_ - r - 2) : ((p.y < r + 2) ? (r + 2) : p.y);
+        p.x = (p.x + r + 2 > width_) ? (width_ - r - 2) : ((p.x < r + 2) ? (r + 2) : p.x);
     }
 
     /** Updates sprite layers to interpolated position of entities on each paint() call */

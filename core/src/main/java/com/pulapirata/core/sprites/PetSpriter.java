@@ -227,7 +227,7 @@ public class PetSpriter extends Spriter {
     public float boundingRadius() {
         return (float) Math.sqrt(
                 currentSprite_.width()*currentSprite_.width() +
-                currentSprite_.height()*currentSprite_.height());
+                currentSprite_.height()*currentSprite_.height())/2.0f;
     }
 
     private boolean traversed(){
