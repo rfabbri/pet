@@ -191,6 +191,7 @@ public class PetSpriter extends Spriter {
         currentSprite_ = newSprite;
         currentVisibleCondition_ = s;
         petLayer_.setSize(currentSprite_.width(), currentSprite_.height()); // where to clip the animations in this composite spritey
+        petLayer_.setOrigin(currentSprite_.width() / 2f, currentSprite_.height() / 2f);
         currentSprite_.layer().setVisible(true);
     }
 
@@ -224,7 +225,7 @@ public class PetSpriter extends Spriter {
      * The radius of the bounding sphere to the present sprite frame
      */
     public float boundingRadius() {
-        return 1.0f + (float) Math.sqrt(
+        return (float) Math.sqrt(
                 currentSprite_.width()*currentSprite_.width() +
                 currentSprite_.height()*currentSprite_.height());
     }
