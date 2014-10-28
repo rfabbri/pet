@@ -37,6 +37,7 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
      */
     public void listen() {
         att_.connect(slot());
+        att_.updateForce(att_.get());   // notify all watchers
     }
 
     public void set(ArrayList<State> states, ArrayList<Integer> intervals) {

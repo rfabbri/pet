@@ -412,7 +412,7 @@ public class PetAttributes {
         // TODO: todos entre -20 e 0 tem prioridade mais alta que o resto.
 
         System.out.println( "[vis-priority]: -------------");
-        int maxPrio = -1, maxVis = 0;
+        int maxPrio = -1;
         for (AttributeID a : sAtt_.keySet()) {
 //            sAtt_.get(a).print();
 //            System.out.println("_+_+state: " + sAtt_.get(a).getState() + " attId: " + a);
@@ -422,9 +422,8 @@ public class PetAttributes {
             }
             System.out.println("[vis-priority]: evaluating state, vis: " +
                     sAtt_.get(a).getState() + ", " + s2vis_.get(sAtt_.get(a).getState()));
-            if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio) {
+            if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio)
                 maxPrio = s2vis_.get(sAtt_.get(a).getState()).ordinal();
-            }
         }
         if (maxPrio == -1) {  // the attributeStates have not been updated yet by the underlying attrib.
             vis_.update(VisibleCondition.NORMAL.ordinal());
@@ -433,7 +432,7 @@ public class PetAttributes {
         System.out.println("[vis-priority]: resulting active visuals: " + VisibleCondition.values()[maxPrio]);
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
 //        System.out.println("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
-        vis_.update(maxVis);
+        vis_.update(maxPrio);
         return visibleCondition();
     }
 
