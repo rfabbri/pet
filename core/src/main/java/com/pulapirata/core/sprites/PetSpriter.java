@@ -116,7 +116,7 @@ public class PetSpriter extends Spriter {
                     if (sprite == animMap_.get(NORMAL))   // start with normal by default.
                         set(NORMAL);
                     else
-                        sprite.layer().setVisible(false);
+                        sprite.layer().setVisible(true);
                     petLayer_.add(sprite.layer());
                     numLoaded_++;
                 }
@@ -182,7 +182,7 @@ public class PetSpriter extends Spriter {
         }
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
-            currentSprite_.layer().setVisible(false);
+            currentSprite_.layer().setVisible(true);
 
         traversed_ = false;
         // switch currentAnim to next anim

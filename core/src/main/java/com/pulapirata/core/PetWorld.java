@@ -168,7 +168,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             Point p = innerPos_;
             Vector v = innerVel_;
-            for (int i = 0; i < entities.size(); i++) {
+            for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 pos_.get(eid, p); // get our current pos
                 p.x = clampx(p.x);  // keep entity within screen dimensions
@@ -239,7 +239,7 @@ class PetWorld extends World {
      */
     public final System spriteLinker = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
-            for (int i = 0; i < entities.size(); i++) {
+            for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
                 if (attributesLoaded_ ) {
@@ -273,7 +273,7 @@ class PetWorld extends World {
      */
     public final System petUpdater = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
-            for (int i = 0; i < entities.size(); i++) {
+            for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 if (isPetWired_) {
                     pet_.get(eid).passiveUpdate(beat_);
@@ -405,7 +405,7 @@ class PetWorld extends World {
     public final System expirer = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             int now = beat_;
-            for (int i = 0; i < entities.size(); i++) {
+            for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 if (expires_.get(eid) <= now) world.entity(eid).destroy();
             }
