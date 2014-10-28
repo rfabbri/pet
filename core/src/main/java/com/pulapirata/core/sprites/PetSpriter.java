@@ -146,7 +146,7 @@ public class PetSpriter extends Spriter {
     public void set(VisibleCondition s) {
         Sprite newSprite = animMap_.get(s);
         if (newSprite == null) {
-            System.out.println("Warning: no direct anim for requested visibleCondition " + s);
+            System.out.println("[petspriter.set] Warning: no direct anim for requested visibleCondition " + s);
             // Handle a different way of animating this visible
             // condition (composite anims or synthetic or flump)
             //
@@ -155,7 +155,7 @@ public class PetSpriter extends Spriter {
                 // reroute to some other available anim,
                 // or just print
                 case UNDETERMINED:
-                    System.out.println("Error:  " + s + " visible condition shouldn't occur!");
+                    System.out.println("[petspriter.set] Error:  " + s + " visible condition shouldn't occur!");
                     set(MORTO);  // ideally have a ? sprite for UNDETERMINED, but better hide this from users.
                     return;
                 case COM_MOSQUITO:
@@ -167,7 +167,15 @@ public class PetSpriter extends Spriter {
                                       // COM_MOSQUITOS, but we make it just look
                                       // NORMAL for now
                     return;
+                case BRAVO:     // TODO: automatic fallback from an array ? this is just temporary anyway.
+                case IRRITADO:
+                    System.out.println("[petspriter.set] Warning:  using fallback anim TRISTE for: " + s + ".");
+                    set(TRISTE);
+                    return;
                 default:
+                    System.out.println("[petspriter.set] Error:  no fallback anim for: " + s + ".");
+                    System.exit(1);
+                    break;
             }
         }
 
