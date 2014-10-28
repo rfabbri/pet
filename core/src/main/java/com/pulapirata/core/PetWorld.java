@@ -205,8 +205,9 @@ class PetWorld extends World {
                 opos_.get(eid, op);
                 pos_.get(eid, p);
                 // clamp our interpolated position as we may interpolate off the screen
-                sprite_.get(eid).layer().setTranslation(clampx(MathUtil.lerp(op.x, p.x, alpha)),
-                                                        clampy(MathUtil.lerp(op.y, p.y, alpha)));
+                // pprint(" translation_xy: " +clampx(MathUtil.lerp(op.x, p.x, alpha)) + clampy(MathUtil.lerp(op.y, p.y, alpha)) );
+// XXX                sprite_.get(eid).layer().setTranslation(clampx(MathUtil.lerp(op.x, p.x, alpha)),
+//                                                        clampy(MathUtil.lerp(op.y, p.y, alpha)));
             }
         }
 
@@ -432,7 +433,7 @@ class PetWorld extends World {
         mainID_ = id;
 
         // read imgLayer / sprite loader
-        PetSpriter ps = new PetSpriter(x, y);   // the spriteLinker system links it to layer_
+        PetSpriter ps = new PetSpriter(x, y, width_, height_);   // the spriteLinker system links it to layer_
         sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
         return pet;

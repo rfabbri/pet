@@ -98,7 +98,9 @@ public class PetSpriter extends Spriter {
     private boolean traversed_ = false;
     protected GroupLayer.Clipped petLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
-    public PetSpriter(final float x, final float y) {
+    public PetSpriter(final float x, final float y, final float maxWidth, final float maxHeight) {
+        petLayer_.setSize(maxWidth, maxHeight); // where to clip the animations in this composite spritey
+
         for (int i = 0; i < jsons.size(); i++) {
             Sprite s = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
@@ -110,13 +112,14 @@ public class PetSpriter extends Spriter {
             s.addCallback(new Callback<Sprite>() {
                 @Override
                 public void onSuccess(Sprite sprite) {
-                    sprite.setSprite(spriteIndex_);
+                    sprite.setSprite(0);
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
                     if (sprite == animMap_.get(NORMAL))   // start with normal by default.
                         set(NORMAL);
                     else
-                        sprite.layer().setVisible(true);
+                        sprite.layer().setVisible(false);
+                    pprint("[petspriter] added, visible: " + sprite.layer().visible() + " full layer: " + petLayer_.visible());
                     petLayer_.add(sprite.layer());
                     numLoaded_++;
                 }
@@ -182,7 +185,7 @@ public class PetSpriter extends Spriter {
         }
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
-            currentSprite_.layer().setVisible(true);
+            currentSprite_.layer().setVisible(false);
 
         traversed_ = false;
         // switch currentAnim to next anim
@@ -190,7 +193,6 @@ public class PetSpriter extends Spriter {
 
         currentSprite_ = newSprite;
         currentVisibleCondition_ = s;
-        petLayer_.setSize(currentSprite_.width(), currentSprite_.height());
         currentSprite_.layer().setVisible(true);
     }
 
