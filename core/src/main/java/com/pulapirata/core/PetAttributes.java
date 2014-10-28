@@ -354,6 +354,8 @@ public class PetAttributes {
             mapAttrib(sFe());
 
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
+        System.out.println("[satr dbg]: " + sAtt_.get(AttributeID.NUTRICAO));
+
         sAtt_.put(AttributeID.HUMOR, sHumor());
         sAtt_.put(AttributeID.SOCIAL, sSocial());
         sAtt_.put(AttributeID.HIGIENE, sHigiene());
@@ -409,19 +411,30 @@ public class PetAttributes {
         // priority
         // TODO: todos entre -20 e 0 tem prioridade mais alta que o resto.
 
-        int maxPrio = -1;
+        System.out.println( "[vis-priority]: -------------");
+        int maxPrio = -1, maxVis = 0;
         for (AttributeID a : sAtt_.keySet()) {
 //            sAtt_.get(a).print();
 //            System.out.println("_+_+state: " + sAtt_.get(a).getState() + " attId: " + a);
-            if (sAtt_.get(a).getState() == null)
+            System.out.println("[vis-priority]: entering");
+            if (sAtt_.get(a).getState() == null) {
+                System.out.println("[vis-priority]: map not available: " + a + sAtt_.get(a).getState());
                 continue;
+            }
+            System.out.println("[vis-priority]: evaluating state, vis: " +
+                    sAtt_.get(a).getState() + ", " + s2vis_.get(sAtt_.get(a).getState()));
             if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio) {
-                vis_.update(s2vis_.get(sAtt_.get(a).getState()).ordinal());
-                maxPrio = vis_.get();
+                maxPrio = s2vis_.get(sAtt_.get(a).getState()).ordinal();
             }
         }
+        if (maxPrio == -1) {  // the attributeStates have not been updated yet by the underlying attrib.
+            vis_.update(VisibleCondition.NORMAL.ordinal());
+            return VisibleCondition.NORMAL;
+        }
+        System.out.println("[vis-priority]: resulting active visuals: " + VisibleCondition.values()[maxPrio]);
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
 //        System.out.println("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
+        vis_.update(maxVis);
         return visibleCondition();
     }
 

@@ -248,6 +248,9 @@ class PetWorld extends World {
                         }
                         PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
                         java.lang.System.out.println("linker: visibleCondition = " + newvc);
+                        java.lang.System.out.println("     >>>>>>>>>>>>  Current pet state");
+                        pet_.get(eid).print();
+                        java.lang.System.out.println("     <<<<<<<<<<<<  END Current pet state");
                         entity(eid).didChange(); // mover will render it.
                         // sprite_.get(eid).update(delta);
                     }
