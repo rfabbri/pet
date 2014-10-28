@@ -65,7 +65,7 @@ public class Pet extends Game.Default {
     /*===============================================================================*/
 
     /*-------------------------------------------------------------------------------*/
-    /* Status info shown on top */
+    /** Status info shown on top */
 
     protected  static final String STAT_ALERT_1 =
         "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
@@ -73,9 +73,21 @@ public class Pet extends Game.Default {
     protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Grana: %d/%d";
 
     /*-------------------------------------------------------------------------------*/
+    /** Game Dimensions */
 
     public int width()  { return 480; }
     public int height() { return 800; }
+
+    // origin measured from topleft corner
+    public static int STAT_HEIGHT = 120;
+    public static int WORLD_ORIGIN_Y = STAT_HEIGHT;
+    public static int BUTTON_ORIGIN_Y = 442; // this includes the secondary buttons
+    public static int MAIN_BUTTON_ORIGIN_Y = BUTTON_ORIGIN_Y+120;
+    public static int WORLD_HEIGHT = MAIN_BUTTON_ORIGIN_Y-WORLD_ORIGIN_Y;
+
+
+    /*-------------------------------------------------------------------------------*/
+
     public PetAttributes a() { return world_.mainPet(); }   // shortcut
 
     public enum UIDepth {
@@ -171,7 +183,7 @@ public class Pet extends Game.Default {
       // FIXME: problem with graphics.width not being set correctly in html;
       // it always seems to give 640
       //
-      statlayer.setHeight(120);   // altura do retangulo de informacoes
+      statlayer.setHeight(STAT_HEIGHT);   // altura do retangulo de informacoes
       statlayer.setDepth(UIDepth.Z_STATBAR.getZ());
       layer_.add(statlayer);
 
@@ -249,11 +261,11 @@ public class Pet extends Game.Default {
       //petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
       Root statbarRoot = statbarIface_.createRoot(new AbsoluteLayout(), petSheet_);
 
-      statbarRoot.setSize(width(), 120);  // this includes the secondary buttons
+      statbarRoot.setSize(width(), STAT_HEIGHT);  // this includes the secondary buttons
       statbarRoot.layer.setDepth(UIDepth.Z_STATBAR.getZ());
 
       layer_.addAt(statbarRoot.layer, 0, 0);
-      statbarRoot.add(AbsoluteLayout.at(statbar, mae, mte, width()-mae, 120-mte));
+      statbarRoot.add(AbsoluteLayout.at(statbar, mae, mte, width()-mae, STAT_HEIGHT-mte));
     }
 
     //--------------------------------------------------------------------------------
@@ -280,7 +292,7 @@ public class Pet extends Game.Default {
     private void installBackgroundInit() {
         bgLayer_ = graphics().createImageLayer(bgImageDay_);
         bgLayer_.setDepth(UIDepth.Z_BG.getZ());
-        layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
+        layer_.addAt(bgLayer_, 0, STAT_HEIGHT);  // quarto do pingo
         bgLoaded_ = true;
     }
 
@@ -310,10 +322,10 @@ public class Pet extends Game.Default {
             // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
             Root broot = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
-            broot.setSize(width(), 354); // this includes the secondary buttons
+            broot.setSize(width(), 354);
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
             broot.layer.setDepth(UIDepth.Z_BUTTONS.getZ());
-            layer_.addAt(broot.layer, 0, 442); // position of buttons
+            layer_.addAt(broot.layer, 0, BUTTON_ORIGIN_Y); // position of buttons
 
             final Group buttons = new Group(new AbsoluteLayout()).addStyles(
                 Style.BACKGROUND.is(Background.blank()));
@@ -568,8 +580,9 @@ public class Pet extends Game.Default {
       startBackgroundInit();
       GroupLayer worldLayer_ = graphics().createGroupLayer();
       worldLayer_.setDepth(UIDepth.Z_WORLD.getZ());
-      layer_.add(worldLayer_);
-      world_ = new PetWorld(worldLayer_, width(), height());
+      // worldLayer_.setOrigin(0, WORLD_ORIGIN_Y);     // center of screen
+      layer_.addAt(worldLayer_, 0, WORLD_ORIGIN_Y);
+      world_ = new PetWorld(worldLayer_, width(), WORLD_HEIGHT);
       bm_.makeButtons();
     }
 
