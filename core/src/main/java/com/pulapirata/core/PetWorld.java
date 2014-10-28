@@ -253,7 +253,7 @@ class PetWorld extends World {
                         java.lang.System.out.println("     >>>>>>>>>>>>  Current pet state");
                         pet_.get(eid).print();
                         java.lang.System.out.println("     <<<<<<<<<<<<  END Current pet state");
-                        entity(eid).didChange(); // mover will render it.
+//                        entity(eid).didChange(); // mover will render it.
                         // sprite_.get(eid).update(delta);
                     }
                 }
