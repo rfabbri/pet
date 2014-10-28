@@ -48,10 +48,11 @@ class PetWorld extends World {
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
-    public static final int PET      = (1 << 0);
-    public static final int DROPPING = (1 << 1);
-    public static final int VOMIT    = (1 << 2);
-    public static final int DIARRHEA = (1 << 3);
+    // TODO: use tripleplay.BitVec to supoprt more than 32 entities.
+    public static final int PET       = (1 << 0);
+    public static final int DROPPING  = (1 << 1);
+    public static final int VOMIT     = (1 << 2);
+    public static final int DIARRHEA  = (1 << 3);
     public static final int MOSQUITOS = (1 << 4);
     public static final int STINKY_MOSQUITOS = (1 << 5);
 

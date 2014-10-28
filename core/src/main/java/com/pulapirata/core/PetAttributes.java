@@ -47,6 +47,8 @@ public class PetAttributes {
      * that visible condition has over the others to be displayed in the game.
      */
     public enum VisibleCondition {
+        COM_MOSQUITO,  // colocando mais baixa prioridade por hora, pra ignorar esta anim
+        COM_STINKY_MOSQUITO, // colocando mais baixa prioridade por hora, pra ignorar esta anim
         NORMAL,
         TRISTE,
         CHORANDO,
@@ -70,8 +72,8 @@ public class PetAttributes {
         COMA,
         COMA_ALCOOLICO,
         MORTO,
-        COM_MOSQUITO,
-        COM_STINKY_MOSQUITO,
+//        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
+//        COM_STINKY_MOSQUITO,
         UNDETERMINED
     }
 

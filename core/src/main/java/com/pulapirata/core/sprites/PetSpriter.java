@@ -3,6 +3,7 @@ package com.pulapirata.core.sprites;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.EnumMap;
 import react.Slot;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
@@ -88,8 +89,9 @@ public class PetSpriter extends Spriter {
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
-    private HashMap<VisibleCondition, Sprite> animMap_ = new HashMap<VisibleCondition, Sprite> ();
+    private EnumMap<VisibleCondition, Sprite> animMap_ = new EnumMap<VisibleCondition, Sprite> (VisibleCondition.class);
     private Sprite currentSprite_;   // the current sprite animation
+    private VisibleCondition currentVisibleCondition_;   // the current enum of the sprite animation
     private int spriteIndex_ = 0;
     private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
     private boolean traversed_ = false;
@@ -142,13 +144,8 @@ public class PetSpriter extends Spriter {
      * Sets animation based on pet's current visible condition
      */
     public void set(VisibleCondition s) {
-        // switch currentAnim to next anim
-        spriteIndex_ = 0;
-        traversed_ = false;
-        if (currentSprite_ != null)  // only happens during construction / asset loadding
-            currentSprite_.layer().setVisible(false);
-        currentSprite_ = animMap_.get(s);
-        if (currentSprite_ == null) {
+        Sprite newSprite = animMap_.get(s);
+        if (newSprite == null) {
             System.out.println("Warning: no direct anim for requested visibleCondition " + s);
             // Handle a different way of animating this visible
             // condition (composite anims or synthetic or flump)
@@ -160,11 +157,29 @@ public class PetSpriter extends Spriter {
                 case UNDETERMINED:
                     System.out.println("Error:  " + s + " visible condition shouldn't occur!");
                     set(MORTO);  // ideally have a ? sprite for UNDETERMINED, but better hide this from users.
-                    break;
+                    return;
+                case COM_MOSQUITO:
+                case COM_STINKY_MOSQUITO:
+                    System.out.println("[petspriter.set] mosquitim.. ");
+                    if (currentSprite_ == null)
+                        set(NORMAL);  // falback to normal or else keep sprite that was there before.
+                                      // the visible appearance will still be
+                                      // COM_MOSQUITOS, but we make it just look
+                                      // NORMAL for now
+                    return;
                 default:
             }
         }
 
+        if (currentSprite_ != null)  // only happens during construction / asset loadding
+            currentSprite_.layer().setVisible(false);
+
+        traversed_ = false;
+        // switch currentAnim to next anim
+        spriteIndex_ = 0;
+
+        currentSprite_ = newSprite;
+        currentVisibleCondition_ = s;
         petLayer_.setSize(currentSprite_.width(), currentSprite_.height());
         currentSprite_.layer().setVisible(true);
     }
@@ -181,7 +196,8 @@ public class PetSpriter extends Spriter {
     public void update(int delta) {
         if (hasLoaded()) {
             System.out.println( "XXX XXX   loaded & being updated.");
-            System.out.println("initial-spriteIndex_: " + spriteIndex_);
+            System.out.println(" currentVisibleCondition: " + currentVisibleCondition_);
+            System.out.println(" initial-spriteIndex_: " + spriteIndex_);
             System.out.println(" initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
             spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
             currentSprite_.setSprite(spriteIndex_);
