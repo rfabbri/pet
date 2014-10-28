@@ -294,10 +294,9 @@ class PetWorld extends World {
      * touchscreen or gamepad are available.
      */
     public final System keyControls = new System(this, 1) {
-        public static final float WALK_VELOCITY = 0; // 1f;
+        public static final float WALK_VELOCITY = 0.5f; // 1f;
         // actually, use just accel
         public static final float ACCEL = 0.01f;
-
 
         /* ctor */ {
             keyDown_.connect(new Slot<Key>() {
