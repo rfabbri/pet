@@ -544,7 +544,18 @@ public class Pet extends Game.Default {
 
     @Override
     public void init() {
-      assert 1 == 2 : "Asserts are on +_+_+_+_+_+_+___+_+__";
+      try {
+        assert 1 == 0 : "Asserts are on +_+_+_+_+_+_+___+_+__";
+      } catch (AssertionError e) {
+        System.out.println("thread aborts.");
+        System.exit(0);//logging or any action
+      }
+      if (0 == 0) {
+        throw new AssertionError("testing assert err");
+      } else {
+      System.out.println("thread runs.");
+      System.exit(1);
+      }
 
       // create a group layer_ to hold everything
       layer_ = graphics().createGroupLayer();
