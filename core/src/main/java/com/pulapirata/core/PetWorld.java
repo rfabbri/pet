@@ -26,6 +26,7 @@ import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
+import static com.pulapirata.core.utils.Put.*;
 
 
 /**
@@ -37,12 +38,12 @@ import com.pulapirata.core.sprites.PetSpriter;
 class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Misc variables */
-    public  final GroupLayer layer_;
-    public  final float width_;
-    public  final float height_;
-    public  final Signal<Key> keyDown_ = Signal.create();
-    public  final Signal<Key> keyUp_ = Signal.create();
-    private final Randoms rando_ = Randoms.with(new Random());
+    public  final   GroupLayer layer_;
+    public  final   float width_;
+    public  final   float height_;
+    public  final   Signal<Key> keyDown_ = Signal.create();
+    public  final   Signal<Key> keyUp_ = Signal.create();
+    private final   Randoms rando_ = Randoms.with(new Random());
     private boolean attributesLoaded_ = false;
     private boolean isPetWired_ = false;
 

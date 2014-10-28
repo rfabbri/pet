@@ -57,6 +57,8 @@ import tripleplay.ui.layout.AxisLayout;
 import tripleplay.util.Randoms;
 import static tripleplay.ui.layout.TableLayout.COL;
 
+import static com.pulapirata.core.utils.Put.*;
+
 public class Pet extends Game.Default {
     /*===============================================================================*/
     /* Data                                                                          */
@@ -545,7 +547,7 @@ public class Pet extends Game.Default {
     @Override
     public void init() {
 //      try {     // (rfabbri): leaving this try-catch code as an example
-        assert 1 == 0 : "Asserts are on +_+_+_+_+_+_+___+_+__";
+//        assert 1 == 0 : "Asserts are on +_+_+_+_+_+_+___+_+__";
 //      } catch (AssertionError e) {
 //        System.out.println("thread aborts.");
 //        System.exit(0);//logging or any action
