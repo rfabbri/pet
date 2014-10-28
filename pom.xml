@@ -158,6 +158,7 @@
             <target>1.7</target>
             <showDeprecation>true</showDeprecation>
             <showWarnings>true</showWarnings>
+<!--            <compilerArgument> </compilerArgument> -->
 <!--            <failOnError>false</failOnError> -->
             <compilerArgs>
               <arg>-Xlint</arg>
