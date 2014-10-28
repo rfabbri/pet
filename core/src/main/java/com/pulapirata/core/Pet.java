@@ -94,7 +94,7 @@ public class Pet extends Game.Default {
     /*-------------------------------------------------------------------------------*/
     /* Time data */
 
-    public static final int UPDATE_RATE = 25; // ms    // was: 100.
+    public static final int UPDATE_RATE = 100; // ms    // was: 100.
 
     public String idadeCoelhoDiasStr1() {
         if (world_ == null || !world_.worldLoaded())
