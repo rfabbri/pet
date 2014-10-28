@@ -113,10 +113,11 @@ public class PetSpriter extends Spriter {
                     sprite.setSprite(spriteIndex_);
                     sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
                     sprite.layer().setTranslation(x, y);
-                    if (sprite == animMap_.get(NORMAL))
+                    if (sprite == animMap_.get(NORMAL))   // start with normal by default.
                         set(NORMAL);
                     else
                         sprite.layer().setVisible(false);
+                    petLayer_.add(sprite.layer());
                     numLoaded_++;
                 }
 
