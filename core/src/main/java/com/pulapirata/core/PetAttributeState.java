@@ -75,6 +75,10 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
     State updateState(int v) {
         assert att_.inRange(v) : "received signal must be in this attribute's range";
 
+//        System.out.println("Thisshitsssssssssssss");
+//        print();
+//        System.out.println("END Thisshitsssssssssssss");
+
         State s = null;
 
         for (int i = 0; i < intervals_.size(); ++i)  // TODO: binary search

@@ -376,8 +376,11 @@ public class PetAttributes {
      */
     public void hookupReactiveWires() {
         // hookup AttributeStates to respond to Attributes
-        sAlcool_.listen();
-        sNutricao_.listen();
+//        sAlcool_.listen();
+//        sNutricao_.listen();
+        for (AttributeID a : sAtt_.keySet()) {
+            sAtt_.get(a).listen();
+        }
     }
 
     /**
