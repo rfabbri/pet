@@ -98,9 +98,7 @@ public class PetSpriter extends Spriter {
     private boolean traversed_ = false;
     protected GroupLayer.Clipped petLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
-    public PetSpriter(final float x, final float y, final float maxWidth, final float maxHeight) {
-        petLayer_.setSize(maxWidth, maxHeight); // where to clip the animations in this composite spritey
-
+    public PetSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
             Sprite s = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
@@ -113,8 +111,8 @@ public class PetSpriter extends Spriter {
                 @Override
                 public void onSuccess(Sprite sprite) {
                     sprite.setSprite(0);
-                    sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
-                    sprite.layer().setTranslation(x, y);
+                    sprite.layer().setOrigin(0, 0);
+                    sprite.layer().setTranslation(0, 0);
                     if (sprite == animMap_.get(NORMAL))   // start with normal by default.
                         set(NORMAL);
                     else
@@ -193,6 +191,7 @@ public class PetSpriter extends Spriter {
 
         currentSprite_ = newSprite;
         currentVisibleCondition_ = s;
+        petLayer_.setSize(currentSprite_.width(), currentSprite_.height()); // where to clip the animations in this composite spritey
         currentSprite_.layer().setVisible(true);
     }
 
