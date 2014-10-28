@@ -42,7 +42,7 @@ public class PetAttributesLoader {
                 Json.Array jsonAttributes = document.getArray("Attributes");
                 for (int i = 0; i < jsonAttributes.length(); i++) {
                     Json.Object jatt = jsonAttributes.getObject(i);
-                    System.out.println("reading name: " + jatt.getString("name"));
+//                    System.out.println("reading name: " + jatt.getString("name"));
                     attribs.get(jatt.getString("name")).set(
                         jatt.getString("name"),
                         jatt.getInt("startValue"),
@@ -60,7 +60,7 @@ public class PetAttributesLoader {
                     ArrayList<Integer> iv = new ArrayList<Integer>();
                     for (int k = 0; k < jsonStates.length(); k++) {
                         Json.Object js = jsonStates.getObject(k);
-                        System.out.println("reading state: " + js.getString("name"));
+//                        System.out.println("reading state: " + js.getString("name"));
                         s.add(PetAttributes.State.valueOf(js.getString("name").toUpperCase().replace(' ', '_')));
                         iv.add(js.getInt("max"));
                         assert k != 0 || js.getInt("min") == attribs.get(jatt.getString("name")).min()

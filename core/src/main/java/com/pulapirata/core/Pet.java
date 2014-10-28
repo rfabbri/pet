@@ -124,7 +124,7 @@ public class Pet extends Game.Default {
     /* Pet attributes & info */
 
     private boolean bgLoaded_ = false;
-    private boolean printIniDbg_ = true;
+    private boolean printIniDbg_ = false;
 
     /*-------------------------------------------------------------------------------*/
     /* Misc variables */
@@ -278,7 +278,7 @@ public class Pet extends Game.Default {
     private void installBackgroundInit() {
         bgLayer_ = graphics().createImageLayer(bgImageDay_);
         bgLayer_.setDepth(UIDepth.Z_BG.getZ());
-        layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
+        // XXX XXX layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
         bgLoaded_ = true;
     }
 

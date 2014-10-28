@@ -221,6 +221,7 @@ public class PetAttributes {
     protected IntValue vis_ = new IntValue(VisibleCondition.NORMAL.ordinal());  // reactive ids into VisibleCondition
 
     public IntValue vis() { return vis_; }
+    public VisibleCondition visibleCondition() { return VisibleCondition.values()[vis_.get()]; }
 
     /**
      * Constructor
@@ -421,7 +422,7 @@ public class PetAttributes {
         }
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
 //        System.out.println("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
-        return VisibleCondition.values()[vis_.get()];
+        return visibleCondition();
     }
 
     public boolean isInitialized() {

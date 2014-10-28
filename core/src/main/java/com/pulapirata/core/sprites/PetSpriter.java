@@ -144,6 +144,7 @@ public class PetSpriter extends Spriter {
     public void set(VisibleCondition s) {
         // switch currentAnim to next anim
         spriteIndex_ = 0;
+        traversed_ = false;
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);
         currentSprite_ = animMap_.get(s);
@@ -179,12 +180,17 @@ public class PetSpriter extends Spriter {
 
     public void update(int delta) {
         if (hasLoaded()) {
+            System.out.println( "XXX XXX   loaded & being updated.");
+            System.out.println("initial-spriteIndex_: " + spriteIndex_);
+            System.out.println(" initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
             spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
             currentSprite_.setSprite(spriteIndex_);
             // currentSprite_.layer().setRotation(angle);
             if (spriteIndex_ == currentSprite_.numSprites() - 1) {
                 traversed_ = true;
             }
+            System.out.println("spriteIndex_: " + spriteIndex_ +
+                    " currentSprite_.numSprites(): " + currentSprite_.numSprites());
         }
     }
 
@@ -196,7 +202,8 @@ public class PetSpriter extends Spriter {
                 currentSprite_.width()*currentSprite_.width() +
                 currentSprite_.height()*currentSprite_.height());
     }
-    public boolean getTraversed_(){
+
+    private boolean traversed(){
        return traversed_;
     }
 

@@ -241,13 +241,15 @@ class PetWorld extends World {
                 int eid = entities.get(i);
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
                 if (attributesLoaded_ ) {
-                    if (sprite_.get(mainID_).hasLoaded()) {
+                    if (sprite_.get(mainID_).hasLoaded()) {   // TODO in the future: if all sprites have loaded
                         if (!isPetWired_) {
                             finishCreatingPetAfterLoaded();
                             isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
                         }
-                        pet_.get(eid).determineVisibleCondition();
-                        sprite_.get(eid).update(delta);
+                        PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
+                        java.lang.System.out.println("linker: visibleCondition = " + newvc);
+                        entity(eid).didChange(); // mover will render it.
+                        // sprite_.get(eid).update(delta);
                     }
                 }
             }
@@ -433,7 +435,7 @@ class PetWorld extends World {
 
     protected void finishCreatingPetAfterLoaded() {
         PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
-        // XXX mainPet_.vis().connect(ps.slot());    // links sprite to animation
+        mainPet_.vis().connect(ps.slot());    // links sprite to animation
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
         radius_.set(mainID_, ps.boundingRadius());
         // spriteLayer_.set(id, layer_);

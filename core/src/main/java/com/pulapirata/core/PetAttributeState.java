@@ -96,7 +96,7 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
     @Override public void print() {
         //super.print();
         //if (att_.name().equals("Nutricao")) {
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXX State:");
+        System.out.println("==== State ====");
         System.out.println("associated att name: " + att_.name() + " state: " + get());
         System.out.println("associated att val: " + att_.val());
         System.out.println("possible states and corresp intervals: ");
