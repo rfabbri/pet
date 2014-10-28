@@ -117,7 +117,7 @@ public class PetSpriter extends Spriter {
                         set(NORMAL);
                     else
                         sprite.layer().setVisible(false);
-                    pprint("[petspriter] added, visible: " + sprite.layer().visible() + " full layer: " + petLayer_.visible());
+                    dprint("[petspriter] added, visible: " + sprite.layer().visible() + " full layer: " + petLayer_.visible());
                     petLayer_.add(sprite.layer());
                     numLoaded_++;
                 }
@@ -137,8 +137,8 @@ public class PetSpriter extends Spriter {
         }
         for (int i = 0; i < n; ++i) {
             if (!hasState[i]) {
-                System.out.println("Warning: sprite file not specified for state " + VisibleCondition.values()[i]);
-                System.out.println("         make sure this is rendered some other way");
+                dprint("Warning: sprite file not specified for state " + VisibleCondition.values()[i]);
+                dprint("         make sure this is rendered some other way");
             }
         }
     }
@@ -158,7 +158,7 @@ public class PetSpriter extends Spriter {
                 // reroute to some other available anim,
                 // or just print
                 case UNDETERMINED:
-                    System.out.println("[petspriter.set] Error:  " + s + " visible condition shouldn't occur!");
+                    dprint("[petspriter.set] Error:  " + s + " visible condition shouldn't occur!");
                     set(MORTO);  // ideally have a ? sprite for UNDETERMINED, but better hide this from users.
                     return;
                 case COM_MOSQUITO:
@@ -176,8 +176,7 @@ public class PetSpriter extends Spriter {
                     set(TRISTE);
                     return;
                 default:
-                    System.out.println("[petspriter.set] Error:  no fallback anim for: " + s + ".");
-                    System.exit(1);
+                    dprinte("[petspriter.set] Error:  no fallback anim for: " + s + ".");
                     break;
             }
         }
@@ -206,18 +205,18 @@ public class PetSpriter extends Spriter {
 
     public void update(int delta) {
         if (hasLoaded()) {
-            System.out.println( "XXX XXX   loaded & being updated.");
-            System.out.println(" currentVisibleCondition: " + currentVisibleCondition_);
-            System.out.println(" initial-spriteIndex_: " + spriteIndex_);
-            System.out.println(" initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
+            dprint( "XXX XXX   loaded & being updated.");
+            dprint(" currentVisibleCondition: " + currentVisibleCondition_);
+            dprint(" initial-spriteIndex_: " + spriteIndex_);
+            dprint(" initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
             spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
             currentSprite_.setSprite(spriteIndex_);
             // currentSprite_.layer().setRotation(angle);
             if (spriteIndex_ == currentSprite_.numSprites() - 1) {
                 traversed_ = true;
             }
-            System.out.println("spriteIndex_: " + spriteIndex_ +
-                    " currentSprite_.numSprites(): " + currentSprite_.numSprites());
+            dprint("spriteIndex_: " + spriteIndex_ +
+                   " currentSprite_.numSprites(): " + currentSprite_.numSprites());
         }
     }
 

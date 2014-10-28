@@ -26,7 +26,7 @@ import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
-import static com.pulapirata.core.utils.Put.*;
+import static com.pulapirata.core.utils.Puts.*;
 
 
 /**
@@ -250,10 +250,10 @@ class PetWorld extends World {
                             isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
                         }
                         PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
-                        java.lang.System.out.println("linker: visibleCondition = " + newvc);
-                        java.lang.System.out.println("     >>>>>>>>>>>>  Current pet state");
-                        pet_.get(eid).print();
-                        java.lang.System.out.println("     <<<<<<<<<<<<  END Current pet state");
+                        dprint("linker: visibleCondition = " + newvc);
+                        dprint("     >>>>>>>>>>>>  Current pet state");
+                        // pet_.get(eid).print();
+                        dprint("     <<<<<<<<<<<<  END Current pet state");
 //                        entity(eid).didChange(); // mover will render it.
                         // sprite_.get(eid).update(delta);
                     }
@@ -301,12 +301,23 @@ class PetWorld extends World {
         /* ctor */ {
             keyDown_.connect(new Slot<Key>() {
                 @Override public void onEmit (Key key) {
+                    pprint("[key] keydown: " + key);
                     switch (key) {
                       // TODO colocar estado walk_velocity_ na classe pet?
-                      case LEFT:  vel_.x =  -WALK_VELOCITY;  vel_.y = 0;  break;
-                      case RIGHT: vel_.x  =  WALK_VELOCITY;  vel_.y = 0;  break;
-                      case UP:    vel_.x  =  0;  vel_.y =  WALK_VELOCITY;  break;
-                      case DOWN:  vel_.x  =  0;  vel_.y = -WALK_VELOCITY;  break;
+                      case LEFT:
+                        velo_.x =  -WALK_VELOCITY;
+                        velo_.y = 0;
+                        pprint("[key] LEFT press " + velo_.x + ", " + velo_.y);
+                        break;
+                      case RIGHT: velo_.x  =  WALK_VELOCITY;  velo_.y = 0;
+                        pprint("[key] RIGHT press " + velo_.x + ", " + velo_.y);
+                      break;
+                      case UP:    velo_.x  =  0;  velo_.y =  WALK_VELOCITY;
+                        pprint("[key] UP press " + velo_.x + ", " + velo_.y);
+                      break;
+                      case DOWN:  velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
+                        pprint("[key] DOWN press " + velo_.x + ", " + velo_.y);
+                      break;
                       case SPACE:
                         java.lang.System.out.println("Key SPACE pressed: u mean jump?"); break;
                       case C:
@@ -319,15 +330,28 @@ class PetWorld extends World {
             });
             keyUp_.connect(new Slot<Key>() {
                 @Override public void onEmit (Key key) {
+                    pprint("[key] keyup: " + key);
                     switch (key) {
-                      case LEFT:  vel_.x = 0; vel_.y = 0; break;
-                      case RIGHT: vel_.x = 0; vel_.y = 0;  break;
-                      case UP:    vel_.x = 0; vel_.y = 0; break;
-                      case DOWN:  vel_.x = 0; vel_.y = 0;  break;
+                      case LEFT:  velo_.x = 0; velo_.y = 0; break;
+                      case RIGHT: velo_.x = 0; velo_.y = 0;  break;
+                      case UP:    velo_.x = 0; velo_.y = 0; break;
+                      case DOWN:  velo_.x = 0; velo_.y = 0;  break;
                     default: break;
                     }
                 }
             });
+        }
+
+        @Override protected void update (int delta, Entities entities) {
+                Vector v = velo_;
+                for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
+                    int eid = entities.get(ii);
+                    //v.x = MathUtil.clamp(v.x + FloatMath.cos(ang)*_accel, -MAX_VEL, MAX_VEL);
+                    v.x = velo_.x();
+                    v.y = velo_.y();
+                    vel_.set(eid, v);
+                    pprint("[key] " + v.x + ", " + v.y);
+                }
         }
 
         @Override protected void wasAdded (Entity entity) {
@@ -339,7 +363,7 @@ class PetWorld extends World {
             return type_.get(entity.id) == PET;
         }
 
-        protected Vector vel_ = new Vector();
+        protected Vector velo_ = new Vector();
         protected Entity innerPet_;
     };
 

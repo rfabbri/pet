@@ -7,6 +7,7 @@ import playn.core.Json;
 import static playn.core.PlayN.log;
 import playn.core.util.Callback;
 import com.pulapirata.core.PetAttribute;
+import static com.pulapirata.core.utils.Puts.*;
 
 /**
  * A simple set of character attributes.
@@ -356,7 +357,7 @@ public class PetAttributes {
             mapAttrib(sFe());
 
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
-        System.out.println("[satr dbg]: " + sAtt_.get(AttributeID.NUTRICAO));
+        dprint("[satr dbg]: " + sAtt_.get(AttributeID.NUTRICAO));
 
         sAtt_.put(AttributeID.HUMOR, sHumor());
         sAtt_.put(AttributeID.SOCIAL, sSocial());
@@ -416,16 +417,16 @@ public class PetAttributes {
         // priority
         // TODO: todos entre -20 e 0 tem prioridade mais alta que o resto.
 
-        System.out.println( "[vis-priority]: -------------");
+        dprint( "[vis-priority]: -------------");
         int maxPrio = -1;
         for (AttributeID a : sAtt_.keySet()) {
 //            sAtt_.get(a).print();
 //            System.out.println("_+_+state: " + sAtt_.get(a).getState() + " attId: " + a);
-            System.out.println("[vis-priority]: entering");
+            dprint("[vis-priority]: entering");
             if (sAtt_.get(a).getState() == null) {
                 continue;
             }
-            System.out.println("[vis-priority]: evaluating state, vis: " +
+            dprint("[vis-priority]: evaluating state, vis: " +
                     sAtt_.get(a).getState() + ", " + s2vis_.get(sAtt_.get(a).getState()));
             if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio)
                 maxPrio = s2vis_.get(sAtt_.get(a).getState()).ordinal();
@@ -434,9 +435,9 @@ public class PetAttributes {
             vis_.update(VisibleCondition.NORMAL.ordinal());
             return VisibleCondition.NORMAL;
         }
-        System.out.println("[vis-priority]: resulting active visuals: " + VisibleCondition.values()[maxPrio]);
+        dprint("[vis-priority]: resulting active visuals: " + VisibleCondition.values()[maxPrio]);
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
-//        System.out.println("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
+//        dprint("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
         vis_.update(maxPrio);
         return visibleCondition();
     }
