@@ -294,7 +294,7 @@ class PetWorld extends World {
      * touchscreen or gamepad are available.
      */
     public final System keyControls = new System(this, 1) {
-        public static final float WALK_VELOCITY = 0.5f; // 1f;
+        public static final float WALK_VELOCITY = 0.05f; // 1f;
         // actually, use just accel
         public static final float ACCEL = 0.01f;
 
@@ -305,17 +305,16 @@ class PetWorld extends World {
                     switch (key) {
                       // TODO colocar estado walk_velocity_ na classe pet?
                       case LEFT:
-                        velo_.x =  -WALK_VELOCITY;
-                        velo_.y = 0;
+                        velo_.x =  -WALK_VELOCITY; velo_.y = 0;
                         pprint("[key] LEFT press " + velo_.x + ", " + velo_.y);
                         break;
                       case RIGHT: velo_.x  =  WALK_VELOCITY;  velo_.y = 0;
                         pprint("[key] RIGHT press " + velo_.x + ", " + velo_.y);
                       break;
-                      case UP:    velo_.x  =  0;  velo_.y =  WALK_VELOCITY;
+                      case UP:    velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
                         pprint("[key] UP press " + velo_.x + ", " + velo_.y);
                       break;
-                      case DOWN:  velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
+                      case DOWN:  velo_.x  =  0;  velo_.y = WALK_VELOCITY;
                         pprint("[key] DOWN press " + velo_.x + ", " + velo_.y);
                       break;
                       case SPACE:
