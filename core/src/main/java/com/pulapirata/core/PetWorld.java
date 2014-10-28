@@ -83,7 +83,7 @@ class PetWorld extends World {
 
     public int beat_ = 0; // total number of updates so far
     // the following is not static so that we can dynamically speedup the game if desired
-    private int beatsCoelhoDia_ = 10; // beats por 1 coelho dia. multiply by UPDATE_RATE to get ms
+    private int beatsCoelhoDia_ = 1000; // beats por 1 coelho dia. multiply by UPDATE_RATE to get ms
     private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
     private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
     // TODO: colocar em pet attributes?
@@ -303,7 +303,7 @@ class PetWorld extends World {
                 @Override public void onEmit (Key key) {
                     switch (key) {
                       // TODO colocar estado walk_velocity_ na classe pet?
-                      case LEFT:  vel_.x = -WALK_VELOCITY;  vel_.y = 0;  break;
+                      case LEFT:  vel_.x =  -WALK_VELOCITY;  vel_.y = 0;  break;
                       case RIGHT: vel_.x  =  WALK_VELOCITY;  vel_.y = 0;  break;
                       case UP:    vel_.x  =  0;  vel_.y =  WALK_VELOCITY;  break;
                       case DOWN:  vel_.x  =  0;  vel_.y = -WALK_VELOCITY;  break;

@@ -3,7 +3,7 @@ package com.pulapirata.core.utils;
 /**
  * Pet UTils. Generic stuff. We prefix with p.
  */
-public class Put {
+public class Puts {
 
     /**
      * Shortcut to print

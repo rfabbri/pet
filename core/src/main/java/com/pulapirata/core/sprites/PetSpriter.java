@@ -13,7 +13,7 @@ import static playn.core.PlayN.log;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.VisibleCondition;
 import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
-import static com.pulapirata.core.utils.Put.*;
+import static com.pulapirata.core.utils.Puts.*;
 
 /**
  * Class to manage sets of Pet sprite animations.

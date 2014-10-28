@@ -57,7 +57,7 @@ import tripleplay.ui.layout.AxisLayout;
 import tripleplay.util.Randoms;
 import static tripleplay.ui.layout.TableLayout.COL;
 
-import static com.pulapirata.core.utils.Put.*;
+import static com.pulapirata.core.utils.Puts.*;
 
 public class Pet extends Game.Default {
     /*===============================================================================*/
