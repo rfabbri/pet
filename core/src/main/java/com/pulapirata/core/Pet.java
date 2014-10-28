@@ -173,7 +173,7 @@ public class Pet extends Game.Default {
       //
       statlayer.setHeight(120);   // altura do retangulo de informacoes
       statlayer.setDepth(UIDepth.Z_STATBAR.getZ());
-      // XXX XXX layer_.add(statlayer);
+      layer_.add(statlayer);
 
       // ------ The text in the status bar as a tripleplay nested layout interface
 
@@ -252,7 +252,7 @@ public class Pet extends Game.Default {
       statbarRoot.setSize(width(), 120);  // this includes the secondary buttons
       statbarRoot.layer.setDepth(UIDepth.Z_STATBAR.getZ());
 
-      // XXX XXX layer_.addAt(statbarRoot.layer, 0, 0);
+      layer_.addAt(statbarRoot.layer, 0, 0);
       statbarRoot.add(AbsoluteLayout.at(statbar, mae, mte, width()-mae, 120-mte));
     }
 
@@ -280,7 +280,7 @@ public class Pet extends Game.Default {
     private void installBackgroundInit() {
         bgLayer_ = graphics().createImageLayer(bgImageDay_);
         bgLayer_.setDepth(UIDepth.Z_BG.getZ());
-        // XXX XXX layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
+        layer_.addAt(bgLayer_, 0, 120);  // quarto do pingo
         bgLoaded_ = true;
     }
 
@@ -313,7 +313,7 @@ public class Pet extends Game.Default {
             broot.setSize(width(), 354); // this includes the secondary buttons
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
             broot.layer.setDepth(UIDepth.Z_BUTTONS.getZ());
-            //XXX XXX layer_.addAt(broot.layer, 0, 442); // position of buttons
+            layer_.addAt(broot.layer, 0, 442); // position of buttons
 
             final Group buttons = new Group(new AbsoluteLayout()).addStyles(
                 Style.BACKGROUND.is(Background.blank()));
