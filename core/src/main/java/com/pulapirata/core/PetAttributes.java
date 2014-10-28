@@ -418,7 +418,6 @@ public class PetAttributes {
 //            System.out.println("_+_+state: " + sAtt_.get(a).getState() + " attId: " + a);
             System.out.println("[vis-priority]: entering");
             if (sAtt_.get(a).getState() == null) {
-                System.out.println("[vis-priority]: map not available: " + a + sAtt_.get(a).getState());
                 continue;
             }
             System.out.println("[vis-priority]: evaluating state, vis: " +
