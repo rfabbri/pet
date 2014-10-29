@@ -95,7 +95,8 @@ class PetWorld extends World {
     final public double tDuracaoPuloAleatorio_ = beatsCoelhoSegundo_*5;
 //    final public double tDuracaoPuloAleatorio_ = beatsCoelhoHora_/20;
     public double tPuloAleatorio_ = 0;
-    public float tAverageSpacingPuloAleatorio = (float)tDuracaoPuloAleatorio_*3f;
+    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*3f;
+    public double tProximoPuloAleatorio_ = tAverageSpacingPuloAleatorio_;
 
     /*-------------------------------------------------------------------------------*/
     /** Misc methods */
@@ -226,7 +227,7 @@ class PetWorld extends World {
         }
 
         @Override protected void update (int delta, Entities entities) {
-            if (beat_ % 3 != 0)  // sprite update rate
+            if (beat_ % 5 != 0)  // sprite update rate
                 return;
 
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
@@ -268,9 +269,12 @@ class PetWorld extends World {
                         }
 
                         // from time to time pet jumps if it is not jumping
-                        if ((int)(beat_ % rando_.getInRange(0.9f*tAverageSpacingPuloAleatorio, 1.1f*tAverageSpacingPuloAleatorio)) == 0) {
+                        if (beat_ > tProximoPuloAleatorio_) {
+                            pprint ("[pulo] Testando pulando");
+
                             if (tPuloAleatorio_ == -1) {
                                 // trigger jumping
+                                pprint ("[pulo] Setando pulando");
                                 mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
                                 tPuloAleatorio_ = 0;
                             }
@@ -281,6 +285,11 @@ class PetWorld extends World {
                                 tPuloAleatorio_++;
                             else {
                                 tPuloAleatorio_ = -1;
+                                // seta proximo tempo de pulo
+                                tProximoPuloAleatorio_ =
+                                    beat_ + rando_.getInRange(0.9f*tAverageSpacingPuloAleatorio_, 1.1f*tAverageSpacingPuloAleatorio_);
+                                assert tDuracaoPuloAleatorio_ < tAverageSpacingPuloAleatorio_*0.9f;
+                                assert tProximoPuloAleatorio_ - beat_ > tDuracaoPuloAleatorio_;
                             }
                         } else {
                             PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
