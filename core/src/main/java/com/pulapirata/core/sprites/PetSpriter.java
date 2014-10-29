@@ -60,7 +60,7 @@ public class PetSpriter extends Spriter {
         new ArrayList<VisibleCondition>(Arrays.asList(
                 BEBADO,
                 CHORANDO,
-                COMA,
+                COMA_ALCOOLICO,
                 COMENDO,
                 DORMINDO,
                 DOENTE,
@@ -178,6 +178,10 @@ public class PetSpriter extends Spriter {
                 case IRRITADO:
                     System.out.println("[petspriter.set] Warning:  using fallback anim TRISTE for: " + s + ".");
                     set(TRISTE);
+                    return;
+                case COMA:
+                    System.out.println("[petspriter.set] Warning:  using fallback anim COMA_ALCOOLICO for: " + s + ".");
+                    set(COMA_ALCOOLICO);
                     return;
                 default:
                     dprinte("[petspriter.set] Error:  no fallback anim for: " + s + ".");
