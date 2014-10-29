@@ -12,10 +12,10 @@ public class Trigger {
     /** Trigger-specific */
 
     int cost;
-    boolean enabled;
+    boolean enabled_;
 
     bool fire() {
-            enabled = true;
+        enabled_ = true;
     }
 
     /**
@@ -44,7 +44,7 @@ public class Trigger {
      *      - button plumbing:
      *          - fire() test before enabling
      */
-    AgeStage blackList_;
+    EnumMap<AgeStage, Boolean> blackList_;   // TODO use tripleplay BitVec
 
     /*-------------------------------------------------------------------------------*/
     /** Action-specific */
