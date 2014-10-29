@@ -227,11 +227,11 @@ class PetWorld extends World {
         }
 
         @Override protected void update (int delta, Entities entities) {
-            if (beat_ % 5 != 0)  // sprite update rate
-                return;
 
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
+                if (beat_ % 2 != 0)  // sprite update rate
+                    return;
                 sprite_.get(eid).update(delta);
             }
         }
@@ -398,7 +398,6 @@ class PetWorld extends World {
                     v.x = velo_.x();
                     v.y = velo_.y();
                     vel_.set(eid, v);
-                    pprint("[key] " + v.x + ", " + v.y);
                 }
         }
 
