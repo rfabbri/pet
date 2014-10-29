@@ -337,17 +337,17 @@ public class PetAttributes {
 		s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
         s2vis_.put(State.ONONOONO, VisibleCondition.NORMAL);
 
-        sNutricao_ = new PetAttributeState();
-        sHumor_ = new PetAttributeState();
-        sSocial_ = new PetAttributeState();
-        sHigiene_ = new PetAttributeState();
-        sEstudo_ = new PetAttributeState();
-        sSaude_ = new PetAttributeState();
-        sDisciplina_ = new PetAttributeState();
-        sAlcool_ = new PetAttributeState();
-        sVida_ = new PetAttributeState();
-        sSexualidade_ = new PetAttributeState();
-        sFe_ = new PetAttributeState();
+        sNutricao_      = new PetAttributeState();
+        sHumor_         = new PetAttributeState();
+        sSocial_        = new PetAttributeState();
+        sHigiene_       = new PetAttributeState();
+        sEstudo_        = new PetAttributeState();
+        sSaude_         = new PetAttributeState();
+        sDisciplina_    = new PetAttributeState();
+        sAlcool_        = new PetAttributeState();
+        sVida_          = new PetAttributeState();
+        sSexualidade_   = new PetAttributeState();
+        sFe_            = new PetAttributeState();
 
         sAction_.updateState(ActionState.DEFAULT);
 

@@ -107,6 +107,7 @@
           {"name": "fiel fervoroso", "min": 81, "max": 100}
         ]
     },
-    {"name": "Dinheiro", "startValue": 5, "min": 0, "max": 100, "passive": 0, "passiveBeats": 0.0}
+    {"name": "Dinheiro", "startValue": 5, "min": 0, "max": 100, "passive": 0, "passiveBeats": 0.0},
+    {"name": "Intestino", "startValue": 3, "min": 0, "max": 1000000, "passive": 0, "passiveBeats": 0.0}
   ]
 }

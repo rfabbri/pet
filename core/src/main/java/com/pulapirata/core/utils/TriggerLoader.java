@@ -1,5 +1,4 @@
-package com.pulapirata.core.utils;
-
+package com.pulapirata.core.sprites;
 import java.util.ArrayList;
 import com.pulapirata.core.PetAttributes;
 import playn.core.AssetWatcher;
@@ -8,14 +7,13 @@ import playn.core.PlayN;
 import playn.core.util.Callback;
 import static com.pulapirata.core.utils.Puts.*;
 
-
 /**
  * Reads game attribute data from a .json file.
  * mimmicks PeaLoader.java
  */
-public class PetAttributesLoader {
+public class TriggerLoader {
 
-    public static void CreateAttributes(String path, final double beatsCoelhoHora,
+    public static void CreateTrigger(String path, final double beatsCoelhoHora,
                                         final Callback<PetAttributes> callback) {
         final PetAttributes attribs = new PetAttributes();
 
