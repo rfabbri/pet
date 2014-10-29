@@ -92,8 +92,8 @@ class PetWorld extends World {
     final public int beatsMaxIdade_ = beatsCoelhoDia_*8;
 
 
-//    final public double tDuracaoPuloAleatorio_ = beatsCoelhoSegundo_*20;
-    final public double tDuracaoPuloAleatorio_ = beatsCoelhoHora_/20;
+    final public double tDuracaoPuloAleatorio_ = beatsCoelhoSegundo_*5;
+//    final public double tDuracaoPuloAleatorio_ = beatsCoelhoHora_/20;
     public double tPuloAleatorio_ = 0;
     public float tAverageSpacingPuloAleatorio = (float)tDuracaoPuloAleatorio_*3f;
 
