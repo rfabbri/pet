@@ -113,6 +113,16 @@ public class PetAttributes {
         ;
     }
 
+    public enum AgeStage {
+        BEBE,
+        CRIANCA,
+        ADOLESCENTE,
+        ADULTO,
+        MEIA_IDADE,
+        TERCEIRA_IDADE,
+        ANCIAO
+    }
+
     public enum ActionState {
         DEFAULT,
         VARRENDO,
@@ -146,6 +156,11 @@ public class PetAttributes {
         OUVIDO_GRITO,
         SENDO_CASTIGADO,
         LEVANDO_CHICOTADA,
+        LIGANDO,
+        CONVIDANDO_COLEGA,
+        MEXENDO_CELULAR,
+        FAZENDO_FESTA,
+        BOOTY_CALLING,
         GORFANDO  // vomitando de vez em quando soltando vomito
     }
 
