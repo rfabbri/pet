@@ -92,11 +92,27 @@ class PetWorld extends World {
     final public int beatsMaxIdade_ = beatsCoelhoDia_*8;
 
 
-    final public double tDuracaoPuloAleatorio_ = beatsCoelhoSegundo_*5;
+    final public double tAverageDuracaoPuloAleatorio_ = beatsCoelhoSegundo_/4;
+    public double tDuracaoPuloAleatorio_ = tAverageDuracaoPuloAleatorio_; // will be randomized
 //    final public double tDuracaoPuloAleatorio_ = beatsCoelhoHora_/20;
     public double tPuloAleatorio_ = 0;
-    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*3f;
+    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*9f;
     public double tProximoPuloAleatorio_ = tAverageSpacingPuloAleatorio_;
+
+    /*-------------------------------------------------------------------------------*/
+    /** Physics data */
+
+    /** Posicao de cada "butt" */
+    final static float [][] directionLut = new float [][] {
+        {1f, 0f},
+        {0f, 1f},
+        {-1f, 0f},
+        {0f, -1f},
+        {0.7071f, 0.7071f},
+        {-0.7071f, 0.7071f},
+        {-0.7071f, -0.7071f},
+        {0.7071f, -0.7071f}
+    };
 
     /*-------------------------------------------------------------------------------*/
     /** Misc methods */
@@ -182,6 +198,8 @@ class PetWorld extends World {
                 clampxy(p, radius_.get(eid));  // keep entity within screen dimensions
                 opos_.set(eid, p);  // copy clamped pos to opos
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
+
+                pprint("[mover] velocidade scaled " + v);
                 pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
             }
         }
@@ -257,6 +275,9 @@ class PetWorld extends World {
      * Updates pet sprites to reflect inner state.
      */
     public final System spriteLinker = new System(this, 0) {
+
+        public static final float JUMP_WALK_VELOCITY = 0.5f; // 1f;
+
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
@@ -267,28 +288,47 @@ class PetWorld extends World {
                             finishCreatingPetAfterLoaded();
                             isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
                         }
+                        if (type_.get(eid) != PET)
+                            continue;
 
                         // from time to time pet jumps if it is not jumping
                         if (beat_ > tProximoPuloAleatorio_) {
                             pprint ("[pulo] Testando pulando");
 
                             if (tPuloAleatorio_ == -1) {
-                                // trigger jumping
+                                // start jumping
                                 pprint ("[pulo] Setando pulando");
                                 mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
                                 tPuloAleatorio_ = 0;
+                                int d = rando_.getInt(8); // chose among these directions
+                                Vector v = new Vector();
+                                v.x = JUMP_WALK_VELOCITY*directionLut[d][0];
+                                v.y = JUMP_WALK_VELOCITY*directionLut[d][1];
+                                PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+                                if (v.x > 0)
+                                    ps.flipLeft();
+                                else
+                                    ps.flipRight();
+                                vel_.set(eid, v);
+                                pprint("[pulo] setando velocidade " + v);
+
+                                tDuracaoPuloAleatorio_ = (double)
+                                    rando_.getNormal((float)tAverageDuracaoPuloAleatorio_, (float)(0.4*tAverageDuracaoPuloAleatorio_));
                             }
                         }
 
-                        if (tPuloAleatorio_ >= 0) {
+                        if (tPuloAleatorio_ >= 0) { // jumping
                            if (tPuloAleatorio_ <= tDuracaoPuloAleatorio_)
                                 tPuloAleatorio_++;
                             else {
+                                // stop jumping
                                 tPuloAleatorio_ = -1;
-                                // seta proximo tempo de pulo
+                                Vector v = new Vector();
+                                vel_.set(eid, v);
+                                // schedule next jump
                                 tProximoPuloAleatorio_ =
-                                    beat_ + rando_.getInRange(0.9f*tAverageSpacingPuloAleatorio_, 1.1f*tAverageSpacingPuloAleatorio_);
-                                assert tDuracaoPuloAleatorio_ < tAverageSpacingPuloAleatorio_*0.9f;
+                                    beat_ + rando_.getInRange(0.8f*tAverageSpacingPuloAleatorio_, 1.3f*tAverageSpacingPuloAleatorio_);
+                                assert tDuracaoPuloAleatorio_ < tAverageSpacingPuloAleatorio_*0.8f;
                                 assert tProximoPuloAleatorio_ - beat_ > tDuracaoPuloAleatorio_;
                             }
                         } else {
@@ -397,7 +437,7 @@ class PetWorld extends World {
                     //v.x = MathUtil.clamp(v.x + FloatMath.cos(ang)*_accel, -MAX_VEL, MAX_VEL);
                     v.x = velo_.x();
                     v.y = velo_.y();
-                    vel_.set(eid, v);
+                    // XXX vel_.set(eid, v);
                 }
         }
 
