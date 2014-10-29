@@ -14,8 +14,22 @@ public class Trigger {
     int cost;
     boolean enabled_;
 
-    bool fire() {
+    /** Pulls the trigger. */
+    public boolean fire(PetAttribute a) {
+        assert a != null : "[trigger] null";
         enabled_ = true;
+        // - schedule Action
+        action_.start(duration_);
+        if (action_.wasInterrupted()) {
+            printd("[trigger] action was interrupted. No modifiers applied.");
+            return;
+        }
+        // - apply modifiers
+        printd("[trigger] action was interrupted. No modifiers applied.");
+        // we lock pet. but for the future, we'll be queueing actions,
+        // so we check if it is still null
+        assert a != null : "[trigger] pet got after/during action";
+        modifier.applyAll(a, modifiers);
     }
 
     /**
@@ -25,7 +39,7 @@ public class Trigger {
     boolean fireIfAllowed(AgeStage a) {
         if (blackList(a))
             return false;
-
+        fire();
         return true;
     }
 
@@ -33,7 +47,7 @@ public class Trigger {
      * Returns false if trigger not allowed on age.
      */
     boolean blackListed(AgeStage a) {
-        return blackList_.get(a);
+        return blackList_ & a == 0;
     }
 
     /**
@@ -43,16 +57,17 @@ public class Trigger {
      * Use case:
      *      - button plumbing:
      *          - fire() test before enabling
+     *          - json blackList_ | a
      */
-    EnumMap<AgeStage, Boolean> blackList_;   // TODO use tripleplay BitVec
+    private int blackList_;  // mask
+    public addBlackList(AgeStage a) { blacklist_ |= a; }
 
     /*-------------------------------------------------------------------------------*/
     /** Action-specific */
 
     Action action_; // internal pointer to the action
 
-    int duration_; // map from ActionState to duration. in CoelhoSegundos.  World will manage it
-
+    int duration_;  // map from ActionState to duration. in CoelhoSegundos.  World will manage it
 
     /*-------------------------------------------------------------------------------*/
     /** Post-condition */

@@ -114,13 +114,23 @@ public class PetAttributes {
     }
 
     public enum AgeStage {
-        BEBE,
-        CRIANCA,
-        ADOLESCENTE,
-        ADULTO,
-        MEIA_IDADE,
-        TERCEIRA_IDADE,
-        ANCIAO
+        BEBE            (1 << 0),
+        CRIANCA         (1 << 1),
+        ADOLESCENTE     (1 << 2),
+        ADULTO          (1 << 3),
+        MEIA_IDADE      (1 << 4),
+        TERCEIRA_IDADE  (1 << 5),
+        ANCIAO          (1 << 6);
+
+        private final int index;
+
+        private AgeStage(int index) {
+            this.index = index;
+        }
+
+        public int index() {
+            return index;
+        }
     }
 
     public enum ActionState {
