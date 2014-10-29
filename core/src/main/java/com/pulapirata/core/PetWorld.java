@@ -83,13 +83,19 @@ class PetWorld extends World {
 
     public int beat_ = 0; // total number of updates so far
     // the following is not static so that we can dynamically speedup the game if desired
-    private int beatsCoelhoDia_ = 1000; // beats por 1 coelho dia. multiply by UPDATE_RATE to get ms
+    private int beatsCoelhoDia_ = 864000; // beats por 1 coelho dia. multiply by UPDATE_RATE to get ms
     private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
     private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
     // TODO: colocar em pet attributes?
     public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
     final public int beatsMaxIdade_ = beatsCoelhoDia_*8;
+
+
+//    final public double tDuracaoPuloAleatorio_ = beatsCoelhoSegundo_*20;
+    final public double tDuracaoPuloAleatorio_ = beatsCoelhoHora_/20;
+    public double tPuloAleatorio_ = 0;
+    public float tAverageSpacingPuloAleatorio = (float)tDuracaoPuloAleatorio_*3f;
 
     /*-------------------------------------------------------------------------------*/
     /** Misc methods */
@@ -220,6 +226,9 @@ class PetWorld extends World {
         }
 
         @Override protected void update (int delta, Entities entities) {
+            if (beat_ % 5 != 0)
+                return;
+
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
                 sprite_.get(eid).update(delta);
@@ -257,10 +266,25 @@ class PetWorld extends World {
                             finishCreatingPetAfterLoaded();
                             isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
                         }
-                        PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
 
-                        mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
+                        // from time to time pet jumps if it is not jumping
+                        if ((int)(beat_ % rando_.getInRange(0.9f*tAverageSpacingPuloAleatorio, 1.1f*tAverageSpacingPuloAleatorio)) == 0) {
+                            if (tPuloAleatorio_ == -1) {
+                                // trigger jumping
+                                mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
+                                tPuloAleatorio_ = 0;
+                            }
+                        }
 
+                        if (tPuloAleatorio_ >= 0) {
+                           if (tPuloAleatorio_ <= tDuracaoPuloAleatorio_)
+                                tPuloAleatorio_++;
+                            else {
+                                tPuloAleatorio_ = -1;
+                            }
+                        } else {
+                            PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
+                        }
 
 //                        dprint("linker: visibleCondition = " + newvc);
                         dprint("     >>>>>>>>>>>>  Current pet state");
