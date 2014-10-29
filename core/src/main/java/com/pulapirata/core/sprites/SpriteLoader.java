@@ -24,6 +24,7 @@ import playn.core.AssetWatcher;
 import playn.core.Image;
 import playn.core.Json;
 import playn.core.util.Callback;
+import static com.pulapirata.core.utils.Puts.*;
 
 /**
  * Class for loading and parsing sprite sheets.
@@ -53,7 +54,7 @@ public class SpriteLoader {
    * ]}
    * </pre>
    */
-  public static Sprite getSprite(String imagePath, String jsonPath) {
+  public static Sprite getSprite(String imagePath, final  String jsonPath) {
     Image image = assets().getImage(imagePath);
     final Image[] images = new Image[]{image};
     // temp image to prevent NPE if using the Sprite's Layer (Sprite.getLayer()) before the image
@@ -68,6 +69,7 @@ public class SpriteLoader {
         try {
           parseJson(images, sprite, json);
         } catch (Throwable err) {
+          printd("[pet json spriteloader parsed]: " + jsonPath);
           sprite.error(err);
           return;
         }

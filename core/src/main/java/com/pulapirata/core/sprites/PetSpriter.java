@@ -25,35 +25,35 @@ public class PetSpriter extends Spriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
-    private final String prefix = "pet/sprites/";
+    private final String prefix = "pet/sprites/Pingo/Bebe/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
-                "pingo_bebe_bebado.png",
-                "pingo_bebe_chorando.png",
-                "pingo_bebe_coma.png",
-                "pingo_bebe_comendo.png",
-                "pingo_bebe_dormindo.png",
-                "pingo_bebe_febre.png",
-                "pingo_bebe_morto.png",
-                "pingo_bebe_piscando.png",
-                "pingo_bebe_pulando.png",
-                "pingo_bebe_triste.png",
-                "pingo_bebe_vomitando.png"
+                "pingo_bebe_bebado_v2.png",
+                "pingo_bebe_chorando_v2.png",
+                "pingo_bebe_coma_alcoolico_v2.png",
+                "pingo_bebe_comendo_v2.png",
+                "pingo_bebe_dormindo_v2.png",
+                "pingo_bebe_doente_v2.png",
+                "pingo_bebe_morto_v2.png",
+                "pingo_bebe_piscando_v2.png",
+                "pingo_bebe_pulando_v2.png",
+                "pingo_bebe_triste_v2.png",
+                "pingo_bebe_vomitando_v2.png"
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
-                "pingo_bebe_bebado.json",
-                "pingo_bebe_chorando.json",
-                "pingo_bebe_coma.json",
-                "pingo_bebe_comendo.json",
-                "pingo_bebe_dormindo.json",
-                "pingo_bebe_febre.json",
-                "pingo_bebe_morto.json",
-                "pingo_bebe_piscando.json",
-                "pingo_bebe_pulando.json",
-                "pingo_bebe_triste.json",
-                "pingo_bebe_vomitando.json"
+                "pingo_bebe_bebado_v2.json",
+                "pingo_bebe_chorando_v2.json",
+                "pingo_bebe_coma_alcoolico_v2.json",
+                "pingo_bebe_comendo_v2.json",
+                "pingo_bebe_dormindo_v2.json",
+                "pingo_bebe_doente_v2.json",
+                "pingo_bebe_morto_v2.json",
+                "pingo_bebe_piscando_v2.json",
+                "pingo_bebe_pulando_v2.json",
+                "pingo_bebe_triste_v2.json",
+                "pingo_bebe_vomitando_v2.json"
         ));
 
     private final ArrayList<VisibleCondition> vc =
@@ -63,7 +63,7 @@ public class PetSpriter extends Spriter {
                 COMA,
                 COMENDO,
                 DORMINDO,
-                FEBRE,
+                DOENTE,
                 MORTO,
                 NORMAL,
                 PULANDO,
@@ -100,7 +100,11 @@ public class PetSpriter extends Spriter {
 
     public PetSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
-            Sprite s = SpriteLoader.getSprite(prefix + images.get(i), prefix + jsons.get(i));
+
+            String spriteFnames = prefix + images.get(i);
+            String jsonFnames   = prefix + jsons.get(i);
+            printd("[petspriter] Loading sprite file: " + spriteFnames + jsonFnames);
+            Sprite s = SpriteLoader.getSprite(spriteFnames, jsonFnames);
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
             animMap_.put(vc.get(i), s);
 
