@@ -258,7 +258,11 @@ class PetWorld extends World {
                             isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
                         }
                         PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
-                        dprint("linker: visibleCondition = " + newvc);
+
+                        mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
+
+
+//                        dprint("linker: visibleCondition = " + newvc);
                         dprint("     >>>>>>>>>>>>  Current pet state");
                         // pet_.get(eid).print();
                         dprint("     <<<<<<<<<<<<  END Current pet state");

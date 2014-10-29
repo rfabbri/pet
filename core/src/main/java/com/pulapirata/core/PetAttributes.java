@@ -423,6 +423,9 @@ public class PetAttributes {
     public State mode(AttributeID id) {
         return sAtt(id).getState();
     }
+    void setVisibleCondition(VisibleCondition v) {
+        vis_.update(v.ordinal());
+    }
 
     /**
      * computes the dominant appearance from the internal attribute state.
@@ -459,7 +462,7 @@ public class PetAttributes {
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
 //        dprint("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
         vis_.update(maxPrio);
-        // vis_.update(VisibleCondition.NORMAL.ordinal());
+//        vis_.update(VisibleCondition.PULANDO.ordinal());
         return visibleCondition();
     }
 
