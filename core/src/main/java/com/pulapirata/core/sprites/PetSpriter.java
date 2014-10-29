@@ -199,6 +199,20 @@ public class PetSpriter extends Spriter {
         currentSprite_.layer().setVisible(true);
     }
 
+
+    /**
+     * Flips horizontally
+     */
+    public void flipLeft() {
+        currentSprite_.layer().setScaleX(-1);
+        currentSprite_.layer().setTx(currentSprite_.width());
+    }
+
+    public void flipRight() {
+        currentSprite_.layer().setScaleX(1);
+        currentSprite_.layer().setTx(0);
+    }
+
     public void set(int i) {
         set(VisibleCondition.values()[i]);
     }

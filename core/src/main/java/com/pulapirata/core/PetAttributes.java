@@ -443,6 +443,7 @@ public class PetAttributes {
         assert maxPrio != -1 : "either ms is empty or prio vector has negative entries";
 //        dprint("_+_+ vis: " + VisibleCondition.values()[vis_.get()]);
         vis_.update(maxPrio);
+        // vis_.update(VisibleCondition.NORMAL.ordinal());
         return visibleCondition();
     }
 

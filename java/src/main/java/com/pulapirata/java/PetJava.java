@@ -16,7 +16,7 @@ public class PetJava {
 
     JavaPlatform platform = JavaPlatform.register(conf);
 
-    platform.graphics().registerFont("EarthboundZero", "fonts/earthboundzero.ttf");//Fonte
+    platform.graphics().registerFont("EarthboundZero", "fonts/earthboundzero.ttf"); // Fonte
 
     PlayN.run(new Pet());
   }

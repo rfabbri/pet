@@ -310,13 +310,17 @@ class PetWorld extends World {
             keyDown_.connect(new Slot<Key>() {
                 @Override public void onEmit (Key key) {
                     pprint("[key] keydown: " + key);
+                    PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
                     switch (key) {
                       // TODO colocar estado walk_velocity_ na classe pet?
                       case LEFT:
+                        ps.flipRight();
                         velo_.x =  -WALK_VELOCITY; velo_.y = 0;
                         pprint("[key] LEFT press " + velo_.x + ", " + velo_.y);
                         break;
-                      case RIGHT: velo_.x  =  WALK_VELOCITY;  velo_.y = 0;
+                      case RIGHT:
+                        ps.flipLeft();
+                        velo_.x  =  WALK_VELOCITY;  velo_.y = 0;
                         pprint("[key] RIGHT press " + velo_.x + ", " + velo_.y);
                       break;
                       case UP:    velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
@@ -473,6 +477,7 @@ class PetWorld extends World {
 
     protected void finishCreatingPetAfterLoaded() {
         PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+        // ps.layer().setWidth(-ps.layer().width());
         mainPet_.vis().connect(ps.slot());    // links sprite to animation
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
         radius_.set(mainID_, ps.boundingRadius());

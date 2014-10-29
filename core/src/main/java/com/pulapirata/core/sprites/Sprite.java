@@ -52,7 +52,7 @@ public class Sprite {
   Sprite(ImageLayer imageLayer) {
     this.layer = imageLayer;
     spriteImages = new ArrayList<SpriteImage>(0);
-    spriteIdMap = new HashMap<String, Integer>();	
+    spriteIdMap = new HashMap<String, Integer>();
   }
 
   /**
