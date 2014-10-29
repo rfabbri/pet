@@ -1,5 +1,4 @@
 {[
-
 {"name": "Sopa de Cenoura", "acao": "COMENDO", "nutricao": 30, "higiene": -10, "intestino": 3, "duracao": 3},
 {"name": "Sopa de Bacon", "acao": "COMENDO", "nutricao": 40, "humor": 10, "higiene": -20, "saude": -10, "intestino": 3, "duracao": 3},
 {"name": "Salada com Legumes", "acao": "COMENDO", "nutricao": 50, "humor": -10, "saude": 5, "intestino": 1, "duracao": 3,
@@ -141,11 +140,24 @@
     TODO
     "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
 },
-{"name": "Convidar colega", "acao": "CONVIDANDO_COLEGA", "nutricao": -10, "humor": 40, "social": 40, "higiene": -30, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duracao": 3000,
+{"name": "Chinelada", "acao": "LEVANDO_CHINELADA", "nutricao": -5, "humor": -60, "social": 0, "higiene": -10, "estudo": 0, "saude": -10, "alcool": 0, "disciplina": 30, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duracao": 10,
     TODO
     "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
 },
-
-
-
+{"name": "Estudar", "acao": "ESTUDANDO", "nutricao": -10, "humor": -20, "social": 0, "higiene": -5, "estudo": 20, "saude": -0, "alcool": 0, "disciplina": 10, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duracao": 5,
+    TODO
+    "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
+},
+{"name": "Gritar", "acao": "LEVANDO_GRITO", "nutricao": 0, "humor": 40, "social": 0, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 20, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duracao": 10,
+    TODO
+    "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
+},
+{"name": "Castigar", "acao": "SENDO_CASTIGADO", "nutricao": -10, "humor": -50, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 40, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duracao": 300,
+    TODO
+    "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
+},
+{"name": "Chicotear", "acao": "LEVANDO_CHICOTADA", "nutricao": -10, "humor": -80, "social": -60, "higiene": -20, "estudo": 0, "saude": -20, "alcool": -30, "disciplina": 60, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 8, "tipoCoco": "mole", "duracao": 10,
+    TODO
+    "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
+},
 ]}

@@ -161,6 +161,7 @@ public class PetAttributes {
         MEXENDO_CELULAR,
         FAZENDO_FESTA,
         BOOTY_CALLING,
+        ESTUDANDO,
         GORFANDO  // vomitando de vez em quando soltando vomito
     }
 
