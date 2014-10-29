@@ -2,8 +2,8 @@
   "Attributes": [
     {"name": "Nutricao", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.25,
       "States": [
-        {"name": "faminto", "min": -20, "max": 0},
-        {"name": "muita fome", "min": 1, "max": 20},
+        {"name": "faminto", "min": -20, "max": -1},
+        {"name": "muita fome", "min": 0, "max": 20},
         {"name": "fome", "min": 21, "max": 40},
         {"name": "satisfeito", "min": 41, "max": 60},
         {"name": "cheio", "min": 61, "max": 80},
@@ -12,8 +12,8 @@
     },
     {"name": "Humor", "startValue":  30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.333333, "comment": "passiveBeats = 1/3",
       "States": [
-        {"name": "bravo", "min": -20, "max": 0},
-        {"name": "irritado", "min": 1, "max": 20},
+        {"name": "bravo", "min": -20, "max": -1},
+        {"name": "irritado", "min": 0, "max": 20},
         {"name": "entediado", "min": 21, "max": 40},
         {"name": "entretido", "min": 41, "max": 60},
         {"name": "alegre", "min": 61, "max": 80},
@@ -22,18 +22,18 @@
     },
     {"name": "Social", "startValue": 0, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.666666, "comment": "passiveBeats = 2/3",
       "States": [
-        {"name": "depressao", "min": -20, "max": 0},
-        {"name": "sozinho", "min": 1, "max": 20},
+        {"name": "depressao", "min": -20, "max": -1},
+        {"name": "sozinho", "min": 0, "max": 20},
         {"name": "poucos amigos", "min": 21, "max": 40},
         {"name": "normal", "min": 41, "max": 60},
         {"name": "popular", "min": 61, "max": 80},
         {"name": "superstar", "min": 81, "max": 100}
       ]
     },
-    {"name": "Higiene", "startValue": 50, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.5,
+    {"name": "Higiene", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.5,
       "States": [
-        {"name": "imundo", "min": -20, "max": 0},
-        {"name": "muito sujo", "min": 1, "max": 20},
+        {"name": "imundo", "min": -20, "max": -1},
+        {"name": "muito sujo", "min": 0, "max": 20},
         {"name": "sujo", "min": 21, "max": 40},
         {"name": "limpo", "min": 41, "max": 80},
         {"name": "muito limpo", "min": 81, "max": 100}
@@ -41,26 +41,28 @@
     },
     {"name": "Estudo", "startValue": 30, "min": -20, "max": 100, "passive": -10, "passiveBeats": 24, "comment": "passiveBeats = 1/24",
       "States": [
-        {"name": "expulso", "min": -20, "max": 0},
-        {"name": "reprovado", "min": 1, "max": 20},
+        {"name": "expulso", "min": -20, "max": -1},
+        {"name": "reprovado", "min": 0, "max": 20},
         {"name": "recuperacao", "min": 21, "max": 40},
         {"name": "mediano", "min": 41, "max": 60},
         {"name": "bom aluno", "min": 61, "max": 80},
         {"name": "melhor da sala", "min": 81, "max": 100}
       ]
     },
-    {"name": "Saude", "startValue": 100, "min": -20, "max": 100, "passive": -10, "passiveBeats": 24.0,
+    {"name": "Saude", "startValue": 100, "min": -21, "max": 100, "passive": -10, "passiveBeats": 24.0,
       "States": [
-        {"name": "doente terminal", "min": -20, "max": 0},
-        {"name": "doente", "min": 1, "max": 20},
+		{"name": "morto_doente", "min": -21, "max": -21},
+        {"name": "doente terminal", "min": -20, "max": -1},
+        {"name": "doente", "min": 0, "max": 20},
         {"name": "fragil", "min": 21, "max": 40},
         {"name": "estavel", "min": 41, "max": 60},
         {"name": "saudavel", "min": 61, "max": 80},
         {"name": "atleta", "min": 81, "max": 100}
       ]
     },
-    {"name": "Disciplina", "startValue": 0, "min": -20, "max": 100, "passive": 0, "passiveBeats": 0.0,
+    {"name": "Disciplina", "startValue": 0, "min": -21, "max": 100, "passive": 0, "passiveBeats": 0.0,
       "States": [
+		{"name": "preso", "min": -21, "max": -21},
         {"name": "criminoso", "min": -20, "max": -1},
         {"name": "rebelde", "min": 0, "max": 20},
         {"name": "teimoso", "min": 21, "max": 40},
@@ -91,7 +93,8 @@
     {"name": "Sexualidade", "startValue": 0, "min": -20, "max": 100, "passive": 0, "passiveBeats": 0.0,
         "States": [
           {"name": "assexuado", "min": -20, "max": -1},
-          {"name": "virgem", "min": 0, "max": 20},
+          {"name": "virgem", "min": 0, "max": 0},
+		  {"name": "inexperiente", "min": 1, "max": 20},
           {"name": "apreciador do sexo", "min": 21, "max": 40},
           {"name": "sexo selvagem", "min": 41, "max": 60},
           {"name": "Michael Douglas", "min": 61, "max": 80},

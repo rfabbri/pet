@@ -75,6 +75,7 @@ public class PetAttributes {
         MORTO,
 //        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
 //        COM_STINKY_MOSQUITO,
+		INVISIBLE,
         UNDETERMINED
     }
 
@@ -96,19 +97,19 @@ public class PetAttributes {
     }
 
     public enum State {
-        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO,                                 // Nutricao
-        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE,                          // Humor
-        DEPRESSAO, SOZINHO, POUCOS_AMIGOS, POPULAR, SUPERSTAR,                                // Social
-        IMUNDO, MUITO_SUJO, SUJO, LIMPO, MUITO_LIMPO,                                         // Higiene
-        EXPULSO, REPROVADO, RECUPERACAO, MEDIANO, BOM_ALUNO, MELHOR_DA_SALA,                  // Estudo
-        DOENTE_TERMINAL, DOENTE, FRAGIL, ESTAVEL, SAUDAVEL, ATLETA,                           // Saude
-        CRIMINOSO, REBELDE, TEIMOSO, OBEDIENTE, RESPONSAVEL, MAQUINA_DISCIPLINAR,             // Disciplina
-        SOBRIO, TONTO, BEBADO, MUITO_BEBADO, COMA_ALCOOLICO,                                  // Alcool
-        COMA, DILACERADO, MUITO_MACHUCADO, MACHUCADO, FERIDO,                                 // Vida
-        ASSEXUADO, VIRGEM, APRECIADOR_DO_SEXO, SEXO_SELVAGEM, MICHAEL_DOUGLAS, NINFOMANIACO,  // Sexualidade
-        ANTI_CRISTO, FIEL_FERVOROSO,                                                          // Fe
+        FAMINTO, MUITA_FOME, FOME, SATISFEITO, CHEIO, LOTADO,                                 				// Nutricao
+        BRAVO, IRRITADO, ENTEDIADO, ENTRETIDO, ALEGRE, MUITO_ALEGRE,                          				// Humor
+        DEPRESSAO, SOZINHO, POUCOS_AMIGOS, POPULAR, SUPERSTAR,                               				// Social
+        IMUNDO, MUITO_SUJO, SUJO, LIMPO, MUITO_LIMPO,                                         				// Higiene
+        EXPULSO, REPROVADO, RECUPERACAO, MEDIANO, BOM_ALUNO, MELHOR_DA_SALA,                  				// Estudo
+        MORTO_DOENTE, DOENTE_TERMINAL, DOENTE, FRAGIL, ESTAVEL, SAUDAVEL, ATLETA,                           // Saude
+        PRESO, CRIMINOSO, REBELDE, TEIMOSO, OBEDIENTE, RESPONSAVEL, MAQUINA_DISCIPLINAR,             		// Disciplina
+        SOBRIO, TONTO, BEBADO, MUITO_BEBADO, COMA_ALCOOLICO,                                  				// Alcool
+        COMA, DILACERADO, MUITO_MACHUCADO, MACHUCADO, FERIDO,                                 				// Vida
+        ASSEXUADO, VIRGEM, INEXPERIENTE, APRECIADOR_DO_SEXO, SEXO_SELVAGEM, MICHAEL_DOUGLAS, NINFOMANIACO,  // Sexualidade
+        ANTI_CRISTO, FIEL_FERVOROSO,                                                          				// Fe
         NORMAL,
-        ONONOONO // impossivel - invalido
+        ONONOONO 																							// impossivel - invalido
         ;
     }
 
@@ -285,13 +286,15 @@ public class PetAttributes {
          s2vis_.put(State.MEDIANO, VisibleCondition.NORMAL);
          s2vis_.put(State.BOM_ALUNO, VisibleCondition.NORMAL);
          s2vis_.put(State.MELHOR_DA_SALA, VisibleCondition.NORMAL);
-        s2vis_.put(State.DOENTE_TERMINAL, VisibleCondition.DOENTE);
+		s2vis_.put(State.MORTO_DOENTE, VisibleCondition.MORTO);
+         s2vis_.put(State.DOENTE_TERMINAL, VisibleCondition.DOENTE);
          s2vis_.put(State.DOENTE, VisibleCondition.DOENTE);
          s2vis_.put(State.FRAGIL, VisibleCondition.NORMAL);
          s2vis_.put(State.ESTAVEL, VisibleCondition.NORMAL);
          s2vis_.put(State.SAUDAVEL, VisibleCondition.NORMAL);
          s2vis_.put(State.ATLETA, VisibleCondition.NORMAL);
-        s2vis_.put(State.CRIMINOSO, VisibleCondition.NORMAL);
+		s2vis_.put(State.PRESO, VisibleCondition.INVISIBLE);
+         s2vis_.put(State.CRIMINOSO, VisibleCondition.NORMAL);
          s2vis_.put(State.REBELDE, VisibleCondition.NORMAL);
          s2vis_.put(State.TEIMOSO, VisibleCondition.NORMAL);
          s2vis_.put(State.OBEDIENTE, VisibleCondition.NORMAL);
@@ -308,13 +311,14 @@ public class PetAttributes {
          s2vis_.put(State.FERIDO, VisibleCondition.MACHUCADO);
         s2vis_.put(State.ASSEXUADO, VisibleCondition.NORMAL);
          s2vis_.put(State.VIRGEM, VisibleCondition.NORMAL);
+		 s2vis_.put(State.INEXPERIENTE, VisibleCondition.NORMAL);
          s2vis_.put(State.APRECIADOR_DO_SEXO, VisibleCondition.NORMAL);
          s2vis_.put(State.SEXO_SELVAGEM, VisibleCondition.NORMAL);
          s2vis_.put(State.MICHAEL_DOUGLAS, VisibleCondition.NORMAL);
          s2vis_.put(State.NINFOMANIACO, VisibleCondition.NORMAL);
         s2vis_.put(State.ANTI_CRISTO, VisibleCondition.NORMAL);
          s2vis_.put(State.FIEL_FERVOROSO, VisibleCondition.NORMAL);
-        s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
+		s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
         s2vis_.put(State.ONONOONO, VisibleCondition.NORMAL);
 
         sNutricao_ = new PetAttributeState();
