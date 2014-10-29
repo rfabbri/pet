@@ -226,7 +226,7 @@ class PetWorld extends World {
         }
 
         @Override protected void update (int delta, Entities entities) {
-            if (beat_ % 5 != 0)
+            if (beat_ % 3 != 0)  // sprite update rate
                 return;
 
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
