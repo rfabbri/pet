@@ -45,7 +45,7 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
         // parameter:
         assert intervals.size() == states.size() : "Intervals and stateslist must be same-sized.";
 
-        assert intervals.get(0) > att_.min() : "Interval 0 is not beyond att.min(), which should be the first interval boundary";
+        assert intervals.get(0) >= att_.min() : "Interval 0 is not beyond att.min(), which should be the first interval boundary";
 
         for (int i = 1; i < intervals.size(); ++i) {
             assert intervals.get(i) > intervals.get(i-1) : "entries in intervals vector must be decreasing";
