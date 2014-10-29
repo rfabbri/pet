@@ -14,14 +14,37 @@ public class Trigger {
     int cost;
     boolean enabled;
 
+    bool fire() {
+            enabled = true;
+    }
+
+    /**
+     * Pulls the trigger.
+     * And returns false if not allowed on an age.
+     */
+    boolean fireIfAllowed(AgeStage a) {
+        if (blackList(a))
+            return false;
+
+        return true;
+    }
+
+    /**
+     * Returns false if trigger not allowed on age.
+     */
+    boolean blackListed(AgeStage a) {
+        return blackList_.get(a);
+    }
+
     /**
      * Stages when this trigger will be get enabled to the user.
      * Boolean field on AgeStages.
-     * ages_(CRIANCA) == true if this trigger is enabled at CRIANCA age.
+     * blackList(CRIANCA) == true if this trigger is *disabled* at CRIANCA age.
      * Use case:
-     *  -
+     *      - button plumbing:
+     *          - fire() test before enabling
      */
-    AgeStage ages_;
+    AgeStage blackList_;
 
     /*-------------------------------------------------------------------------------*/
     /** Action-specific */
