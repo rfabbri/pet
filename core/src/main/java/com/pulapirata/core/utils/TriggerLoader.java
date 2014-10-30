@@ -95,7 +95,7 @@ public class TriggerLoader {
                             dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
                         else {
                             if (jmat.getString(as) == "blocked") {
-                                triggers.blackList(as);
+                                triggers.get(triggerName).blackList(as);
                             } else {
                                 dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
                             }
