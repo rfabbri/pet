@@ -101,10 +101,10 @@ public class TriggerLoader {
                         if (b == null)
                             dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
                         else {
-                            if (b.equals("block")) {
+                            if (b.equals("lock") || b.equals("locked")) {
                                 triggers.get(triggerName).blackList(ass);
                             } else {
-                                dprint("[triggerLoader] Log: not found =block for " + ass +  ", found " + b + " : assuming unlocked.");
+                                dprint("[triggerLoader] Log: not found \"lock\" for " + ass +  ", found " + b + " : assuming unlocked.");
                             }
                         }
                     }
