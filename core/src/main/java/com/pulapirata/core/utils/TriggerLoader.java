@@ -13,9 +13,9 @@ import static com.pulapirata.core.utils.Puts.*;
  */
 public class TriggerLoader {
 
-    public static void CreateTriggerSet(String path, final double beatsCoelhoHora,
+    public static void CreateTriggers(String path, final double beatsCoelhoHora,
                                         final Callback<PetAttributes> callback) {
-        final TriggerSet triggers = new TriggerSet();
+        final Triggers triggers = new Triggers();
 
         // load the attributes
         PlayN.assets().getText(path, new Callback.Chain<String>(callback) {
@@ -46,7 +46,7 @@ public class TriggerLoader {
 
                     // set internal atributes ---
 
-                    triggers.get().setDuration(jtr.getInt("duration"));
+                    triggers.get(triggerName).setDuration(jtr.getInt("duration"));
                     triggers.get(triggerName).setCost(jtr.getInt("cost"));
 
                     // set modifiers ---
