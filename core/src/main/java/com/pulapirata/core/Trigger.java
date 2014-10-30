@@ -1,4 +1,6 @@
 package com.pulapirata.core.sprites;
+import java.util.EnumMap;
+import com.pulapirata.core.PetAttribute;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.ActionState;
 import com.pulapirata.core.PetAttributes.AgeStage;
@@ -19,7 +21,7 @@ public class Trigger {
     /** is this trigger enabled in the game? */
     public boolean enabled_;
     public boolean enabled() { return enabled_; }
-    public boolean enable() { enabled_ = true; }
+    public boolean enable()  { enabled_ = true; }
     public boolean disable() { enabled_ = false; }
 
     /**
@@ -51,7 +53,7 @@ public class Trigger {
     public boolean fireIfAllowed(AgeStage a) {
         if (blackList(a))
             return false;
-        fire();
+        fire(a);
         return true;
     }
 
@@ -82,7 +84,7 @@ public class Trigger {
     /** action duration in CoelhoSegundos.
      * Initialized using default map from ActionState to duration. World will manage it. */
     private int duration_;
-    public int duration() { return duration_; }
+    public  int duration() { return duration_; }
     public void setDuration(int d) { duration_ = d; }
 
     /*-------------------------------------------------------------------------------*/
@@ -101,14 +103,14 @@ public class Trigger {
         // map from attribute to modifier class
         protected EnumMap<AttributeID, Modifier> map_ = new EnumMap<AttributeID, Modifier> (AttributeID.class);
 
-        boolean setDeltaValue(AttributeID a, int delta) {
+        public boolean setDeltaValue(AttributeID a, int delta) {
             return map_.get(a).setValueDelta(delta);
         }
 
         /**
          * Applies modifiers to all attributes.
          */
-        boolean modify(PetAttributes a) {
+        public boolean modify(PetAttributes a) {
             for (AttributeID id : map.keySet()) {  // for each possible attribute / modifier value
                 //for (AttributeID id : map.keySet())  // for each possible attribute / modifier value
                 /* Apply modifier to all attribute properties, eg., value, passive */
@@ -158,19 +160,19 @@ public class Trigger {
     /*-------------------------------------------------------------------------------*/
     /** Misc */
 
-    Trigger(Action a, int duration, Modifiers modifiers) {
-        set(a, duration, modifiers);
-    }
-
     Trigger () {
         // do nothing
+    }
+
+    Trigger(Action a, int duration, Modifiers modifiers) {
+        set(a, duration, modifiers);
     }
 
     /**
      * To be called by suitable constructor code.
      * Used in TriggerLoader.
      */
-    void set(Action a, int d, Modifiers m) {
+    public void set(Action a, int d, Modifiers m) {
         action_ = a;
         duration_ = d;
         modifiers_ = m;
