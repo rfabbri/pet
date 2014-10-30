@@ -21,7 +21,7 @@ public class Trigger {
     public void setCost(int c) { cost_ = c; }
 
     /** is this trigger enabled in the game? */
-    public boolean enabled_;
+    public boolean enabled_ = true;
     public boolean enabled() { return enabled_; }
     public void enable()  { enabled_ = true; }
     public void disable() { enabled_ = false; }
@@ -37,6 +37,8 @@ public class Trigger {
      * not aborted).
      */
     public boolean fire(PetAttributes a) {
+        if (!enabled_)
+            return false;
         assert a != null : "[trigger] null";
         // - schedule Action
         Action act = new Action(action_);   // perhaps pass a
@@ -59,6 +61,8 @@ public class Trigger {
      * And returns false if not allowed on an age.
      */
     public boolean fireIfAllowed(PetAttributes at, AgeStage a) {
+        if (!enabled_)
+            return false;
         if (blackListed(a))
             return false;
         fire(at);

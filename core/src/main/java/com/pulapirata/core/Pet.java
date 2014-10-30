@@ -26,6 +26,8 @@ import playn.core.util.Callback;
 
 import com.pulapirata.core.Aviso;
 import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.Triggers.TriggerType;
+import com.pulapirata.core.Trigger;
 import com.pulapirata.core.PetWorld;
 import com.pulapirata.core.utils.PetAttributesLoader;
 
@@ -535,6 +537,15 @@ public class Pet extends Game.Default {
             assert numMainButts_ != 0 : "tried to wire world before constructing buttons.";
             for (int b = 0; b < numMainButts_; ++b) {
                 for (int s = 0; s < secondaryButtons_.get(b).size(); ++s) {
+                    if (b == 0 /* comida */ && s == 0 /* sopa cenoura */)
+                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
+                            public void onEmit() {
+                                //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
+                                if (world_.triggersLoaded()) { // use asset manager
+                                    world_.triggers().get(TriggerType.SOPA_DE_CENOURA).fire(a());
+                                }
+                            }
+                        });
                     if (b == 5 && s == 0)
                         secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
                             public void onEmit() {

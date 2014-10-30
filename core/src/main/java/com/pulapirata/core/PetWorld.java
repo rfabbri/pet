@@ -49,7 +49,8 @@ class PetWorld extends World {
     private boolean attributesLoaded_ = false;
     private boolean triggersLoaded_ = false;
     private boolean isPetWired_ = false;
-    public Triggers triggers_;
+    private Triggers triggers_;
+    public Triggers triggers()  { return triggers_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
