@@ -408,8 +408,6 @@ public class PetAttributes {
             mapAttrib(sSexualidade());
         sFe_.set(fe());
             mapAttrib(sFe());
-        sFe_.set(intestino());
-            mapAttrib(intestino());
 
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
         dprint("[satr dbg]: " + sAtt_.get(AttributeID.NUTRICAO));
@@ -434,8 +432,8 @@ public class PetAttributes {
      */
     public void hookupReactiveWires() {
         // hookup AttributeStates to respond to Attributes
-//        sAlcool_.listen();
-//        sNutricao_.listen();
+        //        sAlcool_.listen();
+        //        sNutricao_.listen();
         for (AttributeID a : sAtt_.keySet()) {
             sAtt_.get(a).listen();
         }
