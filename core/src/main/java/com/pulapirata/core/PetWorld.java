@@ -123,7 +123,7 @@ class PetWorld extends World {
     /** Misc methods */
 
     public boolean worldLoaded() {
-        return attributesLoaded_;
+        return attributesLoaded_ && triggersLoaded_;
     }
 
     public boolean triggersLoaded() {
@@ -435,7 +435,9 @@ class PetWorld extends World {
                         pprint("[key] DOWN press " + velo_.x + ", " + velo_.y);
                       break;
                       case SPACE:
-                        java.lang.System.out.println("Key SPACE pressed: u mean jump?"); break;
+                        java.lang.System.out.println("Key SPACE pressed: u mean jump?");
+                        mainPet_.print();
+                        break;
                       case C:
                         java.lang.System.out.println("Key C pressed: u mean taka dump?"); break;
                       case R:

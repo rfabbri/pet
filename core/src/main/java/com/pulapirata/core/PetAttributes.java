@@ -218,12 +218,12 @@ public class PetAttributes {
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
-    public PetAttribute get(String s) { return m_.get(s); }
-    public PetAttribute get(AttributeID id) { return m_.get(id.toString()); }
+    public PetAttribute get(String s) { return m_.get(s.toUpperCase().replace(' ', '_')); }
+    public PetAttribute get(AttributeID id) { return get(id.toString()); }
 
     /** attributeState name to object map */
     public Map<String, PetAttributeState> ms_ = new HashMap<String, PetAttributeState>();
-    public PetAttributeState<State> sAtt(String s) { return ms_.get(s); }
+    public PetAttributeState<State> sAtt(String s) { return ms_.get(s.toUpperCase().replace(' ', '_')); }
 
     /** attributeID enum to attributeState object map */
     public EnumMap<AttributeID, PetAttributeState> sAtt_ = new EnumMap<AttributeID, PetAttributeState>(AttributeID.class);
@@ -278,19 +278,19 @@ public class PetAttributes {
      */
     public PetAttributes() {
         // defalt values. values in the json will take precedence if available
-        nutricao_       = new PetAttribute("Nutricao");
-        humor_          = new PetAttribute("Humor");
-        social_         = new PetAttribute("Social");
-        higiene_        = new PetAttribute("Higiene");
-        estudo_         = new PetAttribute("Estudo");
-        saude_          = new PetAttribute("Saude");
-        disciplina_     = new PetAttribute("Disciplina");
-        alcool_         = new PetAttribute("Alcool");
-        vida_           = new PetAttribute("Vida");
-        sexualidade_    = new PetAttribute("Sexualidade");
-        fe_             = new PetAttribute("Fe");
-        intestino_      = new PetAttribute("Intestino");
-        dinheiro_       = new PetAttribute("Dinheiro");
+        nutricao_       = new PetAttribute("NUTRICAO");
+        humor_          = new PetAttribute("HUMOR");
+        social_         = new PetAttribute("SOCIAL");
+        higiene_        = new PetAttribute("HIGIENE");
+        estudo_         = new PetAttribute("ESTUDO");
+        saude_          = new PetAttribute("SAUDE");
+        disciplina_     = new PetAttribute("DISCIPLINA");
+        alcool_         = new PetAttribute("ALCOOL");
+        vida_           = new PetAttribute("VIDA");
+        sexualidade_    = new PetAttribute("SEXUALIDADE");
+        fe_             = new PetAttribute("FE");
+        intestino_      = new PetAttribute("INTESTINO");
+        dinheiro_       = new PetAttribute("DINHEIRO");
 
         mapAttrib(nutricao());
         mapAttrib(humor());

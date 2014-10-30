@@ -541,7 +541,7 @@ public class Pet extends Game.Default {
                         secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
                             public void onEmit() {
                                 //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
-                                if (world_.triggersLoaded()) { // use asset manager
+                                if (world_.worldLoaded()) { // use asset manager
                                     world_.triggers().get(TriggerType.SOPA_DE_CENOURA).fire(a());
                                 }
                             }

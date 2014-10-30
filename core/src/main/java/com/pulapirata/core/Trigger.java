@@ -142,6 +142,7 @@ public class Trigger {
                     dprint("[trigger] no modifier for attribute " + id + ", using default");
                     continue;
                 }
+                pprint("[modify] id " + id);
                 mod.modifyAllProperties(a.get(id));
                 dprint("[trigger] either modifier rule for attribute " + a + "unavailable or some other error");
                 return false;
@@ -171,6 +172,7 @@ public class Trigger {
             /** Apply modifier to all attribute properties.
              * eg., value, passive */
             public void modifyAllProperties(PetAttribute a) {
+                pprint("[modifier] " + a);
                 // for each regular attribute enum
                 //  - a.atributemap(e).sum()
                 a.sum(deltaValue_);
