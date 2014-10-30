@@ -1,8 +1,7 @@
 {
-    "Trigers": [
-{"name": "Sopa de Cenoura", "action": "COMENDO", "duration": 3, "cost": 0,
-    "Modifiers" : [{ "nutricao": 30, "higiene": -10, "intestino": 3}],
-    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "block", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
+    "Trigers": [ {"name": "Sopa de Cenoura", "action": "COMENDO", "duration": 3, "cost": 0,
+            "Modifiers" : [{ "nutricao": 30, "higiene": -10, "intestino": 3 }],
+            "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "block", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Sopa de Bacon", "action": "COMENDO", "nutricao": 40, "humor": 10, "higiene": -20, "saude": -10, "intestino": 3, "duration": 3,
     "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "block", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]

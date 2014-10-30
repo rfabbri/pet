@@ -42,7 +42,7 @@ public class TriggerLoader {
                 for (int i = 0; i < jsonTriggers.length(); i++) {
                     Json.Object jtr = jsonAttributes.getObject(i);
                     String triggerName = jtr.getString("name");
-                    dprint("reading name: " + triggerName);
+                    dprint("[triggerloader] reading name: " + triggerName);
 
                     // set internal atributes ---
 
@@ -51,23 +51,29 @@ public class TriggerLoader {
 
                     // set modifiers ---
                     Modifiers m = new Modifiers();
-                    Json.Array jmods = jsonAttributes.getObject(i).getArray("Modifiers");
+                    Json.Array jmod = jsonAttributes.getObject(i).getArray("Modifiers");
                     assert jmod != null : "[triggerLoader] required modifiers not found";
 
-                    for (k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
+                    for (int k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
                         Json.Object jmatt = jsonStates.getObject(k);
                         for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
                             switch (a) {
                                 case TIPO_COCO:
                                 case CELULAR:
-                                    dprint("[triggerLoader] Warning: modifier not implemented for " + a);
+                                     if (jmatt.getObject(a.toString()) != null) {
+                                        int t = jmod.getInt(a.toString());
+                                        m.setValue(a, t);
+                                        dprint("[triggerLoader] celular in json : " + a);
+                                     } else {
+                                        dprint("[triggerLoader] not found modifiers in current modifier for : " + a);
+                                     }
                                     break;
                                 default:
                                      // simple delta case
                                      int ai = jmatt.getInt(a.toString());
-
                                      if (ai == 0)
-                                         dprint("[triggerLoader] Log: modifier for attribute " + a +  " not found, assuming default or jSON comment.");
+                                         dprint("[triggerLoader] Log: modifier for attribute " + a +
+                                                 " not found, assuming default or jSON comment.");
                                      else {
                                          boolean retval = m.setDeltaValue(a, ai);
                                          assert retval;
@@ -90,11 +96,11 @@ public class TriggerLoader {
                     }
 
                     for (AgeStage ass : AgeStage.values())  {
-                        int as = jmatt.getString(ass.toString());
-                        if (as == 0)
+                        String as = jas.getString(ass.toString());
+                        if (as == null)
                             dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
                         else {
-                            if (jmat.getString(as) == "blocked") {
+                            if (jas.getString(as) == "blocked") {
                                 triggers.get(triggerName).blackList(as);
                             } else {
                                 dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
