@@ -43,13 +43,15 @@ public class TriggerLoader {
 
                 // parse the attributes, adding each asset to the asset watcher
                 Json.Array jsonTriggers = document.getArray("Triggers");
+                assert jsonTriggers != null : "Triggers tag not found";
                 for (int i = 0; i < jsonTriggers.length(); i++) {
                     Json.Object jtr = jsonTriggers.getObject(i);
-                    String triggerName = jtr.getString("name");
-                    dprint("[triggerloader] reading name: " + triggerName);
+                    String triggerName = jtr.getString("name").toUpperCase().replace(' ', '_');
+                    pprint("[triggerloader] reading name: " + triggerName);
 
                     // set internal atributes ---
 
+                    pprint("[triggerloader] " + triggers.get(triggerName));
                     triggers.get(triggerName).setDuration(jtr.getInt("duration"));
                     triggers.get(triggerName).setCost(jtr.getInt("cost"));
 
@@ -74,7 +76,7 @@ public class TriggerLoader {
                                 */
                             default:
                                  // simple delta case
-                                 int ai = jmod.getInt(a.toString());
+                                 int ai = jmod.getInt(a.toString().toLowerCase());
                                  if (ai == 0)
                                      dprint("[triggerLoader] Log: modifier for attribute " + a +
                                              " not found, assuming default or jSON comment.");

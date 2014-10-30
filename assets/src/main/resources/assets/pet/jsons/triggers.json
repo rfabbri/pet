@@ -1,4 +1,4 @@
-{"Trigers": [
+{"Triggers": [
     {"name": "Sopa de Cenoura", "action": "COMENDO", "duration": 3, "cost": 0,
              "Modifiers": [{ "nutricao": 30, "higiene": -10, "intestino": 3 }],
              "AgeStage": [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "block", "MEIA_IDADE": "block", "TERCEIRA_IDADE": "block", "ANCIAO": "noblock" }]

@@ -60,7 +60,7 @@ public class Triggers {
      * Stores the triggers, indexed by TriggerType */
     protected EnumMap<TriggerType, Trigger> map_ = new EnumMap<TriggerType, Trigger> (TriggerType.class);
 
-    public void Trigger() {
+    public Triggers() {
         for (TriggerType tt : TriggerType.values()) {
             Trigger trig = new Trigger();
             map_.put(tt, trig);
