@@ -127,7 +127,7 @@ public class Trigger {
                     dprint("[trigger] no modifier for attribute " + id + ", using default");
                     continue;
                 }
-                mod.modifyAllProperties(a.attr_(id));
+                mod.modifyAllProperties(a.get(id));
                 dprint("[trigger] either modifier rule for attribute " + a + "unavailable or some other error");
                 return false;
             }
