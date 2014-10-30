@@ -69,8 +69,8 @@ public class TriggerLoader {
                                      if (ai == 0)
                                          dprint("[triggerLoader] Log: modifier for attribute " + a +  " not found, assuming default or jSON comment.");
                                      else {
-
-                                         m.setValueDelta(a, ai);
+                                         boolean retval = m.setValueDelta(a, ai);
+                                         assert retval;
                                      }
                                     break;
                                  // other cases:
@@ -78,7 +78,7 @@ public class TriggerLoader {
                             }
                         }
                     }
-                    triggers.get(triggerName).setModifier(m);
+                    triggers.get(triggerName).setModifiers(m);
 
                     // set agestage ---
                     Json.Array jas;
