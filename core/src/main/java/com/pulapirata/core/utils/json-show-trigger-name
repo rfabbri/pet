@@ -1,0 +1,10 @@
+#!/bin/sh
+# Displays trigger name from json file
+
+# can do it with just cut...
+#grep -o '^{"[^"]*"[^,]*,' ~/a/triggers.json |cut -f 2 -d ' ' | cut -f 2 -d  '"'
+grep -o '^{"[^"]*"[^,]*,' ~/a/triggers.json  | cut -f 4 -d '"'
+
+#|cut -f 2 -d ' ' | cut -f 2 -d  '"'
+
+#cut -f 4 -d '"' ~/a/triggers.json
