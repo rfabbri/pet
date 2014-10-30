@@ -1,4 +1,5 @@
 package com.pulapirata.core.sprites;
+import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.ActionState;
 import com.pulapirata.core.PetAttributes.AgeStage;
 import static com.pulapirata.core.utils.Puts.*;
@@ -8,13 +9,11 @@ import static com.pulapirata.core.utils.Puts.*;
  * Usually initiated by a button.
  */
 public class Trigger {
-    public static String JSON_PATH = "pet/jsons/triggers.json";
-
     /*-------------------------------------------------------------------------------*/
     /** Trigger-specific */
 
     /** the cost of performing this action */
-    int cost_;
+    private int cost_;
     public void setCost(int c) { cost_ = c; }
 
     /** is this trigger enabled in the game? */
@@ -149,10 +148,7 @@ public class Trigger {
             public void modifyAllProperties(PetAttributes a) {
                 // for each regular attribute enum
                 //  - a.atributemap(e).sum()
-                //
-                //
                 a.sum(deltaVal_);
-
                 // future: modify remaining properties
                 // a.setPassivo(deltaPassivo_);
             }
@@ -165,6 +161,7 @@ public class Trigger {
     Trigger(Action a, int duration, Modifiers modifiers) {
         set(a, duration, modifiers);
     }
+
     Trigger () {
         // do nothing
     }

@@ -1,4 +1,5 @@
 package com.pulapirata.core.sprites;
+import com.pulapirata.core.Trigger;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -6,7 +7,9 @@ import static com.pulapirata.core.utils.Puts.*;
  * Indexed by the trigger enum.
  */
 public class Triggers {
-    public enum TriggerTypes {
+    public static String JSON_PATH = "pet/jsons/triggers.json";
+
+    public enum TriggerType {
         SOPA_DE_CENOURA,
         SOPA_DE_BACON,
         SALADA_COM_LEGUMES,
@@ -50,5 +53,17 @@ public class Triggers {
         CASTIGAR,
         CHICOTEAR
     }
-    // map from TriggerType
+
+    /** map from TriggerType to modifier class.
+     * Stores the triggers, indexed by TriggerType */
+    protected EnumMap<TriggerType, Trigger> map_ = new EnumMap<TriggerType, Trigger> (AttributeID.class);
+
+    public Trigger() {
+        for (TriggerType tt : TriggerType.values()) {
+            Trigger trig = new Trigger();
+            map_.put(tt, trig);
+        }
+    }
+
+    public Trigger get(TriggerType t) { map_.get(t) }
 }
