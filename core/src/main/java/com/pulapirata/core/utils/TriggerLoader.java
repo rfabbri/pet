@@ -46,13 +46,20 @@ public class TriggerLoader {
 
                     Modifiers m;
 
+                    // set modifiers
+                    for (i = 0; i < ) { // for each element in "Modificadores"
+                        // case simple
+                        m.setValueDelta(attr, v);
+                        //
+                        // m.setPassivoDelta(attr, v);
+
+                        // case tipoCoco,
+                    }
+                    triggers.get(jatt.getString("name")).set(m);
 
                     // set agestage
                     for (i = 0; i < ) // for each element in "AgeStage"
                         triggers.blackList(AgeStage.valueOf(string));
-                    // set modifiers
-                    for (i = 0; i < ) // for each element in "Modificadores"
-                        triggers.get(jatt.getString("name")).setModifier();
 
                     triggers.get(jatt.getString("name")).set(
                         jatt.getString("name"),
