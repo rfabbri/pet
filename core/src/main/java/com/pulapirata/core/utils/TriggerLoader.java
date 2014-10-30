@@ -5,6 +5,8 @@ import playn.core.Json;
 import playn.core.PlayN;
 import playn.core.util.Callback;
 import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.PetAttributes.AttributeID;
+import com.pulapirata.core.PetAttributes.AgeStage;
 import com.pulapirata.core.Triggers;
 import com.pulapirata.core.Trigger.Modifiers;
 import static com.pulapirata.core.utils.Puts.*;
@@ -57,11 +59,12 @@ public class TriggerLoader {
                     assert jmod != null : "[triggerLoader] required modifiers not found";
 
                     for (int k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
-                        Json.Object jmatt = jsonStates.getObject(k);
+                        Json.Object jmatt = jmod.getObject(k);
                         for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
                             switch (a) {
+                                /* These are not in AttributeID yet
                                 case TIPO_COCO:
-                                case CELULAR:
+                                case TIPO_CELULAR:
                                      if (jmatt.getObject(a.toString()) != null) {
                                         int t = jmod.getInt(a.toString());
                                         m.setValue(a, t);
@@ -70,6 +73,7 @@ public class TriggerLoader {
                                         dprint("[triggerLoader] not found modifiers in current modifier for : " + a);
                                      }
                                     break;
+                                    */
                                 default:
                                      // simple delta case
                                      int ai = jmatt.getInt(a.toString());
@@ -77,14 +81,15 @@ public class TriggerLoader {
                                          dprint("[triggerLoader] Log: modifier for attribute " + a +
                                                  " not found, assuming default or jSON comment.");
                                      else {
-                                         boolean retval = m.setDeltaValue(a, ai);
-                                         assert retval;
+                                         m.setDeltaValue(a, ai);
                                      }
                                     break;
                                  // other cases:
                                  //    - m.setPassivoDelta(attr, v);
                             }
                         }
+                        // TODO read tipo coco here
+                        dprint("[triggerloader] todo: parse tipo coco tipo celular");
                     }
                     triggers.get(triggerName).setModifiers(m);
 
@@ -97,15 +102,19 @@ public class TriggerLoader {
                         assert jas != null : "[triggerLoader] required AgeStage not found";
                     }
 
-                    for (AgeStage ass : AgeStage.values())  {
-                        String as = jas.getString(ass.toString());
-                        if (as == null)
-                            dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
-                        else {
-                            if (jas.getString(as) == "blocked") {
-                                triggers.get(triggerName).blackList(as);
-                            } else {
-                                dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
+                    for (int k = 0; k < jas.length(); ++k) { // for each element in "AgeStage"
+                        Json.Object jage = jmod.getObject(k);
+
+                        for (AgeStage ass : AgeStage.values())  {
+                            String as = jas.getString(ass.toString());
+                            if (as == null)
+                                dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
+                            else {
+                                if (jas.getString(as) == "blocked") {
+                                    triggers.get(triggerName).blackList(as);
+                                } else {
+                                    dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
+                                }
                             }
                         }
                     }
