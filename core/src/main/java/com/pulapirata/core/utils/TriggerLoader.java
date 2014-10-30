@@ -41,7 +41,15 @@ public class TriggerLoader {
                 Json.Array jsonTriggers = document.getArray("Attributes");
                 for (int i = 0; i < jsonTriggers.length(); i++) {
                     Json.Object jtr = jsonAttributes.getObject(i);
-                    dprint("reading name: " + jtr.getString("name"));
+                    String triggerName = jtr.getString("name");
+                    dprint("reading name: " + triggerName);
+
+                    // set internal atributes
+
+                    triggers.get().setDuration(jtr.getInt("duration"));
+                    triggers.get(triggerName).setCost(jtr.getInt("duration"));
+
+
 
                     Modifiers m = new Modifiers();
                     Json.Array jmods = jsonAttributes.getObject(i).getArray("Modifiers");
@@ -65,10 +73,7 @@ public class TriggerLoader {
                             // case tipoCoco,
                         }
                     }
-                    triggers.get(jtr.getString("name")).set(m);
-
-
-                    //  XXX DOING ------------------ OK
+                    triggers.get(triggerName).setModifier(m);
 
                     // set agestage
                     Json.Array jas;
@@ -91,28 +96,9 @@ public class TriggerLoader {
                             }
                         }
                     }
-
-                    // ----------
-                    Json.Array jsonStates = jsonAttributes.getObject(i).getArray("States");
-                    if (jsonStates == null)
-                       continue;
-
-                    ArrayList<PetAttributes.State> s = new ArrayList<PetAttributes.State>();
-                    ArrayList<Integer> iv = new ArrayList<Integer>();
-                    for (int k = 0; k < jsonStates.length(); k++) {
-                        Json.Object js = jsonStates.getObject(k);
-//                        System.out.println("reading state: " + js.getString("name"));
-                        s.add(PetAttributes.State.valueOf(js.getString("name").toUpperCase().replace(' ', '_')));
-                        iv.add(js.getInt("max"));
-                        assert k != 0 || js.getInt("min") == attribs.get(jatt.getString("name")).min()
-                            : "json not consistent with assumption of min of interval equal min of first state";
-                    }
-
-                    attribs.sAtt(jatt.getString("name")).set(s, iv);
                 }
-                attribs.hookupReactiveWires();
 
-                assert attribs.isInitialized() : "not all attributes initialized";
+                assert triggers.isInitialized() : "[triggerLoader] not all triggers initialized";
 
                 // start the watcher (it will call the callback when everything is
                 // loaded)
