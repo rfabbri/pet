@@ -40,8 +40,8 @@ public class TriggerLoader {
                 // parse the attributes, adding each asset to the asset watcher
                 Json.Array jsonTriggers = document.getArray("Attributes");
                 for (int i = 0; i < jsonTriggers.length(); i++) {
-                    Json.Object jatt = jsonAttributes.getObject(i);
-                    dprint("reading name: " + jatt.getString("name"));
+                    Json.Object jtr = jsonAttributes.getObject(i);
+                    dprint("reading name: " + jtr.getString("name"));
 
                     Modifiers m = new Modifiers();
                     Json.Array jmods = jsonAttributes.getObject(i).getArray("Modifiers");
@@ -51,7 +51,7 @@ public class TriggerLoader {
                     for (k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
 
                         Json.Object jmatt = jsonStates.getObject(k);
-                        for (a = 0; a < jmatt.length(); a++) {  // for each possible attribute / modifier value
+                        for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
                             // case simple
                             int ai = jmatt.getInt(a.toString());
                             if (ai == 0)
@@ -65,18 +65,34 @@ public class TriggerLoader {
                             // case tipoCoco,
                         }
                     }
-                    triggers.get(jatt.getString("name")).set(m);
+                    triggers.get(jtr.getString("name")).set(m);
+
+
+                    //  XXX DOING ------------------ OK
 
                     // set agestage
-                    for (i = 0; i < ) // for each element in "AgeStage"
-                        triggers.blackList(AgeStage.valueOf(string));
+                    Json.Array jas;
+                    jas = jsonAttributes.getObject(i).getArray("AgeStage");
+                    if (jas == null) {
+                        dprint("Tryig Age Stage with space");
+                        jas = jsonAttributes.getObject(i).getArray("Age Stage");
+                        assert jas != null : "[triggerLoader] required AgeStage not found";
+                    }
 
-                    triggers.get(jatt.getString("name")).set(
-                        jatt.getString("name"),
-                        Action.valueOf(jatt.getInt("acao")),
-                        m
-                    );
+                    for (AgeStage ass : AgeStage.values())  {
+                        int as = jmatt.getString(ass.toString());
+                        if (as == 0)
+                            dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
+                        else {
+                            if (jmat.getString(as) == "blocked") {
+                                triggers.blackList(as);
+                            } else {
+                                dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
+                            }
+                        }
+                    }
 
+                    // ----------
                     Json.Array jsonStates = jsonAttributes.getObject(i).getArray("States");
                     if (jsonStates == null)
                        continue;
