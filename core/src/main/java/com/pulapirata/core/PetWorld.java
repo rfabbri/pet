@@ -24,6 +24,8 @@ import tripleplay.util.Randoms;
 
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.utils.PetAttributesLoader;
+import com.pulapirata.core.utils.TriggerLoader;
+import com.pulapirata.core.Triggers;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
 import static com.pulapirata.core.utils.Puts.*;
@@ -47,6 +49,7 @@ class PetWorld extends World {
     private boolean attributesLoaded_ = false;
     private boolean triggersLoaded_ = false;
     private boolean isPetWired_ = false;
+    public Triggers triggers_;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -163,11 +166,11 @@ class PetWorld extends World {
             });
 
         /** Load triggers */
-        TriggerLoader.CreateTriggerSet(TriggerSet.JSON_PATH, beatsCoelhoHora_,
-            new Callback<PetAttributes>() {
+        TriggerLoader.CreateTriggers(Triggers.JSON_PATH, beatsCoelhoHora_,
+            new Callback<Triggers>() {
                 @Override
-                public void onSuccess(TriggerSet resource) {
-                    triggerSet_ = resource;
+                public void onSuccess(Triggers resource) {
+                    triggers_ = resource;
                     // if (mainID_ != -1)
                     //     pet_.get(mainID_).didChange();
                     triggersLoaded_ = true;

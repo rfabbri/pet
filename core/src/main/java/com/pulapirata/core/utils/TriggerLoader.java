@@ -1,10 +1,11 @@
-package com.pulapirata.core.sprites;
+package com.pulapirata.core.utils;
 import java.util.ArrayList;
-import com.pulapirata.core.PetAttributes;
 import playn.core.AssetWatcher;
 import playn.core.Json;
 import playn.core.PlayN;
 import playn.core.util.Callback;
+import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.Triggers;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -14,7 +15,7 @@ import static com.pulapirata.core.utils.Puts.*;
 public class TriggerLoader {
 
     public static void CreateTriggers(String path, final double beatsCoelhoHora,
-                                        final Callback<PetAttributes> callback) {
+                                        final Callback<Triggers> callback) {
         final Triggers triggers = new Triggers();
 
         // load the attributes

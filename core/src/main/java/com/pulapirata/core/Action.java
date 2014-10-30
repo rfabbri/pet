@@ -1,3 +1,6 @@
+package com.pulapirata.core;
+import com.pulapirata.core.PetAttributes.ActionState;
+import static com.pulapirata.core.utils.Puts.*;
 /**
  * Manages actions.
  * - runs for a specified duration
@@ -5,22 +8,28 @@
  *   TODO: this will actually be ActionManager....
  */
 class Action {
+    private int duration_ = 5;   // default duration
+    public int duration() { return duration_; }
+    public void setDuration(int d) { duration_ = d; }
+    private ActionState action_;
+    public int get() { return action_; }
 
-    int duration_ = 5;   // default duration
-    int duration() { return duration_; }
-    setDuration(int d) { duration_ = d; }
-    ActionState action_;
-    int get() { return action_; }
-
-    Action(ActionState a) {
+    public Action(ActionState a) {
         action_ = a;
     }
 
-    void start() {
+    public boolean start() {
         dprint("[action] started " + a + " for duration " + duration + "s");
-        wait(5s);
+        try {
+            java.lang.Thread.sleep(1000);                 //1000 milliseconds is one second.
+        } catch(java.lang.InterruptedException ex) {
+            java.lang.Thread.currentThread().interrupt();
+        }
+        return true; // success
     }
-    void start(int duration) {
+
+
+    public void start(int duration) {
         setDuration(duration);
         start();
     }

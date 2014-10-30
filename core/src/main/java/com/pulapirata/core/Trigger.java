@@ -1,9 +1,11 @@
-package com.pulapirata.core.sprites;
+package com.pulapirata.core;
 import java.util.EnumMap;
 import com.pulapirata.core.PetAttribute;
 import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.PetAttributes.AttributeID;
 import com.pulapirata.core.PetAttributes.ActionState;
 import com.pulapirata.core.PetAttributes.AgeStage;
+import com.pulapirata.core.Action;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -32,7 +34,7 @@ public class Trigger {
     public boolean fire(PetAttributes a) {
         assert a != null : "[trigger] null";
         // - schedule Action
-        Action act = new Action(a);
+        Action act = new Action(action_);   // perhaps pass a
         act.start(duration_);
         if (act.wasInterrupted()) {
             printd("[trigger] action was interrupted. No modifiers applied.");
@@ -51,10 +53,10 @@ public class Trigger {
      * Pull the trigger.
      * And returns false if not allowed on an age.
      */
-    public boolean fireIfAllowed(AgeStage a) {
-        if (blackList(a))
+    public boolean fireIfAllowed(PetAttributes at, AgeStage a) {
+        if (blackListed(a))
             return false;
-        fire(a);
+        fire(at);
         return true;
     }
 
@@ -62,7 +64,7 @@ public class Trigger {
      * Returns false if trigger not allowed on age.
      */
     public boolean blackListed(AgeStage a) {
-        return blackList_ & a == 0;
+        return (blackList_ & a.index()) == 0;
     }
 
     /**
@@ -75,12 +77,12 @@ public class Trigger {
      *          - json blackList_ | a
      */
     private int blackList_;  // mask
-    public void blackList(AgeStage a) { blacklist_ |= a; }
+    public void blackList(AgeStage a) { blackList_ |= a.index(); }
 
     /*-------------------------------------------------------------------------------*/
     /** Action-specific */
 
-    private ActionState action_; // internal pointer to the action
+    private ActionState action_ = ActionState.DEFAULT; // internal pointer to the action
 
     /** action duration in CoelhoSegundos.
      * Initialized using default map from ActionState to duration. World will manage it. */
@@ -104,19 +106,24 @@ public class Trigger {
         // map from attribute to modifier class
         protected EnumMap<AttributeID, Modifier> map_ = new EnumMap<AttributeID, Modifier> (AttributeID.class);
 
-        public boolean setDeltaValue(AttributeID a, int delta) {
-            return map_.get(a).setValueDelta(delta);
+        public void setDeltaValue(AttributeID a, int delta) {
+            Modifier mod = map_.get(a);
+            if (mod == null) {
+                dprint("[modifiers] modifier for key " + a + " not available");
+                return;
+            }
+            mod.setDeltaValue(delta);
         }
 
         /**
          * Applies modifiers to all attributes.
          */
         public boolean modify(PetAttributes a) {
-            for (AttributeID id : map.keySet()) {  // for each possible attribute / modifier value
+            for (AttributeID id : map_.keySet()) {  // for each possible attribute / modifier value
                 //for (AttributeID id : map.keySet())  // for each possible attribute / modifier value
                 /* Apply modifier to all attribute properties, eg., value, passive */
                 Modifier mod = map_.get(id);
-                if (!mod) {
+                if (mod == null) {
                     dprint("[trigger] no modifier for attribute " + id + ", using default");
                     continue;
                 }
@@ -132,8 +139,8 @@ public class Trigger {
          * Default is just to sum up a value or set an attribute
          */
         public class Modifier {
-            private int deltaVal_;
-            public void setDeltaVal(int delta) { deltaVal_ = delta; }
+            private int deltaValue_;
+            public void setDeltaValue(int delta) { deltaValue_ = delta; }
 
             // put other deltas here - deltaPassivo_....
 
@@ -142,16 +149,16 @@ public class Trigger {
                 // handles a simple sum of values.
                 // Other types are handled differently, case by case.
                 // - if modifier is of certain kind, then set instead of sum.
-                a.sum(deltaVal_);
+                a.sum(deltaValue_);
             }
 
 
             /** Apply modifier to all attribute properties.
              * eg., value, passive */
-            public void modifyAllProperties(PetAttributes a) {
+            public void modifyAllProperties(PetAttribute a) {
                 // for each regular attribute enum
                 //  - a.atributemap(e).sum()
-                a.sum(deltaVal_);
+                a.sum(deltaValue_);
                 // future: modify remaining properties
                 // a.setPassivo(deltaPassivo_);
             }

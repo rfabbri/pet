@@ -1,6 +1,7 @@
-package com.pulapirata.core.sprites;
+package com.pulapirata.core;
 import java.util.EnumMap;
 import com.pulapirata.core.Trigger;
+//import com.pulapirata.core.PetAttributes.AttributeID;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -57,7 +58,7 @@ public class Triggers {
 
     /** map from TriggerType to modifier class.
      * Stores the triggers, indexed by TriggerType */
-    protected EnumMap<TriggerType, Trigger> map_ = new EnumMap<TriggerType, Trigger> (AttributeID.class);
+    protected EnumMap<TriggerType, Trigger> map_ = new EnumMap<TriggerType, Trigger> (TriggerType.class);
 
     public void Trigger() {
         for (TriggerType tt : TriggerType.values()) {
@@ -66,5 +67,5 @@ public class Triggers {
         }
     }
 
-    public Trigger get(TriggerType t) { map_.get(t); }
+    public Trigger get(TriggerType t) { return map_.get(t); }
 }

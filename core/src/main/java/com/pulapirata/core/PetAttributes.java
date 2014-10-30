@@ -257,7 +257,7 @@ public class PetAttributes {
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
     private PetAttributeEnum<TipoCoco> sCoco_ = new PetAttributeEnum<TipoCoco>();
     public  PetAttributeEnum<TipoCoco> sCoco() { return sCoco_; }
-    private PetAttributeEnum<TipoCelular> sCelular_ = new PetAttributeEnum<Celular>();
+    private PetAttributeEnum<TipoCelular> sCelular_ = new PetAttributeEnum<TipoCelular>();
     public  PetAttributeEnum<TipoCelular> sCelular() { return sCelular_; }
 
     /*-------------------------------------------------------------------------------*/
