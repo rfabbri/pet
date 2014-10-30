@@ -55,7 +55,7 @@ public class TriggerLoader {
 
                     // set modifiers ---
                     Modifiers m = triggers.get(triggerName).m();
-                    Json.Array jmod = jsonTriggers.getObject(i).getArray("Modifiers");
+                    Json.Object jmod = jsonTriggers.getObject(i).getArray("Modifiers").getObject(0);
                     assert jmod != null : "[triggerLoader] required modifiers not found";
 
                     for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
@@ -91,16 +91,11 @@ public class TriggerLoader {
                     triggers.get(triggerName).setModifiers(m);
 
                     // set agestage ---
-                    Json.Array jas;
-                    jas = jsonTriggers.getObject(i).getArray("AgeStage");
-                    if (jas == null) {
-                        dprint("Tryig Age Stage with space");
-                        jas = jsonTriggers.getObject(i).getArray("Age Stage");
-                        assert jas != null : "[triggerLoader] required AgeStage not found";
-                    }
+                    Json.Object jas = jsonTriggers.getObject(i).getArray("AgeStage").getObject(0);
+                    assert jas != null : "[triggerLoader] required AgeStage not found";
 
                     for (AgeStage ass : AgeStage.values())  {
-                        String b = jas.GetString(AgeStage.toString());
+                        String b = jas.getString(ass.toString());
 
                         // try each age state
                         if (b == null)

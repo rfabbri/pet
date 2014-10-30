@@ -12,14 +12,14 @@ class Action {
     public int duration() { return duration_; }
     public void setDuration(int d) { duration_ = d; }
     private ActionState action_;
-    public int get() { return action_; }
+    public ActionState get() { return action_; }
 
     public Action(ActionState a) {
         action_ = a;
     }
 
     public boolean start() {
-        dprint("[action] started " + a + " for duration " + duration + "s");
+        dprint("[action] started " + action_ + " for duration " + duration_ + "s");
         try {
             java.lang.Thread.sleep(1000);                 //1000 milliseconds is one second.
         } catch(java.lang.InterruptedException ex) {
