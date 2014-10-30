@@ -43,17 +43,27 @@ public class TriggerLoader {
                     Json.Object jatt = jsonAttributes.getObject(i);
                     dprint("reading name: " + jatt.getString("name"));
 
-
                     Modifiers m = new Modifiers();
+                    Json.Array jmods = jsonAttributes.getObject(i).getArray("Modifiers");
+                    assert jmod != null : "[triggerLoader] required modifiers not found";
 
                     // set modifiers
-                    for (i = 0; i < ) { // for each element in "Modificadores"
-                        // case simple
-                        m.setValueDelta(attr.valueOf(getString("name")), v);
-                        //
-                        // m.setPassivoDelta(attr, v);
+                    for (k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
 
-                        // case tipoCoco,
+                        Json.Object jmatt = jsonStates.getObject(k);
+                        for (a = 0; a < jmatt.length(); a++) {  // for each possible attribute / modifier value
+                            // case simple
+                            int ai = jmatt.getInt(a.toString());
+                            if (ai == 0)
+                                dprint("[triggerLoader] Log: modifier for attribute " + a +  " not found, assuming default or jSON comment.");
+                            else {
+                                m.setValueDelta(a, ai);
+                            }
+                            //
+                            // m.setPassivoDelta(attr, v);
+
+                            // case tipoCoco,
+                        }
                     }
                     triggers.get(jatt.getString("name")).set(m);
 
