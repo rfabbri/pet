@@ -13,9 +13,10 @@ import static com.pulapirata.core.utils.Puts.*;
  */
 public class TriggerLoader {
 
-    public static void CreateTrigger(String path, final double beatsCoelhoHora,
+    public static void CreateTriggerSet(String path, final double beatsCoelhoHora,
                                         final Callback<PetAttributes> callback) {
-        final PetAttributes attribs = new PetAttributes();
+        final TriggerSet t = new TriggerSet();
+        // XXX
 
         // load the attributes
         PlayN.assets().getText(path, new Callback.Chain<String>(callback) {

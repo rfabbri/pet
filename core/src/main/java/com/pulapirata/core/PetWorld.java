@@ -45,6 +45,7 @@ class PetWorld extends World {
     public  final   Signal<Key> keyUp_ = Signal.create();
     private final   Randoms rando_ = Randoms.with(new Random());
     private boolean attributesLoaded_ = false;
+    private boolean triggersLoaded_ = false;
     private boolean isPetWired_ = false;
 
     /*-------------------------------------------------------------------------------*/
@@ -121,6 +122,10 @@ class PetWorld extends World {
         return attributesLoaded_;
     }
 
+    public boolean triggersLoaded() {
+        return triggersLoaded_;
+    }
+
     @Override public void update (int delta) {
         beat_++;
         super.update(delta);
@@ -136,9 +141,11 @@ class PetWorld extends World {
         this.height_ = height;
 
         attributesLoaded_ = false;
+        triggersLoaded_ = false;
         isPetWired_ = false;
 
-        // load attributes. Only 1 pet attribute set is supported for now
+        /** load attributes. Only 1 pet attribute set is supported for now
+         * (single global profile, single pet) */
         PetAttributesLoader.CreateAttributes(PetAttributes.JSON_PATH, beatsCoelhoHora_,
             new Callback<PetAttributes>() {
                 @Override
@@ -152,6 +159,23 @@ class PetWorld extends World {
                 @Override
                 public void onFailure(Throwable err) {
                     PlayN.log().error("Error loading pet attributes: " + err.getMessage());
+                }
+            });
+
+        /** Load triggers */
+        TriggerLoader.CreateTriggerSet(TriggerSet.JSON_PATH, beatsCoelhoHora_,
+            new Callback<PetAttributes>() {
+                @Override
+                public void onSuccess(TriggerSet resource) {
+                    triggerSet_ = resource;
+                    // if (mainID_ != -1)
+                    //     pet_.get(mainID_).didChange();
+                    triggersLoaded_ = true;
+                }
+
+                @Override
+                public void onFailure(Throwable err) {
+                    PlayN.log().error("Error loading triggers : " + err.getMessage());
                 }
             });
 
