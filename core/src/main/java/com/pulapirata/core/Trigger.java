@@ -32,16 +32,17 @@ public class Trigger {
     public boolean fire(PetAttributes a) {
         assert a != null : "[trigger] null";
         // - schedule Action
-        action_.start(duration_);
-        if (action_.wasInterrupted()) {
+        Action act = new Action(a);
+        act.start(duration_);
+        if (act.wasInterrupted()) {
             printd("[trigger] action was interrupted. No modifiers applied.");
             return false;
         }
+        printd("[trigger] action" + act.get() + " finished.");
+        assert a != null : "[trigger] pet got null after/during action";
         // - apply modifiers
-        printd("[trigger] action was interrupted. No modifiers applied.");
         // we lock pet. but for the future, we'll be queueing actions,
         // so we check if it is still null
-        assert a != null : "[trigger] pet got null after/during action";
         m_.modify(a);
         return true;
     }
@@ -172,7 +173,7 @@ public class Trigger {
      * To be called by suitable constructor code.
      * Used in TriggerLoader.
      */
-    public void set(Action a, int d, Modifiers m) {
+    public void set(ActionState a, int d, Modifiers m) {
         action_ = a;
         duration_ = d;
         modifiers_ = m;
