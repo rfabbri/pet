@@ -1,129 +1,129 @@
 {[
 {"name": "Sopa de Cenoura", "action": "COMENDO", "duration": 3, "cost": 0,
     "Modifiers" : [{ "nutricao": 30, "higiene": -10, "intestino": 3}],
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "noname": "ADULTO", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "block", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Sopa de Bacon", "action": "COMENDO", "nutricao": 40, "humor": 10, "higiene": -20, "saude": -10, "intestino": 3, "duration": 3,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "noname": "ADULTO", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "block", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Salada com Legumes", "action": "COMENDO", "nutricao": 50, "humor": -10, "saude": 5, "intestino": 1, "duration": 3,
-    "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "block", "CRIANCA": "block", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "block" }]
 },
 {"name": "Chocolate", "action": "COMENDO", "nutricao": 20, "humor": 15, "higiene": -10, "saude": -5, "disciplina": -2, "intestino": 5, "duration": 3, "tipoCoco": "mole",
-    "AgeStage" : [{ "noname": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "block", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "block" }]
 },
 {"name": "Pizza", "action": "COMENDO", "nutricao": 60, "humor": 20, "higiene": -15, "saude": -5, "disciplina": 0, "intestino": 7, "duration": 5,
-    "AgeStage" : [{ "noname": "BEBE", "noname": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "noname": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "block", "CRIANCA": "block", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "block" }]
 },
 {"name": "Agua", "action": "COMENDO", "nutricao": 5, "humor": 0, "higiene": 0, "saude": 0, "disciplina": 0, "intestino": 0, "duration": 3,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Leite", "action": "COMENDO", "nutricao": 20, "humor": 0, "higiene": -5, "saude": 0, "disciplina": 0, "intestino": 0, "duration": 3,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "noname": "ADOLESCENTE", "noname": "ADULTO", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "block", "ADULTO": "block", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Bola", "action": "JOGANDO_BOLA", "nutricao": -10, "humor": 40, "higiene": -10, "saude": 10, "disciplina": 0, "intestino": 0, "duration": 60, "cost": 10,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Quadrinhos", "action": "LENDO_QUADRINHOS", "nutricao": 0, "humor": 20, "higiene": -10, "estudo": 0, "saude": 0, "disciplina": 0, "intestino": 0, "duration": 60,
-     "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+     "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Livro", "action": "LENDO_LIVRO", "nutricao": 0, "humor": 15, "social": 0, "higiene": 0, "estudo": 10, "saude": 0, "alcool": 0, "disciplina": 10, "intestino": 0, "duration": 60, "cost": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "VideoGame", "action": "JOGANDO_VIDEOGAME", "nutricao": 0, "humor": 50, "social": 10, "higiene": 0, "estudo": -10, "saude": 0, "alcool": 0, "disciplina": -10, "intestino": 0, "duration": 300, "cost": 15,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "TV", "action": "ASSITINDO_TV", "nutricao": -5, "humor": 30, "social": 0, "higiene": 0, "estudo": -10, "saude": 0, "alcool": 0, "disciplina": 0, "intestino": 0, "duration": 5, "cost": 30,
-     "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+     "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Anime", "action": "ASSISTINDO_ANIME", "nutricao": -5, "humor": 50, "social": 0, "higiene": 0, "estudo": -10, "saude": 0, "alcool": 0, "disciplina": -5, "fe": -5, "intestino": 0, "duration": 5, "cost": 5,
-     "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+     "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Cine prive", "action": "ASSISTINDO_CINE_PRIVE", "nutricao": -10, "humor": 60, "social": 0, "higiene": -20, "estudo": -15, "saude": 0, "alcool": 0, "disciplina": -10, "sexualidade:", 5, "fe": -5, "intestino": 0, "duration": 5, "cost": 5,
-      "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+      "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Desenhar", "action": "DESENHANDO", "nutricao": 0, "humor": 30, "social": 0, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 5, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 10, "cost": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Ligar para amigo", "action": "LIGANDO", "nutricao": 0, "humor": 20, "social": 20, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 10, "celular": 1,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Convidar colega", "action": "CONVIDANDO_COLEGA", "nutricao": -10, "humor": 40, "social": 40, "higiene": -30, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 3000, "celular": 1,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Rede social", "action": "MEXENDO_CELULAR", "nutricao": 0, "humor": 20, "social": 20, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": -10, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5, "celular": 1,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Fazer Festa", "action": "FAZENDO_FESTA", "nutricao": -60, "humor": 80, "social": 60, "higiene": -60, "estudo": -20, "saude": 20, "alcool": 60, "disciplina": -10, "sexualidade:", 10, "fe": -5, "intestino": 9, "tipoCoco": "mole",  "duration": 7200, "celular":1,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Jogar RPG", "action": "JOGANDO_RPG", "nutricao": -20, "humor": 60, "social": 40, "higiene": 0, "estudo": 5, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", -5, "fe": 0, "intestino": 0, "duration": 3600, "cost": 10,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Booty Call", "action": "BOOTY_CALLING", "nutricao": -40, "humor": 60, "social": 40, "higiene": -40, "estudo": -5, "saude": 10, "alcool": 0, "disciplina": 0, "sexualidade:", 5, "fe": 0, "intestino": 0, "duration": 1800, "celular": 1,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Tomar banho", "action": "TOMANDO_BANHO", "nutricao": 0, "humor": 10, "social": 0, "higiene": 80, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 10, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 10,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Escovar dentes", "action": "ESCOVANDO_DENTES", "nutricao": 0, "humor": -5, "social": 5, "higiene": 20, "estudo": 0, "saude": 10, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5, "cost": 5
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Varrer", "action": "VARRENDO", "nutricao": 0, "humor": -20, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": -10, "sexualidade:", 0, "fe": 0, "intestino": 0, "comment" : "so ha duracao especifica quando especificado aqui...",
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Passar perfume", "action": "PASSANDO_PERFUME", "nutricao": 0, "humor": 0, "social": 5, "higiene": 10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5, "cost": 15
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Pinguinha na chupeta", "action": "COMENDO", "nutricao": 5, "humor": 10, "social": 0, "higiene": 0, "estudo": 0, "saude": -1, "alcool": 10, "disciplina": -2, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 3,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Bombom de Licor", "action": "COMENDO", "nutricao": 10, "humor": 10, "social": 0, "higiene": -5, "estudo": 0, "saude": -2, "alcool": 15, "disciplina": -2, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 3,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Cerveja", "action": "COMENDO", "nutricao": -5, "humor": 20, "social": 10, "higiene": -5, "estudo": 0, "saude": -3, "alcool": 20, "disciplina": -5, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5, "tipoCoco": "mole",
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Suco de macaco", "action": "COMENDO", "nutricao": 0, "humor": 30, "social": 0, "higiene": -10, "estudo": 0, "saude": -4, "alcool": 30, "disciplina": -5, "sexualidade:", 0, "fe": 0, "intestino": 0,  "tipoCoco": "mole", "duration": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Cigarro", "action": "FUMANDO", "nutricao": 0, "humor": 40, "social": 15, "higiene": -10, "estudo": 0, "saude": -5, "alcool": 0, "disciplina": -5, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 10, "cost": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Masturbar", "action": "MASTURBANDO", "nutricao": -10, "humor": 20, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": -5, "sexualidade:", 5, "fe": 0, "intestino": 0, "duration": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Sair para escola", "action": "SAINDO_DE_CASA", "nutricao": -15, "humor": -40, "social": 60, "higiene": -20, "estudo": 30, "saude": 0, "alcool": 0, "disciplina": 30, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 7200,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Sair para parque", "action": "SAINDO_DE_CASA", "nutricao": -15, "humor": 40, "social": 30, "higiene": -40, "estudo": -5, "saude": 10, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 1800,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Sair para igreja", "action": "SAINDO_DE_CASA", "nutricao": -20, "humor": 40, "social": 30, "higiene": 0, "estudo": 0, "saude": 0, "alcool": -10, "disciplina": 10, "sexualidade:", 0, "fe": 15, "intestino": 0, "duration": 3600,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Dar Glicose", "action": "TOMANDO_GLICOSE", "nutricao": 0, "humor": -30, "social": 0, "higiene": 0, "estudo": 0, "saude": -10, "alcool": -60, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Remedio", "action": "TOMANDO_REMEDIO", "nutricao": 0, "humor": -10, "social": 0, "higiene": 0, "estudo": 0, "saude": 20, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Curativo", "action": "LEVANDO_CURATIVO", "nutricao": 0, "humor": 0, "social": -5, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "vida": 20, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Chinelada", "action": "LEVANDO_CHINELADA", "nutricao": -5, "humor": -60, "social": 0, "higiene": -10, "estudo": 0, "saude": -10, "alcool": 0, "disciplina": 30, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 10,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Estudar", "action": "ESTUDANDO", "nutricao": -10, "humor": -20, "social": 0, "higiene": -5, "estudo": 20, "saude": -0, "alcool": 0, "disciplina": 10, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 5,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Gritar", "action": "LEVANDO_GRITO", "nutricao": 0, "humor": -30, "social": 0, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 20, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 10,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Castigar", "action": "SENDO_CASTIGADO", "nutricao": -10, "humor": -40, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 40, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "duration": 300,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 {"name": "Chicotear", "action": "LEVANDO_CHICOTADA", "nutricao": -10, "humor": -80, "social": -60, "higiene": -20, "estudo": 0, "saude": -20, "alcool": -30, "disciplina": 60, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 8, "tipoCoco": "mole", "duration": 10,
-    "AgeStage" : [{ "name": "BEBE", "name": "CRIANCA", "name": "ADOLESCENTE", "name": "ADULTO", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "name": "ANCIAO" }]
+    "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
 ]}
