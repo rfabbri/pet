@@ -103,7 +103,7 @@ class PetWorld extends World {
     /*-------------------------------------------------------------------------------*/
     /** Physics data */
 
-    /** Posicao de cada "butt" */
+    /** precomputed unit directions */
     final static float [][] directionLut = new float [][] {
         {1f, 0f},
         {0f, 1f},

@@ -255,10 +255,10 @@ public class PetAttributes {
     public  PetAttributeState<State> sFe() { return sFe_; }
     private PetAttributeEnum<ActionState> sAction_ = new PetAttributeEnum<ActionState>();
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
-    private PetAttributeEnum<TipoCoco> sCoco_;
+    private PetAttributeEnum<TipoCoco> sCoco_ = new PetAttributeEnum<TipoCoco>();
     public  PetAttributeEnum<TipoCoco> sCoco() { return sCoco_; }
-    private PetAttributeEnum<Celular> sCelular_;
-    public  PetAttributeEnum<CElular> sCelular() { return sCelular_; }
+    private PetAttributeEnum<Celular> sCelular_ = new PetAttributeEnum<Celular>();
+    public  PetAttributeEnum<Celular> sCelular() { return sCelular_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */
@@ -381,6 +381,8 @@ public class PetAttributes {
         sFe_            = new PetAttributeState();
 
         sAction_.updateState(ActionState.DEFAULT);
+        sCoco_.updateState(TipoCoco.NORMAL);
+        sCelular_.updateState(TipoCelular.NENHUM);
 
         // intervals are set from json in PetAttributesLoader
 
