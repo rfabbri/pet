@@ -120,6 +120,13 @@ public class PetAttributes {
         MOLE
     }
 
+    public enum TipoCelular {
+        NENHUM,
+        GENERICO,
+        TIJOLO,
+        TELHA
+    }
+
     public enum AgeStage {
         BEBE            (1 << 0),
         CRIANCA         (1 << 1),
@@ -250,6 +257,8 @@ public class PetAttributes {
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
     private PetAttributeEnum<TipoCoco> sCoco_;
     public  PetAttributeEnum<TipoCoco> sCoco() { return sCoco_; }
+    private PetAttributeEnum<Celular> sCelular_;
+    public  PetAttributeEnum<CElular> sCelular() { return sCelular_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */
