@@ -23,8 +23,8 @@ public class Trigger {
     /** is this trigger enabled in the game? */
     public boolean enabled_;
     public boolean enabled() { return enabled_; }
-    public boolean enable()  { enabled_ = true; }
-    public boolean disable() { enabled_ = false; }
+    public void enable()  { enabled_ = true; }
+    public void disable() { enabled_ = false; }
 
     /**
      * Pull the trigger.
@@ -98,7 +98,8 @@ public class Trigger {
      * Maps string to Modifier class, attribute name to deltas in attributes.
      * Applied in post-condition.
      */
-    private Modifiers m_;
+    private Modifiers m_ = new Modifiers();
+    public Modifiers m() { return m_; }
     public void setModifiers(Modifiers m) { m_ = m; }
 
     public class Modifiers {
@@ -172,7 +173,7 @@ public class Trigger {
         // do nothing
     }
 
-    Trigger(Action a, int duration, Modifiers modifiers) {
+    Trigger(ActionState a, int duration, Modifiers modifiers) {
         set(a, duration, modifiers);
     }
 
@@ -183,6 +184,6 @@ public class Trigger {
     public void set(ActionState a, int d, Modifiers m) {
         action_ = a;
         duration_ = d;
-        modifiers_ = m;
+        m_ = m;
     }
 }

@@ -219,7 +219,7 @@ public class PetAttributes {
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
     public PetAttribute get(String s) { return m_.get(s); }
-    public PetAttribute get(AttributeID id) { return m.get(id.toString()); }
+    public PetAttribute get(AttributeID id) { return m_.get(id.toString()); }
 
     /** attributeState name to object map */
     public Map<String, PetAttributeState> ms_ = new HashMap<String, PetAttributeState>();

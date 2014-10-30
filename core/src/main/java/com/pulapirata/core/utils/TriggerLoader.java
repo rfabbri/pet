@@ -6,6 +6,7 @@ import playn.core.PlayN;
 import playn.core.util.Callback;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.Triggers;
+import com.pulapirata.core.Trigger.Modifiers;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -27,7 +28,7 @@ public class TriggerLoader {
                 AssetWatcher assetWatcher = new AssetWatcher(new AssetWatcher.Listener() {
                     @Override
                     public void done() {
-                        callback.onSuccess(attribs);
+                        callback.onSuccess(triggers);
                     }
 
                     @Override
@@ -41,7 +42,7 @@ public class TriggerLoader {
                 // parse the attributes, adding each asset to the asset watcher
                 Json.Array jsonTriggers = document.getArray("Triggers");
                 for (int i = 0; i < jsonTriggers.length(); i++) {
-                    Json.Object jtr = jsonAttributes.getObject(i);
+                    Json.Object jtr = jsonTriggers.getObject(i);
                     String triggerName = jtr.getString("name");
                     dprint("[triggerloader] reading name: " + triggerName);
 
@@ -51,8 +52,8 @@ public class TriggerLoader {
                     triggers.get(triggerName).setCost(jtr.getInt("cost"));
 
                     // set modifiers ---
-                    Modifiers m = new Modifiers();
-                    Json.Array jmod = jsonAttributes.getObject(i).getArray("Modifiers");
+                    Modifiers m = triggers.get(triggerName).m();
+                    Json.Array jmod = jsonTriggers.getObject(i).getArray("Modifiers");
                     assert jmod != null : "[triggerLoader] required modifiers not found";
 
                     for (int k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
@@ -89,10 +90,10 @@ public class TriggerLoader {
 
                     // set agestage ---
                     Json.Array jas;
-                    jas = jsonAttributes.getObject(i).getArray("AgeStage");
+                    jas = jsonTriggers.getObject(i).getArray("AgeStage");
                     if (jas == null) {
                         dprint("Tryig Age Stage with space");
-                        jas = jsonAttributes.getObject(i).getArray("Age Stage");
+                        jas = jsonTriggers.getObject(i).getArray("Age Stage");
                         assert jas != null : "[triggerLoader] required AgeStage not found";
                     }
 
