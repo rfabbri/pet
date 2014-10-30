@@ -81,6 +81,7 @@ public class TriggerLoader {
                                      dprint("[triggerLoader] Log: modifier for attribute " + a +
                                              " not found, assuming default or jSON comment.");
                                  else {
+                                     m.initModifier(a);
                                      m.setDeltaValue(a, ai);
                                  }
                                 break;

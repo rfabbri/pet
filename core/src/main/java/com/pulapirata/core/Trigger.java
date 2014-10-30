@@ -112,13 +112,18 @@ public class Trigger {
         // map from attribute to modifier class
         protected EnumMap<AttributeID, Modifier> map_ = new EnumMap<AttributeID, Modifier> (AttributeID.class);
 
-        public void setDeltaValue(AttributeID a, int delta) {
+        public boolean setDeltaValue(AttributeID a, int delta) {
             Modifier mod = map_.get(a);
             if (mod == null) {
                 dprint("[modifiers] modifier for key " + a + " not available");
-                return;
+                return false;
             }
             mod.setDeltaValue(delta);
+            return true;
+        }
+
+        public void initModifier(AttributeID a) {
+            map_.put(a, new Modifier());
         }
 
         /**
