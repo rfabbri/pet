@@ -15,8 +15,7 @@ public class TriggerLoader {
 
     public static void CreateTriggerSet(String path, final double beatsCoelhoHora,
                                         final Callback<PetAttributes> callback) {
-        final TriggerSet t = new TriggerSet();
-        // XXX
+        final TriggerSet triggers = new TriggerSet();
 
         // load the attributes
         PlayN.assets().getText(path, new Callback.Chain<String>(callback) {
@@ -39,17 +38,26 @@ public class TriggerLoader {
                 Json.Object document = PlayN.json().parse(resource);
 
                 // parse the attributes, adding each asset to the asset watcher
-                Json.Array jsonAttributes = document.getArray("Attributes");
-                for (int i = 0; i < jsonAttributes.length(); i++) {
+                Json.Array jsonTriggers = document.getArray("Attributes");
+                for (int i = 0; i < jsonTriggers.length(); i++) {
                     Json.Object jatt = jsonAttributes.getObject(i);
-//                    System.out.println("reading name: " + jatt.getString("name"));
-                    attribs.get(jatt.getString("name")).set(
+                    dprint("reading name: " + jatt.getString("name"));
+
+
+                    Modifiers m;
+
+
+                    // set agestage
+                    for (i = 0; i < ) // for each element in "AgeStage"
+                        triggers.blackList(AgeStage.valueOf(string));
+                    // set modifiers
+                    for (i = 0; i < ) // for each element in "Modificadores"
+                        triggers.get(jatt.getString("name")).setModifier();
+
+                    triggers.get(jatt.getString("name")).set(
                         jatt.getString("name"),
-                        jatt.getInt("startValue"),
-                        jatt.getInt("min"),
-                        jatt.getInt("max"),
-                        jatt.getInt("passive"),
-                        jatt.getDouble("passiveBeats")*beatsCoelhoHora
+                        Action.valueOf(jatt.getInt("acao")),
+                        m
                     );
 
                     Json.Array jsonStates = jsonAttributes.getObject(i).getArray("States");

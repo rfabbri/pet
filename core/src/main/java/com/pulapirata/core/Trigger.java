@@ -60,7 +60,7 @@ public class Trigger {
      *          - json blackList_ | a
      */
     private int blackList_;  // mask
-    public addBlackList(AgeStage a) { blacklist_ |= a; }
+    public void blackList(AgeStage a) { blacklist_ |= a; }
 
     /*-------------------------------------------------------------------------------*/
     /** Action-specific */
@@ -97,5 +97,15 @@ public class Trigger {
     /*-------------------------------------------------------------------------------*/
     /** Misc */
 
-    Trigger(Action a, duration, modifiers);
+    Trigger(Action a, duration, modifiers)
+
+    /**
+     * To be called by suitable constructor code.
+     * Used in TriggerLoader.
+     */
+    void set(Action a, int d, Modifiers m) {
+        action_ = a;
+        duration_ = d;
+        modifiers_ = m;
+    }
 }
