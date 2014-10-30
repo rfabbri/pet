@@ -73,8 +73,8 @@ public class PetAttributes {
         COMA,
         COMA_ALCOOLICO,
         MORTO,
-//        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
-//        COM_STINKY_MOSQUITO,
+        //        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
+        //        COM_STINKY_MOSQUITO,
 		INVISIBLE,
         UNDETERMINED
     }
@@ -93,7 +93,8 @@ public class PetAttributes {
         SEXUALIDADE,
         FE,
         DINHEIRO,
-        ACTION
+        INTESTINO,
+        ACTION,
     }
 
     public enum State {
@@ -108,9 +109,15 @@ public class PetAttributes {
         COMA, DILACERADO, MUITO_MACHUCADO, MACHUCADO, FERIDO,                                 				// Vida
         ASSEXUADO, VIRGEM, INEXPERIENTE, APRECIADOR_DO_SEXO, SEXO_SELVAGEM, MICHAEL_DOUGLAS, NINFOMANIACO,  // Sexualidade
         ANTI_CRISTO, FIEL_FERVOROSO,                                                          				// Fe
+                                                                                                            // Intestino
         NORMAL,
         ONONOONO 																							// impossivel - invalido
         ;
+    }
+
+    public enum TipoCoco {
+        NORMAL,
+        MOLE
     }
 
     public enum AgeStage {
@@ -197,9 +204,10 @@ public class PetAttributes {
     public  PetAttribute sexualidade() { return sexualidade_; }
     private PetAttribute fe_;
     public  PetAttribute fe() { return fe_; }
-
     private PetAttribute dinheiro_;
     public  PetAttribute dinheiro() { return dinheiro_; }
+    private PetAttribute intestino_;
+    private PetAttribute intestino() { return intestino_; ;
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
@@ -240,6 +248,8 @@ public class PetAttributes {
     public  PetAttributeState<State> sFe() { return sFe_; }
     private PetAttributeEnum<ActionState> sAction_ = new PetAttributeEnum<ActionState>();
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
+    private PetAttributeEnum<TipoCoco> sCoco_;
+    public  PetAttributeEnum<TipoCoco> sCoco() { return sCoco_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */
@@ -269,6 +279,7 @@ public class PetAttributes {
         vida_           = new PetAttribute("Vida");
         sexualidade_    = new PetAttribute("Sexualidade");
         fe_             = new PetAttribute("Fe");
+        intestino_      = new PetAttribute("Intestino");
         dinheiro_       = new PetAttribute("Dinheiro");
 
         mapAttrib(nutricao());
@@ -282,6 +293,7 @@ public class PetAttributes {
         mapAttrib(vida());
         mapAttrib(sexualidade());
         mapAttrib(fe());
+        mapAttrib(intestino());
         mapAttrib(dinheiro());
 
         s2vis_.put(State.FAMINTO, VisibleCondition.CHORANDO);
@@ -385,6 +397,8 @@ public class PetAttributes {
             mapAttrib(sSexualidade());
         sFe_.set(fe());
             mapAttrib(sFe());
+        sFe_.set(intestino());
+            mapAttrib(intestino());
 
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
         dprint("[satr dbg]: " + sAtt_.get(AttributeID.NUTRICAO));
