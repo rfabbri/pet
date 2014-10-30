@@ -214,7 +214,7 @@ public class PetAttributes {
     private PetAttribute dinheiro_;
     public  PetAttribute dinheiro() { return dinheiro_; }
     private PetAttribute intestino_;
-    private PetAttribute intestino() { return intestino_; ;
+    private PetAttribute intestino() { return intestino_; }
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
@@ -257,8 +257,8 @@ public class PetAttributes {
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
     private PetAttributeEnum<TipoCoco> sCoco_ = new PetAttributeEnum<TipoCoco>();
     public  PetAttributeEnum<TipoCoco> sCoco() { return sCoco_; }
-    private PetAttributeEnum<Celular> sCelular_ = new PetAttributeEnum<Celular>();
-    public  PetAttributeEnum<Celular> sCelular() { return sCelular_; }
+    private PetAttributeEnum<TipoCelular> sCelular_ = new PetAttributeEnum<Celular>();
+    public  PetAttributeEnum<TipoCelular> sCelular() { return sCelular_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */

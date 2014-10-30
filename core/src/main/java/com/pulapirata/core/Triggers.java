@@ -66,5 +66,5 @@ public class Triggers {
         }
     }
 
-    public void Trigger get(TriggerType t) { map_.get(t) }
+    public Trigger get(TriggerType t) { map_.get(t); }
 }
