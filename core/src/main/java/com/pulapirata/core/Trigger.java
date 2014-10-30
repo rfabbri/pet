@@ -11,29 +11,40 @@ public class Trigger {
     /*-------------------------------------------------------------------------------*/
     /** Trigger-specific */
 
-    int cost;
-    boolean enabled_;
+    /** the cost of performing this action */
+    int cost_;
+    void setCost(int c) { cost_ = c; }
 
-    /** Pulls the trigger. */
-    public boolean fire(PetAttribute a) {
+    /** is this trigger enabled in the game? */
+    boolean enabled_;
+    boolean enabled() { return enabled_; }
+    boolean enable() { enabled_ = true; }
+    boolean disable() { enabled_ = false; }
+
+    /**
+     * Pull the trigger.
+     * Returns true if action and postcondition finished successfully (and were
+     * not aborted).
+     */
+    public boolean fire(PetAttributes a) {
         assert a != null : "[trigger] null";
-        enabled_ = true;
         // - schedule Action
         action_.start(duration_);
         if (action_.wasInterrupted()) {
             printd("[trigger] action was interrupted. No modifiers applied.");
-            return;
+            return false;
         }
         // - apply modifiers
         printd("[trigger] action was interrupted. No modifiers applied.");
         // we lock pet. but for the future, we'll be queueing actions,
         // so we check if it is still null
-        assert a != null : "[trigger] pet got after/during action";
+        assert a != null : "[trigger] pet got null after/during action";
         modifier.applyAll(a, modifiers);
+        return true;
     }
 
     /**
-     * Pulls the trigger.
+     * Pull the trigger.
      * And returns false if not allowed on an age.
      */
     boolean fireIfAllowed(AgeStage a) {
