@@ -26,6 +26,11 @@ public class Trigger {
     public void enable()  { enabled_ = true; }
     public void disable() { enabled_ = false; }
 
+    public boolean isInitialized() {
+        return true;
+    }
+
+
     /**
      * Pull the trigger.
      * Returns true if action and postcondition finished successfully (and were

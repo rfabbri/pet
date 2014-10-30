@@ -58,35 +58,32 @@ public class TriggerLoader {
                     Json.Array jmod = jsonTriggers.getObject(i).getArray("Modifiers");
                     assert jmod != null : "[triggerLoader] required modifiers not found";
 
-                    for (int k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
-                        Json.Object jmatt = jmod.getObject(k);
-                        for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
-                            switch (a) {
-                                /* These are not in AttributeID yet
-                                case TIPO_COCO:
-                                case TIPO_CELULAR:
-                                     if (jmatt.getObject(a.toString()) != null) {
-                                        int t = jmod.getInt(a.toString());
-                                        m.setValue(a, t);
-                                        dprint("[triggerLoader] celular in json : " + a);
-                                     } else {
-                                        dprint("[triggerLoader] not found modifiers in current modifier for : " + a);
-                                     }
-                                    break;
-                                    */
-                                default:
-                                     // simple delta case
-                                     int ai = jmatt.getInt(a.toString());
-                                     if (ai == 0)
-                                         dprint("[triggerLoader] Log: modifier for attribute " + a +
-                                                 " not found, assuming default or jSON comment.");
-                                     else {
-                                         m.setDeltaValue(a, ai);
-                                     }
-                                    break;
-                                 // other cases:
-                                 //    - m.setPassivoDelta(attr, v);
-                            }
+                    for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
+                        switch (a) {
+                            /* These are not in AttributeID yet TODO
+                            case TIPO_COCO:
+                            case TIPO_CELULAR:
+                                 if (jmatt.getObject(a.toString()) != null) {
+                                    int t = jmod.getInt(a.toString());
+                                    m.setValue(a, t);
+                                    dprint("[triggerLoader] celular in json : " + a);
+                                 } else {
+                                    dprint("[triggerLoader] not found modifiers in current modifier for : " + a);
+                                 }
+                                break;
+                                */
+                            default:
+                                 // simple delta case
+                                 int ai = jmod.getInt(a.toString());
+                                 if (ai == 0)
+                                     dprint("[triggerLoader] Log: modifier for attribute " + a +
+                                             " not found, assuming default or jSON comment.");
+                                 else {
+                                     m.setDeltaValue(a, ai);
+                                 }
+                                break;
+                             // other cases:
+                             //    - m.setPassivoDelta(attr, v);
                         }
                         // TODO read tipo coco here
                         dprint("[triggerloader] todo: parse tipo coco tipo celular");
@@ -102,19 +99,17 @@ public class TriggerLoader {
                         assert jas != null : "[triggerLoader] required AgeStage not found";
                     }
 
-                    for (int k = 0; k < jas.length(); ++k) { // for each element in "AgeStage"
-                        Json.Object jage = jmod.getObject(k);
+                    for (AgeStage ass : AgeStage.values())  {
+                        String b = jas.GetString(AgeStage.toString());
 
-                        for (AgeStage ass : AgeStage.values())  {
-                            String as = jas.getString(ass.toString());
-                            if (as == null)
-                                dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
-                            else {
-                                if (jas.getString(as) == "blocked") {
-                                    triggers.get(triggerName).blackList(as);
-                                } else {
-                                    dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
-                                }
+                        // try each age state
+                        if (b == null)
+                            dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
+                        else {
+                            if (b == "blocked") {
+                                triggers.get(triggerName).blackList(ass);
+                            } else {
+                                dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
                             }
                         }
                     }

@@ -69,4 +69,11 @@ public class Triggers {
 
     public Trigger get(TriggerType t) { return map_.get(t); }
     public Trigger get(String ts)     { return get(TriggerType.valueOf(ts)); }
+    boolean isInitialized() {
+        for (TriggerType tt : map_.keyset()) {
+            if (!map_.get(tt).isInitialized())
+                return false;
+        }
+        return true;
+    }
 }
