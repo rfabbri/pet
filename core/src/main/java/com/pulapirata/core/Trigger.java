@@ -78,7 +78,7 @@ public class Trigger {
     /*-------------------------------------------------------------------------------*/
     /** Action-specific */
 
-    ActionState action_; // internal pointer to the action
+    private ActionState action_; // internal pointer to the action
 
     /** action duration in CoelhoSegundos.
      * Initialized using default map from ActionState to duration. World will manage it. */
@@ -94,8 +94,8 @@ public class Trigger {
      * Maps string to Modifier class, attribute name to deltas in attributes.
      * Applied in post-condition.
      */
-    Modifiers m_;
-    public void setModifiers(Modifiers m) {m_ = m}
+    private Modifiers m_;
+    public void setModifiers(Modifiers m) { m_ = m; }
 
     public class Modifiers {
 
@@ -110,13 +110,17 @@ public class Trigger {
          * Applies modifiers to all attributes.
          */
         boolean modify(PetAttributes a) {
-            for (AttributeID id : AttributeID.values()) {  // for each possible attribute / modifier value
+            for (AttributeID id : map.keySet()) {  // for each possible attribute / modifier value
+                //for (AttributeID id : map.keySet())  // for each possible attribute / modifier value
                 /* Apply modifier to all attribute properties, eg., value, passive */
-                boolean retval = map_.get(id).modifyAllProperties(a.attr_(id));
-                if (!retval) {
-                    dprint("[trigger] either modifier not available for " + a + " or some other error");
-                    return false;
+                Modifier mod = map_.get(id);
+                if (!mod) {
+                    dprint("[trigger] no modifier for attribute " + id + ", using default");
+                    continue;
                 }
+                mod.modifyAllProperties(a.attr_(id));
+                dprint("[trigger] either modifier rule for attribute " + a + "unavailable or some other error");
+                return false;
             }
             return true;
         }
@@ -142,7 +146,7 @@ public class Trigger {
 
             /** Apply modifier to all attribute properties.
              * eg., value, passive */
-            void modifyAllProperties(PetAttributes a) {
+            public void modifyAllProperties(PetAttributes a) {
                 // for each regular attribute enum
                 //  - a.atributemap(e).sum()
                 //
@@ -158,7 +162,12 @@ public class Trigger {
     /*-------------------------------------------------------------------------------*/
     /** Misc */
 
-    Trigger(Action a, duration, modifiers)
+    Trigger(Action a, int duration, Modifiers modifiers) {
+        set(a, duration, modifiers);
+    }
+    Trigger () {
+        // do nothing
+    }
 
     /**
      * To be called by suitable constructor code.

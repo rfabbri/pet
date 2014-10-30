@@ -69,7 +69,7 @@ public class TriggerLoader {
                                      if (ai == 0)
                                          dprint("[triggerLoader] Log: modifier for attribute " + a +  " not found, assuming default or jSON comment.");
                                      else {
-                                         boolean retval = m.setValueDelta(a, ai);
+                                         boolean retval = m.setDeltaValue(a, ai);
                                          assert retval;
                                      }
                                     break;
