@@ -44,38 +44,43 @@ public class TriggerLoader {
                     String triggerName = jtr.getString("name");
                     dprint("reading name: " + triggerName);
 
-                    // set internal atributes
+                    // set internal atributes ---
 
                     triggers.get().setDuration(jtr.getInt("duration"));
-                    triggers.get(triggerName).setCost(jtr.getInt("duration"));
+                    triggers.get(triggerName).setCost(jtr.getInt("cost"));
 
-
-
+                    // set modifiers ---
                     Modifiers m = new Modifiers();
                     Json.Array jmods = jsonAttributes.getObject(i).getArray("Modifiers");
                     assert jmod != null : "[triggerLoader] required modifiers not found";
 
-                    // set modifiers
                     for (k = 0; k < jmod.length(); ++k) { // for each element in "Modificadores"
-
                         Json.Object jmatt = jsonStates.getObject(k);
                         for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
-                            // case simple
-                            int ai = jmatt.getInt(a.toString());
-                            if (ai == 0)
-                                dprint("[triggerLoader] Log: modifier for attribute " + a +  " not found, assuming default or jSON comment.");
-                            else {
-                                m.setValueDelta(a, ai);
-                            }
-                            //
-                            // m.setPassivoDelta(attr, v);
+                            switch (a) {
+                                case TIPO_COCO:
+                                case CELULAR:
+                                    dprint("[triggerLoader] Warning: modifier not implemented for " + a);
+                                    break;
+                                default:
+                                     // simple delta case
+                                     int ai = jmatt.getInt(a.toString());
 
-                            // case tipoCoco,
+                                     if (ai == 0)
+                                         dprint("[triggerLoader] Log: modifier for attribute " + a +  " not found, assuming default or jSON comment.");
+                                     else {
+
+                                         m.setValueDelta(a, ai);
+                                     }
+                                    break;
+                                 // other cases:
+                                 //    - m.setPassivoDelta(attr, v);
+                            }
                         }
                     }
                     triggers.get(triggerName).setModifier(m);
 
-                    // set agestage
+                    // set agestage ---
                     Json.Array jas;
                     jas = jsonAttributes.getObject(i).getArray("AgeStage");
                     if (jas == null) {
