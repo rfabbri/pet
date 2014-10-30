@@ -77,13 +77,10 @@ public class TriggerLoader {
                             default:
                                  // simple delta case
                                  int ai = jmod.getInt(a.toString().toLowerCase());
-                                 if (ai == 0)
-                                     dprint("[triggerLoader] Log: modifier for attribute " + a +
-                                             " not found, assuming default or jSON comment.");
-                                 else {
+//                                     dprint("[triggerLoader] Log: modifier for attribute " + a +
+//                                             " not found, assuming default or jSON comment.");
                                      m.initModifier(a);
                                      m.setDeltaValue(a, ai);
-                                 }
                                 break;
                              // other cases:
                              //    - m.setPassivoDelta(attr, v);
@@ -104,10 +101,10 @@ public class TriggerLoader {
                         if (b == null)
                             dprint("[triggerLoader] Log: age state " + ass +  " NOT blocked or defaulted.");
                         else {
-                            if (b == "blocked") {
+                            if (b.equals("block")) {
                                 triggers.get(triggerName).blackList(ass);
                             } else {
-                                dprint("[triggerLoader] Log: not found blocked for " + ass +  ", assuming blocked.");
+                                dprint("[triggerLoader] Log: not found =block for " + ass +  ", found " + b + " : assuming unlocked.");
                             }
                         }
                     }
