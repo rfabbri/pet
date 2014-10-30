@@ -1,4 +1,5 @@
-{[
+{
+    "Trigers": [
 {"name": "Sopa de Cenoura", "action": "COMENDO", "duration": 3, "cost": 0,
     "Modifiers" : [{ "nutricao": 30, "higiene": -10, "intestino": 3}],
     "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "block", "noname": "MEIA_IDADE", "noname": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
@@ -126,4 +127,5 @@
 {"name": "Chicotear", "action": "LEVANDO_CHICOTADA", "nutricao": -10, "humor": -80, "social": -60, "higiene": -20, "estudo": 0, "saude": -20, "alcool": -30, "disciplina": 60, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 8, "tipoCoco": "mole", "duration": 10,
     "AgeStage" : [{ "BEBE": "noblock", "CRIANCA": "noblock", "ADOLESCENTE": "noblock", "ADULTO": "noblock", "name": "MEIA_IDADE", "name": "TERCEIRA_IDADE", "ANCIAO": "noblock" }]
 },
-]}
+    ]
+}

@@ -38,7 +38,7 @@ public class TriggerLoader {
                 Json.Object document = PlayN.json().parse(resource);
 
                 // parse the attributes, adding each asset to the asset watcher
-                Json.Array jsonTriggers = document.getArray("Attributes");
+                Json.Array jsonTriggers = document.getArray("Triggers");
                 for (int i = 0; i < jsonTriggers.length(); i++) {
                     Json.Object jtr = jsonAttributes.getObject(i);
                     String triggerName = jtr.getString("name");
