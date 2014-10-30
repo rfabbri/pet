@@ -44,12 +44,12 @@ public class TriggerLoader {
                     dprint("reading name: " + jatt.getString("name"));
 
 
-                    Modifiers m;
+                    Modifiers m = new Modifiers();
 
                     // set modifiers
                     for (i = 0; i < ) { // for each element in "Modificadores"
                         // case simple
-                        m.setValueDelta(attr, v);
+                        m.setValueDelta(attr.valueOf(getString("name")), v);
                         //
                         // m.setPassivoDelta(attr, v);
 
