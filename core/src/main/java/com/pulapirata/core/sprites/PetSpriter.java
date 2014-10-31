@@ -153,7 +153,7 @@ public class PetSpriter extends Spriter {
     public void set(VisibleCondition s) {
         Sprite newSprite = animMap_.get(s);
         if (newSprite == null) {
-            System.out.println("[petspriter.set] Warning: no direct anim for requested visibleCondition " + s);
+            pprint("[petspriter.set] Warning: no direct anim for requested visibleCondition " + s);
             // Handle a different way of animating this visible
             // condition (composite anims or synthetic or flump)
             //
@@ -182,6 +182,10 @@ public class PetSpriter extends Spriter {
                 case COMA:
                     System.out.println("[petspriter.set] Warning:  using fallback anim COMA_ALCOOLICO for: " + s + ".");
                     set(COMA_ALCOOLICO);
+                    return;
+                case NORMAL_COM_VOMITO:
+                    System.out.println("[petspriter.set] Warning: anim not available for now. using fallback anim VOMITANDO for " + s + ".");
+                    set(VOMITANDO);
                     return;
                 default:
                     dprinte("[petspriter.set] Error:  no fallback anim for: " + s + ".");

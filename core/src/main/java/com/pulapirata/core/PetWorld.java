@@ -227,7 +227,7 @@ class PetWorld extends World {
                 opos_.set(eid, p);  // copy clamped pos to opos
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
 
-                pprint("[mover] velocidade scaled " + v);
+                dprint("[mover] velocidade scaled " + v);
                 pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
             }
         }

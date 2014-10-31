@@ -135,17 +135,24 @@ public class Trigger {
          */
         public boolean modify(PetAttributes a) {
             for (AttributeID id : map_.keySet()) {  // for each possible attribute / modifier value
+                if (id == AttributeID.ACTION) {
+                    pprint("[modify] attribute action have no modifiers, currently ignored.");
+                    continue;
+                }
                 //for (AttributeID id : map.keySet())  // for each possible attribute / modifier value
                 /* Apply modifier to all attribute properties, eg., value, passive */
                 Modifier mod = map_.get(id);
                 if (mod == null) {
-                    dprint("[trigger] no modifier for attribute " + id + ", using default");
+                    pprint("[modify] no modifier for attribute " + id + ", using default");
                     continue;
                 }
                 pprint("[modify] id " + id);
-                mod.modifyAllProperties(a.get(id));
-                dprint("[trigger] either modifier rule for attribute " + a + "unavailable or some other error");
-                return false;
+                PetAttribute at = a.get(id);
+                if (at == null) {
+                    pprint("[modify] Error: check wiring of id above in PetAttribtes");
+                    assert a != null;
+                }
+                mod.modifyAllProperties(at);
             }
             return true;
         }
