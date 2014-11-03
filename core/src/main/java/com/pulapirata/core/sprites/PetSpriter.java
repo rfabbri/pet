@@ -264,8 +264,8 @@ public class PetSpriter extends Spriter {
      * Returns a slot which can be used to wire the current sprite animation to
      * the emissions of a {@link Signal} or another value.
      */
-    public Slot<Integer> slot () {
-        return new Slot<Integer> () {
+    public Slot<Integer> slot() {
+        return new Slot<Integer>() {
             @Override public void onEmit (Integer value) {
                 set(value);
             }
