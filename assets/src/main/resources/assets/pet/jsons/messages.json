@@ -1,0 +1,74 @@
+{
+"StateMessages": [
+  {"state": "faminto", "message": "Pingo esta ficando fraco"},
+  {"state": "muita fome", "message": "Pingo esta com muita fome"},
+  {"state": "fome", "message": ""},
+  {"state": "satisfeito", "message": ""},
+  {"state": "cheio", "message": "Pingo esta cheio!"},
+  {"state": "lotado", "message": "Pingo comeu demais e esta passando mal!"},
+
+  {"state": "bravo", "message": "Pingo esta mau humorado!"},
+  {"state": "irritado", "message": "Pingo quer brincar"},
+  {"state": "entediado", "message": ""},
+  {"state": "entretido", "message": ""},
+  {"state": "alegre", "message": ""},
+  {"state": "muito alegre", "message": "Pingo esta muito contente!"},
+
+  {"state": "depressao", "message": "Pingo esta sentido falta de compania"},
+  {"state": "sozinho", "message": "Pingo gostaria de uma amizade"},
+  {"state": "poucos amigos", "message": ""},
+  {"state": "popular", "message": ""},
+  {"state": "superstar", "message": ""},
+
+  {"state": "imundo", "message": "Pingo esta imundo e pode ficar doente"},
+  {"state": "muito sujo", "message": "Pingo esta imundo e pode ficar doente"},
+  {"state": "sujo", "message": ""},
+  {"state": "limpo", "message": ""},
+  {"state": "muito limpo", "message": ""},
+
+  {"state": "expulso", "message": "Pingo foi expulso e nao pode mais  estudar"},
+  {"state": "reprovado", "message": "Pingo reprovou de ano. Pode tentar se matricular somente 1 vez mais."},
+  {"state": "recuperacao", "message": "Pingo esta de recuperacao. Ele precisa estudar para a prova de amanha."},
+  {"state": "mediano", "message": ""},
+  {"state": "bom aluno", "message": "Pingo e' um dos melhores alunos da classe"},
+  {"state": "melhor da sala", "message": "Pingo e' o melhor aluno da escola"},
+
+  {"state": "morto doente", "message": "Pingo nao recebeu cuidados medicos a tempo e faleceu."},
+  {"state": "doente terminal", "message": "Pingo nao recebeu cuidados medicos a tempo e ira falecer."},
+  {"state": "doente", "message": "Pingo esta muito doente para praticar qualquer atividade."},
+  {"state": "fragil", "message": "Pingo esta doente!"},
+  {"state": "estavel", "message": ""},
+  {"state": "saudavel", "message": ""},
+  {"state": "atleta", "message": "Pingo esta com saude perfeita"},
+
+  {"state": "preso", "message": "Pingo esta preso."},
+  {"state": "criminoso", "message": "Pingo sera preso pratidcando vandalismo."},
+  {"state": "rebelde", "message": ""},
+  {"state": "teimoso", "message": ""},
+  {"state": "obediente", "message": ""},
+  {"state": "responsavel", "message": ""},
+  {"state": "maquina disciplinar", "message": ""},
+
+  {"state": "sobrio", "message": ""},
+  {"state": "tonto", "message": ""},
+  {"state": "bebado", "message": "Pingo esta bebado"},
+  {"state": "muito bebado", "message": "Pingo esta muito bebado para executar certas atividades"},
+  {"state": "coma alcoolico", "message": "Pingo entrou em coma alcoolico"},
+
+  {"state": "coma", "message": ""},
+  {"state": "dilacerado", "message": ""},
+  {"state": "muito machucado", "message": ""},
+  {"state": "machucado", "message": ""},
+  {"state": "ferido", "message": ""},
+  {"state": "assexuado", "message": ""},
+  {"state": "virgem", "message": ""},
+  {"state": "inexperiente", "message": ""},
+  {"state": "apreciador do sexo", "message": ""},
+  {"state": "sexo selvagem", "message": ""},
+  {"state": "michael douglas", "message": ""},
+  {"state": "ninfomaniaco", "message": ""},
+  {"state": "anti cristo", "message": ""},
+  {"state": "fiel fervoroso", "message": ""}
+  {"state": "ONONOONO", "message": "Error: state ONONOONO!"}
+]
+}
