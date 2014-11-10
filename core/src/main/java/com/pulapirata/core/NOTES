@@ -9,6 +9,24 @@ Importantes
 - game save
 - strings devem ir para um json  game_text-pt_BR.json ou, por hora, no mesmo
   json de atributos...
+  - ideia A)
+      - usar a string em portugues como chave num dicionario
+      - game_text-en_US.json, por exemplo, define traduces para cada string em
+        pt
+      - no codigo basta surrond a string como strmap.get("string do pet")
+      - casos de confusao podem ser tratados separadamente. Por exemplo,
+      em algum contexto pode ser melhor uma traducao do que outra. Nesse caso
+      podemos usar ideia B abaixo
+
+  - ideia B)
+      - em vez de mapa para o portugues, numerar ou nomear cada sring com um
+        valor descritivo
+      - assim se especifica diretamente onde aparece no game
+      - vantagem: nome das chaves eh mais estavel q texto. se tiver q atualizar
+        texto em portugues, teria q mudar todos os arquivos de traducao.
+
+  - como eh feito no scilab?
+
 - escrever classe de avisos e colocar fora de pet.java
 
 

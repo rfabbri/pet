@@ -114,6 +114,8 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
         //}
     }
 
+    public ArrayList<State> states() { return states_; }
+
     // pointer to the attribute corresponding to this state
     public PetAttribute att_;
     ArrayList<State> states_;
