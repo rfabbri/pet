@@ -74,8 +74,10 @@ public class Messages {
     /** Connects the UI label to the current text */
     private void connectLabel() {
         connectToPrint();
-        if (isLabelSet())
+        if (isLabelSet()) {
             c_.text_.connect(l_.text.slot());
+            c_.text_.updateForce(c_.text_.get());   // notify all watchers
+        }
     }
 
     /** Disconnects the UI label from the current text */
@@ -118,6 +120,7 @@ public class Messages {
      *
      */
     public Messages() {
+        emptyMessage_.setPriority(-1);
         setCurrentMessage(emptyMessage_);
         ci_ = messages_.listIterator();
     }
@@ -126,13 +129,12 @@ public class Messages {
      * To be called once ms_ is filled up by MessageLoader
      */
     public void init(PetAttributes a) {
-        emptyMessage_.setPriority(-1);
         messages_.add(emptyMessage_);
         // Add messages for the states
         for (AttributeID id : a.sAtt_.keySet())
             messages_.add(new MessageState(ms_, a.sAtt(id)));
         ci_ = messages_.listIterator();
-        c_ = ci_.next();
+        setCurrentMessage(ci_.next());
 
         update();
         // at this point round-robin mode either stays at the default
@@ -225,7 +227,7 @@ public class Messages {
         pprint("[message] current message: " + c_);
         pprint("[message]         queue num messages: " + messages_.size());
         pprint("[message]         queue contents: " );
-        for(Message m: messages_) {
+        for (Message m: messages_) {
             pprint("[message]           " + m);
         }
         pprint("[message]  -------- End queue" );

@@ -640,7 +640,7 @@ public class Pet extends Game.Default {
 
                 if (printIniDbg_) {
                     a().print();
-                    //printIniDbg_ = false;
+                    printIniDbg_ = false;
                 }
 
                 world_.update(delta);
@@ -651,7 +651,7 @@ public class Pet extends Game.Default {
                     messages_.setLabel((Label) rightStatbarGroup_.childAt(1));
                     messages_.init(a());
                 }
-                if (world_.beat_ % world_.beatsCoelhoHora_ == 0)
+                if (world_.beat_ % 20 == 0)
                     messages_.update();
             }
         }

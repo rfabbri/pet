@@ -13,6 +13,7 @@ import static com.pulapirata.core.utils.Puts.*;
  * The message strings reflect a specific PetAttributeState.
  */
 class MessageState extends Message {
+    PetAttributeState as_;
     /**
      * Construct with a text message for each state in {@link PetAttributeState} {@param as}.
      * There must be one state message string per state. When there is no
@@ -22,6 +23,7 @@ class MessageState extends Message {
         assert as.isInitialized();
         as.map( forMapInt(stateMessages, "[messageState] error: no message for state") ).connect(text_.slot());
         as.updateForce(as.get());
+        as_ = as;
     }
 
     /**
@@ -33,6 +35,10 @@ class MessageState extends Message {
         return new Function<Integer, String>() {
             public String apply (Integer id) {
                 String value = map.get(State.values()[id]);
+                //if (value == null) {
+                    pprint("[messageState] id: " + id + " state: " + State.values()[id] + " value: " + value);
+                //}
+
                 return (value != null || map.containsKey(State.values()[id])) ? value : defaultValue;
             }
         };
