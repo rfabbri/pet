@@ -191,21 +191,21 @@ public class Messages {
 
         // circular list not empty.
         while (true) {
-            pprint("[mod] loop. ");
+            dprint("[mod] loop. ");
             if (!ci_.hasNext()) { // circular
-                pprint("[mod] it doesnt have next");
+                dprint("[mod] it doesnt have next");
                 ci_ = messages_.listIterator();
             }
             Message curr = ci_.next();
             assert curr != null;
             if (c_ == curr) {  // went around the list and all else is empty;
-                pprint("[mod] went around the list and all else is empty");
+                dprint("[mod] went around the list and all else is empty");
                 break;
             }
             if (!curr.isEmpty()) {
-                pprint("[mod] considering nonempty " + curr);
+                dprint("[mod] considering nonempty " + curr);
                 if (curr.priority() >= 0) {
-                    pprint("[mod] set current to " + curr);
+                    dprint("[mod] set current to " + curr);
                     setCurrentMessage(curr);
                     break;
                 } else {
@@ -217,7 +217,7 @@ public class Messages {
         }
 
         if (c_.isEmpty()) {
-            pprint("[mod] set to default");
+            dprint("[mod] set to default");
             assert defaultMessage != null;
             setCurrentMessage(defaultMessage);
             ci_ = defaultIt;

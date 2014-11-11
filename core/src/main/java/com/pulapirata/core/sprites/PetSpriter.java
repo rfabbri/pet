@@ -117,6 +117,7 @@ public class PetSpriter extends Spriter {
                     sprite.setSprite(0);
                     sprite.layer().setOrigin(0, 0);
                     sprite.layer().setTranslation(0, 0);
+//                    sprite.layer().setScale(4);
                     if (sprite == animMap_.get(NORMAL))   // start with normal by default.
                         set(NORMAL);
                     else
@@ -202,8 +203,9 @@ public class PetSpriter extends Spriter {
 
         currentSprite_ = newSprite;
         currentVisibleCondition_ = s;
-        petLayer_.setSize(currentSprite_.width(), currentSprite_.height()); // where to clip the animations in this composite spritey
-        petLayer_.setOrigin(currentSprite_.width() / 2f, currentSprite_.height() / 2f);
+        petLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
+        petLayer_.setOrigin(petLayer_.width() / 2f, petLayer_.height() / 2f);
+        petLayer_.setScale(4f); // increase the scale of the sprite for testing
         currentSprite_.layer().setVisible(true);
     }
 
@@ -252,8 +254,8 @@ public class PetSpriter extends Spriter {
      */
     public float boundingRadius() {
         return (float) Math.sqrt(
-                currentSprite_.width()*currentSprite_.width() +
-                currentSprite_.height()*currentSprite_.height())/2.0f;
+                petLayer_.width()*petLayer_.width() +
+                petLayer_.height()*petLayer_.height())/2.0f;
     }
 
     private boolean traversed(){

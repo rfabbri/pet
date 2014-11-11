@@ -130,6 +130,26 @@ public class Sprite {
       return 1;
     }
   }
+  /**
+   * Return max width among all sprites
+   */
+  public float maxWidth() {
+    float max = -1f;
+    for (SpriteImage s : spriteImages) {
+        if (s.width() > max)
+            max= s.width();
+    }
+    return max;
+  }
+
+  public float maxHeight() {
+    float max = -1f;
+    for (SpriteImage s : spriteImages) {
+        if (s.height() > max)
+            max = s.height();
+    }
+    return max;
+  }
 
   /**
    * Add a {@link SpriteImage} to the sprites.

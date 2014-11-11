@@ -89,8 +89,8 @@ class PetWorld extends World {
     public int beat_ = 0; // total number of updates so far
     // the following is not static so that we can dynamically speedup the game if desired
     /** beats por 1 coelho dia. multiply by UPDATE_RATE to get ms */
-    public int beatsCoelhoDia_ = 864000 /* 864000 = 24h reais para UPDATE_RATE 100ms */;
-    //public int beatsCoelhoDia_ = 24*10/*s*/*10 /* 1 coelhoHora = 10 human seconds */
+//    public int beatsCoelhoDia_ = 864000 /* 864000 = 24h reais para UPDATE_RATE 100ms */;
+    public int beatsCoelhoDia_ = 24*10/*s*/*10 /* 1 coelhoHora = 10 human seconds */;
     public double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
     public double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
     final public int beatsMaxIdade_ = beatsCoelhoDia_*8;
@@ -99,11 +99,13 @@ class PetWorld extends World {
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
 
 
-    final public double tAverageDuracaoPuloAleatorio_ = beatsCoelhoSegundo_/4;
+    //final public double tAverageDuracaoPuloAleatorio_ = beatsCoelhoSegundo_/4;
+    final public double tAverageDuracaoPuloAleatorio_ = 2; /* 1s @ 100ms update rate*/
     public double tDuracaoPuloAleatorio_ = tAverageDuracaoPuloAleatorio_; // will be randomized
 //    final public double tDuracaoPuloAleatorio_ = beatsCoelhoHora_/20;
     public double tPuloAleatorio_ = 0;
-    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*9f;
+//    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*9f;
+    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*20f;
     public double tProximoPuloAleatorio_ = tAverageSpacingPuloAleatorio_;
 
     /*-------------------------------------------------------------------------------*/
