@@ -1,11 +1,15 @@
 package com.pulapirata.core;
+import java.util.List;
 import java.util.LinkedList;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.ListIterator;
 import react.Slot;
 import tripleplay.ui.Label;
+import com.pulapirata.core.Message;
 import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.PetAttributes.State;
+import com.pulapirata.core.PetAttributes.AttributeID;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -35,7 +39,8 @@ public class Messages {
     /** pointer to current message */
     private Message c_ = emptyMessage_;
     /** list of messages to be displayed */
-    private List<Message> messages_ = new LinkedList<Message>();
+    private List<Message> messages_
+        = new LinkedList<Message>();
     /** iterator to current message in list */
     private ListIterator<Message> ci_;
 
@@ -47,7 +52,7 @@ public class Messages {
 
     /** Maps {@link PetAttributes.State} states to message strings.
      * Constructed from json. */
-    public EnumMap<State, String> ms_ = new EnumMap<State, String>(State.class());
+    public EnumMap<State, String> ms_ = new EnumMap<State, String>(State.class);
 
     /** Sets a text label to show the contents. */
     public void setLabel(Label l) {
@@ -84,11 +89,11 @@ public class Messages {
      *  This watches when a message changes state,
      *  for debugging.
      */
-    private Slot<string> printSlot = new Slot<String>() {
+    private Slot<String> printSlot = new Slot<String>() {
                     @Override public void onEmit (String txt) {
                         pprint("[message] current message received at slot: " + txt);
                     }
-                }
+                };
 
     /**
      * Connects the current message to stdout
@@ -122,7 +127,7 @@ public class Messages {
      */
     public void init(PetAttributes a) {
         // Add messages for the states
-        for (PetAttributes.AttributeID id : a.sAtt_.keys())
+        for (AttributeID id : a.sAtt_.keySet())
             messages_.add(new MessageState(ms_, a.sAtt(id)));
 
         update();
@@ -157,7 +162,7 @@ public class Messages {
     }
 
     public String currentMessage() {
-        return c_.message();
+        return c_.get();
     }
 
     /** sets the current message to the next one in the list */
@@ -169,14 +174,14 @@ public class Messages {
         //  current is Empty.
 
 
-        assert !messages_.isempty() : "messages completely empty should never happen for now";
+        assert !messages_.isEmpty() : "messages completely empty should never happen for now";
 
         if (messages_.isEmpty()) {
             // handle it if it happens
         }
 
-        Message defaultMessage;
-        private ListIterator<Message> ci_;
+        Message defaultMessage = null;
+        ListIterator<Message> defaultIt = null;
 
         // circular list not empty.
         while (true) {
@@ -187,12 +192,12 @@ public class Messages {
             if (c_ == curr)  // went around the list and all else is empty;
                 break;
             if (!curr.isEmpty()) {
-                if (curr.message().priority() > 0) {
-                    setCurrentMessage(aux);
+                if (curr.priority() > 0) {
+                    setCurrentMessage(curr);
                     break;
                 } else {
                     // default messages are with minus 1.
-                    defaultMessage = aux;
+                    defaultMessage = curr;
                     defaultIt = ci_;
                 }
             }

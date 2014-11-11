@@ -22,12 +22,6 @@ import playn.core.Font;
 import playn.core.Sound;
 import playn.core.util.Callback;
 
-import com.pulapirata.core.Aviso;
-import com.pulapirata.core.PetAttributes;
-import com.pulapirata.core.Triggers.TriggerType;
-import com.pulapirata.core.Trigger;
-import com.pulapirata.core.PetWorld;
-
 import react.Function;
 import react.Functions;
 import react.UnitSlot;
@@ -55,6 +49,14 @@ import tripleplay.ui.layout.AbsoluteLayout;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.util.Randoms;
 import static tripleplay.ui.layout.TableLayout.COL;
+
+import com.pulapirata.core.Aviso;
+import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.Triggers.TriggerType;
+import com.pulapirata.core.Trigger;
+import com.pulapirata.core.PetWorld;
+import com.pulapirata.core.Messages;
+import com.pulapirata.core.utils.MessageLoader;
 
 import static com.pulapirata.core.utils.Puts.*;
 
@@ -647,10 +649,10 @@ public class Pet extends Game.Default {
             if (messages_ != null) {
                 if (!messages_.isLabelSet() && world_.attributesLoaded()) {
                     messages_.setLabel((Label) rightStatbarGroup_.childAt(1));
-                    messages.init(a());
+                    messages_.init(a());
                 }
-                if (a().beat_ % a().beatsCoelhoHora_ == 0)
-                    messages.update();
+                if (world_.beat_ % world_.beatsCoelhoHora_ == 0)
+                    messages_.update();
             }
         }
 

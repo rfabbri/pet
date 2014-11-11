@@ -12,11 +12,12 @@ public class Message {
     public Value<String> text_;
     private int priority_;
 
-    /** Cretes a message with the supplied text */
+    public Message() {}
+    /** Creates a message with the supplied text */
     public Message(String m) { text_.update(m); }
-    public String message() { return text_.get() }
-    public void setMessage(String message_) { text_.set(m); }
-    public boolean isEmpty() { return text_.get().equals("");}
+    public String get() { return text_.get(); }
+    public void setMessage(String m) { text_.update(m); }
+    public boolean isEmpty() { return text_.get().equals(""); }
     public int priority() { return priority_; }
-    public remove() { setMessage(""); }
+    public void remove() { setMessage(""); }
 }
