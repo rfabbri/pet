@@ -16,4 +16,7 @@ public class Message {
     public Message(String m) { text_.update(m); }
     public String message() { return text_.get() }
     public void setMessage(String message_) { text_.set(m); }
+    public boolean isEmpty() { return text_.get().equals("");}
+    public int priority() { return priority_; }
+    public remove() { setMessage(""); }
 }
