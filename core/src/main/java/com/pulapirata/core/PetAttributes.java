@@ -514,8 +514,8 @@ public class PetAttributes {
     public void print() {
         for (String key : m_.keySet())
             m_.get(key).print();
-        // for (String key : ms_.keySet())
-          //  ms_.get(key).print();
+         for (String key : ms_.keySet())
+            ms_.get(key).print();
         sAction().print();
     }
 

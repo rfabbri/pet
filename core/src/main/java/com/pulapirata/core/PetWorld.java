@@ -325,11 +325,11 @@ class PetWorld extends World {
 
                         // from time to time pet jumps if it is not jumping
                         if (beat_ > tProximoPuloAleatorio_) {
-                            pprint ("[pulo] Testando pulando");
+                            dprint ("[pulo] Testando pulando");
 
                             if (tPuloAleatorio_ == -1) {
                                 // start jumping
-                                pprint ("[pulo] Setando pulando");
+                                dprint ("[pulo] Setando pulando");
                                 mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
                                 tPuloAleatorio_ = 0;
                                 int d = rando_.getInt(8); // chose among these directions
@@ -342,7 +342,7 @@ class PetWorld extends World {
                                 else
                                     ps.flipRight();
                                 vel_.set(eid, v);
-                                pprint("[pulo] setando velocidade " + v);
+                                dprint("[pulo] setando velocidade " + v);
 
                                 tDuracaoPuloAleatorio_ = (double)
                                     rando_.getNormal((float)tAverageDuracaoPuloAleatorio_, (float)(0.4*tAverageDuracaoPuloAleatorio_));

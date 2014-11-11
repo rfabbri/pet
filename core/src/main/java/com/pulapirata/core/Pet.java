@@ -140,7 +140,7 @@ public class Pet extends Game.Default {
     /** Pet attributes and info */
 
     private boolean bgLoaded_ = false;
-    private boolean printIniDbg_ = false;
+    private boolean printIniDbg_ = true;
 
     /*-------------------------------------------------------------------------------*/
     /** Misc variables */
@@ -640,7 +640,7 @@ public class Pet extends Game.Default {
 
                 if (printIniDbg_) {
                     a().print();
-                    printIniDbg_ = false;
+                    //printIniDbg_ = false;
                 }
 
                 world_.update(delta);

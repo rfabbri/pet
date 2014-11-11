@@ -24,7 +24,7 @@ public class Puts {
      * Debug print. Can be disabled here.
      */
     public static void dprint(String s) {
-        pprint(s);
+        // pprint(s);
     }
 
     public static void printd(String s) {

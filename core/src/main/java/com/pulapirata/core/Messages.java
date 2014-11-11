@@ -126,9 +126,13 @@ public class Messages {
      * To be called once ms_ is filled up by MessageLoader
      */
     public void init(PetAttributes a) {
+        emptyMessage_.setPriority(-1);
+        messages_.add(emptyMessage_);
         // Add messages for the states
         for (AttributeID id : a.sAtt_.keySet())
             messages_.add(new MessageState(ms_, a.sAtt(id)));
+        ci_ = messages_.listIterator();
+        c_ = ci_.next();
 
         update();
         // at this point round-robin mode either stays at the default
@@ -185,8 +189,11 @@ public class Messages {
 
         // circular list not empty.
         while (true) {
-            if (!ci_.hasNext()) // circular
+            pprint("[mod] loop. ");
+            if (!ci_.hasNext()) { // circular
+                pprint("[mod] it doesnt has next");
                 ci_ = messages_.listIterator();
+            }
             Message curr = ci_.next();
             assert curr != null;
             if (c_ == curr)  // went around the list and all else is empty;
@@ -222,5 +229,6 @@ public class Messages {
             pprint("[message]           " + m);
         }
         pprint("[message]  -------- End queue" );
+        pprint("[message]  map: " + ms_);
     }
 }

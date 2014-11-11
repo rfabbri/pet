@@ -19,5 +19,7 @@ public class Message {
     public void setMessage(String m) { text_.update(m); }
     public boolean isEmpty() { return text_.get().equals(""); }
     public int priority() { return priority_; }
+    public void setPriority(int p) { priority_ = p; }
     public void remove() { setMessage(""); }
+    @Override public String toString() { return get(); }
 }
