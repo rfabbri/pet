@@ -29,7 +29,6 @@ import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.Triggers.TriggerType;
 import com.pulapirata.core.Trigger;
 import com.pulapirata.core.PetWorld;
-import com.pulapirata.core.utils.PetAttributesLoader;
 
 import react.Function;
 import react.Functions;
@@ -73,6 +72,7 @@ public class Pet extends Game.Default {
         "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
     protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Vida: %d/%d\n";
     protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Grana: %d/%d";
+    public Messages messages_;   // filled up by MessagesLoader
 
     /*-------------------------------------------------------------------------------*/
     /** Game Dimensions */
@@ -106,7 +106,7 @@ public class Pet extends Game.Default {
     }
 
     /*-------------------------------------------------------------------------------*/
-    /* Time data */
+    /** Time data */
 
     public static final int UPDATE_RATE = 100; // ms    // was: 100.
 
@@ -137,18 +137,18 @@ public class Pet extends Game.Default {
     }
 
     /*-------------------------------------------------------------------------------*/
-    /* Pet attributes & info */
+    /** Pet attributes and info */
 
     private boolean bgLoaded_ = false;
     private boolean printIniDbg_ = false;
 
     /*-------------------------------------------------------------------------------*/
-    /* Misc variables */
+    /** Misc variables */
 
     protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
 
     /*-------------------------------------------------------------------------------*/
-    /* Layers, groups & associated resources */
+    /** Layers, groups and associated resources */
 
     private ImageLayer bgLayer_ = null;
     private Image bgImageDay_, bgImageNight_;
@@ -164,12 +164,13 @@ public class Pet extends Game.Default {
     protected PetWorld world_;
 
     //--------------------------------------------------------------------------------
+    /** Constructor */
     public Pet() {
         super(UPDATE_RATE);
     }
 
     //--------------------------------------------------------------------------------
-
+    /** Constructs the top status bar */
     private void makeStatusbar() {
       // create and add the status title layer using drawings for faster loading
       CanvasImage bgtile = graphics().createImage(480, 119);
@@ -569,18 +570,18 @@ public class Pet extends Game.Default {
 
     @Override
     public void init() {
-//      try {     // (rfabbri): leaving this try-catch code as an example
-//        assert 1 == 0 : "Asserts are on +_+_+_+_+_+_+___+_+__";
-//      } catch (AssertionError e) {
-//        System.out.println("thread aborts.");
-//        System.exit(0);//logging or any action
-//      }
-//      if (0 == 0) {
-//        throw new AssertionError("testing assert err");
-//      } else {
-//      System.out.println("thread runs.");
-//      System.exit(1);
-//      }
+      //      try {     // (rfabbri): leaving this try-catch code as an example
+      //        assert 1 == 0 : "Asserts are on +_+_+_+_+_+_+___+_+__";
+      //      } catch (AssertionError e) {
+      //        System.out.println("thread aborts.");
+      //        System.exit(0);//logging or any action
+      //      }
+      //      if (0 == 0) {
+      //        throw new AssertionError("testing assert err");
+      //      } else {
+      //      System.out.println("thread runs.");
+      //      System.exit(1);
+      //      }
 
       // create a group layer_ to hold everything
       layer_ = graphics().createGroupLayer();
@@ -595,6 +596,19 @@ public class Pet extends Game.Default {
       layer_.addAt(worldLayer_, 0, WORLD_ORIGIN_Y);
       world_ = new PetWorld(worldLayer_, width(), WORLD_HEIGHT);
       bm_.makeButtons();
+      /** Load messages */
+      MessageLoader.CreateMessages(Messages.JSON_PATH,
+          new Callback<Messages>() {
+              @Override
+              public void onSuccess(Messages resource) {
+                  messages_ = resource;
+              }
+
+              @Override
+              public void onFailure(Throwable err) {
+                  PlayN.log().error("Error loading messages : " + err.getMessage());
+              }
+          });
     }
 
     //--------------------------------------------------------------------------------
@@ -631,6 +645,15 @@ public class Pet extends Game.Default {
                 world_.update(delta);
             }
         }
+
+        if (messages_ != null) {
+            if (!messages_.isLabelSet()) {
+                messages_.setLabel((Label) rightStatbarGroup_.childAt(1));
+            }
+            if (a().beat_ % a().beatsCoelhoHora_ == 0)
+                messages.updateMessages();
+        }
+
         Label l = (Label) mainStat_.childAt(1);
         l.text.update(idadeCoelhoDiasStr1());
         l =  (Label) mainStat_.childAt(2);

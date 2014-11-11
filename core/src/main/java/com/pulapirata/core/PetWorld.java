@@ -91,10 +91,10 @@ class PetWorld extends World {
     private int beatsCoelhoDia_ = 864000; // beats por 1 coelho dia. multiply by UPDATE_RATE to get ms
     private double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
     private double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
+    final public int beatsMaxIdade_ = beatsCoelhoDia_*8;
     // TODO: colocar em pet attributes?
     public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
-    final public int beatsMaxIdade_ = beatsCoelhoDia_*8;
 
 
     final public double tAverageDuracaoPuloAleatorio_ = beatsCoelhoSegundo_/4;

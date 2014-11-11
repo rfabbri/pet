@@ -14,7 +14,7 @@ class MessageState extends Message {
      */
     MessageState(EnumMap<State, String> stateMessages, PetAttributeState as) {
         assert as.isInitialized();
-        as.map( Functions.forMap(stateMessages, "") ).connect(text_.slot());
+        as.map( Functions.forMap(stateMessages, "[messageState] error: no message for state") ).connect(text_.slot());
         as.updateForce(as.get());
     }
 }

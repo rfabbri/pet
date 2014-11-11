@@ -18,6 +18,8 @@ import static com.pulapirata.core.utils.Puts.*;
  *            can go through by swiping or using the mouse.
  */
 public class Messages {
+    public static String JSON_PATH = "pet/jsons/messages.json";
+
     /** message displayed when theres no messages.
      * Usually for debugging - should display some other info.
      * TODO ask prestoppc what happens when theres no msgs. */
@@ -33,6 +35,9 @@ public class Messages {
     /** Reference to a text label to show the contents. */
     private Label l_;
 
+    /** total number of updates so far */
+    public int beat_ = 0;
+
     /** Maps {@link PetAttributes.State} states to message strings.
      * TODO construct from json */
     public EnumMap<State, String> ms_ = new EnumMap<State, String>(State.class());
@@ -40,6 +45,11 @@ public class Messages {
     /** Sets a text label to show the contents. */
     public void setLabel(Label l) {
         l_ = l;
+    }
+
+    /** is it wired to a label? */
+    boolean isLabelSet() {
+        return l_ != null;
     }
 
     /** Sets the current message to be shown when in round-robin mode. */
@@ -51,14 +61,16 @@ public class Messages {
 
     /** Connects the UI label to the current text */
     private void connectLabel() {
-        c_.text_.connect(l_.text.slot());
         connectToPrint();
+        if (isLabelSet())
+            c_.text_.connect(l_.text.slot());
     }
 
     /** Disconnects the UI label from the current text */
     private void disconnectLabel() {
-        c_.text_.disconnect(l_.text.slot());
         disconnectToPrint();
+        if (isLabelSet())
+            c_.text_.disconnect(l_.text.slot());
     }
 
     /** Slot to print emitted texts from a message.
@@ -96,14 +108,19 @@ public class Messages {
     public Messages() {
         setCurrentMessage(emptyMessage_);
         ci_ = messages_.listIterator();
+    }
 
-        /** Add messages for the states */
+    /**
+     * To be called by MessageLoader once ms_ is filled up
+     */
+    public void initMessages() {
+        // Add messages for the states
         for each sAttribute s
             messages_.add(new MessageState(ms_, s));
 
-        // at this point this either stays at the default emptymessage,
-        // or hits some non-empty message in the initial list
-        nextMessage();
+        updateMessages();
+        // at this point round-robin mode either stays at the default
+        // emptymessage, or hits some non-empty message in the initial list
     }
 
     /**
