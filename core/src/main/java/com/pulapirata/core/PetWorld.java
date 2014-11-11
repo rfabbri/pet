@@ -88,7 +88,9 @@ class PetWorld extends World {
 
     public int beat_ = 0; // total number of updates so far
     // the following is not static so that we can dynamically speedup the game if desired
-    public int beatsCoelhoDia_ = 864000; // beats por 1 coelho dia. multiply by UPDATE_RATE to get ms
+    /** beats por 1 coelho dia. multiply by UPDATE_RATE to get ms */
+    public int beatsCoelhoDia_ = 864000 /* 864000 = 24h reais para UPDATE_RATE 100ms */;
+    //public int beatsCoelhoDia_ = 24*10/*s*/*10 /* 1 coelhoHora = 10 human seconds */
     public double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
     public double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
     final public int beatsMaxIdade_ = beatsCoelhoDia_*8;

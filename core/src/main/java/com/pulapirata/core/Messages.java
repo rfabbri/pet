@@ -76,8 +76,8 @@ public class Messages {
         connectToPrint();
         if (isLabelSet()) {
             c_.text_.connect(l_.text.slot());
-            c_.text_.updateForce(c_.text_.get());   // notify all watchers
         }
+        c_.text_.updateForce(c_.text_.get());   // notify all watchers
     }
 
     /** Disconnects the UI label from the current text */
@@ -193,15 +193,19 @@ public class Messages {
         while (true) {
             pprint("[mod] loop. ");
             if (!ci_.hasNext()) { // circular
-                pprint("[mod] it doesnt has next");
+                pprint("[mod] it doesnt have next");
                 ci_ = messages_.listIterator();
             }
             Message curr = ci_.next();
             assert curr != null;
-            if (c_ == curr)  // went around the list and all else is empty;
+            if (c_ == curr) {  // went around the list and all else is empty;
+                pprint("[mod] went around the list and all else is empty");
                 break;
+            }
             if (!curr.isEmpty()) {
-                if (curr.priority() > 0) {
+                pprint("[mod] considering nonempty " + curr);
+                if (curr.priority() >= 0) {
+                    pprint("[mod] set current to " + curr);
                     setCurrentMessage(curr);
                     break;
                 } else {
@@ -213,6 +217,7 @@ public class Messages {
         }
 
         if (c_.isEmpty()) {
+            pprint("[mod] set to default");
             assert defaultMessage != null;
             setCurrentMessage(defaultMessage);
             ci_ = defaultIt;

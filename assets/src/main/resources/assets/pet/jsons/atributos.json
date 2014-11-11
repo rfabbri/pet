@@ -1,6 +1,6 @@
 {
   "Attributes": [
-    {"name": "Nutricao", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.25,
+    {"name": "Nutricao", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.25, "comment": "passiveBeats = 1/4 coelhoHora",
       "States": [
         {"name": "faminto", "min": -20, "max": -1},
         {"name": "muita fome", "min": 0, "max": 20},
