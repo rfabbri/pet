@@ -21,6 +21,7 @@ import playn.core.PlayN;
 import playn.core.Font;
 import playn.core.Sound;
 import playn.core.util.Callback;
+import playn.core.gl.GLContext;
 
 import react.Function;
 import react.Functions;
@@ -582,6 +583,9 @@ public class Pet extends Game.Default {
       //      System.out.println("thread runs.");
       //      System.exit(1);
       //      }
+      assert graphics().ctx() != null : "currently we only support platforms with OpenGL";
+
+      graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST, GLContext.Filter.NEAREST);
 
       // create a group layer_ to hold everything
       layer_ = graphics().createGroupLayer();
