@@ -205,7 +205,7 @@ public class PetSpriter extends Spriter {
         currentVisibleCondition_ = s;
         petLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
         petLayer_.setOrigin(petLayer_.width() / 2f, petLayer_.height() / 2f);
-        petLayer_.setScale(4f); // increase the scale of the sprite for testing
+        petLayer_.setScale(1f); // increase the scale of the sprite for testing
         currentSprite_.layer().setVisible(true);
     }
 

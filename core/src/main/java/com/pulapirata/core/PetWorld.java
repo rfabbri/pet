@@ -100,12 +100,12 @@ class PetWorld extends World {
 
 
     //final public double tAverageDuracaoPuloAleatorio_ = beatsCoelhoSegundo_/4;
-    final public double tAverageDuracaoPuloAleatorio_ = 2; /* 1s @ 100ms update rate*/
+    final public double tAverageDuracaoPuloAleatorio_ = 1; /* 1s @ 100ms update rate*/
     public double tDuracaoPuloAleatorio_ = tAverageDuracaoPuloAleatorio_; // will be randomized
 //    final public double tDuracaoPuloAleatorio_ = beatsCoelhoHora_/20;
     public double tPuloAleatorio_ = 0;
 //    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*9f;
-    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*20f;
+    public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*40f;
     public double tProximoPuloAleatorio_ = tAverageSpacingPuloAleatorio_;
 
     /*-------------------------------------------------------------------------------*/
