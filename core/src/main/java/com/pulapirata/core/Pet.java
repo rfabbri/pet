@@ -8,8 +8,6 @@ import java.util.Random;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.ListIterator;
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -642,17 +640,20 @@ public class Pet extends Game.Default {
                     a().print();
                     printIniDbg_ = false;
                 }
+
                 world_.update(delta);
+            }
+
+            if (messages_ != null) {
+                if (!messages_.isLabelSet() && world_.attributesLoaded()) {
+                    messages_.setLabel((Label) rightStatbarGroup_.childAt(1));
+                    messages.init(a());
+                }
+                if (a().beat_ % a().beatsCoelhoHora_ == 0)
+                    messages.update();
             }
         }
 
-        if (messages_ != null) {
-            if (!messages_.isLabelSet()) {
-                messages_.setLabel((Label) rightStatbarGroup_.childAt(1));
-            }
-            if (a().beat_ % a().beatsCoelhoHora_ == 0)
-                messages.updateMessages();
-        }
 
         Label l = (Label) mainStat_.childAt(1);
         l.text.update(idadeCoelhoDiasStr1());

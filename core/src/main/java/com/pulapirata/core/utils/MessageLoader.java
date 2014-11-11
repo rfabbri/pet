@@ -44,13 +44,12 @@ public class MessageLoader {
                     Json.Object jm = jsonMessages.getObject(i);
                     String messageState = jm.getString("state").toUpperCase().replace(' ', '_');
                     pprint("[messageloader] reading message for state: " + messageState);
+                    pprint("[messageloader] message is: " + jm.getString("message"));
 
                     // set internal atributes ---
 
                     messages.ms_.put(messageState, jm.getString("message"));
                 }
-
-                messages.initMessages();
 
                 // start the watcher (it will call the callback when everything is
                 // loaded)

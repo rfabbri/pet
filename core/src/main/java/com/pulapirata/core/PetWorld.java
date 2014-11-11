@@ -130,6 +130,10 @@ class PetWorld extends World {
         return triggersLoaded_;
     }
 
+    public boolean attributesLoaded() {
+        return attributesLoaded_;
+    }
+
     @Override public void update (int delta) {
         beat_++;
         super.update(delta);

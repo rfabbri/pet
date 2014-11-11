@@ -1,5 +1,9 @@
 package com.pulapirata.core;
+import java.util.EnumMap;
 import react.Value;
+import react.Functions;
+import com.pulapirata.core.PetAttributeState;
+import com.pulapirata.core.PetAttributes.State;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**

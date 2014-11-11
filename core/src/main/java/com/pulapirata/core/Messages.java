@@ -1,4 +1,11 @@
 package com.pulapirata.core;
+import java.util.LinkedList;
+import java.util.EnumMap;
+import java.util.Iterator;
+import java.util.ListIterator;
+import react.Slot;
+import tripleplay.ui.Label;
+import com.pulapirata.core.PetAttributes;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -28,7 +35,7 @@ public class Messages {
     /** pointer to current message */
     private Message c_ = emptyMessage_;
     /** list of messages to be displayed */
-    List<Message> messages_ = new LinkedList<Message>();
+    private List<Message> messages_ = new LinkedList<Message>();
     /** iterator to current message in list */
     private ListIterator<Message> ci_;
 
@@ -39,7 +46,7 @@ public class Messages {
     public int beat_ = 0;
 
     /** Maps {@link PetAttributes.State} states to message strings.
-     * TODO construct from json */
+     * Constructed from json. */
     public EnumMap<State, String> ms_ = new EnumMap<State, String>(State.class());
 
     /** Sets a text label to show the contents. */
@@ -48,7 +55,7 @@ public class Messages {
     }
 
     /** is it wired to a label? */
-    boolean isLabelSet() {
+    public boolean isLabelSet() {
         return l_ != null;
     }
 
@@ -77,7 +84,7 @@ public class Messages {
      *  This watches when a message changes state,
      *  for debugging.
      */
-    Slot<string> printSlot = new Slot<String>() {
+    private Slot<string> printSlot = new Slot<String>() {
                     @Override public void onEmit (String txt) {
                         pprint("[message] current message received at slot: " + txt);
                     }
@@ -111,14 +118,14 @@ public class Messages {
     }
 
     /**
-     * To be called by MessageLoader once ms_ is filled up
+     * To be called once ms_ is filled up by MessageLoader
      */
-    public void initMessages() {
+    public void init(PetAttributes a) {
         // Add messages for the states
-        for each sAttribute s
-            messages_.add(new MessageState(ms_, s));
+        for (PetAttributes.AttributeID id : a.sAtt_.keys())
+            messages_.add(new MessageState(ms_, a.sAtt(id)));
 
-        updateMessages();
+        update();
         // at this point round-robin mode either stays at the default
         // emptymessage, or hits some non-empty message in the initial list
     }
@@ -127,7 +134,7 @@ public class Messages {
      * Updates message queue and current message or contents.
      * Alias to nextMessage() for roundrobin mode.
      */
-    public void updateMessages() {
+    public void update() {
         nextMessage();
     }
 
@@ -154,7 +161,7 @@ public class Messages {
     }
 
     /** sets the current message to the next one in the list */
-    public String nextMessage() {
+    public void nextMessage() {
         // for each element in the list after current
         // if it is non-null
         //  set current
@@ -202,7 +209,7 @@ public class Messages {
     /**
      * Prints messages for debugging.
      */
-    void print() {
+    public void print() {
         pprint("[message] current message: " + c_);
         pprint("[message]         queue num messages: " + messages_.size());
         pprint("[message]         queue contents: " );
