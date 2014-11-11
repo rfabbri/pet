@@ -9,7 +9,7 @@ import static com.pulapirata.core.utils.Puts.*;
  */
 public class Message {
     /** reactive string that can send/receive signals */
-    public Value<String> text_;
+    public Value<String> text_ = Value.create(null);
     private int priority_;
 
     public Message() {}
