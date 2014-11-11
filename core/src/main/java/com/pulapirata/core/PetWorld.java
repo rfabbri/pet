@@ -593,7 +593,7 @@ class PetWorld extends World {
         PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
         // ps.layer().setWidth(-ps.layer().width());
         // XXX mainPet_.vis().connect(ps.slot());    // links sprite to animation
-        ps.set(PetAttributes.VisibleCondition.CHORANDO);
+        ps.set(PetAttributes.VisibleCondition.TRISTE);
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
         radius_.set(mainID_, ps.boundingRadius());
         // spriteLayer_.set(id, layer_);
