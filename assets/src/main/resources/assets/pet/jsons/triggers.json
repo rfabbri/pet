@@ -4,19 +4,171 @@
              "AgeStage": [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "lock", "MEIA_IDADE": "lock", "TERCEIRA_IDADE": "lock", "ANCIAO": "unlock" }]
     },
     {"name": "Sopa de Bacon", "action": "COMENDO",  "duration": 3,
-             "Modifiers": [{"nutricao": 40, "humor": 10, "higiene": -20, "saude": -10, "intestino": 3}],
+             "Modifiers": [{ "nutricao": 40, "humor": 10, "higiene": -20, "saude": -10, "intestino": 3 }],
              "AgeStage": [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "lock", "MEIA_IDADE": "lock", "TERCEIRA_IDADE": "lock", "ANCIAO": "unlock" }]
     },
     {"name": "Chicotear", "action": "LEVANDO_CHICOTADA", "duration": 10,
-             "Modifiers": [{"nutricao": -10, "humor": -80, "social": -60, "higiene": -20, "estudo": 0, "saude": -20, "alcool": -30, "disciplina": 60, "vida": 0, "sexualidade": 0, "fe": 0, "intestino": 8, "tipoCoco": "mole"}],
+             "Modifiers": [{ "nutricao": -10, "humor": -80, "social": -60, "higiene": -20, "estudo": 0, "saude": -20, "alcool": -30, "disciplina": 60, "vida": 0, "sexualidade": 0, "fe": 0, "intestino": 8, "tipoCoco": "mole" }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
     },
     {"name": "Bombom de Licor", "action": "COMENDO", "duration": 3,
-             "Modifiers": [{"nutricao": 10, "humor": 10, "social": 0, "higiene": -5, "estudo": 0, "saude": -2, "alcool": 15, "disciplina": -2, "sexualidade": 0, "fe": 0, "intestino": 0}],
+             "Modifiers": [{ "nutricao": 10, "humor": 10, "social": 0, "higiene": -5, "estudo": 0, "saude": -2, "alcool": 15, "disciplina": -2, "sexualidade": 0, "fe": 0, "intestino": 0 }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
     },
     {"name": "Booty Call", "action": "BOOTY_CALLING", "duration": 1800,
-             "Modifiers": [{"nutricao": -40, "humor": 60, "social": 40, "higiene": -40, "estudo": -5, "saude": 10, "alcool": 0, "disciplina": 0, "sexualidade": 5, "fe": 0, "intestino": 0, "celular": 1}],
+             "Modifiers": [{ "nutricao": -40, "humor": 60, "social": 40, "higiene": -40, "estudo": -5, "saude": 10, "alcool": 0, "disciplina": 0, "sexualidade": 5, "fe": 0, "intestino": 0, "celular": 1 }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
-    }
+    },
+	{"name": "Salada com Legumes", "action": "COMENDO", "duration": 3,
+			 "Modifiers": [{ "nutricao": 50, "humor": -10, "saude": 5, "intestino": 1 }],
+			 "AgeStage" : [{ "BEBE": "lock", "CRIANCA": "lock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Chocolate", "action": "COMENDO", "duration": 3, 
+			 "Modifiers": [{ "nutricao": 20, "humor": 15, "higiene": -10, "saude": -5, "disciplina": -2, "intestino": 5, "tipoCoco": "mole" }],
+			 "AgeStage" : [{ "BEBE": "lock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "lock", "ANCIAO": "lock" }]
+	},
+	{"name": "Pizza", "action": "COMENDO", "duration": 5,
+			 "Modifiers": [{ "nutricao": 60, "humor": 20, "higiene": -15, "saude": -5, "disciplina": 0, "intestino": 7 }],
+			 "AgeStage" : [{ "BEBE": "lock", "CRIANCA": "lock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "lock", "ANCIAO": "lock" }]
+	},
+	{"name": "Agua", "action": "COMENDO", "duration": 3,
+			 "Modifiers": [{ "nutricao": 5, "humor": 0, "higiene": 0, "saude": 0, "disciplina": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Leite", "action": "COMENDO", "duration": 3,
+			 "Modifiers": [{ "nutricao": 20, "humor": 0, "higiene": -5, "saude": 0, "disciplina": 0, "intestino": 0 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "lock", "ADULTO": "lock", "MEIA_IDADE": "lock", "TERCEIRA_IDADE": "block", "ANCIAO": "unlock" }]
+	},
+	{"name": "Bola", "action": "JOGANDO_BOLA", "duration": 60, 
+			 "Modifiers": [{ "nutricao": -10, "humor": 40, "higiene": -10, "saude": 10, "disciplina": 0, "intestino": 0, "cost": 10 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Quadrinhos", "action": "LENDO_QUADRINHOS", "duration": 60,
+			 "Modifiers": [{ "nutricao": 0, "humor": 20, "higiene": -10, "estudo": 0, "saude": 0, "disciplina": 0, "intestino": 0 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Livro", "action": "LENDO_LIVRO", "duration": 60, 
+			 "Modifiers": [{ "nutricao": 0, "humor": 15, "social": 0, "higiene": 0, "estudo": 10, "saude": 0, "alcool": 0, "disciplina": 10, "intestino": 0, "cost": 5 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "VideoGame", "action": "JOGANDO_VIDEOGAME", "duration": 300, 
+			 "Modifiers": [{ "nutricao": 0, "humor": 50, "social": 10, "higiene": 0, "estudo": -10, "saude": 0, "alcool": 0, "disciplina": -10, "intestino": 0, "cost": 15 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "TV", "action": "ASSITINDO_TV", "duration": 5,
+			 "Modifiers": [{ "nutricao": -5, "humor": 30, "social": 0, "higiene": 0, "estudo": -10, "saude": 0, "alcool": 0, "disciplina": 0, "intestino": 0, "cost": 30 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }],
+	},
+	{"name": "Anime", "action": "ASSISTINDO_ANIME", "duration": 5,
+			 "Modifiers": [{ "nutricao": -5, "humor": 50, "social": 0, "higiene": 0, "estudo": -10, "saude": 0, "alcool": 0, "disciplina": -5, "fe": -5, "intestino": 0, "cost": 5 }],
+     		 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }],
+	},
+	{"name": "Cine prive", "action": "ASSISTINDO_CINE_PRIVE", "duration": 5, 
+			 "Modifiers": [{ "nutricao": -10, "humor": 60, "social": 0, "higiene": -20, "estudo": -15, "saude": 0, "alcool": 0, "disciplina": -10, "sexualidade:", 5, "fe": -5, "intestino": 0, "cost": 5 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Desenhar", "action": "DESENHANDO", "duration": 10,
+			 "Modifiers": [{ "nutricao": 0, "humor": 30, "social": 0, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 5, "sexualidade:", 0, "fe": 0, "intestino": 0, "cost": 5 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Ligar para amigo", "action": "LIGANDO", "duration": 10, 
+			 "Modifiers": [{ "nutricao": 0, "humor": 20, "social": 20, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "celular": 1 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Convidar colega", "action": "CONVIDANDO_COLEGA", "duration": 3000, 
+			 "Modifiers": [{ "nutricao": -10, "humor": 40, "social": 40, "higiene": -30, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "celular": 1 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Rede social", "action": "MEXENDO_CELULAR", "duration": 5,
+			 "Modifiers": [{ "nutricao": 0, "humor": 20, "social": 20, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": -10, "sexualidade:", 0, "fe": 0, "intestino": 0, "celular": 1 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Fazer Festa", "action": "FAZENDO_FESTA", "duration": 7200, 
+			 "Modifiers": [{ "nutricao": -60, "humor": 80, "social": 60, "higiene": -60, "estudo": -20, "saude": 20, "alcool": 60, "disciplina": -10, "sexualidade:", 10, "fe": -5, "intestino": 9, "tipoCoco": "mole",  "celular":1 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	 },
+	{"name": "Jogar RPG", "action": "JOGANDO_RPG", "duration": 3600, 
+			 "Modifiers": [{ "nutricao": -20, "humor": 60, "social": 40, "higiene": 0, "estudo": 5, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", -5, "fe": 0, "intestino": 0, "cost": 10 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Tomar banho", "action": "TOMANDO_BANHO", "duration": 10
+			 "Modifiers": [{ "nutricao": 0, "humor": 10, "social": 0, "higiene": 80, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 10, "sexualidade:", 0, "fe": 0, "intestino": 0 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Escovar dentes", "action": "ESCOVANDO_DENTES", "duration": 5, 
+			 "Modifiers": [{ "nutricao": 0, "humor": -5, "social": 5, "higiene": 20, "estudo": 0, "saude": 10, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "cost": 5 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Varrer", "action": "VARRENDO", "comment" : "so ha duracao especifica quando especificado aqui...",
+			 "Modifiers": [{ "nutricao": 0, "humor": -20, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": -10, "sexualidade:", 0, "fe": 0, "intestino": 0 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Passar perfume", "action": "PASSANDO_PERFUME", "duration": 5, 
+			 :Modifiers": [{ "nutricao": 0, "humor": 0, "social": 5, "higiene": 10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0, "cost": 15 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Pinguinha na chupeta", "action": "COMENDO", "duration": 3,
+			 "Modifiers": [{ "nutricao": 5, "humor": 10, "social": 0, "higiene": 0, "estudo": 0, "saude": -1, "alcool": 10, "disciplina": -2, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Cerveja", "action": "COMENDO", "duration": 5, 
+			 "Modifiers": [{ "nutricao": -5, "humor": 20, "social": 10, "higiene": -5, "estudo": 0, "saude": -3, "alcool": 20, "disciplina": -5, "sexualidade:", 0, "fe": 0, "intestino": 0, "tipoCoco": "mole" }],
+			 "AgeStage" : [{ "BEBE": "lock", "CRIANCA": "lock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Suco de macaco", "action": "COMENDO", 
+			 "Modifiers": [{ "nutricao": 0, "humor": 30, "social": 0, "higiene": -10, "estudo": 0, "saude": -4, "alcool": 30, "disciplina": -5, "sexualidade:", 0, "fe": 0, "intestino": 0,  "tipoCoco": "mole" }],
+			 "AgeStage" : [{ "BEBE": "lock", "CRIANCA": "lock", "ADOLESCENTE": "lock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Cigarro", "action": "FUMANDO", "duration": 10, 
+			 "Modifiers": [{ "nutricao": 0, "humor": 40, "social": 15, "higiene": -10, "estudo": 0, "saude": -5, "alcool": 0, "disciplina": -5, "sexualidade:", 0, "fe": 0, "intestino": 0, "cost": 5 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Masturbar", "action": "MASTURBANDO", 
+			 "Modifiers": [{ "nutricao": -10, "humor": 20, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": -5, "sexualidade:", 5, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Sair para escola", "action": "SAINDO_DE_CASA", "duration": 7200,
+			 "Modifiers": [{ "nutricao": -15, "humor": -40, "social": 60, "higiene": -20, "estudo": 30, "saude": 0, "alcool": 0, "disciplina": 30, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Sair para parque", "action": "SAINDO_DE_CASA", "duration": 1800,
+			 "Modifiers": [{ "nutricao": -15, "humor": 40, "social": 30, "higiene": -40, "estudo": -5, "saude": 10, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Sair para igreja", "action": "SAINDO_DE_CASA", "duration": 3600,
+			 "Modifiers": [{ "nutricao": -20, "humor": 40, "social": 30, "higiene": 0, "estudo": 0, "saude": 0, "alcool": -10, "disciplina": 10, "sexualidade:", 0, "fe": 15, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Dar Glicose", "action": "TOMANDO_GLICOSE", "duration": 5,
+			 "Modifiers": [{ "nutricao": 0, "humor": -30, "social": 0, "higiene": 0, "estudo": 0, "saude": -10, "alcool": -60, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Remedio", "action": "TOMANDO_REMEDIO", "duration": 5,
+			 "Modifiers": [{ "nutricao": 0, "humor": -10, "social": 0, "higiene": 0, "estudo": 0, "saude": 20, "alcool": 0, "disciplina": 0, "sexualidade:", 0, "fe": 0, "intestino": 0 }],
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Curativo", "action": "LEVANDO_CURATIVO", "duration": 5,
+			 "Modifiers": [{ "nutricao": 0, "humor": 0, "social": -5, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 0, "vida": 20, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Chinelada", "action": "LEVANDO_CHINELADA", "duration": 10, "comment" : "-5 vida por chinelada e 1 sangue por chicotada",
+			 "Modifiers": [{ "nutricao": -5, "humor": -60, "social": 0, "higiene": -10, "estudo": 0, "saude": -10, "alcool": 0, "disciplina": 30, "vida": 5, "sexualidade:", 0, "fe": 0, "intestino": 0, "sangue": 1 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Estudar", "action": "ESTUDANDO", "duration": 5,
+			 "Modifiers": [{ "nutricao": -10, "humor": -20, "social": 0, "higiene": -5, "estudo": 20, "saude": -0, "alcool": 0, "disciplina": 10, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Gritar", "action": "LEVANDO_GRITO", "duration": 10,
+			 "Modifiers": [{ "nutricao": 0, "humor": -30, "social": 0, "higiene": 0, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 20, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+	{"name": "Castigar", "action": "SENDO_CASTIGADO", "duration": 300,
+			 "Modifiers": [{ "nutricao": -10, "humor": -40, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": 40, "vida": 0, "sexualidade:", 0, "fe": 0, "intestino": 0 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	},
+		{"name": "Chicotada", "action": "LEVANDO_CHICOTADA", "duration": 10, "comment" : "-10 vida por chicotada e 3 sangue por chicotada",
+			 "Modifiers": [{ "nutricao": -20, "humor": -80, "social": -60, "higiene": -20, "estudo": 0, "saude": -20, "alcool": 0, "disciplina": 60, "vida": -10, "sexualidade:", 0, "fe": 0, "intestino": 0, "sangue": 3 }], 
+			 "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
+	}
 ]}

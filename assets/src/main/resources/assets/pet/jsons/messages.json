@@ -42,7 +42,7 @@
   {"state": "atleta", "message": "Pingo esta com saude perfeita"},
 
   {"state": "preso", "message": "Pingo esta preso."},
-  {"state": "criminoso", "message": "Pingo sera preso pratidcando vandalismo."},
+  {"state": "criminoso", "message": "Pingo sera preso praticando vandalismo."},
   {"state": "rebelde", "message": ""},
   {"state": "teimoso", "message": ""},
   {"state": "obediente", "message": ""},
