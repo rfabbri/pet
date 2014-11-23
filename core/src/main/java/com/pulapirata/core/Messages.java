@@ -93,7 +93,7 @@ public class Messages {
      */
     private Slot<String> printSlot = new Slot<String>() {
                     @Override public void onEmit (String txt) {
-                        pprint("[message] current message received at slot: " + txt);
+                        dprint("[message] current message received at slot: " + txt);
                     }
                 };
 
@@ -229,13 +229,13 @@ public class Messages {
      * Prints messages for debugging.
      */
     public void print() {
-        pprint("[message] current message: " + c_);
-        pprint("[message]         queue num messages: " + messages_.size());
-        pprint("[message]         queue contents: " );
+        dprint("[message] current message: " + c_);
+        dprint("[message]         queue num messages: " + messages_.size());
+        dprint("[message]         queue contents: " );
         for (Message m: messages_) {
-            pprint("[message]           " + m);
+            dprint("[message]           " + m);
         }
-        pprint("[message]  -------- End queue" );
-        pprint("[message]  map: " + ms_);
+        dprint("[message]  -------- End queue" );
+        dprint("[message]  map: " + ms_);
     }
 }
