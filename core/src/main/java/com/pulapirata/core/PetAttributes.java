@@ -94,6 +94,7 @@ public class PetAttributes {
         FE,
         DINHEIRO,
         INTESTINO,
+        SANGUE,     // O quanto de sangue espirra dele a cada instante (vai sendo decrementado para zero).
         ACTION,
     }
 
@@ -110,6 +111,7 @@ public class PetAttributes {
         ASSEXUADO, VIRGEM, INEXPERIENTE, APRECIADOR_DO_SEXO, SEXO_SELVAGEM, MICHAEL_DOUGLAS, NINFOMANIACO,  // Sexualidade
         ANTI_CRISTO, FIEL_FERVOROSO,                                                          				// Fe
                                                                                                             // Intestino
+                                                                                                            // Sangue
         NORMAL,
         ONONOONO 																							// impossivel - invalido
         ;
@@ -215,6 +217,8 @@ public class PetAttributes {
     public  PetAttribute dinheiro() { return dinheiro_; }
     private PetAttribute intestino_;
     private PetAttribute intestino() { return intestino_; }
+    private PetAttribute sangue_;
+    private PetAttribute sangue() { return sangue_; }
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
@@ -290,6 +294,7 @@ public class PetAttributes {
         sexualidade_    = new PetAttribute("SEXUALIDADE");
         fe_             = new PetAttribute("FE");
         intestino_      = new PetAttribute("INTESTINO");
+        sangue_         = new PetAttribute("SANGUE");
         dinheiro_       = new PetAttribute("DINHEIRO");
 
         mapAttrib(nutricao());
@@ -304,6 +309,7 @@ public class PetAttributes {
         mapAttrib(sexualidade());
         mapAttrib(fe());
         mapAttrib(intestino());
+        mapAttrib(sangue());
         mapAttrib(dinheiro());
 
         s2vis_.put(State.FAMINTO, VisibleCondition.CHORANDO);

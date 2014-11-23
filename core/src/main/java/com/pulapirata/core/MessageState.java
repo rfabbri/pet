@@ -36,7 +36,7 @@ class MessageState extends Message {
             public String apply (Integer id) {
                 String value = map.get(State.values()[id]);
                 //if (value == null) {
-                    pprint("[messageState] id: " + id + " state: " + State.values()[id] + " value: " + value);
+                    dprint("[messageState] id: " + id + " state: " + State.values()[id] + " value: " + value);
                 //}
 
                 return (value != null || map.containsKey(State.values()[id])) ? value : defaultValue;

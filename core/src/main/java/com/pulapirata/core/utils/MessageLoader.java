@@ -43,8 +43,8 @@ public class MessageLoader {
                 for (int i = 0; i < jsonMessages.length(); i++) {
                     Json.Object jm = jsonMessages.getObject(i);
                     String messageState = jm.getString("state").toUpperCase().replace(' ', '_');
-                    pprint("[messageloader] reading message for state: " + messageState);
-                    pprint("[messageloader] message is: " + jm.getString("message"));
+                    dprint("[messageloader] reading message for state: " + messageState);
+                    dprint("[messageloader] message is: " + jm.getString("message"));
 
                     // set internal atributes ---
 

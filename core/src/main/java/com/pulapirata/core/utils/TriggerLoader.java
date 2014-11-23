@@ -47,11 +47,11 @@ public class TriggerLoader {
                 for (int i = 0; i < jsonTriggers.length(); i++) {
                     Json.Object jtr = jsonTriggers.getObject(i);
                     String triggerName = jtr.getString("name").toUpperCase().replace(' ', '_');
-                    pprint("[triggerloader] reading name: " + triggerName);
+                    dprint("[triggerloader] reading name: " + triggerName);
 
                     // set internal atributes ---
 
-                    pprint("[triggerloader] " + triggers.get(triggerName));
+                    dprint("[triggerloader] " + triggers.get(triggerName));
                     triggers.get(triggerName).setDuration(jtr.getInt("duration"));
                     triggers.get(triggerName).setCost(jtr.getInt("cost"));
 
