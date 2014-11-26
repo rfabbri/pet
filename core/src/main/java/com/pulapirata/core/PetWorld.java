@@ -83,6 +83,10 @@ class PetWorld extends World {
 
     public PetAttributes mainPet() { return mainPet_; }
 
+    // prototypical poop
+    public DroppingSpriter droppingSpriter_ = new DroppingSpriter();
+
+
     /*-------------------------------------------------------------------------------*/
     /** Time data */
 
@@ -281,7 +285,6 @@ class PetWorld extends World {
         }
 
         @Override protected void update (int delta, Entities entities) {
-
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
                 if (beat_ % 2 != 0)  // sprite update rate
@@ -324,8 +327,6 @@ class PetWorld extends World {
                             finishCreatingPetAfterLoaded();
                             isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
                         }
-                        if (type_.get(eid) != PET)
-                            continue;
 
                         // from time to time pet jumps if it is not jumping
                         if (beat_ > tProximoPuloAleatorio_) {
@@ -408,6 +409,40 @@ class PetWorld extends World {
             return type_.get(entity.id) == PET;
         }
     };
+
+    /**
+     * Controls pet's pooping from time to time.
+     */
+    public final System evacuator = new System(this, 0) {
+        @Override protected void update (int delta, Entities entities) {
+            Point p = innerPos_;
+            for (int i = 0, ll = entities.size(); i < ll; i++) {
+                int eid = entities.get(i);
+                if (isPetWired_) {
+                    if (beat_ % (10*beatsCoelhoSegundo_) == 0) {
+                        // taka.. err.. dump
+
+                        // - create a new sprite
+                        // - decrease intestine
+
+                        if (pet.get(eid).intestino().val() > 0) {
+                            // evacuate from intestine
+                            pet.get(eid).intestino().sub(1);
+                            // create dropping on scenario
+                            pos_.get(eid, p); // get our current pos
+                            createDropping(p.x+30, p.y+30); // todo: set some sort of order? estimate offset from radius?
+                        }
+                    }
+                }
+            }
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return type_.get(entity.id) == PET;
+        }
+
+        protected final innerPos_ = new Point();
+    }
 
 
     /** Use keys to control pet. Like in minigames inside this game. Pet should
@@ -597,6 +632,26 @@ class PetWorld extends World {
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
         radius_.set(mainID_, ps.boundingRadius());
         // spriteLayer_.set(id, layer_);
+    }
+
+    /**
+     * Creates a dropping sprite as a reference to a preallocated one.
+     */
+    protected Entity createDropping (float x, float y) {
+        Entity poo = create(true);
+        poo.add(type_, sprite_, opos_, pos_, radius_, expires_);
+
+        int id = poo.id;
+        type_.set(id, DROPPING);
+        opos_.set(id, x, y);
+        pos_.set(id, x, y);
+        expires_.set(id, 3*beatsCoelhoHora_);   // the dropping can automatically expire after some time..
+
+        sprite_.set(id, droppingSpriter_);      // also queues sprite to be added by other systems on wasAdded()
+        if (!droppingSpriter_.hasLoaded())
+            pprint("[poop] Warning: loading sprite not done but need boundingRadius");
+        radius_.set(id, droppingSpriter_.boundingRadius());
+        return poo;
     }
 
     public void reset() {
