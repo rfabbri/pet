@@ -63,13 +63,17 @@ public class DroppingSpriter extends Spriter {
      * spriter.
      */
     public DroppingSpriter(DroppingSpriter another) {
-        this.animMap_ = another.animMap_;
+//        this.animMap_ = another.animMap_;
 
-        for (int i = 0; i < another.animLayer_.size(); ++i)
-            this.animLayer_.add(another.animLayer_.get(i));
 
-        this.set(NORMAL);
+//        for (int i = 0; i < another.animLayer_.size(); ++i)
+//            this.animLayer_.add(another.animLayer_.get(i));
+
+//        this.set(NORMAL);
         // maybe recreate animLayer?
+
+        // - for each sprite,
+        // - create a new sprite
     }
 
     public DroppingSpriter() {
