@@ -100,7 +100,6 @@ public class PetSpriter extends Spriter {
 
     public PetSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
-
             String spriteFnames = prefix + images.get(i);
             String jsonFnames   = prefix + jsons.get(i);
             printd("[petspriter] Loading sprite file: " + spriteFnames + jsonFnames);
