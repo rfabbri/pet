@@ -58,6 +58,20 @@ public class DroppingSpriter extends Spriter {
     private boolean traversed_ = false;
     protected GroupLayer.Clipped animLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
+    /**
+     * Copy constructor for sharing resources with a another preallocated
+     * spriter.
+     */
+    public DroppingSpriter(DroppingSpriter another) {
+        this.animMap_ = another.animMap_;
+
+        for (int i = 0; i < another.animLayer_.size(); ++i)
+            this.animLayer_.add(another.animLayer_.get(i));
+
+        this.set(NORMAL);
+        // maybe recreate animLayer?
+    }
+
     public DroppingSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
             String spriteFnames = prefix + images.get(i);

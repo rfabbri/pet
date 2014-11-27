@@ -646,7 +646,7 @@ class PetWorld extends World {
         pos_.set(id, x, y);
         expires_.set(id, (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
 
-        sprite_.set(id, droppingSpriter_);      // also queues sprite to be added by other systems on wasAdded()
+        sprite_.set(id, new DroppingSpriter(droppingSpriter_));      // also queues sprite to be added by other systems on wasAdded()
         if (!droppingSpriter_.hasLoaded())
             pprint("[poop] Warning: loading sprite not done but need boundingRadius");
         radius_.set(id, droppingSpriter_.boundingRadius());
