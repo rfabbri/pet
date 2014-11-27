@@ -419,7 +419,9 @@ class PetWorld extends World {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 if (isPetWired_) {
-                    if (beat_ % (10*beatsCoelhoSegundo_) == 0) {
+
+                    if (beat_ % ((int)(0.5*beatsCoelhoHora_)) == 0) {
+                        pprint("[poo] cagando");
                         // taka.. err.. dump
 
                         // - create a new sprite
@@ -429,7 +431,7 @@ class PetWorld extends World {
                             // evacuate from intestine
                             pet_.get(eid).intestino().sub(1);
                             // create dropping on scenario
-                            createDropping(pos_.getX(eid)+30, pos_.getY(eid)+30); // todo: set some sort of order? estimate offset from radius?
+                            createDropping(pos_.getX(eid)+10, pos_.getY(eid)+10); // todo: set some sort of order? estimate offset from radius?
                         }
                     }
                 }

@@ -30,15 +30,15 @@ public class DroppingSpriter extends Spriter {
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
 //                "pingo_bebe_dejeto.png",
-                  "pingo_crianca_bravo_v2.png",   // placeholder, for testing.
-                  "pingo_crianca_coma_alcoolico_v2.png"   // placeholder, for testing.
+                  "pingo_crianca_morto_v2.png",  // placeholder, for testing.
+                  "pingo_crianca_bravo_v2.png"   // placeholder, for testing.
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
 //                "pingo_bebe_dejeto.json",
-                  "pingo_crianca_bravo_v2.json",
-                  "pingo_crianca_coma_alcoolico_v2.json"
+                  "pingo_crianca_morto_v2.json",
+                  "pingo_crianca_bravo_v2.json"
         ));
 
     private final ArrayList<TipoCoco> vc =
