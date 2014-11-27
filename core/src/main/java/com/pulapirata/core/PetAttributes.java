@@ -216,9 +216,9 @@ public class PetAttributes {
     private PetAttribute dinheiro_;
     public  PetAttribute dinheiro() { return dinheiro_; }
     private PetAttribute intestino_;
-    private PetAttribute intestino() { return intestino_; }
+    public PetAttribute intestino() { return intestino_; }
     private PetAttribute sangue_;
-    private PetAttribute sangue() { return sangue_; }
+    public PetAttribute sangue() { return sangue_; }
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();

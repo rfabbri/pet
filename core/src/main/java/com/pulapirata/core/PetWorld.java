@@ -28,6 +28,7 @@ import com.pulapirata.core.utils.TriggerLoader;
 import com.pulapirata.core.Triggers;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
+import com.pulapirata.core.sprites.DroppingSpriter;
 import static com.pulapirata.core.utils.Puts.*;
 
 
@@ -415,7 +416,6 @@ class PetWorld extends World {
      */
     public final System evacuator = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
-            Point p = innerPos_;
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 if (isPetWired_) {
@@ -425,12 +425,11 @@ class PetWorld extends World {
                         // - create a new sprite
                         // - decrease intestine
 
-                        if (pet.get(eid).intestino().val() > 0) {
+                        if (pet_.get(eid).intestino().val() > 0) {
                             // evacuate from intestine
-                            pet.get(eid).intestino().sub(1);
+                            pet_.get(eid).intestino().sub(1);
                             // create dropping on scenario
-                            pos_.get(eid, p); // get our current pos
-                            createDropping(p.x+30, p.y+30); // todo: set some sort of order? estimate offset from radius?
+                            createDropping(pos_.getX(eid)+30, pos_.getY(eid)+30); // todo: set some sort of order? estimate offset from radius?
                         }
                     }
                 }
@@ -440,9 +439,7 @@ class PetWorld extends World {
         @Override protected boolean isInterested (Entity entity) {
             return type_.get(entity.id) == PET;
         }
-
-        protected final innerPos_ = new Point();
-    }
+    };
 
 
     /** Use keys to control pet. Like in minigames inside this game. Pet should
@@ -645,7 +642,7 @@ class PetWorld extends World {
         type_.set(id, DROPPING);
         opos_.set(id, x, y);
         pos_.set(id, x, y);
-        expires_.set(id, 3*beatsCoelhoHora_);   // the dropping can automatically expire after some time..
+        expires_.set(id, (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
 
         sprite_.set(id, droppingSpriter_);      // also queues sprite to be added by other systems on wasAdded()
         if (!droppingSpriter_.hasLoaded())

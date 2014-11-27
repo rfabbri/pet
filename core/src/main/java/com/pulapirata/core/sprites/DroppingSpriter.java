@@ -10,6 +10,8 @@ import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
 import static playn.core.PlayN.log;
+import com.pulapirata.core.PetAttributes.TipoCoco;
+import static com.pulapirata.core.PetAttributes.TipoCoco.*;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -29,14 +31,14 @@ public class DroppingSpriter extends Spriter {
         new ArrayList<String>(Arrays.asList(
 //                "pingo_bebe_dejeto.png",
                   "pingo_crianca_bravo_v2.png",   // placeholder, for testing.
-                  "pingo_crianca_coma_alcoolico_v2.png",   // placeholder, for testing.
+                  "pingo_crianca_coma_alcoolico_v2.png"   // placeholder, for testing.
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
 //                "pingo_bebe_dejeto.json",
                   "pingo_crianca_bravo_v2.json",
-                  "pingo_crianca_coma_alcoolico_v2.json",
+                  "pingo_crianca_coma_alcoolico_v2.json"
         ));
 
     private final ArrayList<TipoCoco> vc =
@@ -54,7 +56,7 @@ public class DroppingSpriter extends Spriter {
     private int spriteIndex_ = 0;
     private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
     private boolean traversed_ = false;
-    protected GroupLayer.Clipped pooLayer_ = PlayN.graphics().createGroupLayer(0, 0);
+    protected GroupLayer.Clipped animLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
     public DroppingSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
@@ -78,8 +80,9 @@ public class DroppingSpriter extends Spriter {
                         set(NORMAL);
                     else
                         sprite.layer().setVisible(false);
-                    dprint("[droppingSpriter] added, visible: " + sprite.layer().visible() + " full layer: " + petLayer_.visible());
-                    pooLayer_.add(sprite.layer());
+                    dprint("[droppingSpriter] added, visible: " +
+                        sprite.layer().visible() + " full layer: " + animLayer_.visible());
+                    animLayer_.add(sprite.layer());
                     numLoaded_++;
                 }
 
@@ -121,9 +124,9 @@ public class DroppingSpriter extends Spriter {
 
         currentSprite_ = newSprite;
         currentTipoCoco_ = s;
-        petLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
-        petLayer_.setScale(1f); // change the scale of the sprite for testing
-        petLayer_.setOrigin(petLayer_.width() / 2f, petLayer_.height() / 2f);
+        animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
+        animLayer_.setScale(1f); // change the scale of the sprite for testing
+        animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
         currentSprite_.layer().setVisible(true);
     }
 
@@ -172,8 +175,8 @@ public class DroppingSpriter extends Spriter {
      */
     public float boundingRadius() {
         return (float) Math.sqrt(
-                pooLayer_.width()*petLayer_.width() +
-                pooLayer_.height()*petLayer_.height())/2.0f;
+                animLayer_.width()*animLayer_.width() +
+                animLayer_.height()*animLayer_.height())/2.0f;
     }
 
     private boolean traversed(){
@@ -197,6 +200,6 @@ public class DroppingSpriter extends Spriter {
      */
     @Override
     public GroupLayer.Clipped layer() {
-        return pooLayer_;
+        return animLayer_;
     }
 }
