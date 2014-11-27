@@ -72,8 +72,11 @@ public class DroppingSpriter extends Spriter {
 //        this.set(NORMAL);
         // maybe recreate animLayer?
 
+        // THE RIGHT WAY
         // - for each sprite,
-        // - create a new sprite
+        // - create a new sprite using copy constructor to reuse
+        // another.sprite's SpriteImage
+        // - we'll have a way of doing this for global atlases as well.
     }
 
     public DroppingSpriter() {
