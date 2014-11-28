@@ -48,6 +48,7 @@ public class PetAttributes {
      * that visible condition has over the others to be displayed in the game.
      */
     public enum VisibleCondition {
+        IGNORE,        // lowest prio - will usually be overriden by higher prio
         COM_MOSQUITO,  // colocando mais baixa prioridade por hora, pra ignorar esta anim
         COM_STINKY_MOSQUITO, // colocando mais baixa prioridade por hora, pra ignorar esta anim
         NORMAL,
@@ -68,6 +69,7 @@ public class PetAttributes {
         //--- Maioria das acoes entram nesta prioridade
         COMENDO,
         DORMINDO,
+        VARRENDO,
 
         //--- Maioria das acoes entram nesta prioridade
         COMA,
@@ -272,6 +274,9 @@ public class PetAttributes {
     /** Maps {@link PetAttributeState}s to visible conditions. */
     public EnumMap<State, VisibleCondition> s2vis_ = new EnumMap<State, VisibleCondition>(State.class);
 
+    /** Maps {@link ActionState}s to visible conditions. */
+    public EnumMap<ActionState, VisibleCondition> a2vis_ = new EnumMap<ActionState, VisibleCondition>(ActionState.class);
+
     protected IntValue vis_ = new IntValue(VisibleCondition.NORMAL.ordinal());  // reactive ids into VisibleCondition
 
     public IntValue vis() { return vis_; }
@@ -374,6 +379,47 @@ public class PetAttributes {
          s2vis_.put(State.FIEL_FERVOROSO, VisibleCondition.NORMAL);
 		s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
         s2vis_.put(State.ONONOONO, VisibleCondition.NORMAL);
+
+        a2vis_.put(ActionState.DEFAULT, VisibleCondition.NORMAL);
+        a2vis_.put(ActionState.VARRENDO, VisibleCondition.VARRENDO);
+        a2vis_.put(ActionState.COMENDO, VisibleCondition.COMENDO);
+        a2vis_.put(ActionState.LIMPANDO, VisibleCondition.VARRENDO);
+        a2vis_.put(ActionState.GORFANDO, VisibleCondition.VOMITANDO);  // vomitando de vez em quando soltando vomito
+//        JOGANDO_BOLA, IGNORE
+//        JOGANDO_VIDEOGAME, IGNORE
+//        ASSITINDO_TV, IGNORE
+//        LENDO_QUADRINHOS, IGNORE
+//        LENDO_LIVRO, IGNORE
+//        ASSISTINDO_ANIME,
+//        ASSISTINDO_CINE_PRIVE,
+//        DESENHANDO,
+//        USANDO_CELULAR,
+//        USANDO_REDE_SOCIAL,
+//        JOGANDO_RPG,
+//        TOMANDO_BANHO,
+//        ESCOVANDO_DENTES,
+//        PASSANDO_PERFUME,
+//        FUMANDO,
+//        MASTURBANDO,
+//        SAINDO_DE_CASA,
+//        TOMANDO_GLICOSE,
+//        TOMANDO_REMEDIO,
+//        LEVANDO_CURATIVO,
+//        TOMANDO_VACINA,
+//        TOMANDO_ESTOMAZIL,
+//        TOMANDO_ENGOV,
+//        TOMANDO_VIAGRA,
+//        LEVANDO_CHINELADA,
+//        LEVANDO_GRITO,
+//        SENDO_CASTIGADO, CHORANDO,
+//        LEVANDO_CHICOTADA, CHORANDO,
+//        LIGANDO,
+//        CONVIDANDO_COLEGA,
+//        MEXENDO_CELULAR,
+//        FAZENDO_FESTA,
+//        BOOTY_CALLING,
+//        ESTUDANDO,
+
 
         sNutricao_      = new PetAttributeState();
         sHumor_         = new PetAttributeState();
@@ -494,6 +540,16 @@ public class PetAttributes {
             if (s2vis_.get(sAtt_.get(a).getState()).ordinal() > maxPrio)
                 maxPrio = s2vis_.get(sAtt_.get(a).getState()).ordinal();
         }
+
+        //  specific logic for certain attributes
+        if (sAction().getState() != null) {
+            dprint("[vis-priority]: evaluating state, vis: " +
+                    "sAction" + ", " + a2vis_.get(sAction().getState()));
+            assert a2vis_.get(sAction().getState()) != null : "no VisualCondition for Action " + sAction().getState();
+            if (a2vis_.get(sAction().getState()).ordinal() > maxPrio)
+                maxPrio = a2vis_.get(sAction().getState()).ordinal();
+        }
+
         if (maxPrio == -1) {  // the attributeStates have not been updated yet by the underlying attrib.
             vis_.update(VisibleCondition.NORMAL.ordinal());
             return VisibleCondition.NORMAL;
