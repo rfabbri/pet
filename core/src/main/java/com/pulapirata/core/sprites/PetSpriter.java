@@ -38,7 +38,8 @@ public class PetSpriter extends Spriter {
                 "pingo_bebe_piscando_v2.png",
                 "pingo_bebe_pulando_v2.png",
                 "pingo_bebe_triste_v2.png",
-                "pingo_bebe_vomitando_v2.png"
+                "pingo_bebe_vomitando_v2.png",
+                "pingo_bebe_varrendo_v2.png"
         ));
 
     private final ArrayList<String> jsons =
@@ -53,7 +54,8 @@ public class PetSpriter extends Spriter {
                 "pingo_bebe_piscando_v2.json",
                 "pingo_bebe_pulando_v2.json",
                 "pingo_bebe_triste_v2.json",
-                "pingo_bebe_vomitando_v2.json"
+                "pingo_bebe_vomitando_v2.json",
+                "pingo_bebe_varrendo_v2.json"
         ));
 
     private final ArrayList<VisibleCondition> vc =
@@ -68,7 +70,8 @@ public class PetSpriter extends Spriter {
                 NORMAL,
                 PULANDO,
                 TRISTE,
-                VOMITANDO
+                VOMITANDO,
+                VARRENDO
         ));
 
     // Atualmente nao tem sprite antigo para estes:

@@ -548,6 +548,15 @@ public class Pet extends Game.Default {
                                 }
                             }
                         });
+                    if (b == 3 /* higiene */ && s == 2 /* varrer */)
+                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
+                            public void onEmit() {
+                                //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
+                                if (world_.worldLoaded()) { // use asset manager
+                                    world_.triggers().get(TriggerType.VARRER).fire(a());
+                                }
+                            }
+                        });
                     if (b == 5 && s == 0)
                         secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
                             public void onEmit() {
