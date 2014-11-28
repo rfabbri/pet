@@ -21,8 +21,13 @@ class Action {
     private int remaining_ = duration_;
 
     public void update(int delta) {
+        pprint("[action] tick... time remaining " + remaining_ );
         remaining_ -= (delta/Pet.UPDATE_RATE)*PetWorld.beatsCoelhoSegundo_;
-        if (remaining_ < 0) remaining_ = 0;
+        pprint("[action] tac... time remaining " + remaining_ );
+        if (remaining_ <= 0) {
+            remaining_ = 0;
+            pa_.sAction().updateState(ActionState.DEFAULT);
+        }
     }
 
     public Action(ActionState action, PetAttributes pa) {

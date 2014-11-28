@@ -49,7 +49,7 @@ public class Trigger {
      * Takes care of action timing
      */
     public void update(int delta) {
-        if (!act_.finished()) {
+        if (act_ != null && !act_.finished()) {
             act_.update(delta);
             if (act_.finished()) {
                 printd("[trigger] action" + act_.get() + " finished.");
