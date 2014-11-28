@@ -37,6 +37,7 @@ class Action {
 
     public boolean start() {
         pprint("[action] started " + action_ + " for duration " + duration_ + "s");
+        remaining_ = duration_;
         pa_.sAction().updateState(action_);
 //        try {
 //            java.lang.Thread.sleep(1000);                 //1000 milliseconds is one second.
