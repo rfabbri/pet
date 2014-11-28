@@ -76,4 +76,15 @@ public class Triggers {
         }
         return true;
     }
+
+    /**
+     * Takes care of action timing
+     */
+    public void update(int delta) {
+        if (!isInitialized())
+            return;
+        for (TriggerType tt : map_.keySet()) {
+            map_.get(tt).update(delta);
+        }
+    }
 }

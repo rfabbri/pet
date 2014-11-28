@@ -1,5 +1,7 @@
 package com.pulapirata.core;
 import com.pulapirata.core.PetAttributes.ActionState;
+import com.pulapirata.core.Pet;
+import com.pulapirata.core.PetWorld;
 import static com.pulapirata.core.utils.Puts.*;
 /**
  * Manages actions.
@@ -8,12 +10,20 @@ import static com.pulapirata.core.utils.Puts.*;
  *   TODO: this will actually be ActionManager....
  */
 class Action {
-    private int duration_ = 5;   // default duration
-    public int duration() { return duration_; }
-    public void setDuration(int d) { duration_ = d; }
     private ActionState action_;
     public ActionState get() { return action_; }
     private PetAttributes pa_;
+    public PetAttributes petAttributes() { return pa_; }
+
+    private int duration_ = 5;   // default duration
+    public int duration() { return duration_; }
+    public void setDuration(int d) { duration_ = d; }
+    private int remaining_ = duration_;
+
+    public void update(int delta) {
+        remaining_ -= (delta/Pet.UPDATE_RATE)*PetWorld.beatsCoelhoSegundo_;
+        if (remaining_ < 0) remaining_ = 0;
+    }
 
     public Action(ActionState action, PetAttributes pa) {
         action_ = action;
@@ -38,4 +48,6 @@ class Action {
     }
 
     boolean wasInterrupted() { return false; /* TODO interruption not implemented for now */}
+
+    boolean finished() { return remaining_ == 0; }
 }

@@ -30,7 +30,6 @@ public class Trigger {
         return true;
     }
 
-
     /**
      * Pull the trigger.
      * Returns true if action and postcondition finished successfully (and were
@@ -41,19 +40,30 @@ public class Trigger {
             return false;
         assert a != null : "[trigger] null";
         // - schedule Action
-        Action act = new Action(action_, a);   // perhaps pass a
-        act.start(duration_);
-        if (act.wasInterrupted()) {
-            printd("[trigger] action was interrupted. No modifiers applied.");
-            return false;
-        }
-        printd("[trigger] action" + act.get() + " finished.");
-        assert a != null : "[trigger] pet got null after/during action";
-        // - apply modifiers
-        // we lock pet. but for the future, we'll be queueing actions,
-        // so we check if it is still null
-        m_.modify(a);
+        act_ = new Action(action_, a);   // perhaps pass a
+        act_.start(duration_);
         return true;
+    }
+
+    /**
+     * Takes care of action timing
+     */
+    public void update(int delta) {
+        if (!act_.finished()) {
+            act_.update(delta);
+            if (act_.finished()) {
+                printd("[trigger] action" + act_.get() + " finished.");
+                if (act_.wasInterrupted()) { // TODO we'll refine this later
+                    printd("[trigger] action was interrupted. No modifiers applied.");
+                    return;
+                }
+                // finished normally
+                // - apply modifiers
+                // but for the future, we'll be queueing actions,
+                // so we check if it is still null
+                m_.modify(act_.petAttributes());
+            }
+        }
     }
 
     /**
@@ -93,6 +103,7 @@ public class Trigger {
 
     private ActionState action_ = ActionState.DEFAULT; // internal pointer to the action
     public void setAction(ActionState a) { action_ = a; }
+    private Action act_; // could be alist of action for queueing?
 
     /** action duration in CoelhoSegundos.
      * Initialized using default map from ActionState to duration. World will manage it. */
