@@ -26,19 +26,17 @@ public class DroppingSpriter extends Spriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
-    private final String prefix = "pet/sprites/Pingo/Crianca/";
+    private final String prefix = "pet/sprites/dejetos/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
-//                "pingo_bebe_dejeto.png",
-                  "pingo_crianca_morto_v2.png",  // placeholder, for testing.
-                  "pingo_crianca_bravo_v2.png"   // placeholder, for testing.
+                  "dejetos_coco.png",  // placeholder, for testing.
+                  "dejetos_cocomole.png"   // placeholder, for testing.
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
-//                "pingo_bebe_dejeto.json",
-                  "pingo_crianca_morto_v2.json",
-                  "pingo_crianca_bravo_v2.json"
+                  "dejetos_coco.json",  // placeholder, for testing.
+                  "dejetos_cocomole.json"   // placeholder, for testing.
         ));
 
     private final ArrayList<TipoCoco> vc =
@@ -146,7 +144,7 @@ public class DroppingSpriter extends Spriter {
         currentSprite_ = newSprite;
         currentTipoCoco_ = s;
         animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
-        animLayer_.setScale(1f); // change the scale of the sprite for testing
+        animLayer_.setScale(2f); // change the scale of the sprite for testing
         animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
         currentSprite_.layer().setVisible(true);
     }
