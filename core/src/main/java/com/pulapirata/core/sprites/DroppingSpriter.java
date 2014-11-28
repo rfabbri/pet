@@ -144,7 +144,7 @@ public class DroppingSpriter extends Spriter {
         currentSprite_ = newSprite;
         currentTipoCoco_ = s;
         animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
-        animLayer_.setScale(2f); // change the scale of the sprite for testing
+        animLayer_.setScale(1.3f); // change the scale of the sprite for testing
         animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
         currentSprite_.layer().setVisible(true);
     }

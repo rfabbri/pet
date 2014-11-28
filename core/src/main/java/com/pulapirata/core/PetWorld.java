@@ -422,7 +422,7 @@ class PetWorld extends World {
                 int eid = entities.get(i);
                 if (isPetWired_) {
 
-                    if (beat_ % ((int)(0.5*beatsCoelhoHora_)) == 0) {
+                    if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
                         pprint("[poo] cagando");
                         // taka.. err.. dump
 
@@ -559,14 +559,20 @@ class PetWorld extends World {
 
         private void collide (Entity e1, Entity e2) {
             if (attributesLoaded_) {
+                pprint("[collider] collision!");
                 switch (type_.get(e1.id) | type_.get(e2.id)) {
                 case PET_DROPPING:
+                    pprint("[collider] pet-dropping!");
                     if (type_.get(e1.id) == PET) {
-                        if (pet_.get(e1.id).sAction().getState() == PetAttributes.ActionState.LIMPANDO) {
+                        pprint("[collider] e1 == PET!");
+                        if (pet_.get(e1.id).sAction().getState() == PetAttributes.ActionState.VARRENDO) {
+                            pprint("[collider] destroying dropping!");
                             e2.destroy();
                         }
                     } else {
-                        if (pet_.get(e2.id).sAction().getState() == PetAttributes.ActionState.LIMPANDO) {
+                        pprint("[collider] e1 == DROPPING!");
+                        if (pet_.get(e2.id).sAction().getState() == PetAttributes.ActionState.VARRENDO) {
+                            pprint("[collider] destroying dropping!");
                             e1.destroy();
                         }
                     }
