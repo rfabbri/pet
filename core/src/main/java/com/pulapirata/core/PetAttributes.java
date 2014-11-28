@@ -179,7 +179,7 @@ public class PetAttributes {
         TOMANDO_ENGOV,
         TOMANDO_VIAGRA,
         LEVANDO_CHINELADA,
-        OUVIDO_GRITO,
+        LEVANDO_GRITO,
         SENDO_CASTIGADO,
         LEVANDO_CHICOTADA,
         LIGANDO,
@@ -522,7 +522,7 @@ public class PetAttributes {
             m_.get(key).print();
          for (String key : ms_.keySet())
             ms_.get(key).print();
-        sAction().print();
+        pprint("        action: " + sAction().getState());
     }
 
     /**

@@ -41,7 +41,7 @@ public class Trigger {
             return false;
         assert a != null : "[trigger] null";
         // - schedule Action
-        Action act = new Action(action_);   // perhaps pass a
+        Action act = new Action(action_, a);   // perhaps pass a
         act.start(duration_);
         if (act.wasInterrupted()) {
             printd("[trigger] action was interrupted. No modifiers applied.");
@@ -92,6 +92,7 @@ public class Trigger {
     /** Action-specific */
 
     private ActionState action_ = ActionState.DEFAULT; // internal pointer to the action
+    public void setAction(ActionState a) { action_ = a; }
 
     /** action duration in CoelhoSegundos.
      * Initialized using default map from ActionState to duration. World will manage it. */

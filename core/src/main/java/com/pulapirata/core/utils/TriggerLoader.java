@@ -7,6 +7,7 @@ import playn.core.util.Callback;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.AttributeID;
 import com.pulapirata.core.PetAttributes.AgeStage;
+import com.pulapirata.core.PetAttributes.ActionState;
 import com.pulapirata.core.Triggers;
 import com.pulapirata.core.Trigger.Modifiers;
 import static com.pulapirata.core.utils.Puts.*;
@@ -50,8 +51,9 @@ public class TriggerLoader {
                     dprint("[triggerloader] reading name: " + triggerName);
 
                     // set internal atributes ---
-
                     dprint("[triggerloader] " + triggers.get(triggerName));
+                    triggers.get(triggerName).setAction(
+                            ActionState.valueOf(jtr.getString("action").toUpperCase().replace(' ', '_')));
                     triggers.get(triggerName).setDuration(jtr.getInt("duration"));
                     triggers.get(triggerName).setCost(jtr.getInt("cost"));
 
