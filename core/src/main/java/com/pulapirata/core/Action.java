@@ -18,11 +18,12 @@ class Action {
     private int duration_ = 5;   // default duration
     public int duration() { return duration_; }
     public void setDuration(int d) { duration_ = d; }
-    private int remaining_ = duration_;
+    private double remaining_ = duration_;
 
     public void update(int delta) {
         pprint("[action] tick... time remaining " + remaining_ );
-        remaining_ -= (delta/Pet.UPDATE_RATE)*PetWorld.beatsCoelhoSegundo_;
+        pprint("[action] delta, updaterate, beatscoelhoseg " + delta + " " + Pet.UPDATE_RATE  + " " + PetWorld.beatsCoelhoSegundo_);
+        remaining_ -= (double)(delta/Pet.UPDATE_RATE)/ (double)PetWorld.beatsCoelhoSegundo_;
         pprint("[action] tac... time remaining " + remaining_ );
         if (remaining_ <= 0) {
             remaining_ = 0;
