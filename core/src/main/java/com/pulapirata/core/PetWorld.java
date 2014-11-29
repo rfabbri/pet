@@ -276,6 +276,8 @@ class PetWorld extends World {
 
     /** Updates sprite layers to interpolated position of entities on each paint() call */
     public final System spriteMover = new System(this, 0) {
+        public static final float MOSQUITO_VELOCITY = 0.5f;  // pixels per update
+
         @Override protected void paint (Clock clock, Entities entities) {
             float alpha = clock.alpha();
             Point op = innerOldPos_, p = innerPos_;
@@ -293,7 +295,6 @@ class PetWorld extends World {
 
         @Override protected void update (int delta, Entities entities) {
 
-            public static final float MOSQUITO_VELOCITY = 0.5f;  // pixels per update
 
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);

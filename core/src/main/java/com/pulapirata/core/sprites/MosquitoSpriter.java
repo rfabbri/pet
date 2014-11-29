@@ -1,0 +1,138 @@
+package com.pulapirata.core.sprites;
+
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.EnumMap;
+import react.Slot;
+import playn.core.GroupLayer;
+import playn.core.ImageLayer;
+import playn.core.PlayN;
+import playn.core.util.Callback;
+import static playn.core.PlayN.log;
+import com.pulapirata.core.PetAttributes.TipoCoco;
+import static com.pulapirata.core.PetAttributes.TipoCoco.*;
+import static com.pulapirata.core.utils.Puts.*;
+
+/**
+ * Class to manage sets of Pet sprite animations.
+ * PetSprite always refers to the same global game atlas.
+ * It is just like Sprite, but changes internal animation
+ * based on the set state.
+ * TODO: make commong parts between this and PetSpriter into common base class
+ * CompositeSpriter
+ */
+public class MosquitoSpriter extends CompositeSpriter {
+//    public static String IMAGE = "pet/sprites/atlas.png";
+//    public static String JSON = "pet/sprites/atlas.json";
+
+    private final String prefix = "pet/sprites/Pingo/Bebe/";
+    private final ArrayList<String> images =
+        new ArrayList<String>(Arrays.asList(
+                "pingo_bebe_sujo_v2.png",
+                "pingo_bebe_muito_sujo_v2.png"
+        ));
+
+    private final ArrayList<String> jsons =
+        new ArrayList<String>(Arrays.asList(
+                "pingo_bebe_sujo_v2.json",
+                "pingo_bebe_muito_sujo_v2.png"
+        ));
+
+    private final ArrayList<VisibleCondition> vc =
+        new ArrayList<VisibleCondition>(Arrays.asList(
+                COM_MOSQUITO,
+                COM_STINKY_MOSQUITO,
+        ));
+
+
+    // all member animations(sprites) should have same atlas as source,
+    // as built in PetSpriteLoader.java, and also the same layer
+    private EnumMap<VisibleCondition, Sprite> animMap_ = new EnumMap<VisibleCondition, Sprite> (VisibleCondition.class);
+    private VisibleCondition currentVisibleCondition_;
+
+    /**
+     * Copy constructor for sharing resources with a another preallocated
+     * spriter.
+     */
+    public DroppingSpriter(DroppingSpriter another) {
+//        this.animMap_ = another.animMap_;
+
+
+//        for (int i = 0; i < another.animLayer_.size(); ++i)
+//            this.animLayer_.add(another.animLayer_.get(i));
+
+//        this.set(NORMAL);
+        // maybe recreate animLayer?
+
+        // THE RIGHT WAY
+        // - for each sprite,
+        // - create a new sprite using copy constructor to reuse
+        // another.sprite's SpriteImage
+        // - we'll have a way of doing this for global atlases as well.
+    }
+
+    public DroppingSpriter() {
+        for (int i = 0; i < jsons.size(); i++) {
+            String spriteFnames = prefix + images.get(i);
+            String jsonFnames   = prefix + jsons.get(i);
+            printd("[mosquitoSpriter] Loading sprite file: " + spriteFnames + jsonFnames);
+            Sprite s = SpriteLoader.getSprite(spriteFnames, jsonFnames);
+            //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
+            animMap_.put(vc.get(i), s);
+
+            // Add a callback for when the image loads.
+            // This is necessary because we can't use the width/height (to center the
+            // image) until after the image has been loaded
+            s.addCallback(new Callback<Sprite>() {
+                @Override
+                public void onSuccess(Sprite sprite) {
+                    sprite.setSprite(0);
+                    sprite.layer().setOrigin(0, 0);
+                    sprite.layer().setTranslation(0, 0);
+                    if (sprite == animMap_.get(COM_MOSQUITO))   // start with normal by default.
+                        set(COM_MOSQUITO);
+                    else
+                        sprite.layer().setVisible(false);
+                    dprint("[droppingSpriter] added, visible: " +
+                        sprite.layer().visible() + " full layer: " + animLayer_.visible());
+                    animLayer_.add(sprite.layer());
+                    numLoaded_++;
+                }
+
+                @Override
+                public void onFailure(Throwable err) {
+                    log().error("Error loading image!", err);
+                }
+            });
+        }
+    }
+
+    void set(VisibleCondition s) {
+        Sprite newSprite = animMap_.get(s);
+
+        if (newSprite == null) {
+            pprint("[mosquitospriter.set] Warning: no direct anim for requested visibleCondition " + s);
+            pprint("[mosquitospriter.set] Warning: assuming without mosquito." + s);
+        }
+
+        if (currentSprite_ != null)  // only happens during construction / asset loadding
+            currentSprite_.layer().setVisible(false);
+
+        currentVisibleCondition = s;
+
+        setCurrentSprite(newSprite, 2f);
+    }
+
+    @Override
+    public void set(int i) {
+        set(VisibleCondition.values()[i]);
+    }
+
+    @Override
+    public void update(int delta) {
+        super.update(delta);
+        if (hasLoaded())
+            dprint("[mosquitoSpriter] currentVisibleCondition_: " + currentVisibleCondition_);
+    }
+}
