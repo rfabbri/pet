@@ -21,7 +21,7 @@ import static com.pulapirata.core.utils.Puts.*;
  * It is just like Sprite, but changes internal animation
  * based on the set state.
  */
-public class PetSpriter extends Spriter {
+public class PetSpriter extends CompositeSpriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
@@ -94,12 +94,7 @@ public class PetSpriter extends Spriter {
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
     private EnumMap<VisibleCondition, Sprite> animMap_ = new EnumMap<VisibleCondition, Sprite> (VisibleCondition.class);
-    private Sprite currentSprite_;   // the current sprite animation
     private VisibleCondition currentVisibleCondition_;   // the current enum of the sprite animation
-    private int spriteIndex_ = 0;
-    private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
-    private boolean traversed_ = false;
-    protected GroupLayer.Clipped petLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
     public PetSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
@@ -124,8 +119,8 @@ public class PetSpriter extends Spriter {
                         set(NORMAL);
                     else
                         sprite.layer().setVisible(false);
-                    dprint("[petspriter] added, visible: " + sprite.layer().visible() + " full layer: " + petLayer_.visible());
-                    petLayer_.add(sprite.layer());
+                    dprint("[petspriter] added, visible: " + sprite.layer().visible() + " full layer: " + animLayer_.visible());
+                    animLayer_.add(sprite.layer());
                     numLoaded_++;
                 }
 
@@ -209,50 +204,21 @@ public class PetSpriter extends Spriter {
 
         currentSprite_ = newSprite;
         currentVisibleCondition_ = s;
-        petLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
-        petLayer_.setScale(2f); // increase the scale of the sprite for testing
-        petLayer_.setOrigin(petLayer_.width() / 2f, petLayer_.height() / 2f);
+        animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
+        animLayer_.setScale(2f); // increase the scale of the sprite for testing
+        animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
         currentSprite_.layer().setVisible(true);
     }
 
-
-    /**
-     * Flips horizontally
-     */
-    public void flipLeft() {
-        currentSprite_.layer().setScaleX(-1);
-        currentSprite_.layer().setTx(currentSprite_.width());
-    }
-
-    public void flipRight() {
-        currentSprite_.layer().setScaleX(1);
-        currentSprite_.layer().setTx(0);
-    }
-
+    @Override
     public void set(int i) {
         set(VisibleCondition.values()[i]);
     }
 
-    @Override
-    public boolean hasLoaded() {
-        return numLoaded_ == jsons.size();
-    }
-
     public void update(int delta) {
-        if (hasLoaded()) {
-            dprint( "XXX XXX   loaded & being updated.");
-            dprint(" currentVisibleCondition: " + currentVisibleCondition_);
-            dprint(" initial-spriteIndex_: " + spriteIndex_);
-            dprint(" initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
-            spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
-            currentSprite_.setSprite(spriteIndex_);
-            // currentSprite_.layer().setRotation(angle);
-            if (spriteIndex_ == currentSprite_.numSprites() - 1) {
-                traversed_ = true;
-            }
-            dprint("spriteIndex_: " + spriteIndex_ +
-                   " currentSprite_.numSprites(): " + currentSprite_.numSprites());
-        }
+        super.update(delta);
+        if (hasLoaded())
+            dprint("[petSpriter] currentVisibleCondition: " + currentVisibleCondition_);
     }
 
     /**
@@ -260,12 +226,8 @@ public class PetSpriter extends Spriter {
      */
     public float boundingRadius() {
         return (float) Math.sqrt(
-                petLayer_.width()*petLayer_.width() +
-                petLayer_.height()*petLayer_.height())/2.0f;
-    }
-
-    private boolean traversed(){
-       return traversed_;
+                animLayer_.width()*animLayer_.width() +
+                animLayer_.height()*animLayer_.height())/2.0f;
     }
 
     /**
@@ -285,7 +247,7 @@ public class PetSpriter extends Spriter {
      */
     @Override
     public GroupLayer.Clipped layer() {
-        return petLayer_;
+        return animLayer_;
     }
 
 //    /**
@@ -296,6 +258,6 @@ public class PetSpriter extends Spriter {
 //     * TODO: make a sizable group layer of imagelayers.
 //     */
 //    public GroupLayer groupLayer() {
-//        return petLayer_;
+//        return animLayer_;
 //    }
 }
