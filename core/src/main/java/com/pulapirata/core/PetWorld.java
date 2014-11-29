@@ -61,7 +61,6 @@ class PetWorld extends World {
     public static final int VOMIT     = (1 << 2);
     public static final int DIARRHEA  = (1 << 3);
     public static final int MOSQUITOS = (1 << 4);
-    public static final int STINKY_MOSQUITOS = (1 << 5);
 
     /*-------------------------------------------------------------------------------*/
     /**
@@ -81,11 +80,15 @@ class PetWorld extends World {
     // public final PetAtlas atlas_;  // shared atlas amongst all sprites
     protected PetAttributes mainPet_;  // direct handle on the attributes of the main pet
     public int mainID_ = -1;
+    public int mainMosquitoID_ = -1;
 
     public PetAttributes mainPet() { return mainPet_; }
 
     // prototypical poop
     public DroppingSpriter droppingSpriter_ = new DroppingSpriter();
+
+    // overlay: mosquito
+    public MosquitoSpriter mosquitoSpriter_ = new MosquitoSpriter();
 
 
     /*-------------------------------------------------------------------------------*/
@@ -218,7 +221,6 @@ class PetWorld extends World {
         case VOMIT: return "vomit";
         case DIARRHEA: return "diarrhea";
         case MOSQUITOS: return "mosquitos";
-        case STINKY_MOSQUITOS: return "stinky_mosquitos";
         default: return "unknown:" + type_.get(id);
         }
     }
@@ -388,6 +390,84 @@ class PetWorld extends World {
 
         @Override protected boolean isInterested (Entity entity) {
             return type_.get(entity.id) == PET;
+        }
+    };
+
+    /**
+     * Updates overlay sprites to reflect inner state.
+     */
+    public final System spriteOverlayLinker = new System(this, 0) {
+
+        public static final float JUMP_WALK_VELOCITY = 0.5f; // 1f;
+
+        @Override protected void update (int delta, Entities entities) {
+            for (int i = 0, ll = entities.size(); i < ll; i++) {
+                int eid = entities.get(i);
+                //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
+                if (attributesLoaded_ ) {
+                    if (sprite_.get(mainID_).hasLoaded()) {   // TODO in the future: if all sprites have loaded
+                        if (!isPetWired_) {
+                            finishCreatingPetAfterLoaded();
+                            isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
+                        }
+
+                        // from time to time pet jumps if it is not jumping
+                        if (beat_ > tProximoPuloAleatorio_) {
+                            dprint ("[pulo] Testando pulando");
+
+                            if (tPuloAleatorio_ == -1) {
+                                // start jumping
+                                dprint ("[pulo] Setando pulando");
+                                mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
+                                tPuloAleatorio_ = 0;
+                                int d = rando_.getInt(8); // chose among these directions
+                                Vector v = new Vector();
+                                v.x = JUMP_WALK_VELOCITY*directionLut[d][0];
+                                v.y = JUMP_WALK_VELOCITY*directionLut[d][1];
+                                PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+                                if (v.x > 0)
+                                    ps.flipLeft();
+                                else
+                                    ps.flipRight();
+                                vel_.set(eid, v);
+                                dprint("[pulo] setando velocidade " + v);
+
+                                tDuracaoPuloAleatorio_ = (double)
+                                    rando_.getNormal((float)tAverageDuracaoPuloAleatorio_, (float)(0.4*tAverageDuracaoPuloAleatorio_));
+                            }
+                        }
+
+                        if (tPuloAleatorio_ >= 0) { // jumping
+                           if (tPuloAleatorio_ <= tDuracaoPuloAleatorio_)
+                                tPuloAleatorio_++;
+                            else {
+                                // stop jumping
+                                tPuloAleatorio_ = -1;
+                                Vector v = new Vector();
+                                vel_.set(eid, v);
+                                // schedule next jump
+                                tProximoPuloAleatorio_ =
+                                    beat_ + rando_.getInRange(0.8f*tAverageSpacingPuloAleatorio_, 1.3f*tAverageSpacingPuloAleatorio_);
+                                assert tDuracaoPuloAleatorio_ < tAverageSpacingPuloAleatorio_*0.8f;
+                                assert tProximoPuloAleatorio_ - beat_ > tDuracaoPuloAleatorio_;
+                            }
+                        } else {
+                            PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
+                        }
+
+//                        dprint("linker: visibleCondition = " + newvc);
+                        dprint("     >>>>>>>>>>>>  Current pet state");
+                        // pet_.get(eid).print();
+                        dprint("     <<<<<<<<<<<<  END Current pet state");
+//                        entity(eid).didChange(); // mover will render it.
+                        // sprite_.get(eid).update(delta);
+                    }
+                }
+            }
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return type_.get(entity.id) == MOSQUITO;
         }
     };
 
@@ -628,6 +708,29 @@ class PetWorld extends World {
                                             // we'd alocate them contiguously
         sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
+        // create overlays, invisible at first
+        CreateMosquitos(x,y);
+
+        return pet;
+    }
+
+    protected Entity createMosquitos(float x, float y) {
+        Entity m = create(true);
+        m.add(type_, sprite_, opos_, pos_, vel_, radius_, expires_);
+
+        int id = m.id;
+        type_.set(id, MOSQUITOS);
+        opos_.set(id, x, y);
+        pos_.set(id, x, y);
+        vel_.set(id, 0, 0);
+        expires_.set(id, beatsMaxIdade_);
+
+        // read imgLayer / sprite loader
+        MosquitoSpriter ms = new MosquitoSpriter();   // the spriteLinker system links it to layer_
+                                            // note: if many pets were available,
+                                            // we'd alocate them contiguously
+        sprite_.set(id, ms);      // also queues sprite to be added by other systems on wasAdded()
+
         return pet;
     }
 
@@ -638,7 +741,14 @@ class PetWorld extends World {
         // for debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
         pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
         radius_.set(mainID_, ps.boundingRadius());
-        // spriteLayer_.set(id, layer_);
+        // spriteLayer_.set(id, layer_);V
+    }
+
+    protected void finishCreatingMosquitosAfterLoaded() {
+        // finish creating overlays
+        MosquitoSprite ms = (MosquitoSpriter) sprite_.get(mainMosquitoID_);
+        mainPet_.vis().connect(ms.slot());    // links mosquito sprite to pet visual condition
+        radius_.set(mainMosquitoID_, ms.boundingRadius());
     }
 
     /**
