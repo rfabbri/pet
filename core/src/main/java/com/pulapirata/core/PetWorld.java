@@ -49,6 +49,7 @@ class PetWorld extends World {
     private final   Randoms rando_ = Randoms.with(new Random());
     private boolean attributesLoaded_ = false;
     private boolean triggersLoaded_ = false;
+    private boolean mosquitosWired_ = false;
     private Triggers triggers_;
     public Triggers triggers()  { return triggers_; }
 
@@ -291,12 +292,28 @@ class PetWorld extends World {
         }
 
         @Override protected void update (int delta, Entities entities) {
+
+            public static final float MOSQUITO_VELOCITY = 0.5f;  // pixels per update
+
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
                 if (beat_ % 2 != 0)  // sprite update rate
                     return;
                 if (loaded_.get(eid) == LOADED)
                     sprite_.get(eid).update(delta);
+
+                if (type_.get(eid) == MOSQUITOS) { // XXX check here
+                    Vector v = new Vector(pos.getX(mainID_) - pos_.getX(eid),
+                                          pos.getY(mainID_) - pos_.getY(eid));
+                    v.normalizeLocal().scaleLocal(MOSQUITO_VELOCITY);
+                    MosquitoSpriter ms = (MosquitoSpriter) sprite_.get(eid);
+                    if (v.x > 0)
+                        ms.flipLeft();
+                    else
+                        ms.flipRight();
+                    vel_.set(eid, v);
+                    dprint("[mosquito] setando velocidade " + v);
+                }
             }
         }
 
@@ -394,69 +411,18 @@ class PetWorld extends World {
      */
     public final System spriteOverlayLinker = new System(this, 0) {
 
-        public static final float JUMP_WALK_VELOCITY = 0.5f; // 1f;
-
         @Override protected void update (int delta, Entities entities) {
+            if (!isPetWired_)
+                return;
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
                 if (attributesLoaded_ ) { // TODO change here XXX
-                    if (sprite_.get(mainID_).hasLoaded()) {   // TODO in the future: if all sprites have loaded
-                        if (!isPetWired_) {
-                            finishCreatingPetAfterLoaded();
-                            isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
+                    if (sprite_.get(eid).hasLoaded()) {   // TODO in the future: if all sprites have loaded
+                        if (!mosquitosWired_) {
+                            finishCreatingMosquitosAfterLoaded();
+                            mosquitosWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
                         }
-
-                        // from time to time pet jumps if it is not jumping
-                        if (beat_ > tProximoPuloAleatorio_) {
-                            dprint ("[pulo] Testando pulando");
-
-                            if (tPuloAleatorio_ == -1) {
-                                // start jumping
-                                dprint ("[pulo] Setando pulando");
-                                mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
-                                tPuloAleatorio_ = 0;
-                                int d = rando_.getInt(8); // chose among these directions
-                                Vector v = new Vector();
-                                v.x = JUMP_WALK_VELOCITY*directionLut[d][0];
-                                v.y = JUMP_WALK_VELOCITY*directionLut[d][1];
-                                PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
-                                if (v.x > 0)
-                                    ps.flipLeft();
-                                else
-                                    ps.flipRight();
-                                vel_.set(eid, v);
-                                dprint("[pulo] setando velocidade " + v);
-
-                                tDuracaoPuloAleatorio_ = (double)
-                                    rando_.getNormal((float)tAverageDuracaoPuloAleatorio_, (float)(0.4*tAverageDuracaoPuloAleatorio_));
-                            }
-                        }
-
-                        if (tPuloAleatorio_ >= 0) { // jumping
-                           if (tPuloAleatorio_ <= tDuracaoPuloAleatorio_)
-                                tPuloAleatorio_++;
-                            else {
-                                // stop jumping
-                                tPuloAleatorio_ = -1;
-                                Vector v = new Vector();
-                                vel_.set(eid, v);
-                                // schedule next jump
-                                tProximoPuloAleatorio_ =
-                                    beat_ + rando_.getInRange(0.8f*tAverageSpacingPuloAleatorio_, 1.3f*tAverageSpacingPuloAleatorio_);
-                                assert tDuracaoPuloAleatorio_ < tAverageSpacingPuloAleatorio_*0.8f;
-                                assert tProximoPuloAleatorio_ - beat_ > tDuracaoPuloAleatorio_;
-                            }
-                        } else {
-                            PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
-                        }
-
-//                        dprint("linker: visibleCondition = " + newvc);
-                        dprint("     >>>>>>>>>>>>  Current pet state");
-                        // pet_.get(eid).print();
-                        dprint("     <<<<<<<<<<<<  END Current pet state");
-//                        entity(eid).didChange(); // mover will render it.
-                        // sprite_.get(eid).update(delta);
                     }
                 }
             }
@@ -745,7 +711,7 @@ class PetWorld extends World {
         sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
         // create overlays, invisible at first
-        CreateMosquitos(x,y);
+        CreateMosquitos(x,y+radius);
 
         return pet;
     }
