@@ -215,39 +215,11 @@ public class PetSpriter extends CompositeSpriter {
         set(VisibleCondition.values()[i]);
     }
 
+    @Override
     public void update(int delta) {
         super.update(delta);
         if (hasLoaded())
             dprint("[petSpriter] currentVisibleCondition: " + currentVisibleCondition_);
-    }
-
-    /**
-     * The radius of the bounding sphere to the present sprite frame
-     */
-    public float boundingRadius() {
-        return (float) Math.sqrt(
-                animLayer_.width()*animLayer_.width() +
-                animLayer_.height()*animLayer_.height())/2.0f;
-    }
-
-    /**
-     * Returns a slot which can be used to wire the current sprite animation to
-     * the emissions of a {@link Signal} or another value.
-     */
-    public Slot<Integer> slot() {
-        return new Slot<Integer>() {
-            @Override public void onEmit (Integer value) {
-                set(value);
-            }
-        };
-    }
-
-    /**
-     * Return the current animation sprite {@link ImageLayer}.
-     */
-    @Override
-    public GroupLayer.Clipped layer() {
-        return animLayer_;
     }
 
 //    /**
