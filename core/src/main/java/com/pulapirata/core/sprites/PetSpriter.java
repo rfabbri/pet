@@ -194,16 +194,8 @@ public class PetSpriter extends CompositeSpriter {
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);
 
-        traversed_ = false;
-        // switch currentAnim to next anim
-        spriteIndex_ = 0;
-
-        currentSprite_ = newSprite;
         currentVisibleCondition_ = s;
-        animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
-        animLayer_.setScale(2f); // increase the scale of the sprite for testing
-        animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
-        currentSprite_.layer().setVisible(true);
+        setCurrentSprite(newSprite, 2f);
     }
 
     @Override

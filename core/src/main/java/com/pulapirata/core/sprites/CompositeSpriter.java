@@ -7,10 +7,10 @@ package com.pulapirata.core.sprites;
  */
 public abstract class CompositeSpriter extends Spriter {
 
-    private Sprite currentSprite_;   // the current sprite animation
-    private int spriteIndex_ = 0;
-    private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
-    private boolean traversed_ = false;
+    protected Sprite currentSprite_;   // the current sprite animation
+    protected int spriteIndex_ = 0;
+    protected int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
+    protected boolean traversed_ = false;
     protected GroupLayer.Clipped animLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
     public void update(int delta) {
@@ -87,5 +87,19 @@ public abstract class CompositeSpriter extends Spriter {
         return (float) Math.sqrt(
                 animLayer_.width()*animLayer_.width() +
                 animLayer_.height()*animLayer_.height())/2.0f;
+    }
+
+    /**
+     * TODO perhaps scale should not be here.
+     */
+    protected void setCurrentSprite(Sprite newSprite, float scale) {
+        traversed_ = false;
+        // switch currentAnim to next anim
+        spriteIndex_ = 0;
+        currentSprite_ = newSprite;
+        animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
+        animLayer_.setScale(scale); // change the scale of the sprite for testing
+        animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
+        currentSprite_.layer().setVisible(true);
     }
 }

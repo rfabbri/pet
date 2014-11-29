@@ -22,34 +22,34 @@ import static com.pulapirata.core.utils.Puts.*;
  * TODO: make commong parts between this and PetSpriter into common base class
  * CompositeSpriter
  */
-public class DroppingSpriter extends CompositeSpriter {
+public class MosquitoSpriter extends CompositeSpriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
-    private final String prefix = "pet/sprites/dejetos/";
+    private final String prefix = "pet/sprites/Pingo/Bebe/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
-                  "dejetos_coco.png",  // placeholder, for testing.
-                  "dejetos_cocomole.png"   // placeholder, for testing.
+                "pingo_bebe_sujo_v2.png",
+                "pingo_bebe_muito_sujo_v2.png"
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
-                  "dejetos_coco.json",  // placeholder, for testing.
-                  "dejetos_cocomole.json"   // placeholder, for testing.
+                "pingo_bebe_sujo_v2.json",
+                "pingo_bebe_muito_sujo_v2.png"
         ));
 
-    private final ArrayList<TipoCoco> vc =
-        new ArrayList<TipoCoco>(Arrays.asList(
-                    NORMAL,
-                    MOLE
+    private final ArrayList<VisibleCondition> vc =
+        new ArrayList<VisibleCondition>(Arrays.asList(
+                COM_MOSQUITO,
+                COM_STINKY_MOSQUITO,
         ));
 
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
-    private EnumMap<TipoCoco, Sprite> animMap_ = new EnumMap<TipoCoco, Sprite> (TipoCoco.class);
-    private TipoCoco currentTipoCoco_;
+    private EnumMap<VisibleCondition, Sprite> animMap_ = new EnumMap<VisibleCondition, Sprite> (VisibleCondition.class);
+    private VisibleCondition currentVisibleCondition_;
 
     /**
      * Copy constructor for sharing resources with a another preallocated
@@ -76,7 +76,7 @@ public class DroppingSpriter extends CompositeSpriter {
         for (int i = 0; i < jsons.size(); i++) {
             String spriteFnames = prefix + images.get(i);
             String jsonFnames   = prefix + jsons.get(i);
-            printd("[droppingSpriter] Loading sprite file: " + spriteFnames + jsonFnames);
+            printd("[mosquitoSpriter] Loading sprite file: " + spriteFnames + jsonFnames);
             Sprite s = SpriteLoader.getSprite(spriteFnames, jsonFnames);
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
             animMap_.put(vc.get(i), s);
@@ -90,8 +90,8 @@ public class DroppingSpriter extends CompositeSpriter {
                     sprite.setSprite(0);
                     sprite.layer().setOrigin(0, 0);
                     sprite.layer().setTranslation(0, 0);
-                    if (sprite == animMap_.get(NORMAL))   // start with normal by default.
-                        set(NORMAL);
+                    if (sprite == animMap_.get(COM_MOSQUITO))   // start with normal by default.
+                        set(COM_MOSQUITO);
                     else
                         sprite.layer().setVisible(false);
                     dprint("[droppingSpriter] added, visible: " +
@@ -106,46 +106,33 @@ public class DroppingSpriter extends CompositeSpriter {
                 }
             });
         }
-
-        // Error check of internal structures - ifndef NDEBUG
-        int n = TipoCoco.values().length;
-        boolean[] hasState = new boolean[n];
-        for (int i = 0; i < vc.size(); ++i) {
-            hasState[vc.get(i).ordinal()] = true;
-        }
-        for (int i = 0; i < n; ++i) {
-            if (!hasState[i]) {
-                dprint("Warning: sprite file not specified for state " + TipoCoco.values()[i]);
-                dprint("         make sure this is rendered some other way");
-            }
-        }
     }
 
-    void set(TipoCoco s) {
+    void set(VisibleCondition s) {
         Sprite newSprite = animMap_.get(s);
 
-
         if (newSprite == null) {
-            pprint("[petspriter.set] Warning: no direct anim for requested visibleCondition " + s);
+            pprint("[mosquitospriter.set] Warning: no direct anim for requested visibleCondition " + s);
+            pprint("[mosquitospriter.set] Warning: assuming without mosquito." + s);
         }
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);
 
-        currentTipoCoco_ = s;
+        currentVisibleCondition = s;
+
         setCurrentSprite(newSprite, 2f);
     }
 
-
     @Override
     public void set(int i) {
-        set(TipoCoco.values()[i]);
+        set(VisibleCondition.values()[i]);
     }
 
     @Override
     public void update(int delta) {
         super.update(delta);
         if (hasLoaded())
-            dprint("[droppingSpriter] currentTipoCoco_: " + currentTipoCoco_);
+            dprint("[mosquitoSpriter] currentVisibleCondition_: " + currentVisibleCondition_);
     }
 }
