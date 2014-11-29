@@ -22,7 +22,7 @@ import static com.pulapirata.core.utils.Puts.*;
  * TODO: make commong parts between this and PetSpriter into common base class
  * CompositeSpriter
  */
-public class DroppingSpriter extends Spriter {
+public class DroppingSpriter extends CompositeSpriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
@@ -49,12 +49,7 @@ public class DroppingSpriter extends Spriter {
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
     private EnumMap<TipoCoco, Sprite> animMap_ = new EnumMap<TipoCoco, Sprite> (TipoCoco.class);
-    private Sprite currentSprite_;   // the current sprite animation
     private TipoCoco currentTipoCoco_;
-    private int spriteIndex_ = 0;
-    private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
-    private boolean traversed_ = false;
-    protected GroupLayer.Clipped animLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
     /**
      * Copy constructor for sharing resources with a another preallocated
@@ -150,19 +145,7 @@ public class DroppingSpriter extends Spriter {
     }
 
 
-    /**
-     * Flips horizontally
-     */
-    public void flipLeft() {
-        currentSprite_.layer().setScaleX(-1);
-        currentSprite_.layer().setTx(currentSprite_.width());
-    }
-
-    public void flipRight() {
-        currentSprite_.layer().setScaleX(1);
-        currentSprite_.layer().setTx(0);
-    }
-
+    @Override
     public void set(int i) {
         set(TipoCoco.values()[i]);
     }
@@ -172,53 +155,10 @@ public class DroppingSpriter extends Spriter {
         return numLoaded_ == jsons.size();
     }
 
-    public void update(int delta) {
-        if (hasLoaded()) {
-            dprint( "[droppingSpriter] loaded & being updated.");
-            dprint(" currentTipoCoco_: " + currentTipoCoco_);
-            dprint(" initial-spriteIndex_: " + spriteIndex_);
-            dprint(" initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
-            spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
-            currentSprite_.setSprite(spriteIndex_);
-            // currentSprite_.layer().setRotation(angle);
-            if (spriteIndex_ == currentSprite_.numSprites() - 1) {
-                traversed_ = true;
-            }
-            dprint("spriteIndex_: " + spriteIndex_ +
-                   " currentSprite_.numSprites(): " + currentSprite_.numSprites());
-        }
-    }
-
-    /**
-     * The radius of the bounding sphere to the present sprite frame
-     */
-    public float boundingRadius() {
-        return (float) Math.sqrt(
-                animLayer_.width()*animLayer_.width() +
-                animLayer_.height()*animLayer_.height())/2.0f;
-    }
-
-    private boolean traversed(){
-       return traversed_;
-    }
-
-    /**
-     * Returns a slot which can be used to wire the current sprite animation to
-     * the emissions of a {@link Signal} or another value.
-     */
-    public Slot<Integer> slot() {
-        return new Slot<Integer>() {
-            @Override public void onEmit (Integer value) {
-                set(value);
-            }
-        };
-    }
-
-    /**
-     * Return the current animation sprite {@link ImageLayer}.
-     */
     @Override
-    public GroupLayer.Clipped layer() {
-        return animLayer_;
+    public void update(int delta) {
+        super.update(delta);
+        if (hasLoaded())
+            dprint("[droppingSpriter] currentTipoCoco_: " + currentTipoCoco_);
     }
 }

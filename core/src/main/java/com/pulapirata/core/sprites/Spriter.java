@@ -18,19 +18,8 @@ public abstract class Spriter {
     public abstract boolean hasLoaded();
 
     /**
-     * Detatches from the layer. Hides the sprite from the layer.
-     */
-    public void detatch(GroupLayer layer) {
-        layer.remove(layer());
-    }
-
-    /**
      * The radius of the bounding sphere to the present sprite frame
      */
     public abstract float boundingRadius();
 
-    /**
-     * Return the sprite {@link ImageLayer}.
-     */
-    public abstract GroupLayer.Clipped layer();
 }
