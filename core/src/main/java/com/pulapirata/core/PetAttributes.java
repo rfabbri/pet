@@ -83,6 +83,7 @@ public class PetAttributes {
 
     /** lists all attributes in the form of enum. */
     public enum AttributeID {
+        /** main ones */
         NUTRICAO,
         HUMOR,
         SOCIAL,
@@ -97,7 +98,10 @@ public class PetAttributes {
         DINHEIRO,
         INTESTINO,
         SANGUE,     // O quanto de sangue espirra dele a cada instante (vai sendo decrementado para zero).
+        /** other types  */
         ACTION,
+        TIPO_COCO,
+        TIPO_CELULAR
     }
 
     public enum State {

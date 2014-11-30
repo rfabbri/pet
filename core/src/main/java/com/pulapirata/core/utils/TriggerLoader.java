@@ -64,31 +64,31 @@ public class TriggerLoader {
 
                     for (AttributeID a : AttributeID.values()) {  // for each possible attribute / modifier value
                         switch (a) {
-                            /* These are not in AttributeID yet TODO
+                            /* These are not in AttributeID yet TODO */
                             case TIPO_COCO:
                             case TIPO_CELULAR:
-                                 if (jmatt.getObject(a.toString()) != null) {
-                                    int t = jmod.getInt(a.toString());
-                                    m.setValue(a, t);
+                                 if (jmod.getString(a.toString()) != null) {
+                                    String t = jmod.getString(a.toString()).toUpperCase().replace(' ', '_');
+                                    m.initModifier(a);
+                                    m.setValue(a, PetAttributes.TipoCoco.valueOf(t).ordinal());
                                     dprint("[triggerLoader] celular in json : " + a);
                                  } else {
                                     dprint("[triggerLoader] not found modifiers in current modifier for : " + a);
                                  }
                                 break;
-                                */
                             default:
                                  // simple delta case
                                  int ai = jmod.getInt(a.toString().toLowerCase());
 //                                     dprint("[triggerLoader] Log: modifier for attribute " + a +
 //                                             " not found, assuming default or jSON comment.");
-                                     m.initModifier(a);
-                                     m.setDeltaValue(a, ai);
+                                 m.initModifier(a);
+                                 m.setDeltaValue(a, ai);
                                 break;
                              // other cases:
                              //    - m.setPassivoDelta(attr, v);
                         }
                         // TODO read tipo coco here
-                        dprint("[triggerloader] todo: parse tipo coco tipo celular");
+                        pprint("[triggerloader] todo: parse tipo coco tipo celular");
                     }
                     triggers.get(triggerName).setModifiers(m);
 

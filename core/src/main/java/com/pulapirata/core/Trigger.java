@@ -138,6 +138,16 @@ public class Trigger {
             return true;
         }
 
+        public boolean setValue(AttributeID a, int v) {
+            Modifier mod = map_.get(a);
+            if (mod == null) {
+                dprint("[modifiers] modifier for key " + a + " not available");
+                return false;
+            }
+            mod.setValue(v);
+            return true;
+        }
+
         public void initModifier(AttributeID a) {
             map_.put(a, new Modifier());
         }
@@ -151,6 +161,7 @@ public class Trigger {
                     pprint("[modify] attribute action have no modifiers, currently ignored.");
                     continue;
                 }
+
                 //for (AttributeID id : map.keySet())  // for each possible attribute / modifier value
                 /* Apply modifier to all attribute properties, eg., value, passive */
                 Modifier mod = map_.get(id);
@@ -159,12 +170,19 @@ public class Trigger {
                     continue;
                 }
                 pprint("[modify] id " + id);
-                PetAttribute at = a.get(id);
-                if (at == null) {
-                    pprint("[modify] Error: check wiring of id above in PetAttribtes");
-                    assert a != null;
+                if (id == AttributeID.TIPO_COCO) {
+                    pprint("[modify] updating coco to id " + mod.get() +
+                           " enum " + PetAttributes.TipoCoco.values()[mod.get()]);
+                    a.sCoco().updateState(PetAttributes.TipoCoco.values()[mod.get()]);
+                } else {
+                    // regular attributes
+                    PetAttribute at = a.get(id);
+                    if (at == null) {
+                        pprint("[modify] Error: check wiring of id above in PetAttribtes");
+                        assert a != null;
+                    }
+                    mod.modifyAllProperties(at);
                 }
-                mod.modifyAllProperties(at);
             }
             return true;
         }
@@ -174,19 +192,27 @@ public class Trigger {
          * Default is just to sum up a value or set an attribute
          */
         public class Modifier {
-            private int deltaValue_;
-            public void setDeltaValue(int delta) { deltaValue_ = delta; }
+            private int value_;
+
+            public int get() { return value_; }
+
+            boolean setValueDirectly_;
+
+            public void setDeltaValue(int delta) { value_ = delta; setValueDirectly_ = false;}
+            public void setValue(int delta) { value_ = delta; setValueDirectly_ = true; }
 
             // put other deltas here - deltaPassivo_....
 
             // type: sum, set
-            public void modifyDelta(PetAttribute a) {
+            public void modify(PetAttribute a) {
                 // handles a simple sum of values.
                 // Other types are handled differently, case by case.
                 // - if modifier is of certain kind, then set instead of sum.
-                a.sum(deltaValue_);
+                if (setValueDirectly_)
+                    a.set(value_);
+                else
+                    a.sum(value_);
             }
-
 
             /** Apply modifier to all attribute properties.
              * eg., value, passive */
@@ -194,7 +220,7 @@ public class Trigger {
                 pprint("[modifier] " + a);
                 // for each regular attribute enum
                 //  - a.atributemap(e).sum()
-                a.sum(deltaValue_);
+                modify(a);
                 // future: modify remaining properties
                 // a.setPassivo(deltaPassivo_);
             }
