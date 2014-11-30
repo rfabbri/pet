@@ -325,61 +325,58 @@ class PetWorld extends World {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
-                if (attributesLoaded_ ) {
-                    if (sprite_.get(mainID_).hasLoaded()
-                        && loaded_.get(mainID_) == LOADED) {   // TODO in the future: if all sprites have loaded
+                if (loaded_.get(eid) == LOADED) {   // TODO in the future: if all sprites have loaded
 
-                        // from time to time pet jumps if it is not jumping
-                        if (beat_ > tProximoPuloAleatorio_) {
-                            dprint ("[pulo] Testando pulando");
+                    // from time to time pet jumps if it is not jumping
+                    if (beat_ > tProximoPuloAleatorio_) {
+                        dprint ("[pulo] Testando pulando");
 
-                            if (tPuloAleatorio_ == -1) {
-                                // start jumping
-                                dprint ("[pulo] Setando pulando");
-                                mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
-                                tPuloAleatorio_ = 0;
-                                int d = rando_.getInt(8); // chose among these directions
-                                Vector v = new Vector();
-                                v.x = JUMP_WALK_VELOCITY*directionLut[d][0];
-                                v.y = JUMP_WALK_VELOCITY*directionLut[d][1];
-                                PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
-                                if (v.x > 0)
-                                    ps.flipLeft();
-                                else
-                                    ps.flipRight();
-                                vel_.set(eid, v);
-                                dprint("[pulo] setando velocidade " + v);
+                        if (tPuloAleatorio_ == -1) {
+                            // start jumping
+                            dprint ("[pulo] Setando pulando");
+                            mainPet_.setVisibleCondition(PetAttributes.VisibleCondition.PULANDO);
+                            tPuloAleatorio_ = 0;
+                            int d = rando_.getInt(8); // chose among these directions
+                            Vector v = new Vector();
+                            v.x = JUMP_WALK_VELOCITY*directionLut[d][0];
+                            v.y = JUMP_WALK_VELOCITY*directionLut[d][1];
+                            PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+                            if (v.x > 0)
+                                ps.flipLeft();
+                            else
+                                ps.flipRight();
+                            vel_.set(eid, v);
+                            dprint("[pulo] setando velocidade " + v);
 
-                                tDuracaoPuloAleatorio_ = (double)
-                                    rando_.getNormal((float)tAverageDuracaoPuloAleatorio_, (float)(0.4*tAverageDuracaoPuloAleatorio_));
-                            }
+                            tDuracaoPuloAleatorio_ = (double)
+                                rando_.getNormal((float)tAverageDuracaoPuloAleatorio_, (float)(0.4*tAverageDuracaoPuloAleatorio_));
                         }
+                    }
 
-                        if (tPuloAleatorio_ >= 0) { // jumping
-                           if (tPuloAleatorio_ <= tDuracaoPuloAleatorio_)
-                                tPuloAleatorio_++;
-                            else {
-                                // stop jumping
-                                tPuloAleatorio_ = -1;
-                                Vector v = new Vector();
-                                vel_.set(eid, v);
-                                // schedule next jump
-                                tProximoPuloAleatorio_ =
-                                    beat_ + rando_.getInRange(0.8f*tAverageSpacingPuloAleatorio_, 1.3f*tAverageSpacingPuloAleatorio_);
-                                assert tDuracaoPuloAleatorio_ < tAverageSpacingPuloAleatorio_*0.8f;
-                                assert tProximoPuloAleatorio_ - beat_ > tDuracaoPuloAleatorio_;
-                            }
-                        } else {
-                            PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
+                    if (tPuloAleatorio_ >= 0) { // jumping
+                       if (tPuloAleatorio_ <= tDuracaoPuloAleatorio_)
+                            tPuloAleatorio_++;
+                        else {
+                            // stop jumping
+                            tPuloAleatorio_ = -1;
+                            Vector v = new Vector();
+                            vel_.set(eid, v);
+                            // schedule next jump
+                            tProximoPuloAleatorio_ =
+                                beat_ + rando_.getInRange(0.8f*tAverageSpacingPuloAleatorio_, 1.3f*tAverageSpacingPuloAleatorio_);
+                            assert tDuracaoPuloAleatorio_ < tAverageSpacingPuloAleatorio_*0.8f;
+                            assert tProximoPuloAleatorio_ - beat_ > tDuracaoPuloAleatorio_;
                         }
+                    } else {
+                        PetAttributes.VisibleCondition newvc = pet_.get(eid).determineVisibleCondition();
+                    }
 
 //                        dprint("linker: visibleCondition = " + newvc);
-                        dprint("     >>>>>>>>>>>>  Current pet state");
-                        // pet_.get(eid).print();
-                        dprint("     <<<<<<<<<<<<  END Current pet state");
+                    dprint("     >>>>>>>>>>>>  Current pet state");
+                    // pet_.get(eid).print();
+                    dprint("     <<<<<<<<<<<<  END Current pet state");
 //                        entity(eid).didChange(); // mover will render it.
-                        // sprite_.get(eid).update(delta);
-                    }
+                    // sprite_.get(eid).update(delta);
                 }
             }
         }
@@ -407,7 +404,7 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return type_.get(entity.id) == PET && entity.has(loaded_);
+            return type_.get(entity.id) == PET;
         }
     };
 
@@ -613,21 +610,25 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (loaded_.get(eid) == LOADED) {
+                if (loaded_.get(eid) == NOT_LOADED) {
                     switch (type_.get(eid)) {
                         case PET:
-                            PetSpriter ps = (PetSpriter) sprite_.get(eid);
-                            // ps.layer().setWidth(-ps.layer().width());
-                            pet_.get(eid).vis().connect(ps.slot());    // links sprite to animation
-                            // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
-                            pet_.set(eid, mainPet_); // only 1 pet for now, but more are easily supported
-                            radius_.set(eid, ps.boundingRadius());
-                            pprint("[XXXAXA]-00000000000000999999999999999999999999");
-                            loaded_.set(eid, LOADED); // should have a vector of attributesLoaded and sprites Loaded
+                            if (attributesLoaded_ && sprite_.get(eid).hasLoaded()) {
+                                PetSpriter ps = (PetSpriter) sprite_.get(eid);
+                                pet_.set(eid, mainPet_); // only 1 pet for now, but more are easily supported
+                                // ps.layer().setWidth(-ps.layer().width());
+                                pet_.get(eid).vis().connect(ps.slot());    // links sprite to animation
+                                // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
+                                radius_.set(eid, ps.boundingRadius());
+                                loaded_.set(eid, LOADED);
+                            }
                             break;
                         case DROPPING:
-                            DroppingSpriter ds = (DroppingSpriter) sprite_.get(eid);
-                            radius_.set(eid, ds.boundingRadius());
+                            if (sprite_.get(eid).hasLoaded()) {
+                                DroppingSpriter ds = (DroppingSpriter) sprite_.get(eid);
+                                radius_.set(eid, ds.boundingRadius());
+                                loaded_.set(eid, LOADED);
+                            }
                             break;
                         default: break; // nada
                     }
@@ -635,7 +636,7 @@ class PetWorld extends World {
             }
         }
 
-        @Override protected boolean isInterested (Entity entity) {
+        @Override protected boolean isInterested(Entity entity) {
             return entity.has(loaded_);
         }
     };
