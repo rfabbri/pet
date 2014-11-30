@@ -433,7 +433,10 @@ class PetWorld extends World {
                             // evacuate from intestine
                             pet_.get(eid).intestino().sub(1);
                             // create dropping on scenario
-                            createDropping(pos_.getX(eid)+20, pos_.getY(eid)+5); // todo: set some sort of order? estimate offset from radius?
+                            pprint("[poo] tipo coco no intestino " + pet_.get(eid).sCoco().getState());
+                            createDropping(
+                                    pos_.getX(eid)+20, pos_.getY(eid)+5, pet_.get(eid).sCoco().getState());
+                            // todo: set some sort of order? estimate offset from radius?
                         }
                     }
                 }
@@ -644,7 +647,7 @@ class PetWorld extends World {
     /**
      * Creates a dropping sprite as a reference to a preallocated one.
      */
-    protected Entity createDropping (float x, float y) {
+    protected Entity createDropping (float x, float y, PetAttributes.TipoCoco shit) {
         Entity poo = create(true);
         poo.add(type_, sprite_, opos_, pos_, radius_, expires_);
 
@@ -655,6 +658,7 @@ class PetWorld extends World {
         expires_.set(id, beat_ + (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
 
         DroppingSpriter ds = new DroppingSpriter();
+        ds.set(shit);
         sprite_.set(id, ds);      // also queues sprite to be added by other systems on wasAdded()
         if (!ds.hasLoaded())
             pprint("[poop] Warning: loading sprite not done but need boundingRadius");

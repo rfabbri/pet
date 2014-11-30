@@ -29,14 +29,14 @@ public class DroppingSpriter extends Spriter {
     private final String prefix = "pet/sprites/dejetos/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
-                  "dejetos_coco.png",  // placeholder, for testing.
-                  "dejetos_cocomole.png"   // placeholder, for testing.
+                  "dejetos_coco.png",
+                  "dejetos_cocomole.png"
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
-                  "dejetos_coco.json",  // placeholder, for testing.
-                  "dejetos_cocomole.json"   // placeholder, for testing.
+                  "dejetos_coco.json",
+                  "dejetos_cocomole.json"
         ));
 
     private final ArrayList<TipoCoco> vc =
@@ -126,13 +126,14 @@ public class DroppingSpriter extends Spriter {
         }
     }
 
-    void set(TipoCoco s) {
+    public void set(TipoCoco s) {
         Sprite newSprite = animMap_.get(s);
 
 
         if (newSprite == null) {
-            pprint("[petspriter.set] Warning: no direct anim for requested visibleCondition " + s);
+            pprint("[poo] Warning: no direct anim for requested TipoCoco " + s);
         }
+        pprint("[poo] TipoCoco " + s);
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);

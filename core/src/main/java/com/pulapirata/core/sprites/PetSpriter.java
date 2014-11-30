@@ -182,6 +182,10 @@ public class PetSpriter extends Spriter {
                     System.out.println("[petspriter.set] Warning:  using fallback anim TRISTE for: " + s + ".");
                     set(TRISTE);
                     return;
+                case BEBADO_VOMITANDO:
+                    System.out.println("[petspriter.set] Warning:  using fallback anim VOMITANDO for: " + s + ".");
+                    set(VOMITANDO);
+                    return;
                 case COMA:
                     System.out.println("[petspriter.set] Warning:  using fallback anim COMA_ALCOOLICO for: " + s + ".");
                     set(COMA_ALCOOLICO);

@@ -564,6 +564,15 @@ public class Pet extends Game.Default {
                             }
                         });
 
+                    if (b == 6 /* higiene */ && s == 1 /* varrer */) // XXX
+                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
+                            public void onEmit() {
+                                if (world_.worldLoaded()) { // use asset manager
+                                    world_.triggers().get(TriggerType.CERVEJA).fire(a());
+                                }
+                            }
+                        });
+
                     if (b == 6 /* diversao */ && s == 0/* licor */)
                         // hooks up the liquor button to setting alcool to max.  button
                         // press event is filtered to emit alcool().max() to the
