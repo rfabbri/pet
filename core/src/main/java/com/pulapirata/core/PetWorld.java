@@ -562,7 +562,7 @@ class PetWorld extends World {
 
         private void collide (Entity e1, Entity e2) {
             if (attributesLoaded_) {
-                pprint("[collider] collision!");
+                dprint("[collider] collision!");
                 switch (type_.get(e1.id) | type_.get(e2.id)) {
                 case PET_DROPPING:
                     pprint("[collider] pet-dropping!");
@@ -661,7 +661,7 @@ class PetWorld extends World {
         ds.set(shit);
         sprite_.set(id, ds);      // also queues sprite to be added by other systems on wasAdded()
         if (!ds.hasLoaded())
-            pprint("[poop] Warning: loading sprite not done but need boundingRadius");
+            pprint("[poo] Warning: loading sprite not done but need boundingRadius");
         radius_.set(id, droppingSpriter_.boundingRadius());
         return poo;
     }
