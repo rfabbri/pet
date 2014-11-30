@@ -610,7 +610,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (loaded_.get(eid)) {
+                if (loaded_.get(eid) == 1) {
                     switch (type_.get(eid)) {
                         case PET:
                             PetSpriter ps = (PetSpriter) sprite_.get(eid);
@@ -619,12 +619,11 @@ class PetWorld extends World {
                             // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
                             pet_.set(eid, mainPet_); // only 1 pet for now, but more are easily supported
                             radius_.set(eid, ps.boundingRadius());
-                            loaded_.set(id, 1); // should have a vector of attributesLoaded and sprites Loaded
+                            loaded_.set(eid, 1); // should have a vector of attributesLoaded and sprites Loaded
                             break;
-                        case PET_DROPPING:
+                        case DROPPING:
                             DroppingSpriter ds = (DroppingSpriter) sprite_.get(eid);
-                            ds.set(mainPet.shitType);
-                            radius_.set(id, ds.boundingRadius());
+                            radius_.set(eid, ds.boundingRadius());
                             break;
                         default: break; // nada
                     }
@@ -676,7 +675,7 @@ class PetWorld extends World {
 
         DroppingSpriter ds = new DroppingSpriter();
         sprite_.set(id, ds);      // also queues sprite to be added by other systems on wasAdded()
-        ds.set(mainPet.shitType);
+        ds.set(shitType);
 
         return poo;
     }

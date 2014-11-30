@@ -96,7 +96,7 @@ public class DroppingSpriter extends Spriter {
                     sprite.setSprite(0);
                     sprite.layer().setOrigin(0, 0);
                     sprite.layer().setTranslation(0, 0);
-                    if (sprite == currentTipoCoco_)   // start with normal by default.
+                    if (sprite == animMap_.get(currentTipoCoco_))   // start with normal by default.
                         set(currentTipoCoco_);
                     else
                         sprite.layer().setVisible(false);
