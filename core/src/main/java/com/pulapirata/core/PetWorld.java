@@ -610,6 +610,28 @@ class PetWorld extends World {
         }
     };
 
+    // handles object operation that have to done after their assets load
+    public final System assetHooker = new System(this, 2) {
+        @Override protected void update (int delta, Entities entities) {
+            for (int i = 0, ll = entities.size(); i < ll; i++) {
+                int eid = entities.get(i);
+                if (hasLoaded_.get(eid)) {
+                    switch (type_.get(eid)) {
+                        case PET:
+                            break;
+                        case PET_DROPPING:
+                            break;
+                        default: break; // nada
+                    }
+                }
+            }
+        }
+
+        @Override protected boolean isInterested (Entity entity) {
+            return entity.has(hasLoaded_);
+        }
+    };
+
     /*-------------------------------------------------------------------------------*/
     /** Entity creation */
 
@@ -647,7 +669,7 @@ class PetWorld extends World {
     /**
      * Creates a dropping sprite as a reference to a preallocated one.
      */
-    protected Entity createDropping (float x, float y, PetAttributes.TipoCoco shit) {
+    protected Entity createDropping (float x, float y, PetAttributes.TipoCoco shitType) {
         Entity poo = create(true);
         poo.add(type_, sprite_, opos_, pos_, radius_, expires_);
 
@@ -658,7 +680,7 @@ class PetWorld extends World {
         expires_.set(id, beat_ + (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
 
         DroppingSpriter ds = new DroppingSpriter();
-        ds.set(shit);
+        ds.set(shitType);
         sprite_.set(id, ds);      // also queues sprite to be added by other systems on wasAdded()
         if (!ds.hasLoaded())
             pprint("[poo] Warning: loading sprite not done but need boundingRadius");

@@ -129,7 +129,6 @@ public class DroppingSpriter extends Spriter {
     public void set(TipoCoco s) {
         Sprite newSprite = animMap_.get(s);
 
-
         if (newSprite == null) {
             pprint("[poo] Warning: no direct anim for requested TipoCoco " + s);
         }
