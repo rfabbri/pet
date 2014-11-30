@@ -50,7 +50,7 @@ public class DroppingSpriter extends Spriter {
     // as built in PetSpriteLoader.java, and also the same layer
     private EnumMap<TipoCoco, Sprite> animMap_ = new EnumMap<TipoCoco, Sprite> (TipoCoco.class);
     private Sprite currentSprite_;   // the current sprite animation
-    private TipoCoco currentTipoCoco_;
+    private TipoCoco currentTipoCoco_ = NORMAL;
     private int spriteIndex_ = 0;
     private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
     private boolean traversed_ = false;
@@ -92,17 +92,17 @@ public class DroppingSpriter extends Spriter {
             s.addCallback(new Callback<Sprite>() {
                 @Override
                 public void onSuccess(Sprite sprite) {
+                    numLoaded_++;
                     sprite.setSprite(0);
                     sprite.layer().setOrigin(0, 0);
                     sprite.layer().setTranslation(0, 0);
-                    if (sprite == animMap_.get(NORMAL))   // start with normal by default.
-                        set(NORMAL);
+                    if (sprite == currentTipoCoco_)   // start with normal by default.
+                        set(currentTipoCoco_);
                     else
                         sprite.layer().setVisible(false);
                     dprint("[droppingSpriter] added, visible: " +
                         sprite.layer().visible() + " full layer: " + animLayer_.visible());
                     animLayer_.add(sprite.layer());
-                    numLoaded_++;
                 }
 
                 @Override
@@ -127,12 +127,17 @@ public class DroppingSpriter extends Spriter {
     }
 
     public void set(TipoCoco s) {
+        currentTipoCoco_ = s;
+        pprint("[poo] TipoCoco " + s);
+
+        if (!hasLoaded())
+            return;
+
         Sprite newSprite = animMap_.get(s);
 
         if (newSprite == null) {
             pprint("[poo] Warning: no direct anim for requested TipoCoco " + s);
         }
-        pprint("[poo] TipoCoco " + s);
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);
@@ -142,7 +147,6 @@ public class DroppingSpriter extends Spriter {
         spriteIndex_ = 0;
 
         currentSprite_ = newSprite;
-        currentTipoCoco_ = s;
         animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
         animLayer_.setScale(1.3f); // change the scale of the sprite for testing
         animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);

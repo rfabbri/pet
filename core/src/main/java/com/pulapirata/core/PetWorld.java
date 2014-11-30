@@ -49,7 +49,6 @@ class PetWorld extends World {
     private final   Randoms rando_ = Randoms.with(new Random());
     private boolean attributesLoaded_ = false;
     private boolean triggersLoaded_ = false;
-    private boolean isPetWired_ = false;
     private Triggers triggers_;
     public Triggers triggers()  { return triggers_; }
 
@@ -73,8 +72,9 @@ class PetWorld extends World {
     public final Component.XY pos_  = new Component.XY(this);
     public final Component.XY opos_ = new Component.XY(this);  // old pos for interpolates
     public final Component.XY vel_  = new Component.XY(this);  // pixels/ms
-    public final Component.FScalar radius_ = new Component.FScalar(this); // diameter
+    public final Component.FScalar radius_  = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
+    public final Component.IScalar loaded_  = new Component.IScalar(this);  // has asset loaded
     public final Component.Generic<Spriter> sprite_ = new Component.Generic<Spriter>(this);
     // public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
@@ -161,7 +161,6 @@ class PetWorld extends World {
 
         attributesLoaded_ = false;
         triggersLoaded_ = false;
-        isPetWired_ = false;
 
         /** load attributes. Only 1 pet attribute set is supported for now
          * (single global profile, single pet) */
@@ -326,10 +325,6 @@ class PetWorld extends World {
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
                 if (attributesLoaded_ ) {
                     if (sprite_.get(mainID_).hasLoaded()) {   // TODO in the future: if all sprites have loaded
-                        if (!isPetWired_) {
-                            finishCreatingPetAfterLoaded();
-                            isPetWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
-                        }
 
                         // from time to time pet jumps if it is not jumping
                         if (beat_ > tProximoPuloAleatorio_) {
@@ -401,7 +396,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (isPetWired_) {
+                if (loaded_.get(eid) != 0) {
                     pet_.get(eid).passiveUpdate(beat_);
                     // other logic if-spaghetti goes here
                 }
@@ -420,7 +415,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (isPetWired_) {
+                if (loaded_.get(eid) == 1) {
 
                     if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
                         pprint("[poo] cagando");
@@ -615,11 +610,21 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (hasLoaded_.get(eid)) {
+                if (loaded_.get(eid)) {
                     switch (type_.get(eid)) {
                         case PET:
+                            PetSpriter ps = (PetSpriter) sprite_.get(eid);
+                            // ps.layer().setWidth(-ps.layer().width());
+                            pet_.get(eid).vis().connect(ps.slot());    // links sprite to animation
+                            // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
+                            pet_.set(eid, mainPet_); // only 1 pet for now, but more are easily supported
+                            radius_.set(eid, ps.boundingRadius());
+                            loaded_.set(id, 1); // should have a vector of attributesLoaded and sprites Loaded
                             break;
                         case PET_DROPPING:
+                            DroppingSpriter ds = (DroppingSpriter) sprite_.get(eid);
+                            ds.set(mainPet.shitType);
+                            radius_.set(id, ds.boundingRadius());
                             break;
                         default: break; // nada
                     }
@@ -628,14 +633,14 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(hasLoaded_);
+            return entity.has(loaded_);
         }
     };
 
     /*-------------------------------------------------------------------------------*/
     /** Entity creation */
 
-    protected Entity createPet (float x, float y) {
+    protected Entity createPet(float x, float y) {
         Entity pet = create(true);
         pet.add(type_, pet_, sprite_, opos_, pos_, vel_, radius_, expires_);
 
@@ -656,20 +661,10 @@ class PetWorld extends World {
         return pet;
     }
 
-    protected void finishCreatingPetAfterLoaded() {
-        PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
-        // ps.layer().setWidth(-ps.layer().width());
-        mainPet_.vis().connect(ps.slot());    // links sprite to animation
-        // for debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
-        pet_.set(mainID_, mainPet_); // only 1 pet for now, but more are easily supported
-        radius_.set(mainID_, ps.boundingRadius());
-        // spriteLayer_.set(id, layer_);
-    }
-
     /**
      * Creates a dropping sprite as a reference to a preallocated one.
      */
-    protected Entity createDropping (float x, float y, PetAttributes.TipoCoco shitType) {
+    protected Entity createDropping(float x, float y, PetAttributes.TipoCoco shitType) {
         Entity poo = create(true);
         poo.add(type_, sprite_, opos_, pos_, radius_, expires_);
 
@@ -680,11 +675,9 @@ class PetWorld extends World {
         expires_.set(id, beat_ + (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
 
         DroppingSpriter ds = new DroppingSpriter();
-        ds.set(shitType);
         sprite_.set(id, ds);      // also queues sprite to be added by other systems on wasAdded()
-        if (!ds.hasLoaded())
-            pprint("[poo] Warning: loading sprite not done but need boundingRadius");
-        radius_.set(id, droppingSpriter_.boundingRadius());
+        ds.set(mainPet.shitType);
+
         return poo;
     }
 
