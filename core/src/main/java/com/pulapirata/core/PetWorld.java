@@ -326,7 +326,8 @@ class PetWorld extends World {
                 int eid = entities.get(i);
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
                 if (attributesLoaded_ ) {
-                    if (sprite_.get(mainID_).hasLoaded()) {   // TODO in the future: if all sprites have loaded
+                    if (sprite_.get(mainID_).hasLoaded()
+                        && loaded_.get(mainID_) == LOADED) {   // TODO in the future: if all sprites have loaded
 
                         // from time to time pet jumps if it is not jumping
                         if (beat_ > tProximoPuloAleatorio_) {
