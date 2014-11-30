@@ -75,6 +75,8 @@ class PetWorld extends World {
     public final Component.FScalar radius_  = new Component.FScalar(this); // diameter
     public final Component.IScalar expires_ = new Component.IScalar(this);  // expected lifetime
     public final Component.IScalar loaded_  = new Component.IScalar(this);  // has asset loaded
+    public final int LOADED = 1;
+    public final int NOT_LOADED = 0;
     public final Component.Generic<Spriter> sprite_ = new Component.Generic<Spriter>(this);
     // public final Component.Generic<Layer> spriteLayer_ = new Component.Generic<Layer>(this);
     public final Component.Generic<PetAttributes> pet_ = new Component.Generic<PetAttributes>(this);
@@ -396,7 +398,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (loaded_.get(eid) != 0) {
+                if (loaded_.get(eid) == LOADED) {
                     pet_.get(eid).passiveUpdate(beat_);
                     // other logic if-spaghetti goes here
                 }
@@ -404,7 +406,7 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return type_.get(entity.id) == PET;
+            return type_.get(entity.id) == PET && entity.has(loaded_);
         }
     };
 
@@ -415,7 +417,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (loaded_.get(eid) == 1) {
+                if (loaded_.get(eid) == LOADED) {
 
                     if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
                         pprint("[poo] cagando");
@@ -439,7 +441,7 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return type_.get(entity.id) == PET;
+            return type_.get(entity.id) == PET && entity.has(loaded_);
         }
     };
 
@@ -610,7 +612,7 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (loaded_.get(eid) == 1) {
+                if (loaded_.get(eid) == LOADED) {
                     switch (type_.get(eid)) {
                         case PET:
                             PetSpriter ps = (PetSpriter) sprite_.get(eid);
@@ -619,7 +621,8 @@ class PetWorld extends World {
                             // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
                             pet_.set(eid, mainPet_); // only 1 pet for now, but more are easily supported
                             radius_.set(eid, ps.boundingRadius());
-                            loaded_.set(eid, 1); // should have a vector of attributesLoaded and sprites Loaded
+                            pprint("[XXXAXA]-00000000000000999999999999999999999999");
+                            loaded_.set(eid, LOADED); // should have a vector of attributesLoaded and sprites Loaded
                             break;
                         case DROPPING:
                             DroppingSpriter ds = (DroppingSpriter) sprite_.get(eid);
@@ -641,7 +644,7 @@ class PetWorld extends World {
 
     protected Entity createPet(float x, float y) {
         Entity pet = create(true);
-        pet.add(type_, pet_, sprite_, opos_, pos_, vel_, radius_, expires_);
+        pet.add(type_, pet_, sprite_, opos_, pos_, vel_, radius_, expires_, loaded_);
 
         int id = pet.id;
         type_.set(id, PET);
@@ -649,6 +652,7 @@ class PetWorld extends World {
         pos_.set(id, x, y);
         vel_.set(id, 0, 0);
         expires_.set(id, beatsMaxIdade_);
+        loaded_.set(id, NOT_LOADED);
         mainID_ = id;
 
         // read imgLayer / sprite loader
@@ -665,13 +669,14 @@ class PetWorld extends World {
      */
     protected Entity createDropping(float x, float y, PetAttributes.TipoCoco shitType) {
         Entity poo = create(true);
-        poo.add(type_, sprite_, opos_, pos_, radius_, expires_);
+        poo.add(type_, sprite_, opos_, pos_, radius_, expires_, loaded_);
 
         int id = poo.id;
         type_.set(id, DROPPING);
         opos_.set(id, x, y);
         pos_.set(id, x, y);
         expires_.set(id, beat_ + (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
+        loaded_.set(id, NOT_LOADED);
 
         DroppingSpriter ds = new DroppingSpriter();
         sprite_.set(id, ds);      // also queues sprite to be added by other systems on wasAdded()
