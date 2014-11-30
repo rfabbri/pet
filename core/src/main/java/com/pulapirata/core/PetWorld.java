@@ -293,7 +293,8 @@ class PetWorld extends World {
                 int eid = entities.get(ii);
                 if (beat_ % 2 != 0)  // sprite update rate
                     return;
-                sprite_.get(eid).update(delta);
+                if (loaded_.get(eid) == LOADED)
+                    sprite_.get(eid).update(delta);
             }
         }
 
@@ -308,7 +309,7 @@ class PetWorld extends World {
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return entity.has(opos_) && entity.has(pos_) && entity.has(sprite_);
+            return entity.has(opos_) && entity.has(pos_) && entity.has(sprite_) && entity.has(loaded_);
         }
 
         protected final Point innerOldPos_ = new Point(), innerPos_ = new Point();
@@ -606,7 +607,7 @@ class PetWorld extends World {
     };
 
     // handles object operation that have to done after their assets load
-    public final System assetHooker = new System(this, 2) {
+    public final System assetHooker = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);

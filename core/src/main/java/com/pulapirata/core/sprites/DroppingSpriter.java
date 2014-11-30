@@ -92,17 +92,16 @@ public class DroppingSpriter extends Spriter {
             s.addCallback(new Callback<Sprite>() {
                 @Override
                 public void onSuccess(Sprite sprite) {
-                    numLoaded_++;
                     sprite.setSprite(0);
                     sprite.layer().setOrigin(0, 0);
                     sprite.layer().setTranslation(0, 0);
-                    if (sprite == animMap_.get(currentTipoCoco_))   // start with normal by default.
-                        set(currentTipoCoco_);
-                    else
-                        sprite.layer().setVisible(false);
+                    sprite.layer().setVisible(false);
                     dprint("[droppingSpriter] added, visible: " +
                         sprite.layer().visible() + " full layer: " + animLayer_.visible());
                     animLayer_.add(sprite.layer());
+                    numLoaded_++;
+                    if (hasLoaded())
+                        set(currentTipoCoco_);
                 }
 
                 @Override
