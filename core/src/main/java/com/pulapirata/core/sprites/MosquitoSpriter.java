@@ -42,16 +42,10 @@ public class MosquitoSpriter extends CompositeSpriter {
                 COM_STINKY_MOSQUITO
         ));
 
-
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
     private EnumMap<VisibleCondition, Sprite> animMap_ = new EnumMap<VisibleCondition, Sprite> (VisibleCondition.class);
-    private VisibleCondition currentVisibleCondition_;
     private VisibleCondition currentTipoMosquito_ = COM_MOSQUITO;
-    private int spriteIndex_ = 0;
-    private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
-    private boolean traversed_ = false;
-    protected GroupLayer.Clipped animLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
     /**
      * Copy constructor for sharing resources with a another preallocated
@@ -139,15 +133,7 @@ public class MosquitoSpriter extends CompositeSpriter {
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);
 
-        traversed_ = false;
-        // switch currentAnim to next anim
-        spriteIndex_ = 0;
-
-        currentSprite_ = newSprite;
-        animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
-        animLayer_.setScale(1.3f); // change the scale of the sprite for testing
-        animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
-        currentSprite_.layer().setVisible(true);
+        super.setCurrentSprite(newSprite, 1.3f);
     }
 
     @Override
@@ -160,18 +146,7 @@ public class MosquitoSpriter extends CompositeSpriter {
     public void update(int delta) {
         super.update(delta);
         if (hasLoaded()) {
-            dprint("[mosquitoSpriter] currentVisibleCondition_: " + currentVisibleCondition_);
             dprint("[mosquito] currentTipoMosquito_: " + currentTipoMosquito_);
-            dprint("[mosquito] initial-spriteIndex_: " + spriteIndex_);
-            dprint("[mosquito] initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
-            spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
-            currentSprite_.setSprite(spriteIndex_);
-            // currentSprite_.layer().setRotation(angle);
-            if (spriteIndex_ == currentSprite_.numSprites() - 1) {
-                traversed_ = true;
-            }
-            dprint("[mosquito] spriteIndex_: " + spriteIndex_ +
-                   " currentSprite_.numSprites(): " + currentSprite_.numSprites());
         }
     }
 }
