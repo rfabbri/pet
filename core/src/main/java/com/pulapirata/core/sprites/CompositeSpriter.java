@@ -49,15 +49,9 @@ public abstract class CompositeSpriter extends Spriter {
     }
 
     /**
-     * Detatches from the layer. Hides the sprite from the layer.
-     */
-    public void detatch(GroupLayer layer) {
-        layer.remove(layer());
-    }
-
-    /**
      * Return the current animation sprite {@link ImageLayer}.
      */
+    @Override
     public GroupLayer.Clipped layer() {
         return animLayer_;
     }

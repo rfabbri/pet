@@ -404,33 +404,6 @@ class PetWorld extends World {
     };
 
     /**
-     * Updates overlay sprites to reflect inner state.
-     */
-    public final System spriteOverlayLinker = new System(this, 0) {
-
-        @Override protected void update (int delta, Entities entities) {
-            if (!isPetWired_)
-                return;
-            for (int i = 0, ll = entities.size(); i < ll; i++) {
-                int eid = entities.get(i);
-                //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
-                if (attributesLoaded_ ) { // TODO change here XXX
-                    if (sprite_.get(eid).hasLoaded()) {   // TODO in the future: if all sprites have loaded
-                        if (!mosquitosWired_) {
-                            finishCreatingMosquitosAfterLoaded();
-                            mosquitosWired_ = true; // should have a vector of attributesLoaded and sprites Loaded
-                        }
-                    }
-                }
-            }
-        }
-
-        @Override protected boolean isInterested (Entity entity) {
-            return type_.get(entity.id) == MOSQUITO;
-        }
-    };
-
-    /**
      * Default updates to pet internal attributes and logic.
      * Two future options for this
      * 1) subclass from this PetWorld to have all internal pet updaters outside
@@ -672,11 +645,13 @@ class PetWorld extends World {
                                 loaded_.set(eid, LOADED);
                             }
                             break;
-                        case MOSQUITO:
-                            if (sprite_.get(eid).hasLoaded()) {
-                                MosquitoSprite ms = (MosquitoSpriter) sprite_.get(eid);
+                        case MOSQUITOS:
+                            if (attributesLoaded_ && sprite_.get(eid).hasLoaded()) {
+                                MosquitoSpriter ms = (MosquitoSpriter) sprite_.get(eid);
                                 mainPet_.vis().connect(ms.slot());    // links mosquito sprite to pet visual condition
                                 radius_.set(eid, ms.boundingRadius());
+                                pos_.set(eid, pos_.getX(mainID_),
+                                        pos_.getY(mainID_)+2*radius_.get(mainID_));
                                 loaded_.set(eid, LOADED);
                             }
                         default: break; // nada
@@ -713,7 +688,7 @@ class PetWorld extends World {
         sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
         // create overlays, invisible at first
-        CreateMosquitos(x,y+radius);
+        createMosquitos(x,y);
 
         return pet;
     }
@@ -736,7 +711,7 @@ class PetWorld extends World {
                                             // we'd alocate them contiguously
         sprite_.set(id, ms);      // also queues sprite to be added by other systems on wasAdded()
 
-        return pet;
+        return m;
     }
 
     /**
