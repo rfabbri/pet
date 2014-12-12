@@ -150,20 +150,6 @@ public class MosquitoSpriter extends CompositeSpriter {
         currentSprite_.layer().setVisible(true);
     }
 
-    /**
-     * Flips horizontally
-     */
-    public void flipLeft() {
-        currentSprite_.layer().setScaleX(-1);
-        currentSprite_.layer().setTx(currentSprite_.width());
-    }
-
-    public void flipRight() {
-        currentSprite_.layer().setScaleX(1);
-        currentSprite_.layer().setTx(0);
-    }
-
-
     @Override
     public void set(int i) {
         assert i < images.size() : "[mosquito] wrong index\n";
