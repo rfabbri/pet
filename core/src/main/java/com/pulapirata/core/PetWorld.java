@@ -59,7 +59,6 @@ class PetWorld extends World {
     public static final int PET       = (1 << 0);
     public static final int DROPPING  = (1 << 1);
     public static final int VOMIT     = (1 << 2);
-    public static final int DIARRHEA  = (1 << 3);
     public static final int MOSQUITOS = (1 << 4);
 
     /*-------------------------------------------------------------------------------*/
@@ -221,7 +220,6 @@ class PetWorld extends World {
         case PET: return "pet";
         case DROPPING: return "dropping";
         case VOMIT: return "vomit";
-        case DIARRHEA: return "diarrhea";
         case MOSQUITOS: return "mosquitos";
         default: return "unknown:" + type_.get(id);
         }
@@ -630,8 +628,6 @@ class PetWorld extends World {
 
         protected static final int PET_DROPPING = PET|DROPPING;
         protected static final int PET_VOMIT = PET|VOMIT;
-        protected static final int PET_DIARRHEA = PET|DIARRHEA;
-
         protected final Point p1_ = new Point(), p2_ = new Point();
     };
 
