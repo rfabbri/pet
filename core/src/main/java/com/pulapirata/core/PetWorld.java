@@ -291,8 +291,6 @@ class PetWorld extends World {
         }
 
         @Override protected void update (int delta, Entities entities) {
-
-
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
                 if (beat_ % 2 != 0)  // sprite update rate
@@ -300,7 +298,7 @@ class PetWorld extends World {
                 if (loaded_.get(eid) == LOADED)
                     sprite_.get(eid).update(delta);
 
-                if (type_.get(eid) == MOSQUITOS) { // XXX check here
+                if (type_.get(eid) == MOSQUITOS) {
                     Vector v = new Vector(pos.getX(mainID_) - pos_.getX(eid),
                                           pos.getY(mainID_) - pos_.getY(eid));
                     v.normalizeLocal().scaleLocal(MOSQUITO_VELOCITY);
@@ -648,7 +646,7 @@ class PetWorld extends World {
         }
     };
 
-    // handles object operation that have to done after their assets load
+    // handles object operation that have to be done after their assets load
     public final System assetHooker = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
@@ -673,6 +671,13 @@ class PetWorld extends World {
                                 loaded_.set(eid, LOADED);
                             }
                             break;
+                        case MOSQUITO:
+                            if (sprite_.get(eid).hasLoaded()) {
+                                MosquitoSprite ms = (MosquitoSpriter) sprite_.get(eid);
+                                mainPet_.vis().connect(ms.slot());    // links mosquito sprite to pet visual condition
+                                radius_.set(eid, ms.boundingRadius());
+                                loaded_.set(eid, LOADED);
+                            }
                         default: break; // nada
                     }
                 }
@@ -722,6 +727,7 @@ class PetWorld extends World {
         pos_.set(id, x, y);
         vel_.set(id, 0, 0);
         expires_.set(id, beatsMaxIdade_);
+        loaded_.set(id, NOT_LOADED);
 
         // read imgLayer / sprite loader
         MosquitoSpriter ms = new MosquitoSpriter();   // the spriteLinker system links it to layer_
@@ -730,14 +736,6 @@ class PetWorld extends World {
         sprite_.set(id, ms);      // also queues sprite to be added by other systems on wasAdded()
 
         return pet;
-    }
-
-    // XXX include in assets linker
-    protected void finishCreatingMosquitosAfterLoaded() {
-        // finish creating overlays
-        MosquitoSprite ms = (MosquitoSpriter) sprite_.get(mainMosquitoID_);
-        mainPet_.vis().connect(ms.slot());    // links mosquito sprite to pet visual condition
-        radius_.set(mainMosquitoID_, ms.boundingRadius());
     }
 
     /**
@@ -751,6 +749,7 @@ class PetWorld extends World {
         type_.set(id, DROPPING);
         opos_.set(id, x, y);
         pos_.set(id, x, y);
+        vel_.set(id, 0, 0);
         expires_.set(id, beat_ + (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
         loaded_.set(id, NOT_LOADED);
 

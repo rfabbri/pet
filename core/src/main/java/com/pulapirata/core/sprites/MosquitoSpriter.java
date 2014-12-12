@@ -23,9 +23,6 @@ import static com.pulapirata.core.utils.Puts.*;
  * CompositeSpriter
  */
 public class MosquitoSpriter extends CompositeSpriter {
-//    public static String IMAGE = "pet/sprites/atlas.png";
-//    public static String JSON = "pet/sprites/atlas.json";
-
     private final String prefix = "pet/sprites/Pingo/Bebe/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
@@ -42,7 +39,7 @@ public class MosquitoSpriter extends CompositeSpriter {
     private final ArrayList<VisibleCondition> vc =
         new ArrayList<VisibleCondition>(Arrays.asList(
                 COM_MOSQUITO,
-                COM_STINKY_MOSQUITO,
+                COM_STINKY_MOSQUITO
         ));
 
 
@@ -50,12 +47,17 @@ public class MosquitoSpriter extends CompositeSpriter {
     // as built in PetSpriteLoader.java, and also the same layer
     private EnumMap<VisibleCondition, Sprite> animMap_ = new EnumMap<VisibleCondition, Sprite> (VisibleCondition.class);
     private VisibleCondition currentVisibleCondition_;
+    private VisibleCondition currentTipoMosquito_ = COM_MOSQUITO;
+    private int spriteIndex_ = 0;
+    private int numLoaded_ = 0; // set to num of animations when resources have loaded and we can update
+    private boolean traversed_ = false;
+    protected GroupLayer.Clipped animLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
     /**
      * Copy constructor for sharing resources with a another preallocated
      * spriter.
      */
-    public DroppingSpriter(DroppingSpriter another) {
+    public MosquitoSpriter(MosquitoSpriter another) {
 //        this.animMap_ = another.animMap_;
 
 
@@ -72,7 +74,7 @@ public class MosquitoSpriter extends CompositeSpriter {
         // - we'll have a way of doing this for global atlases as well.
     }
 
-    public DroppingSpriter() {
+    public MosquitoSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
             String spriteFnames = prefix + images.get(i);
             String jsonFnames   = prefix + jsons.get(i);
@@ -90,14 +92,13 @@ public class MosquitoSpriter extends CompositeSpriter {
                     sprite.setSprite(0);
                     sprite.layer().setOrigin(0, 0);
                     sprite.layer().setTranslation(0, 0);
-                    if (sprite == animMap_.get(COM_MOSQUITO))   // start with normal by default.
-                        set(COM_MOSQUITO);
-                    else
-                        sprite.layer().setVisible(false);
-                    dprint("[droppingSpriter] added, visible: " +
+                    sprite.layer().setVisible(false);
+                    dprint("[MosquitoSpriter] added, visible: " +
                         sprite.layer().visible() + " full layer: " + animLayer_.visible());
                     animLayer_.add(sprite.layer());
                     numLoaded_++;
+                    if (hasLoaded())
+                        set(currentTipoMosquito_);
                 }
 
                 @Override
@@ -106,33 +107,85 @@ public class MosquitoSpriter extends CompositeSpriter {
                 }
             });
         }
+
+        // Error check of internal structures - ifndef NDEBUG
+        int n = TipoCoco.values().length;
+        boolean[] hasState = new boolean[n];
+        for (int i = 0; i < vc.size(); ++i) {
+            hasState[vc.get(i).ordinal()] = true;
+        }
+        for (int i = 0; i < n; ++i) {
+            if (!hasState[i]) {
+                dprint("Warning: sprite file not specified for state " + TipoCoco.values()[i]);
+                dprint("         make sure this is rendered some other way");
+            }
+        }
     }
 
     void set(VisibleCondition s) {
+        currentTipoMosquito_ = s;
+        pprint("[mosquito] TipoMosquito " + s);
+
+        if (!hasLoaded())
+            return;
+
         Sprite newSprite = animMap_.get(s);
 
         if (newSprite == null) {
             pprint("[mosquitospriter.set] Warning: no direct anim for requested visibleCondition " + s);
-            pprint("[mosquitospriter.set] Warning: assuming without mosquito." + s);
+            pprint("[mosquitospriter.set] Warning: assuming without mosquito.");
         }
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);
 
-        currentVisibleCondition = s;
+        traversed_ = false;
+        // switch currentAnim to next anim
+        spriteIndex_ = 0;
 
-        setCurrentSprite(newSprite, 2f);
+        currentSprite_ = newSprite;
+        animLayer_.setSize(currentSprite_.maxWidth(), currentSprite_.maxHeight()); // where to clip the animations in this composite spritey
+        animLayer_.setScale(1.3f); // change the scale of the sprite for testing
+        animLayer_.setOrigin(animLayer_.width() / 2f, animLayer_.height() / 2f);
+        currentSprite_.layer().setVisible(true);
     }
+
+    /**
+     * Flips horizontally
+     */
+    public void flipLeft() {
+        currentSprite_.layer().setScaleX(-1);
+        currentSprite_.layer().setTx(currentSprite_.width());
+    }
+
+    public void flipRight() {
+        currentSprite_.layer().setScaleX(1);
+        currentSprite_.layer().setTx(0);
+    }
+
 
     @Override
     public void set(int i) {
+        assert i < images.size() : "[mosquito] wrong index\n";
         set(VisibleCondition.values()[i]);
     }
 
     @Override
     public void update(int delta) {
         super.update(delta);
-        if (hasLoaded())
+        if (hasLoaded()) {
             dprint("[mosquitoSpriter] currentVisibleCondition_: " + currentVisibleCondition_);
+            dprint("[mosquito] currentTipoMosquito_: " + currentTipoMosquito_);
+            dprint("[mosquito] initial-spriteIndex_: " + spriteIndex_);
+            dprint("[mosquito] initial-currentSprite_.numSprites(): " + currentSprite_.numSprites());
+            spriteIndex_ = (spriteIndex_ + 1) % currentSprite_.numSprites();
+            currentSprite_.setSprite(spriteIndex_);
+            // currentSprite_.layer().setRotation(angle);
+            if (spriteIndex_ == currentSprite_.numSprites() - 1) {
+                traversed_ = true;
+            }
+            dprint("[mosquito] spriteIndex_: " + spriteIndex_ +
+                   " currentSprite_.numSprites(): " + currentSprite_.numSprites());
+        }
     }
 }
