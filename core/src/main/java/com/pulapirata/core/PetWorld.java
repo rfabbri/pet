@@ -49,7 +49,6 @@ class PetWorld extends World {
     private final   Randoms rando_ = Randoms.with(new Random());
     private boolean attributesLoaded_ = false;
     private boolean triggersLoaded_ = false;
-    private boolean mosquitosWired_ = false;
     private Triggers triggers_;
     public Triggers triggers()  { return triggers_; }
 
