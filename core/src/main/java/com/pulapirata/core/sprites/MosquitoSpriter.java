@@ -10,8 +10,8 @@ import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
 import static playn.core.PlayN.log;
-import com.pulapirata.core.PetAttributes.TipoCoco;
-import static com.pulapirata.core.PetAttributes.TipoCoco.*;
+import com.pulapirata.core.PetAttributes.VisibleCondition;
+import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -41,6 +41,11 @@ public class MosquitoSpriter extends CompositeSpriter {
                 COM_MOSQUITO,
                 COM_STINKY_MOSQUITO
         ));
+
+    @Override
+    public boolean hasLoaded() {
+        return numLoaded_ == jsons.size();
+    }
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
@@ -103,14 +108,14 @@ public class MosquitoSpriter extends CompositeSpriter {
         }
 
         // Error check of internal structures - ifndef NDEBUG
-        int n = TipoCoco.values().length;
+        int n = VisibleCondition.values().length;
         boolean[] hasState = new boolean[n];
         for (int i = 0; i < vc.size(); ++i) {
             hasState[vc.get(i).ordinal()] = true;
         }
         for (int i = 0; i < n; ++i) {
             if (!hasState[i]) {
-                dprint("Warning: sprite file not specified for state " + TipoCoco.values()[i]);
+                dprint("Warning: sprite file not specified for state " + VisibleCondition.values()[i]);
                 dprint("         make sure this is rendered some other way");
             }
         }

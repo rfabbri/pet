@@ -90,6 +90,10 @@ public class PetSpriter extends CompositeSpriter {
     //        NORMAL_COM_VOMITO,
     //        BEBADO_VOMITANDO,
 
+    @Override
+    public boolean hasLoaded() {
+        return numLoaded_ == jsons.size();
+    }
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer

@@ -29,6 +29,7 @@ import com.pulapirata.core.Triggers;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
 import com.pulapirata.core.sprites.DroppingSpriter;
+import com.pulapirata.core.sprites.MosquitoSpriter;
 import static com.pulapirata.core.utils.Puts.*;
 
 

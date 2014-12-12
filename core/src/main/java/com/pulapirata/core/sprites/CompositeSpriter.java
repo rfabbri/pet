@@ -1,5 +1,10 @@
 package com.pulapirata.core.sprites;
 
+import react.Slot;
+import playn.core.PlayN;
+import playn.core.GroupLayer;
+import static com.pulapirata.core.utils.Puts.*;
+
 /**
  * A base class for classes managing a composite sprite.
  * It consists of a series of indexed sprite animations (many flipbook anim sequences
@@ -13,6 +18,7 @@ public abstract class CompositeSpriter extends Spriter {
     protected boolean traversed_ = false;
     protected GroupLayer.Clipped animLayer_ = PlayN.graphics().createGroupLayer(0, 0);
 
+    @Override
     public void update(int delta) {
         if (hasLoaded()) {
             dprint( "[compositeSpriter] loaded & being updated.");
@@ -52,7 +58,6 @@ public abstract class CompositeSpriter extends Spriter {
     /**
      * Return the current animation sprite {@link ImageLayer}.
      */
-    @Override
     public GroupLayer.Clipped layer() {
         return animLayer_;
     }
@@ -71,11 +76,6 @@ public abstract class CompositeSpriter extends Spriter {
         };
     }
 
-    @Override
-    public boolean hasLoaded() {
-        return numLoaded_ == jsons.size();
-    }
-
     private boolean traversed(){
        return traversed_;
     }
@@ -83,6 +83,7 @@ public abstract class CompositeSpriter extends Spriter {
     /**
      * The radius of the bounding sphere to the present sprite frame
      */
+    @Override
     public float boundingRadius() {
         return (float) Math.sqrt(
                 animLayer_.width()*animLayer_.width() +
