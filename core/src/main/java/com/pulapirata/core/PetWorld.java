@@ -300,8 +300,8 @@ class PetWorld extends World {
                     sprite_.get(eid).update(delta);
 
                 if (type_.get(eid) == MOSQUITOS) {
-                    Vector v = new Vector(pos.getX(mainID_) - pos_.getX(eid),
-                                          pos.getY(mainID_) - pos_.getY(eid));
+                    Vector v = new Vector(pos_.getX(mainID_) - pos_.getX(eid),
+                                          pos_.getY(mainID_) - pos_.getY(eid));
                     v.normalizeLocal().scaleLocal(MOSQUITO_VELOCITY);
                     MosquitoSpriter ms = (MosquitoSpriter) sprite_.get(eid);
                     if (v.x > 0)
