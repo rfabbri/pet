@@ -152,7 +152,6 @@ public class DroppingSpriter extends Spriter {
         currentSprite_.layer().setVisible(true);
     }
 
-
     /**
      * Flips horizontally
      */

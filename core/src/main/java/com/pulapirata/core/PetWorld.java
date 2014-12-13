@@ -29,6 +29,7 @@ import com.pulapirata.core.Triggers;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
 import com.pulapirata.core.sprites.DroppingSpriter;
+import com.pulapirata.core.sprites.MosquitoSpriter;
 import static com.pulapirata.core.utils.Puts.*;
 
 
@@ -58,9 +59,7 @@ class PetWorld extends World {
     public static final int PET       = (1 << 0);
     public static final int DROPPING  = (1 << 1);
     public static final int VOMIT     = (1 << 2);
-    public static final int DIARRHEA  = (1 << 3);
     public static final int MOSQUITOS = (1 << 4);
-    public static final int STINKY_MOSQUITOS = (1 << 5);
 
     /*-------------------------------------------------------------------------------*/
     /**
@@ -83,11 +82,15 @@ class PetWorld extends World {
     // public final PetAtlas atlas_;  // shared atlas amongst all sprites
     protected PetAttributes mainPet_;  // direct handle on the attributes of the main pet
     public int mainID_ = -1;
+    public int mainMosquitoID_ = -1;
 
     public PetAttributes mainPet() { return mainPet_; }
 
     // prototypical poop
     public DroppingSpriter droppingSpriter_ = new DroppingSpriter();
+
+    // overlay: mosquito
+    public MosquitoSpriter mosquitoSpriter_ = new MosquitoSpriter();
 
 
     /*-------------------------------------------------------------------------------*/
@@ -217,9 +220,7 @@ class PetWorld extends World {
         case PET: return "pet";
         case DROPPING: return "dropping";
         case VOMIT: return "vomit";
-        case DIARRHEA: return "diarrhea";
         case MOSQUITOS: return "mosquitos";
-        case STINKY_MOSQUITOS: return "stinky_mosquitos";
         default: return "unknown:" + type_.get(id);
         }
     }
@@ -243,7 +244,11 @@ class PetWorld extends World {
                 opos_.set(eid, p);  // copy clamped pos to opos
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
 
-                dprint("[mover] velocidade scaled " + v);
+                if (type_.get(eid) == MOSQUITOS) {
+                    pprint("[mover] velocidade scaled " + v);
+                    pprint("[mover] point " + p);
+                    pprint("[mover] new point " + p.x + v.x + ", " +  p.y + v.y);
+                }
                 pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
             }
         }
@@ -273,6 +278,8 @@ class PetWorld extends World {
 
     /** Updates sprite layers to interpolated position of entities on each paint() call */
     public final System spriteMover = new System(this, 0) {
+        public static final float MOSQUITO_VELOCITY = 0.06f;  // pixels per update
+
         @Override protected void paint (Clock clock, Entities entities) {
             float alpha = clock.alpha();
             Point op = innerOldPos_, p = innerPos_;
@@ -295,6 +302,22 @@ class PetWorld extends World {
                     return;
                 if (loaded_.get(eid) == LOADED)
                     sprite_.get(eid).update(delta);
+
+                if (type_.get(eid) == MOSQUITOS) {
+                    Vector v = new Vector(pos_.getX(mainID_) - pos_.getX(eid),
+                                          pos_.getY(mainID_)-25 - pos_.getY(eid));
+                    if (Math.abs(v.x) < 1e-1f && Math.abs(v.y) < 1e-1f)
+                        v.x = v.y = 0f;
+                    else
+                        v.normalizeLocal().scaleLocal(MOSQUITO_VELOCITY);
+                    MosquitoSpriter ms = (MosquitoSpriter) sprite_.get(eid);
+                    if (v.x > 1e-5)
+                        ms.flipLeft();
+                    else
+                        ms.flipRight();
+                    vel_.set(eid, v);
+                    pprint("[mosquito] setando velocidade " + v);
+                }
             }
         }
 
@@ -583,8 +606,6 @@ class PetWorld extends World {
 
         protected static final int PET_DROPPING = PET|DROPPING;
         protected static final int PET_VOMIT = PET|VOMIT;
-        protected static final int PET_DIARRHEA = PET|DIARRHEA;
-
         protected final Point p1_ = new Point(), p2_ = new Point();
     };
 
@@ -606,7 +627,7 @@ class PetWorld extends World {
         }
     };
 
-    // handles object operation that have to done after their assets load
+    // handles object operation that have to be done after their assets load
     public final System assetHooker = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
@@ -631,6 +652,15 @@ class PetWorld extends World {
                                 loaded_.set(eid, LOADED);
                             }
                             break;
+                        case MOSQUITOS:
+                            if (attributesLoaded_ && sprite_.get(eid).hasLoaded()) {
+                                MosquitoSpriter ms = (MosquitoSpriter) sprite_.get(eid);
+                                mainPet_.vis().connect(ms.slot());    // links mosquito sprite to pet visual condition
+                                radius_.set(eid, ms.boundingRadius());
+                                pos_.set(eid, pos_.getX(mainID_),
+                                        pos_.getY(mainID_)+2*radius_.get(mainID_));
+                                loaded_.set(eid, LOADED);
+                            }
                         default: break; // nada
                     }
                 }
@@ -664,7 +694,30 @@ class PetWorld extends World {
                                             // we'd alocate them contiguously
         sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
+        // create overlays, invisible at first
+        createMosquitos(x, y-25);
         return pet;
+    }
+
+    protected Entity createMosquitos(float x, float y) {
+        Entity m = create(true);
+        m.add(type_, sprite_, opos_, pos_, vel_, radius_, expires_, loaded_);
+
+        int id = m.id;
+        type_.set(id, MOSQUITOS);
+        opos_.set(id, x, y);
+        pos_.set(id, x, y);
+        vel_.set(id, 0, 0);
+        expires_.set(id, beatsMaxIdade_);
+        loaded_.set(id, NOT_LOADED);
+
+        // read imgLayer / sprite loader
+        MosquitoSpriter ms = new MosquitoSpriter();   // the spriteLinker system links it to layer_
+                                            // note: if many pets were available,
+                                            // we'd alocate them contiguously
+        sprite_.set(id, ms);      // also queues sprite to be added by other systems on wasAdded()
+
+        return m;
     }
 
     /**
@@ -678,6 +731,7 @@ class PetWorld extends World {
         type_.set(id, DROPPING);
         opos_.set(id, x, y);
         pos_.set(id, x, y);
+        vel_.set(id, 0, 0);
         expires_.set(id, beat_ + (int)(3*beatsCoelhoHora_));   // the dropping can automatically expire after some time..
         loaded_.set(id, NOT_LOADED);
 
