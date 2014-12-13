@@ -343,78 +343,115 @@ public class Pet extends Game.Default {
 
             final ArrayList<Image> imgButtSolto =
                 new ArrayList<Image>(Arrays.asList(
-                    assets().getImage("pet/main-buttons/01_comida_principal.png"),
-                    assets().getImage("pet/main-buttons/02_diversao_principal.png"),
-                    assets().getImage("pet/main-buttons/03_social_principal.png"),
-                    assets().getImage("pet/main-buttons/04_higiene_principal.png"),
-                    assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
-                    assets().getImage("pet/main-buttons/06_saude_principal.png"),
-                    assets().getImage("pet/main-buttons/07_lazer_principal.png"),
-                    assets().getImage("pet/main-buttons/08_disciplina_principal.png")
+                        assets().getImage("pet/main-buttons/01_comer_principal.png"),
+                        assets().getImage("pet/main-buttons/02_brincar_principal.png"),
+                        assets().getImage("pet/main-buttons/03_socializar_principal.png"),
+                        assets().getImage("pet/main-buttons/04_higienizar_principal.png"),
+                        assets().getImage("pet/main-buttons/05_desestressar_principal.png"),
+                        assets().getImage("pet/main-buttons/06_sair_principal.png"),
+                        assets().getImage("pet/main-buttons/07_cuidar_principal.png"),
+                        assets().getImage("pet/main-buttons/08_disciplinar_principal.png")
+//                    assets().getImage("pet/main-buttons/01_comida_principal.png"),
+//                    assets().getImage("pet/main-buttons/02_diversao_principal.png"),
+//                    assets().getImage("pet/main-buttons/03_social_principal.png"),
+//                    assets().getImage("pet/main-buttons/04_higiene_principal.png"),
+//                    assets().getImage("pet/main-buttons/05_obrigacoes_principal.png"),
+//                    assets().getImage("pet/main-buttons/06_saude_principal.png"),
+//                    assets().getImage("pet/main-buttons/07_lazer_principal.png"),
+//                    assets().getImage("pet/main-buttons/08_disciplina_principal.png")
                     ));
 
             final ArrayList<Image> imgButtApertado =
                 new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
-                    assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
-                    assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
-                    assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
-                    assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
-                    assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
-                    assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
-                    assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
+                        assets().getImage("pet/main-buttons/01_comer_principal_apertado.png"),
+                        assets().getImage("pet/main-buttons/02_brincar_principal_apertado.png"),
+                        assets().getImage("pet/main-buttons/03_socializar_principal_apertado.png"),
+                        assets().getImage("pet/main-buttons/04_higienizar_principal_apertado.png"),
+                        assets().getImage("pet/main-buttons/05_desestressar_principal_apertado.png"),
+                        assets().getImage("pet/main-buttons/06_sair_principal_apertado.png"),
+                        assets().getImage("pet/main-buttons/07_cuidar_principal_apertado.png"),
+                        assets().getImage("pet/main-buttons/08_disciplinar_principal_apertado.png")
+//                    assets().getImage("pet/main-buttons/01_comida_principal_apertado.png"),
+//                    assets().getImage("pet/main-buttons/02_diversao_principal_apertado.png"),
+//                    assets().getImage("pet/main-buttons/03_social_principal_apertado.png"),
+//                    assets().getImage("pet/main-buttons/04_higiene_principal_apertado.png"),
+//                    assets().getImage("pet/main-buttons/05_obrigacoes_principal_apertado.png"),
+//                    assets().getImage("pet/main-buttons/06_saude_principal_apertado.png"),
+//                    assets().getImage("pet/main-buttons/07_lazer_principal_apertado.png"),
+//                    assets().getImage("pet/main-buttons/08_disciplina_principal_apertado.png")
                     ));
 
             ArrayList< ArrayList<Image> > s_imgButtSecondary = new ArrayList< ArrayList<Image> > (0);
 
             s_imgButtSecondary.add(
                 new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/011_comida.png"),
-                    assets().getImage("pet/main-buttons/012_comida.png"),
-                    assets().getImage("pet/main-buttons/013_comida.png"),
-                    assets().getImage("pet/main-buttons/014_comida.png")
-                    )));
-
-            s_imgButtSecondary.add(
-                new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/021_diversao.png"),
-                    assets().getImage("pet/main-buttons/022_diversao.png"),
-                    assets().getImage("pet/main-buttons/023_diversao.png"),
-                    assets().getImage("pet/main-buttons/024_diversao.png")
-                    )));
-
-            s_imgButtSecondary.add(
-                new ArrayList<Image> (0)
-                );
-
-            s_imgButtSecondary.add(
-                new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/041_higiene.png"),
-                    assets().getImage("pet/main-buttons/042_higiene.png"),
-                    assets().getImage("pet/main-buttons/043_higiene.png"),
-                    assets().getImage("pet/main-buttons/044_higiene.png")
+                    assets().getImage("pet/main-buttons/011_leite.png"),
+                    assets().getImage("pet/main-buttons/012_sopa_de_bacon.png"),
+                    assets().getImage("pet/main-buttons/013_sopa_de_cenoura.png"),
+                    assets().getImage("pet/main-buttons/014_pizza.png"),
+                    assets().getImage("pet/main-buttons/015_salada_com_legumes.png"),
+                    assets().getImage("pet/main-buttons/016_chocolate.png"),
+                    assets().getImage("pet/main-buttons/017_agua.png"),
+                    assets().getImage("pet/main-buttons/018_cafe.png")
                     )));
             s_imgButtSecondary.add(
                 new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/051_obrigacoes.png"),
-                    assets().getImage("pet/main-buttons/052_obrigacoes.png")
+                    assets().getImage("pet/main-buttons/021_bola.png"),
+                    assets().getImage("pet/main-buttons/022_tv.png"),
+                    assets().getImage("pet/main-buttons/023_livro.png"),
+                    assets().getImage("pet/main-buttons/024_anime.png"),
+                    assets().getImage("pet/main-buttons/025_quadrinhos.png"),
+                    assets().getImage("pet/main-buttons/026_video_game.png"),
+                    assets().getImage("pet/main-buttons/027_cineprive.png"),
+                    assets().getImage("pet/main-buttons/028_livro2.png")
                     )));
             s_imgButtSecondary.add(
                 new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/061_saude.png"),
-                    assets().getImage("pet/main-buttons/062_saude.png")
+                    assets().getImage("pet/main-buttons/031_ligar_amigo.png"),
+                    assets().getImage("pet/main-buttons/032_convidar_colega.png"),
+                    assets().getImage("pet/main-buttons/033_rpg.png"),
+                    assets().getImage("pet/main-buttons/034_redesocial.png"),
+                    assets().getImage("pet/main-buttons/035_fazer_festa.png"),
+                    assets().getImage("pet/main-buttons/036_booty_call.png")
                     )));
             s_imgButtSecondary.add(
                 new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/071_lazer.png"), // licor
-                    assets().getImage("pet/main-buttons/072_lazer.png")
+                    assets().getImage("pet/main-buttons/041_escovar_os_dentes.png"),
+                    assets().getImage("pet/main-buttons/042_tomar_banho.png"),
+                    assets().getImage("pet/main-buttons/043_varrer.png"),
+                    assets().getImage("pet/main-buttons/044_passar_perfume.png")
                     )));
             s_imgButtSecondary.add(
                 new ArrayList<Image> (Arrays.asList(
-                    assets().getImage("pet/main-buttons/081_disciplina.png"),
-                    assets().getImage("pet/main-buttons/082_disciplina.png"),
-                    assets().getImage("pet/main-buttons/083_disciplina.png"),
-                    assets().getImage("pet/main-buttons/084_disciplina.png")
+                    assets().getImage("pet/main-buttons/051_melzinho_na_chupeta.png"),
+                    assets().getImage("pet/main-buttons/052_bombom_de_licor.png"),
+                    assets().getImage("pet/main-buttons/052_cerveja.png"),
+                    assets().getImage("pet/main-buttons/053_suco_de_macaco.png"),
+                    assets().getImage("pet/main-buttons/055_cigarro.png")
+                    )));
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/061_para_escola.png"),
+                    assets().getImage("pet/main-buttons/062_para_o_trabalho.png"),
+                    assets().getImage("pet/main-buttons/063_para_o_parque.png"),
+                    assets().getImage("pet/main-buttons/064_para_o_bar.png"),
+                    assets().getImage("pet/main-buttons/065_para_a_igreja.png")
+                    )));
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/071_curativo.png"),
+                    assets().getImage("pet/main-buttons/072_remedio.png"),
+                    assets().getImage("pet/main-buttons/073_glicose.png"),
+                    assets().getImage("pet/main-buttons/074_vacina.png"),
+                    assets().getImage("pet/main-buttons/075_viagra.png")
+                    )));
+            s_imgButtSecondary.add(
+                new ArrayList<Image> (Arrays.asList(
+                    assets().getImage("pet/main-buttons/081_fazer_tarefa.png"),
+                    assets().getImage("pet/main-buttons/082_com_sermao.png"),
+                    assets().getImage("pet/main-buttons/083_com_castigo.png"),
+                    assets().getImage("pet/main-buttons/084_com_chinelada.png"),
+                    assets().getImage("pet/main-buttons/085_com_chicotada.png")
                     )));
 
             final ArrayList< ArrayList<Image> > imgButtSecondary = s_imgButtSecondary;
@@ -439,6 +476,53 @@ public class Pet extends Game.Default {
                 {240, 0},
                 {360, 0},
             };
+
+            /** Triggers for each secondary button */
+            final ArrayList<TriggerType> vc =
+                new ArrayList<TriggerType>(Arrays.asList(
+                        SOPA_DE_CENOURA,
+                        SOPA_DE_BACON,
+                        SALADA_COM_LEGUMES,
+                        CHOCOLATE,
+                        PIZZA,
+                        AGUA,
+                        LEITE,
+                        BOLA,
+                        QUADRINHOS,
+                        LIVRO,
+                        VIDEOGAME,
+                        TV,
+                        ANIME,
+                        CINE_PRIVE,
+                        DESENHAR,
+                        LIGAR_PARA_AMIGO,
+                        CONVIDAR_COLEGA,
+                        REDE_SOCIAL,
+                        FAZER_FESTA,
+                        JOGAR_RPG,
+                        BOOTY_CALL,
+                        TOMAR_BANHO,
+                        ESCOVAR_DENTES,
+                        VARRER,
+                        PASSAR_PERFUME,
+                        PINGUINHA_NA_CHUPETA,
+                        BOMBOM_DE_LICOR,
+                        CERVEJA,
+                        SUCO_DE_MACACO,
+                        CIGARRO,
+                        MASTURBAR,
+                        SAIR_PARA_ESCOLA,
+                        SAIR_PARA_PARQUE,
+                        SAIR_PARA_IGREJA,
+                        DAR_GLICOSE,
+                        REMEDIO,
+                        CURATIVO,
+                        CHINELADA,
+                        ESTUDAR,
+                        GRITAR,
+                        CASTIGAR,
+                        CHICOTEAR
+                ));
             /*-------------------------------------------------------------------------------*/
 
             numMainButts_ = imgButtSolto.size();
