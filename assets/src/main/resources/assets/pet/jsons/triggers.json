@@ -166,5 +166,5 @@
     {"name": "Chicotear", "action": "LEVANDO_CHICOTADA", "duration": 10, "comment" : "-10 vida por chicotada e 3 sangue por chicotada",
              "Modifiers": [{ "nutricao": -20, "humor": -80, "social": -60, "higiene": -20, "estudo": 0, "saude": -20, "alcool": 0, "disciplina": 60, "vida": -10, "sexualidade": 0, "fe": 0, "intestino": 0, "sangue": 3 }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
-    
+    }
 ]}
