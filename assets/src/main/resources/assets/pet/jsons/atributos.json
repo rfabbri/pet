@@ -1,6 +1,6 @@
 {
   "Attributes": [
-    {"name": "Nutricao", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.25, "comment": "passiveBeats = 1/4 coelhoHora",
+    {"name": "Nutricao", "startValue": 30, "min": -20, "max": 100, "passive": -1, "passiveBeats": 0.05, "comment": "passiveBeats = 1/4 coelhoHora",
       "States": [
         {"name": "faminto", "min": -20, "max": -1},
         {"name": "muita fome", "min": 0, "max": 20},
@@ -10,7 +10,7 @@
         {"name": "lotado", "min": 81, "max": 100}
       ]
     },
-    {"name": "Humor", "startValue":  30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.333333, "comment": "passiveBeats = 1/3",
+    {"name": "Humor", "startValue":  30, "min": -20, "max": 100, "passive": -1, "passiveBeats": 0.07, "comment": "passiveBeats = 1/3",
       "States": [
         {"name": "bravo", "min": -20, "max": -1},
         {"name": "irritado", "min": 0, "max": 20},
@@ -20,7 +20,7 @@
         {"name": "muito alegre", "min": 81, "max": 100}
       ]
     },
-    {"name": "Social", "startValue": 0, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.666666, "comment": "passiveBeats = 2/3",
+    {"name": "Social", "startValue": 0, "min": -20, "max": 100, "passive": -1, "passiveBeats": 0.14, "comment": "passiveBeats = 2/3",
       "States": [
         {"name": "depressao", "min": -20, "max": -1},
         {"name": "sozinho", "min": 0, "max": 20},
@@ -30,7 +30,7 @@
         {"name": "superstar", "min": 81, "max": 100}
       ]
     },
-    {"name": "Higiene", "startValue": 30, "min": -20, "max": 100, "passive": -5, "passiveBeats": 0.5,
+    {"name": "Higiene", "startValue": 30, "min": -20, "max": 100, "passive": -1, "passiveBeats": 0.1,
       "States": [
         {"name": "imundo", "min": -20, "max": -1},
         {"name": "muito sujo", "min": 0, "max": 20},
@@ -39,7 +39,7 @@
         {"name": "muito limpo", "min": 81, "max": 100}
       ]
     },
-    {"name": "Estudo", "startValue": 30, "min": -20, "max": 100, "passive": -10, "passiveBeats": 24, "comment": "passiveBeats = 1/24",
+    {"name": "Estudo", "startValue": 30, "min": -20, "max": 100, "passive": -1, "passiveBeats": 6.0, "comment": "passiveBeats = 1/24",
       "States": [
         {"name": "expulso", "min": -20, "max": -1},
         {"name": "reprovado", "min": 0, "max": 20},
@@ -49,7 +49,7 @@
         {"name": "melhor da sala", "min": 81, "max": 100}
       ]
     },
-    {"name": "Saude", "startValue": 100, "min": -21, "max": 100, "passive": -10, "passiveBeats": 24.0,
+    {"name": "Saude", "startValue": 100, "min": -21, "max": 100, "passive": -1, "passiveBeats": 6.0,
       "States": [
 		{"name": "morto_doente", "min": -21, "max": -21},
         {"name": "doente terminal", "min": -20, "max": -1},
@@ -71,7 +71,7 @@
         {"name": "maquina disciplinar", "min": 81, "max": 100}
       ]
     },
-    {"name": "Alcool", "startValue": 50, "min": -20, "max": 100, "passive": -10, "passiveBeats": 1.0,
+    {"name": "Alcool", "startValue": 50, "min": -20, "max": 100, "passive": -1, "passiveBeats": 0.02,
       "States": [
         {"name": "sobrio", "min": -20, "max": 20},
         {"name": "tonto", "min": 21, "max": 40},
@@ -80,7 +80,7 @@
         {"name": "coma alcoolico", "min": 95, "max": 100}
       ]
     },
-    {"name": "Vida", "startValue": 100, "min": -20, "max": 100, "passive": 10, "passiveBeats": 1.0,
+    {"name": "Vida", "startValue": 100, "min": -20, "max": 100, "passive": 1, "passiveBeats": 0.1,
         "States": [
           {"name": "coma", "min": -20, "max": -1},
           {"name": "dilacerado", "min": 0, "max": 20},
@@ -108,6 +108,6 @@
         ]
     },
     {"name": "Dinheiro", "startValue": 5, "min": 0, "max": 100, "passive": 0, "passiveBeats": 0.0},
-    {"name": "Intestino", "startValue": 30, "comment originally": 3, "min": 0, "max": 1000000, "passive": 0, "passiveBeats": 0.0}
+    {"name": "Intestino", "startValue": 3, "comment originally": 3, "min": 0, "max": 1000000, "passive": 0, "passiveBeats": 0.0}
   ]
 }
