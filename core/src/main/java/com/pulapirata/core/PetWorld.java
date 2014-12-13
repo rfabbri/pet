@@ -244,7 +244,11 @@ class PetWorld extends World {
                 opos_.set(eid, p);  // copy clamped pos to opos
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
 
-                dprint("[mover] velocidade scaled " + v);
+                if (type_.get(eid) == MOSQUITOS) {
+                    pprint("[mover] velocidade scaled " + v);
+                    pprint("[mover] point " + p);
+                    pprint("[mover] new point " + p.x + v.x + ", " +  p.y + v.y);
+                }
                 pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
             }
         }
@@ -274,7 +278,7 @@ class PetWorld extends World {
 
     /** Updates sprite layers to interpolated position of entities on each paint() call */
     public final System spriteMover = new System(this, 0) {
-        public static final float MOSQUITO_VELOCITY = 0.5f;  // pixels per update
+        public static final float MOSQUITO_VELOCITY = 0.06f;  // pixels per update
 
         @Override protected void paint (Clock clock, Entities entities) {
             float alpha = clock.alpha();
@@ -301,15 +305,18 @@ class PetWorld extends World {
 
                 if (type_.get(eid) == MOSQUITOS) {
                     Vector v = new Vector(pos_.getX(mainID_) - pos_.getX(eid),
-                                          pos_.getY(mainID_) - pos_.getY(eid));
-                    v.normalizeLocal().scaleLocal(MOSQUITO_VELOCITY);
+                                          pos_.getY(mainID_)-25 - pos_.getY(eid));
+                    if (Math.abs(v.x) < 1e-1f && Math.abs(v.y) < 1e-1f)
+                        v.x = v.y = 0f;
+                    else
+                        v.normalizeLocal().scaleLocal(MOSQUITO_VELOCITY);
                     MosquitoSpriter ms = (MosquitoSpriter) sprite_.get(eid);
-                    if (v.x > 0)
+                    if (v.x > 1e-5)
                         ms.flipLeft();
                     else
                         ms.flipRight();
                     vel_.set(eid, v);
-                    dprint("[mosquito] setando velocidade " + v);
+                    pprint("[mosquito] setando velocidade " + v);
                 }
             }
         }
@@ -688,14 +695,13 @@ class PetWorld extends World {
         sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
         // create overlays, invisible at first
-        createMosquitos(x,y);
-
+        createMosquitos(x, y-25);
         return pet;
     }
 
     protected Entity createMosquitos(float x, float y) {
         Entity m = create(true);
-        m.add(type_, sprite_, opos_, pos_, vel_, radius_, expires_);
+        m.add(type_, sprite_, opos_, pos_, vel_, radius_, expires_, loaded_);
 
         int id = m.id;
         type_.set(id, MOSQUITOS);

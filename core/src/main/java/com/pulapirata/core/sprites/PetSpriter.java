@@ -204,6 +204,7 @@ public class PetSpriter extends CompositeSpriter {
 
         currentVisibleCondition_ = s;
         setCurrentSprite(newSprite, 2f);
+//         currentSprite_.layer().setVisible(false); // XXX
     }
 
     @Override

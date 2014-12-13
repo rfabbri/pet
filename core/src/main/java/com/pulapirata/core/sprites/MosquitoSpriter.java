@@ -33,7 +33,7 @@ public class MosquitoSpriter extends CompositeSpriter {
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
                 "pingo_bebe_sujo_v2.json",
-                "pingo_bebe_muito_sujo_v2.png"
+                "pingo_bebe_muito_sujo_v2.json"
         ));
 
     private final ArrayList<VisibleCondition> vc =
@@ -122,8 +122,7 @@ public class MosquitoSpriter extends CompositeSpriter {
     }
 
     void set(VisibleCondition s) {
-        currentTipoMosquito_ = s;
-        pprint("[mosquito] TipoMosquito " + s);
+        pprint("[mosquito] Requested TipoMosquito " + s);
 
         if (!hasLoaded())
             return;
@@ -131,19 +130,21 @@ public class MosquitoSpriter extends CompositeSpriter {
         Sprite newSprite = animMap_.get(s);
 
         if (newSprite == null) {
-            pprint("[mosquitospriter.set] Warning: no direct anim for requested visibleCondition " + s);
-            pprint("[mosquitospriter.set] Warning: assuming without mosquito.");
+            pprint("[mosquitospriter.set] Requested visibleCondition " + s);
+            pprint("[mosquitospriter.set] assuming without mosquito.");
+            currentSprite_.layer().setVisible(false);
+            return;
         }
+        currentTipoMosquito_ = s;
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);
 
-        super.setCurrentSprite(newSprite, 1.3f);
+        super.setCurrentSprite(newSprite, 1.7f);
     }
 
     @Override
     public void set(int i) {
-        assert i < images.size() : "[mosquito] wrong index\n";
         set(VisibleCondition.values()[i]);
     }
 

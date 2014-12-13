@@ -49,8 +49,8 @@ public class PetAttributes {
      */
     public enum VisibleCondition {
         IGNORE,        // lowest prio - will usually be overriden by higher prio
-        COM_MOSQUITO,  // colocando mais baixa prioridade por hora, pra ignorar esta anim
-        COM_STINKY_MOSQUITO, // colocando mais baixa prioridade por hora, pra ignorar esta anim
+//        COM_MOSQUITO,  // colocando mais baixa prioridade por hora, pra ignorar esta anim
+//        COM_STINKY_MOSQUITO, // colocando mais baixa prioridade por hora, pra ignorar esta anim
         NORMAL,
         TRISTE,
         CHORANDO,
@@ -75,8 +75,8 @@ public class PetAttributes {
         COMA,
         COMA_ALCOOLICO,
         MORTO,
-        //        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
-        //        COM_STINKY_MOSQUITO,
+        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
+        COM_STINKY_MOSQUITO,
 		INVISIBLE,
         UNDETERMINED
     }
@@ -580,8 +580,8 @@ public class PetAttributes {
     public void print() {
         for (String key : m_.keySet())
             m_.get(key).print();
-         for (String key : ms_.keySet())
-            ms_.get(key).print();
+//         for (String key : ms_.keySet())
+//            ms_.get(key).print();
         pprint("        action: " + sAction().getState());
     }
 
