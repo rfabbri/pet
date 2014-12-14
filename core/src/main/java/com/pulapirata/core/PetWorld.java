@@ -244,11 +244,13 @@ class PetWorld extends World {
                 opos_.set(eid, p);  // copy clamped pos to opos
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
 
+                /*
                 if (type_.get(eid) == MOSQUITOS) {
-                    pprint("[mover] velocidade scaled " + v);
-                    pprint("[mover] point " + p);
-                    pprint("[mover] new point " + p.x + v.x + ", " +  p.y + v.y);
+                    dprint("[mover] velocidade scaled " + v);
+                    dprint("[mover] point " + p);
+                    dprint("[mover] new point " + p.x + v.x + ", " +  p.y + v.y);
                 }
+                */
                 pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
             }
         }
@@ -316,7 +318,7 @@ class PetWorld extends World {
                     else
                         ms.flipRight();
                     vel_.set(eid, v);
-                    pprint("[mosquito] setando velocidade " + v);
+                    dprint("[mosquito] setando velocidade " + v);
                 }
             }
         }
@@ -442,7 +444,7 @@ class PetWorld extends World {
                 if (loaded_.get(eid) == LOADED) {
 
                     if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
-                        pprint("[poo] cagando");
+                        dprint("[poo] cagando");
                         // taka.. err.. dump
 
                         // - create a new sprite
@@ -452,7 +454,7 @@ class PetWorld extends World {
                             // evacuate from intestine
                             pet_.get(eid).intestino().sub(1);
                             // create dropping on scenario
-                            pprint("[poo] tipo coco no intestino " + pet_.get(eid).sCoco().getState());
+                            dprint("[poo] tipo coco no intestino " + pet_.get(eid).sCoco().getState());
                             createDropping(
                                     pos_.getX(eid)+20, pos_.getY(eid)+5, pet_.get(eid).sCoco().getState());
                             // todo: set some sort of order? estimate offset from radius?

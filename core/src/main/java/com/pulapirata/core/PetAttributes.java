@@ -49,8 +49,8 @@ public class PetAttributes {
      */
     public enum VisibleCondition {
         IGNORE,        // lowest prio - will usually be overriden by higher prio
-        COM_MOSQUITO,  // colocando mais baixa prioridade por hora, pra ignorar esta anim
-        COM_STINKY_MOSQUITO, // colocando mais baixa prioridade por hora, pra ignorar esta anim
+//        COM_MOSQUITO,  // colocando mais baixa prioridade por hora, pra ignorar esta anim
+//        COM_STINKY_MOSQUITO, // colocando mais baixa prioridade por hora, pra ignorar esta anim
         NORMAL,
         TRISTE,
         CHORANDO,
@@ -75,8 +75,8 @@ public class PetAttributes {
         COMA,
         COMA_ALCOOLICO,
         MORTO,
-//        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
-//        COM_STINKY_MOSQUITO,
+        COM_MOSQUITO,  // tudo que comeca com COM_ eh overlay, administrado pelo petWorld.
+        COM_STINKY_MOSQUITO,
 		INVISIBLE,
         UNDETERMINED
     }
@@ -389,6 +389,7 @@ public class PetAttributes {
         a2vis_.put(ActionState.COMENDO, VisibleCondition.COMENDO);
         a2vis_.put(ActionState.LIMPANDO, VisibleCondition.VARRENDO);
         a2vis_.put(ActionState.GORFANDO, VisibleCondition.VOMITANDO);  // vomitando de vez em quando soltando vomito
+        a2vis_.put(ActionState.TOMANDO_BANHO, VisibleCondition.NORMAL);  // vomitando de vez em quando soltando vomito
 //        JOGANDO_BOLA, IGNORE
 //        JOGANDO_VIDEOGAME, IGNORE
 //        ASSITINDO_TV, IGNORE
