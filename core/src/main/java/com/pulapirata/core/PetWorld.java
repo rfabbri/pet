@@ -435,42 +435,39 @@ class PetWorld extends World {
     };
 
     /**
-     * Controls pet's pooping from time to time.
+     * Controls pet's crap load dropping from time to time.
      */
     public final System evacuator = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
-                int eid = entities.get(i);
-                if (loaded_.get(eid) == LOADED) {
+                if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
+                    dprint("[poo] cagando");
+                    int eid = entities.get(i);
+                    // taka.. err.. dump
 
-                    if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
-                        dprint("[poo] cagando");
-                        // taka.. err.. dump
+                    // - create a new sprite
+                    // - decrease intestine
 
-                        // - create a new sprite
-                        // - decrease intestine
-
-                        if (pet_.get(eid).intestino().val() > 0) {
-                            // evacuate from intestine
-                            pet_.get(eid).intestino().sub(1);
-                            // create dropping on scenario
-                            dprint("[poo] tipo coco no intestino " + pet_.get(eid).sCoco().getState());
-                            createDropping(
-                                    pos_.getX(eid)+20, pos_.getY(eid)+5, pet_.get(eid).sCoco().getState());
-                            // todo: set some sort of order? estimate offset from radius?
-                        }
+                    if (pet_.get(eid).intestino().val() > 0) {
+                        // evacuate from intestine
+                        pet_.get(eid).intestino().sub(1);
+                        // create dropping on scenario
+                        dprint("[poo] tipo coco no intestino " + pet_.get(eid).sCoco().getState());
+                        createDropping(
+                                pos_.getX(eid)+20, pos_.getY(eid)+5, pet_.get(eid).sCoco().getState());
+                        // todo: set some sort of order? estimate offset from radius?
                     }
                 }
             }
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return type_.get(entity.id) == PET && entity.has(loaded_);
+            return type_.get(entity.id) == PET && loaded_.get(entity.id) == LOADED;
         }
     };
 
-
-    /** Use keys to control pet. Like in minigames inside this game. Pet should
+    /**
+     * Use keys to control pet. Like in minigames inside this game. Pet should
      * automatically move and do something fun if no control is pressed. NOOP if
      * touchscreen or gamepad are available.
      */
@@ -645,6 +642,7 @@ class PetWorld extends World {
                                 // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
                                 radius_.set(eid, ps.boundingRadius());
                                 loaded_.set(eid, LOADED);
+                                entity(eid).didChange();
                             }
                             break;
                         case DROPPING:
@@ -652,6 +650,7 @@ class PetWorld extends World {
                                 DroppingSpriter ds = (DroppingSpriter) sprite_.get(eid);
                                 radius_.set(eid, ds.boundingRadius());
                                 loaded_.set(eid, LOADED);
+                                entity(eid).didChange();
                             }
                             break;
                         case MOSQUITOS:
@@ -662,6 +661,7 @@ class PetWorld extends World {
                                 pos_.set(eid, pos_.getX(mainID_),
                                         pos_.getY(mainID_)+2*radius_.get(mainID_));
                                 loaded_.set(eid, LOADED);
+                                entity(eid).didChange();
                             }
                         default: break; // nada
                     }
