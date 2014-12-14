@@ -23,6 +23,7 @@ import tripleplay.entity.World;
 import tripleplay.util.Randoms;
 
 import com.pulapirata.core.PetAttributes;
+import com.pulapirata.core.PetAttributes.State;
 import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.utils.TriggerLoader;
 import com.pulapirata.core.Triggers;
@@ -442,9 +443,9 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 /* drop a shitload */
+                int eid = entities.get(i);
                 if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
                     dprint("[poo] cagando");
-                    int eid = entities.get(i);
                     // taka.. err.. dump
 
                     // - create a new sprite
@@ -460,12 +461,13 @@ class PetWorld extends World {
                         // todo: set some sort of order? estimate offset from radius?
                     }
                 }
+                pprint("[poo] num droppings: " + numDroppings_);
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
-                if (numDroppings >= 10) {
-                    pprint("[poo] more than 10 droppings, warning - getting sick!");
-                    pet_.get(eid).sSaude().updateState(State.DOENTE);
+                if (numDroppings_ >= 5) {
+                    pprint("[poo] more than 5droppings, warning - getting sick!");
+                    pet_.get(eid).sSaude().updateStateDeep(State.DOENTE);
                 }
             }
         }
@@ -628,10 +630,12 @@ class PetWorld extends World {
             int now = beat_;
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (expires_.get(eid) <= now) world.entity(eid).destroy();
-                if (type.get(eid) == DROPPING) {
-                    numDroppings_--;
-                    assert numDroppings >= 0;
+                if (expires_.get(eid) <= now) {
+                    world.entity(eid).destroy();
+                    if (type_.get(eid) == DROPPING) {
+                        numDroppings_--;
+                        assert numDroppings_ >= 0;
+                    }
                 }
             }
         }

@@ -21,8 +21,8 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
     /**
      * Construct for a given {@link PetAttribute} att.
      *
-     * @param att      the image to be drawn
-     * @param states an array of PetAttributeState.State for that att
+     * @param att       the underlying numeric PetAttribute
+     * @param states    an array of PetAttributeState.State for that att
      * @param intervals an array boundaries partitioning att's range. For
      * instance, if states == (A,B), then the interval will be:
      *      A is from att.min() inclusive to intervals[0] inclusive
@@ -92,6 +92,22 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
         //print();
         //System.out.println("_______________________ ENDState: " + cs);
         return cs;
+    }
+
+    /**
+     * Updates state by setting the underlying PetAttribute to the appropriate
+     * start of the corresponding interval range.
+     * This is to be used when you want to set by qualitative state. For
+     * instance, if you want to make the pet sick (and also change the
+     * underlying its numeric PetAttribute), you do
+     * petAttributes.sSaude().updateStateDeep(State.DOENTE);
+     */
+    State updateStateDeep(State s) {
+        // find interval corresponding to s
+
+        // set underlying attribute to a value in this interval
+
+        // this sAttribute will be set through the receipt of a signal from att_
     }
 
     public boolean isInitialized() {
