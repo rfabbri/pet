@@ -95,19 +95,30 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
     }
 
     /**
-     * Updates state by setting the underlying PetAttribute to the appropriate
-     * start of the corresponding interval range.
-     * This is to be used when you want to set by qualitative state. For
-     * instance, if you want to make the pet sick (and also change the
-     * underlying its numeric PetAttribute), you do
+     * Updates state by setting the underlying PetAttribute.
+     * "Max" means it sets to the appropriate upper limit of the corresponding
+     * interval range.  This is to be used when you want to set by qualitative
+     * state. For instance, if you want to make the pet sick (and also change
+     * the underlying its numeric PetAttribute), you do
      * petAttributes.sSaude().updateStateDeep(State.DOENTE);
      */
-    State updateStateDeep(State s) {
+    int updateStateDeepMax(State s) {
         // find interval corresponding to s
+        int i = states_.indexOf(s);
+        att_.set(intervals_.get(i));
+        // done. this sAttribute is set upon receipt of a signal from att_
+        return att_.val();
+    }
 
-        // set underlying attribute to a value in this interval
-
-        // this sAttribute will be set through the receipt of a signal from att_
+    /**
+     * Same as updateStateDeepMax but returns lower limit of interval.
+     */
+    int updateStateDeepMin(State s) {
+        // find interval corresponding to s
+        int i = states_.indexOf(s);
+        att_.set((i == 0) ? att_.min() : intervals_.get(i-1)+1);
+        // done. this sAttribute is set upon receipt of a signal from att_
+        return att_.val();
     }
 
     public boolean isInitialized() {

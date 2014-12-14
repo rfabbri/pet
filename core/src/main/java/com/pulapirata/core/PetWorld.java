@@ -467,7 +467,7 @@ class PetWorld extends World {
 
                 if (numDroppings_ >= 5) {
                     pprint("[poo] more than 5droppings, warning - getting sick!");
-                    pet_.get(eid).sSaude().updateStateDeep(State.DOENTE);
+                    pet_.get(eid).sSaude().updateStateDeepMax(State.DOENTE);
                 }
             }
         }
