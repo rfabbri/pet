@@ -88,7 +88,7 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
             }
         assert s != null : "state not set in updateState..";
 
-        State cs = updateState(s);
+        State cs = super.updateState(s);
         //print();
         //System.out.println("_______________________ ENDState: " + cs);
         return cs;

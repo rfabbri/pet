@@ -52,6 +52,7 @@ class PetWorld extends World {
     private boolean triggersLoaded_ = false;
     private Triggers triggers_;
     public Triggers triggers()  { return triggers_; }
+    public int numDroppings_;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -440,6 +441,7 @@ class PetWorld extends World {
     public final System evacuator = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
+                /* drop a shitload */
                 if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
                     dprint("[poo] cagando");
                     int eid = entities.get(i);
@@ -457,6 +459,13 @@ class PetWorld extends World {
                                 pos_.getX(eid)+20, pos_.getY(eid)+5, pet_.get(eid).sCoco().getState());
                         // todo: set some sort of order? estimate offset from radius?
                     }
+                }
+
+                /* if more than 10 droppings for more than 6 hours, pets sick */
+
+                if (numDroppings >= 10) {
+                    pprint("[poo] more than 10 droppings, warning - getting sick!");
+                    pet_.get(eid).sSaude().updateState(State.DOENTE);
                 }
             }
         }
@@ -589,12 +598,14 @@ class PetWorld extends World {
                         if (pet_.get(e1.id).sAction().getState() == PetAttributes.ActionState.VARRENDO) {
                             pprint("[collider] destroying dropping!");
                             e2.destroy();
+                            numDroppings_--;
                         }
                     } else {
                         pprint("[collider] e1 == DROPPING!");
                         if (pet_.get(e2.id).sAction().getState() == PetAttributes.ActionState.VARRENDO) {
                             pprint("[collider] destroying dropping!");
                             e1.destroy();
+                            numDroppings_--;
                         }
                     }
                     break;
@@ -618,6 +629,10 @@ class PetWorld extends World {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 if (expires_.get(eid) <= now) world.entity(eid).destroy();
+                if (type.get(eid) == DROPPING) {
+                    numDroppings_--;
+                    assert numDroppings >= 0;
+                }
             }
         }
 
@@ -650,6 +665,7 @@ class PetWorld extends World {
                                 DroppingSpriter ds = (DroppingSpriter) sprite_.get(eid);
                                 radius_.set(eid, ds.boundingRadius());
                                 loaded_.set(eid, LOADED);
+                                numDroppings_++;
                                 entity(eid).didChange();
                             }
                             break;
