@@ -53,7 +53,9 @@ public class Triggers {
         ESTUDAR,
         GRITAR,
         CASTIGAR,
-        CHICOTEAR
+        CHICOTEAR,
+        INVALID,
+        NOT_IMPLEMENTED
     }
 
     /** map from TriggerType to modifier class.

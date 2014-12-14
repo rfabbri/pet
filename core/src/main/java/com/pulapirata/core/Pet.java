@@ -54,6 +54,7 @@ import static tripleplay.ui.layout.TableLayout.COL;
 import com.pulapirata.core.Aviso;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.Triggers.TriggerType;
+import static com.pulapirata.core.Triggers.TriggerType.*;
 import com.pulapirata.core.Trigger;
 import com.pulapirata.core.PetWorld;
 import com.pulapirata.core.Messages;
@@ -471,58 +472,16 @@ public class Pet extends Game.Default {
             };
 
             final int[][] topleftSecondary = new int [][] {
-                {0, 0},
+                {0,   0},
                 {120, 0},
                 {240, 0},
                 {360, 0},
+                {480, 0},
+                {600, 0},
+                {720, 0},
+                {840, 0}
             };
 
-            /** Triggers for each secondary button */
-            final ArrayList<TriggerType> vc =
-                new ArrayList<TriggerType>(Arrays.asList(
-                        SOPA_DE_CENOURA,
-                        SOPA_DE_BACON,
-                        SALADA_COM_LEGUMES,
-                        CHOCOLATE,
-                        PIZZA,
-                        AGUA,
-                        LEITE,
-                        BOLA,
-                        QUADRINHOS,
-                        LIVRO,
-                        VIDEOGAME,
-                        TV,
-                        ANIME,
-                        CINE_PRIVE,
-                        DESENHAR,
-                        LIGAR_PARA_AMIGO,
-                        CONVIDAR_COLEGA,
-                        REDE_SOCIAL,
-                        FAZER_FESTA,
-                        JOGAR_RPG,
-                        BOOTY_CALL,
-                        TOMAR_BANHO,
-                        ESCOVAR_DENTES,
-                        VARRER,
-                        PASSAR_PERFUME,
-                        PINGUINHA_NA_CHUPETA,
-                        BOMBOM_DE_LICOR,
-                        CERVEJA,
-                        SUCO_DE_MACACO,
-                        CIGARRO,
-                        MASTURBAR,
-                        SAIR_PARA_ESCOLA,
-                        SAIR_PARA_PARQUE,
-                        SAIR_PARA_IGREJA,
-                        DAR_GLICOSE,
-                        REMEDIO,
-                        CURATIVO,
-                        CHINELADA,
-                        ESTUDAR,
-                        GRITAR,
-                        CASTIGAR,
-                        CHICOTEAR
-                ));
             /*-------------------------------------------------------------------------------*/
 
             numMainButts_ = imgButtSolto.size();
@@ -620,49 +579,42 @@ public class Pet extends Game.Default {
          * This is usually called after world assets are loaded.
          */
         public void wireButtonsToWorld() {
+            /** Triggers for each secondary button */
+            final TriggerType[][] trigg =
+                // tabela de triggers seguindo ordem exata dos botoes (ordem dos
+                // arquivos de imagens)
+                new TriggerType[][] {
+                    {LEITE, SOPA_DE_BACON, SOPA_DE_CENOURA, PIZZA, SALADA_COM_LEGUMES, CHOCOLATE, AGUA, NOT_IMPLEMENTED},
+                    {BOLA, TV, LIVRO, ANIME, QUADRINHOS, VIDEOGAME, CINE_PRIVE, NOT_IMPLEMENTED},
+                    {LIGAR_PARA_AMIGO, CONVIDAR_COLEGA, JOGAR_RPG, REDE_SOCIAL, FAZER_FESTA, BOOTY_CALL},
+                    {ESCOVAR_DENTES, TOMAR_BANHO, VARRER, PASSAR_PERFUME},
+                    {PINGUINHA_NA_CHUPETA, BOMBOM_DE_LICOR, CERVEJA, SUCO_DE_MACACO, CIGARRO},
+                    {SAIR_PARA_ESCOLA, NOT_IMPLEMENTED, SAIR_PARA_PARQUE, NOT_IMPLEMENTED, SAIR_PARA_IGREJA},
+                    {CURATIVO, REMEDIO, DAR_GLICOSE, NOT_IMPLEMENTED, NOT_IMPLEMENTED /*VIAGRA*/},
+                    {ESTUDAR, GRITAR, CASTIGAR, CHINELADA, CHICOTEAR}
+                };
+
             assert numMainButts_ != 0 : "tried to wire world before constructing buttons.";
             for (int b = 0; b < numMainButts_; ++b) {
                 for (int s = 0; s < secondaryButtons_.get(b).size(); ++s) {
-                    if (b == 0 /* comida */ && s == 0 /* sopa cenoura */)
-                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
-                            public void onEmit() {
-                                //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
-                                if (world_.worldLoaded()) { // use asset manager
-                                    world_.triggers().get(TriggerType.SOPA_DE_CENOURA).fire(a());
-                                }
+                    if (trigg[b][s] == NOT_IMPLEMENTED)
+                        continue;
+                    final TriggerType t = trigg[b][s];
+                    secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
+                        public void onEmit() {
+                            //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
+                            if (world_.worldLoaded()) { // use asset manager
+                                world_.triggers().get(t).fire(a());
                             }
-                        });
-                    if (b == 3 /* higiene */ && s == 2 /* varrer */)
-                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
-                            public void onEmit() {
-                                //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
-                                if (world_.worldLoaded()) { // use asset manager
-                                    world_.triggers().get(TriggerType.VARRER).fire(a());
-                                }
-                            }
-                        });
-                    if (b == 5 && s == 0)
-                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
-                            public void onEmit() {
-                                a().alcool().sub(1);
-                            }
-                        });
+                        }
+                    });
 
-                    if (b == 6 /* higiene */ && s == 1 /* varrer */) // XXX
-                        secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
-                            public void onEmit() {
-                                if (world_.worldLoaded()) { // use asset manager
-                                    world_.triggers().get(TriggerType.CERVEJA).fire(a());
-                                }
-                            }
-                        });
-
-                    if (b == 6 /* diversao */ && s == 0/* licor */)
+//                    if (b == 6 /* diversao */ && s == 0/* licor */)
                         // hooks up the liquor button to setting alcool to max.  button
                         // press event is filtered to emit alcool().max() to the
                         // alcool() attribute.
-                        secondaryButtons_.get(b).get(s).clicked().map(
-                            Functions.constant( a().alcool().max()) ).connect(a().alcool().slot());
+//                        secondaryButtons_.get(b).get(s).clicked().map(
+//                            Functions.constant( a().alcool().max()) ).connect(a().alcool().slot());
                 }
             }
 
