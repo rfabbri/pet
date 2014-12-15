@@ -22,6 +22,7 @@ import tripleplay.entity.System;
 import tripleplay.entity.World;
 import tripleplay.util.Randoms;
 
+import static com.pulapirata.core.Pet.UPDATE_RATE;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.State;
 import com.pulapirata.core.utils.PetAttributesLoader;
@@ -54,6 +55,7 @@ class PetWorld extends World {
     private Triggers triggers_;
     public Triggers triggers()  { return triggers_; }
     public int numDroppings_;
+    public int beatsWithTooManyDroppings_;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -461,13 +463,23 @@ class PetWorld extends World {
                         // todo: set some sort of order? estimate offset from radius?
                     }
                 }
-                pprint("[poo] num droppings: " + numDroppings_);
+                // pprint("[poo] num droppings: " + numDroppings_);
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
-                if (numDroppings_ >= 5) {
-                    pprint("[poo] more than 5droppings, warning - getting sick!");
-                    pet_.get(eid).sSaude().updateStateDeepMax(State.DOENTE);
+                if (beat_ % 10 == 0) {  // every 10 beats (1 second), tests for too much shit
+                    if (numDroppings_ >= 3) {
+                        pprint("[poo] WARNING: too much shit in room - getting sick!");
+                        if (beatsWithTooManyDroppings_ >= 5*beatsCoelhoSegundo_/*6*beatsCoelhoHora_*/) {
+                            pprint("[poo] EVENT: too much shit in room for too long got bunny SICK!");
+                            pet_.get(eid).sSaude().updateStateDeepMax(State.DOENTE);
+                            beatsWithTooManyDroppings_ = 0;
+                        }
+                        beatsWithTooManyDroppings_ += 10;
+                    } else {
+                        beatsWithTooManyDroppings_ = 0;
+                    }
+                    pprint("[poo] time with too much shit in room: " + beatsWithTooManyDroppings_*UPDATE_RATE/1000f + "s");
                 }
             }
         }
