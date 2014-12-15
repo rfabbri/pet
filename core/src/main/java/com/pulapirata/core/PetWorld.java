@@ -105,9 +105,9 @@ class PetWorld extends World {
     /** beats por 1 coelho dia. multiply by UPDATE_RATE to get ms */
     static public int beatsCoelhoDia_ = 864000 /* 864000 = 24h reais para UPDATE_RATE 100ms */;
 //    static public int beatsCoelhoDia_ = 24*10/*s*/*10 /* 1 coelhoHora = 10 human seconds */;
-    static public double beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
-    static public double beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
-    final public int beatsMaxIdade_ = beatsCoelhoDia_*8;
+    static public double beatsCoelhoHora_;
+    static public double beatsCoelhoSegundo_;
+    public int beatsMaxIdade_;
     // TODO: colocar em pet attributes?
     public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
@@ -163,7 +163,20 @@ class PetWorld extends World {
         super.paint(clock);
     }
 
+    /**
+     * Sets the game velocity in b beats per 1 coelhoDia.
+     * Input is the number of game beats (updates) in 1 virtual day of the pet.
+     * Multiply this by UPDATE_RATE to get how many real ms is 1 pet day.
+     */
+    public void setGameSpeed(int b) {
+        beatsCoelhoDia_ = b /* 864000 = 24h reais para UPDATE_RATE 100ms */;
+        beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
+        beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
+        beatsMaxIdade_ = beatsCoelhoDia_*8;
+    }
+
     public PetWorld (GroupLayer layer, float width, float height) {
+        setGameSpeed(beatsCoelhoDia_);
         this.layer_  = layer;
         this.width_  = width;
         this.height_ = height;
@@ -530,6 +543,18 @@ class PetWorld extends World {
                         java.lang.System.out.println("Key C pressed: u mean taka dump?"); break;
                       case R:
                         java.lang.System.out.println("Key R pressed: u mean reload attributes file?"); break;
+                      case PLUS:
+                      case EQUALS:
+                        beatsCoelhoDia_ *= 2;
+                        pprint("[key] speed = " + beatsCoelhoDia_);
+                        setGameSpeed(beatsCoelhoDia_);
+                        break;
+                      case MINUS:
+                      case UNDERSCORE:
+                        beatsCoelhoDia_ /= 2;
+                        pprint("[key] speed = " + beatsCoelhoDia_);
+                        setGameSpeed(beatsCoelhoDia_);
+                        break;
                       default: break;
                     }
                 }
