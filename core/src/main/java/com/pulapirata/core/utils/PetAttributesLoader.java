@@ -18,6 +18,7 @@ public class PetAttributesLoader {
     public static void CreateAttributes(String path, final double beatsCoelhoHora,
                                         final Callback<PetAttributes> callback) {
         final PetAttributes attribs = new PetAttributes();
+        attribs.setSimulationSpeed(beatsCoelhoHora);
 
         // load the attributes
         PlayN.assets().getText(path, new Callback.Chain<String>(callback) {

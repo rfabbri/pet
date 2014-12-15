@@ -286,6 +286,12 @@ public class PetAttributes {
     public IntValue vis() { return vis_; }
     public VisibleCondition visibleCondition() { return VisibleCondition.values()[vis_.get()]; }
 
+    /*-------------------------------------------------------------------------------*/
+    /** Misc Variables. */
+
+    /** Initially set by attributes loader */
+    static private double beatsCoelhoHora_ = 0d;
+
     /**
      * Constructor
      */
@@ -577,14 +583,15 @@ public class PetAttributes {
     }
 
     /**
-     * example of game logic depending on multiple attributes
+     * Sets the game speed.
+     * This is initially set by the loader / constructor class.
+     * But we sometimes want to dynamically update game speed.
      */
-    public void print() {
-        for (String key : m_.keySet())
-            m_.get(key).print();
-         for (String key : ms_.keySet())
-            ms_.get(key).print();
-        pprint("        action: " + sAction().getState());
+    public void setSimulationSpeed(double beatsCoelhoHoraNew_) {
+        if (beatsCoelhoHora_ != 0)
+            for (String key : m_.keySet()) // for each attribute, set its speed
+                m_.get(key).setPassiveBeats(beatsCoelhoHoraNew_*m_.get(key).passiveBeats()/beatsCoelhoHora_);
+        beatsCoelhoHora_ = beatsCoelhoHoraNew_;
     }
 
     /**
@@ -594,5 +601,16 @@ public class PetAttributes {
         // for each attribute, sum passive.
         for (String key : m_.keySet())
             m_.get(key).updatePassive(beat);
+    }
+
+    /**
+     * example of game logic depending on multiple attributes
+     */
+    public void print() {
+        for (String key : m_.keySet())
+            m_.get(key).print();
+         for (String key : ms_.keySet())
+            ms_.get(key).print();
+        pprint("        action: " + sAction().getState());
     }
 }

@@ -103,14 +103,18 @@ class PetWorld extends World {
     public int beat_ = 0; // total number of updates so far
     // the following is not final so that we can dynamically speedup the game if desired
     /** beats por 1 coelho dia. multiply by UPDATE_RATE to get ms */
-    static public int beatsCoelhoDia_ = 864000 /* 864000 = 24h reais para UPDATE_RATE 100ms */;
+    static public final int beatsCoelhoDiaNormal_ = 864000 /* 864000 = 24h reais para UPDATE_RATE 100ms */;
+    static public int beatsCoelhoDia_ = beatsCoelhoDiaNormal_/* 864000 = 24h reais para UPDATE_RATE 100ms */;
 //    static public int beatsCoelhoDia_ = 24*10/*s*/*10 /* 1 coelhoHora = 10 human seconds */;
     static public double beatsCoelhoHora_;
     static public double beatsCoelhoSegundo_;
     public int beatsMaxIdade_;
     // TODO: colocar em pet attributes?
     public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
+    public int idadeCoelhoMinutos() {
+        return (int)(((double)beat_ % beatsCoelhoHora_)/(beatsCoelhoHora_/60.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
+    public final GAME_MIN_BEATS_COELHO_DIAS = 2*24.*60.*60.;
 
 
     //final public double tAverageDuracaoPuloAleatorio_ = beatsCoelhoSegundo_/4;
@@ -169,12 +173,21 @@ class PetWorld extends World {
      * Multiply this by UPDATE_RATE to get how many real ms is 1 pet day.
      */
     public void setGameSpeed(int b) {
+        // new beatsCoelhoSegundo (beats per virtual pet second) cannot be less
+        // than 2, otherwise we're undersampling phenomena at the scale of seconds. Nyquist.
+        if (b < GAME_MIN_BEATS_COELHO_DIAS) {
+            pprint("[speed] requested max speed for UPDATE_RATE. Decrease the latter for further speedup.");
+            b = GAME_MIN_BEATS_COELHO_DIAS; // clamp to max game speed
+        }
+
         beatsCoelhoDia_ = b /* 864000 = 24h reais para UPDATE_RATE 100ms */;
         beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
         beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
         beatsMaxIdade_ = beatsCoelhoDia_*8;
         if (attributesLoaded_)
-            mainPet_.setSpeed(beatsCoelhoHora_);
+            mainPet_.setSimulationSpeed(beatsCoelhoHora_);
+        // no need to update Action duration - it is computed directly from
+        // basic time variables Pet.UPDATE_RATE and PetWorld.beatsCoelhoSegundo_.
     }
 
     public PetWorld (GroupLayer layer, float width, float height) {
@@ -458,6 +471,8 @@ class PetWorld extends World {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 /* drop a shitload */
                 int eid = entities.get(i);
+                dprint("[poo] beatsCoelhoSegundo_ " + beatsCoelhoSegundo_);
+                assert 5*beatsCoelhoSegundo_ > 1 : "imprecise poop simulation";
                 if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
                     dprint("[poo] cagando");
                     // taka.. err.. dump
@@ -544,13 +559,17 @@ class PetWorld extends World {
                         java.lang.System.out.println("Key R pressed: u mean reload attributes file?"); break;
                       case PLUS:
                       case EQUALS:
-                        setGameSpeed(beatsCoelhoDia_ * 2);
-                        pprint("[key] speed = " + beatsCoelhoDia_);
+                        if (attributesLoaded_)
+                            setGameSpeed(beatsCoelhoDia_ / 2);
+                        pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
+                                + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
                         break;
                       case MINUS:
                       case UNDERSCORE:
-                        setGameSpeed(beatsCoelhoDia_ / 2);
-                        pprint("[key] speed = " + beatsCoelhoDia_);
+                        if (attributesLoaded_)
+                            setGameSpeed(beatsCoelhoDia_ + beatsCoelhoDiaNormal_);
+                        pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
+                                + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
                         break;
                       default: break;
                     }

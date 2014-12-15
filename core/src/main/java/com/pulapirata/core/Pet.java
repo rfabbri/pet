@@ -72,7 +72,7 @@ public class Pet extends Game.Default {
 
     protected  static final String STAT_ALERT_1 =
         "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
-    protected  static final String STAT_FILLER_1 = "Idade: %d%s\n Vida: %d/%d\n";
+    protected  static final String STAT_FILLER_1 = "Idade: %02d:%02d\n Vida: %d/%d\n";
     protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Grana: %d/%d";
     public Messages messages_;   // filled up by MessagesLoader
 
@@ -119,7 +119,7 @@ public class Pet extends Game.Default {
         if (world_.idadeCoelhoDias() == 0)
             return String.format(
                   STAT_FILLER_1,
-                  world_.idadeCoelhoHoras(), "h",
+                  world_.idadeCoelhoHoras(), world_.idadeCoelhoMinutos(),
                   a().vida().val(),
                   a().vida().max());
         else
