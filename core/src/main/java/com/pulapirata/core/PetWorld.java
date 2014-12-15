@@ -467,15 +467,15 @@ class PetWorld extends World {
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
-                if (beat_ % 10 == 0) {  // every 10 beats (1 second), tests for too much shit
-                    if (numDroppings_ >= 3) {
+                if (beat_ % 20 == 0) {  // every 20 beats (2 seconds), tests for too much shit
+                    if (numDroppings_ >= 10) {
                         pprint("[poo] WARNING: too much shit in room - getting sick!");
-                        if (beatsWithTooManyDroppings_ >= 5*beatsCoelhoSegundo_/*6*beatsCoelhoHora_*/) {
+                        if (beatsWithTooManyDroppings_ >= /*5*beatsCoelhoSegundo_*/ 6*beatsCoelhoHora_) {
                             pprint("[poo] EVENT: too much shit in room for too long got bunny SICK!");
                             pet_.get(eid).sSaude().updateStateDeepMax(State.DOENTE);
                             beatsWithTooManyDroppings_ = 0;
-                        }
-                        beatsWithTooManyDroppings_ += 10;
+                        } else
+                            beatsWithTooManyDroppings_ += 20;
                     } else {
                         beatsWithTooManyDroppings_ = 0;
                     }
