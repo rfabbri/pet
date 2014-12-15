@@ -18,8 +18,7 @@ import static com.pulapirata.core.utils.Puts.*;
  */
 public class TriggerLoader {
 
-    public static void CreateTriggers(String path, final double beatsCoelhoHora,
-                                        final Callback<Triggers> callback) {
+    public static void CreateTriggers(String path, final Callback<Triggers> callback) {
         final Triggers triggers = new Triggers();
 
         // load the attributes

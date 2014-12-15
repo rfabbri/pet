@@ -173,6 +173,8 @@ class PetWorld extends World {
         beatsCoelhoHora_ = (double)beatsCoelhoDia_/24.f;
         beatsCoelhoSegundo_ = (double)beatsCoelhoDia_/(24.*60.*60.);
         beatsMaxIdade_ = beatsCoelhoDia_*8;
+        if (attributesLoaded_)
+            mainPet_.setSpeed(beatsCoelhoHora_);
     }
 
     public PetWorld (GroupLayer layer, float width, float height) {
@@ -203,8 +205,7 @@ class PetWorld extends World {
             });
 
         /** Load triggers */
-        TriggerLoader.CreateTriggers(Triggers.JSON_PATH, beatsCoelhoHora_,
-            new Callback<Triggers>() {
+        TriggerLoader.CreateTriggers(Triggers.JSON_PATH, new Callback<Triggers>() {
                 @Override
                 public void onSuccess(Triggers resource) {
                     triggers_ = resource;
@@ -543,15 +544,13 @@ class PetWorld extends World {
                         java.lang.System.out.println("Key R pressed: u mean reload attributes file?"); break;
                       case PLUS:
                       case EQUALS:
-                        beatsCoelhoDia_ *= 2;
+                        setGameSpeed(beatsCoelhoDia_ * 2);
                         pprint("[key] speed = " + beatsCoelhoDia_);
-                        setGameSpeed(beatsCoelhoDia_);
                         break;
                       case MINUS:
                       case UNDERSCORE:
-                        beatsCoelhoDia_ /= 2;
+                        setGameSpeed(beatsCoelhoDia_ / 2);
                         pprint("[key] speed = " + beatsCoelhoDia_);
-                        setGameSpeed(beatsCoelhoDia_);
                         break;
                       default: break;
                     }
