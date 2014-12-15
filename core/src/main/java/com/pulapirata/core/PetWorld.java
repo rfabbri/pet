@@ -439,15 +439,13 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                if (loaded_.get(eid) == LOADED) {
-                    pet_.get(eid).passiveUpdate(beat_);
-                    // other logic if-spaghetti goes here
-                }
+                pet_.get(eid).passiveUpdate(beat_);
+                // other logic if-spaghetti goes here
             }
         }
 
         @Override protected boolean isInterested (Entity entity) {
-            return type_.get(entity.id) == PET;
+            return type_.get(entity.id) == PET && loaded_.get(entity.id) == LOADED;
         }
     };
 
