@@ -389,7 +389,8 @@ public class PetAttributes {
         a2vis_.put(ActionState.COMENDO, VisibleCondition.COMENDO);
         a2vis_.put(ActionState.LIMPANDO, VisibleCondition.VARRENDO);
         a2vis_.put(ActionState.GORFANDO, VisibleCondition.VOMITANDO);  // vomitando de vez em quando soltando vomito
-        a2vis_.put(ActionState.TOMANDO_BANHO, VisibleCondition.NORMAL);  // vomitando de vez em quando soltando vomito
+        a2vis_.put(ActionState.TOMANDO_BANHO, VisibleCondition.NORMAL);  // por hora..
+        a2vis_.put(ActionState.TOMANDO_REMEDIO, VisibleCondition.COMENDO);  // por hora.. parece mastigar remedio
 //        JOGANDO_BOLA, IGNORE
 //        JOGANDO_VIDEOGAME, IGNORE
 //        ASSITINDO_TV, IGNORE
