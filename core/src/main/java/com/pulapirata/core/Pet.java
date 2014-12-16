@@ -54,6 +54,8 @@ import tripleplay.ui.layout.AxisLayout;
 import tripleplay.util.Randoms;
 import static tripleplay.ui.layout.TableLayout.COL;
 
+import com.pulapirata.core.DevGame;
+import com.pulapirata.core.DevClock;
 import com.pulapirata.core.Aviso;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.Triggers.TriggerType;
@@ -65,7 +67,7 @@ import com.pulapirata.core.utils.MessageLoader;
 
 import static com.pulapirata.core.utils.Puts.*;
 
-public class Pet extends Game.Default {
+public class Pet extends DevGame {
     /*===============================================================================*/
     /* Data                                                                          */
     /*===============================================================================*/
@@ -150,7 +152,7 @@ public class Pet extends Game.Default {
     /*-------------------------------------------------------------------------------*/
     /** Misc variables */
 
-    protected Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
+    protected DevClock clock_ = new DevClock(UPDATE_RATE);
     public  final   Signal<Key> keyDown_ = Signal.create();
 
     /*-------------------------------------------------------------------------------*/
