@@ -1,5 +1,6 @@
 package com.pulapirata.core;
 
+import playn.core.PlayN;
 import playn.core.Game;
 
 
@@ -11,14 +12,14 @@ import playn.core.Game;
  * by providing setters and getters to it. It is useful for development, hence
  * the name.
  */
-static abstract class DevGame implements Game {
+abstract class DevGame implements Game {
 
   /**
    * Creates an instance of the default game implementation.
    *
    * @param updateRate  the desired update rate of the main game loop, in ms.
    */
-  public Default (int updateRate) {
+  public DevGame (int updateRate) {
     assert updateRate > 0 : "updateRate must be greater than zero.";
     this.updateRate = updateRate;
   }

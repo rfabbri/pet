@@ -7,12 +7,12 @@ import playn.core.util.Clock;
  * This is a simple change to playn.core.util.Clock to make updateRate non-final
  * and publically settable, so that it can work with dynamic game speeds.
  */
-public static class DevClock implements Clock {
+public class DevClock implements Clock {
   private int updateRate;
   private int elapsed;
   private float current, paintTime, paintDelta, alpha;
 
-  public Source(int updateRate) {
+  public DevClock(int updateRate) {
     this.updateRate = updateRate;
   }
 
