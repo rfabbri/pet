@@ -98,8 +98,8 @@ public class PetAttribute extends IntValue {
     }
 
     public void print() {
-        System.out.println("name: " + name_ + " val: " + val()
-          + "\t\t\tmin: " + min_ + " max: " + max_ + " passive: " + passive_
+        System.out.println("[attrib] " +  name_ + ": " + val()
+          + "\t\t\t\t\tmin: " + min_ + " max: " + max_ + " passive: " + passive_
           + " passiveBeats: " + passiveBeats_);
     }
 

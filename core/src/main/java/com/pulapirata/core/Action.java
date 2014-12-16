@@ -21,8 +21,8 @@ class Action {
     private double remaining_ = duration_;
 
     public void update(int delta) {
-        pprint("[action] tick... time remaining " + remaining_ );
-        pprint("[action] delta, beatscoelhoseg " + delta + " " +
+        pprint(String.format("[action] tick... time remaining %.2g", + remaining_));
+        dprint("[action] delta, beatscoelhoseg " + delta + " " +
                 PetWorld.beatsCoelhoSegundo_);
         remaining_ -= 1./(double)PetWorld.beatsCoelhoSegundo_;
         if (remaining_ <= 0) {

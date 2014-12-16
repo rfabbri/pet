@@ -198,7 +198,7 @@ public class PetSpriter extends CompositeSpriter {
                     break;
             }
         }
-        pprint("[petspriter.set] requested " + s + " visible condition");
+        dprint("[petspriter.set] requested " + s + " visible condition");
 
         if (currentSprite_ != null)  // only happens during construction / asset loadding
             currentSprite_.layer().setVisible(false);

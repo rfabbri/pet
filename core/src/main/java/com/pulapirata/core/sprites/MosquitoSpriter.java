@@ -122,7 +122,7 @@ public class MosquitoSpriter extends CompositeSpriter {
     }
 
     void set(VisibleCondition s) {
-        pprint("[mosquito] Requested TipoMosquito " + s);
+        dprint("[mosquito] Requested TipoMosquito " + s);
 
         if (!hasLoaded())
             return;
@@ -130,8 +130,8 @@ public class MosquitoSpriter extends CompositeSpriter {
         Sprite newSprite = animMap_.get(s);
 
         if (newSprite == null) {
-            pprint("[mosquitospriter.set] Requested visibleCondition " + s);
-            pprint("[mosquitospriter.set] assuming without mosquito.");
+            dprint("[mosquitospriter.set] Requested visibleCondition " + s);
+            dprint("[mosquitospriter.set] assuming without mosquito.");
             currentSprite_.layer().setVisible(false);
             return;
         }

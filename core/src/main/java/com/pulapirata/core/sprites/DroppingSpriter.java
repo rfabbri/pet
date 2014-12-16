@@ -127,7 +127,7 @@ public class DroppingSpriter extends Spriter {
 
     public void set(TipoCoco s) {
         currentTipoCoco_ = s;
-        pprint("[poo] TipoCoco " + s);
+        dprint("[poo] TipoCoco " + s);
 
         if (!hasLoaded())
             return;

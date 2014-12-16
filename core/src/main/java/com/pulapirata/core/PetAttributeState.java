@@ -5,6 +5,7 @@ import react.Slot;
 import react.IntValue;
 import com.pulapirata.core.PetAttributeEnum;
 import com.pulapirata.core.PetAttributes;
+import static com.pulapirata.core.utils.Puts.*;
 
 
 /**
@@ -128,15 +129,14 @@ public class PetAttributeState<State extends Enum<State>>  extends PetAttributeE
     @Override public void print() {
         //super.print();
         //if (att_.name().equals("Nutricao")) {
-        System.out.println("==== State ====");
-        System.out.println("associated att name: " + att_.name() + " state: " + get());
-        System.out.println("associated att val: " + att_.val());
-        System.out.println("possible states and corresp intervals: ");
+        System.out.println("[state] " + att_.name() + ": "
+                + PetAttributes.State.values()[get()]  + " (" + get() + ") " + " val: " +  att_.val());
+        dprint("possible states and corresp intervals: ");
 
-        System.out.println("        state: " + states_.get(0) + " interval: " + att_.min() + " to " + intervals_.get(0));
+        dprint("        state: " + states_.get(0) + " interval: " + att_.min() + " to " + intervals_.get(0));
 
         for (int i = 1; i < states_.size(); ++i) {
-            System.out.println("        state: " + states_.get(i) + " interval: " + (intervals_.get(i-1)+1) + " to " + intervals_.get(i));
+            dprint("        state: " + states_.get(i) + " interval: " + (intervals_.get(i-1)+1) + " to " + intervals_.get(i));
         }
         //}
     }

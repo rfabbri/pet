@@ -492,7 +492,8 @@ class PetWorld extends World {
 
                 if (beat_ % 20 == 0) {  // every 20 beats (2 seconds), tests for too much shit
                     if (numDroppings_ >= 10) {
-                        pprint("[poo] WARNING: too much shit in room - getting sick!");
+                        if (beat_ % 80 == 0)
+                            pprint("[poo] WARNING: too much shit in room - getting sick!");
                         if (beatsWithTooManyDroppings_ >= /*5*beatsCoelhoSegundo_*/ 6*beatsCoelhoHora_) {
                             pprint("[poo] EVENT: too much shit in room for too long got bunny SICK!");
                             pet_.get(eid).sSaude().updateStateDeepMax(State.DOENTE);
@@ -502,7 +503,7 @@ class PetWorld extends World {
                     } else {
                         beatsWithTooManyDroppings_ = 0;
                     }
-                    pprint("[poo] time with too much shit in room: " +
+                    dprint("[poo] time with too much shit in room: " +
                             beatsWithTooManyDroppings_*petGame_.updateRate()/1000f + "s");
                 }
             }
@@ -677,16 +678,16 @@ class PetWorld extends World {
                 dprint("[collider] collision!");
                 switch (type_.get(e1.id) | type_.get(e2.id)) {
                 case PET_DROPPING:
-                    pprint("[collider] pet-dropping!");
+                    dprint("[collider] pet-dropping!");
                     if (type_.get(e1.id) == PET) {
-                        pprint("[collider] e1 == PET!");
+                        dprint("[collider] e1 == PET!");
                         if (pet_.get(e1.id).sAction().getState() == PetAttributes.ActionState.VARRENDO) {
                             pprint("[collider] destroying dropping!");
                             e2.destroy();
                             numDroppings_--;
                         }
                     } else {
-                        pprint("[collider] e1 == DROPPING!");
+                        dprint("[collider] e1 == DROPPING!");
                         if (pet_.get(e2.id).sAction().getState() == PetAttributes.ActionState.VARRENDO) {
                             pprint("[collider] destroying dropping!");
                             e1.destroy();
