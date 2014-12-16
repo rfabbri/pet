@@ -147,7 +147,7 @@ public class Pet extends Game.Default {
     /*-------------------------------------------------------------------------------*/
     /** Misc variables */
 
-    protected final Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
+    protected Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
 
     /*-------------------------------------------------------------------------------*/
     /** Layers, groups and associated resources */
@@ -169,6 +169,11 @@ public class Pet extends Game.Default {
     /** Constructor */
     public Pet() {
         super(UPDATE_RATE);
+    }
+
+    public void setUpdateRate(int updateRate) {
+        clock_.setUpdateRate(updateRate);
+        setUpdateRate(updateRate);
     }
 
     //--------------------------------------------------------------------------------
