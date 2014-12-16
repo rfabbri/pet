@@ -56,6 +56,7 @@ class PetWorld extends World {
     public Triggers triggers()  { return triggers_; }
     public int numDroppings_;
     public int beatsWithTooManyDroppings_;
+    public boolean pause_;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -111,10 +112,10 @@ class PetWorld extends World {
     public int beatsMaxIdade_;
     // TODO: colocar em pet attributes?
     public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
-    public int idadeCoelhoMinutos() {
-        return (int)(((double)beat_ % beatsCoelhoHora_)/(beatsCoelhoHora_/60.)); }
+    public int idadeCoelhoMinutos()
+        { return (int)(((double)beat_ % beatsCoelhoHora_)/(beatsCoelhoHora_/60.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
-    public final GAME_MIN_BEATS_COELHO_DIAS = 2*24.*60.*60.;
+    public final int GAME_MIN_BEATS_COELHO_DIAS = 2*24*60*60;
 
 
     //final public double tAverageDuracaoPuloAleatorio_ = beatsCoelhoSegundo_/4;
@@ -157,9 +158,11 @@ class PetWorld extends World {
     }
 
     @Override public void update (int delta) {
-        beat_++;
-        if (triggersLoaded())
-            triggers_.update(delta);
+        if (!pause_) {
+            beat_++;
+            if (triggersLoaded())
+                triggers_.update(delta);
+        }
         super.update(delta);
     }
 
@@ -379,6 +382,7 @@ class PetWorld extends World {
         public static final float JUMP_WALK_VELOCITY = 0.5f; // 1f;
 
         @Override protected void update (int delta, Entities entities) {
+            if (pause_) return;
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 //System.out.println("eid: " + eid + " mainID_: " + mainID_ + "pet_.get: " + pet_.get(eid));
@@ -521,7 +525,7 @@ class PetWorld extends World {
      * automatically move and do something fun if no control is pressed. NOOP if
      * touchscreen or gamepad are available.
      */
-    public final System keyControls = new System(this, 1) {
+    public final System keyControls = new System(this, 2) {
         public static final float WALK_VELOCITY = 0.05f; // 1f;
         // actually, use just accel
         public static final float ACCEL = 0.01f;
@@ -531,32 +535,41 @@ class PetWorld extends World {
                 @Override public void onEmit (Key key) {
                     pprint("[key] keydown: " + key);
                     PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+
                     switch (key) {
                       // TODO colocar estado walk_velocity_ na classe pet?
                       case LEFT:
+                        if (pause_) return;
                         ps.flipRight();
                         velo_.x =  -WALK_VELOCITY; velo_.y = 0;
                         pprint("[key] LEFT press " + velo_.x + ", " + velo_.y);
                         break;
                       case RIGHT:
+                        if (pause_) return;
                         ps.flipLeft();
                         velo_.x  =  WALK_VELOCITY;  velo_.y = 0;
                         pprint("[key] RIGHT press " + velo_.x + ", " + velo_.y);
-                      break;
-                      case UP:    velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
+                        break;
+                      case UP:
+                        if (pause_) return;
+                        velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
                         pprint("[key] UP press " + velo_.x + ", " + velo_.y);
-                      break;
-                      case DOWN:  velo_.x  =  0;  velo_.y = WALK_VELOCITY;
+                        break;
+                      case DOWN:
+                        if (pause_) return;
+                        velo_.x  =  0;  velo_.y = WALK_VELOCITY;
                         pprint("[key] DOWN press " + velo_.x + ", " + velo_.y);
-                      break;
+                        break;
                       case SPACE:
                         java.lang.System.out.println("Key SPACE pressed: u mean jump?");
                         mainPet_.print();
                         break;
                       case C:
-                        java.lang.System.out.println("Key C pressed: u mean taka dump?"); break;
+                        java.lang.System.out.println("Key C pressed: u mean taka dump?");
+                        break;
                       case R:
-                        java.lang.System.out.println("Key R pressed: u mean reload attributes file?"); break;
+                        java.lang.System.out.println("Key R pressed: u mean reload attributes file?");
+                        break;
                       case PLUS:
                       case EQUALS:
                         if (attributesLoaded_)
@@ -570,6 +583,12 @@ class PetWorld extends World {
                             setGameSpeed(beatsCoelhoDia_ + beatsCoelhoDiaNormal_);
                         pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
                                 + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
+                        break;
+                      case F8:
+                        pprint("You can also use Control-Z at a UNIX terminal to pause, then fg * to resume ");
+                        pause_ = !pause_;
+                        enableDisableSystemsAtPause();
+                        pprint("[key] " + (pause_? "game paused" : "game resumed") );
                         break;
                       default: break;
                     }
@@ -598,6 +617,24 @@ class PetWorld extends World {
                     v.y = velo_.y();
                     // XXX vel_.set(eid, v);
                 }
+        }
+
+        /**
+         * Disables all systems that don't run at pause.
+         * In the future we might have tables of which systems are paused or
+         * not. We can also use Control-Z at a UNIX terminal to pause, then fg
+         * to resume
+         */
+        protected void enableDisableSystemsAtPause() {
+            logicalMover.setEnabled(!pause_);
+            spriteMover.setEnabled(!pause_);
+            spriteLinker.setEnabled(!pause_);
+            petUpdater.setEnabled(!pause_);
+            evacuator.setEnabled(!pause_);
+            collider.setEnabled(!pause_);
+            expirer.setEnabled(!pause_);
+            // keep assetHooker running
+            // keep keyControls running
         }
 
         @Override protected void wasAdded (Entity entity) {

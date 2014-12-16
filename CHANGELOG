@@ -1,6 +1,7 @@
 Pet - Cross-Platform Pet simulator game engine
 ______________________________________________
 
+	+ F8 pauses game, also use Ctrl-Z to pause and fg to resume in bash terminal
 	+ attribute handling separated from code and controlled from a json file
 
 0.11.0.0
