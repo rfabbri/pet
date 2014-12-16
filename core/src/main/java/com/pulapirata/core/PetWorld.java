@@ -57,6 +57,7 @@ class PetWorld extends World {
     public int beatsWithTooManyDroppings_;
     public boolean pause_;
     public Pet petGame_;  // ref to the game, specially to get attributes.
+    private boolean print_status_ = false;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -426,7 +427,9 @@ class PetWorld extends World {
 
 //                        dprint("linker: visibleCondition = " + newvc);
                     dprint("     >>>>>>>>>>>>  Current pet state");
-                    // pet_.get(eid).print();
+                    if (print_status_) {
+                        pet_.get(eid).print();
+                    }
                     dprint("     <<<<<<<<<<<<  END Current pet state");
 //                        entity(eid).didChange(); // mover will render it.
                     // sprite_.get(eid).update(delta);
@@ -557,6 +560,9 @@ class PetWorld extends World {
                       case SPACE:
                         java.lang.System.out.println("Key SPACE pressed: u mean jump?");
                         mainPet_.print();
+                        break;
+                      case S:
+                        print_status_ = !print_status_;
                         break;
                       case C:
                         java.lang.System.out.println("Key C pressed: u mean taka dump?");

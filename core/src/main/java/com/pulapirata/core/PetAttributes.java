@@ -611,6 +611,8 @@ public class PetAttributes {
             m_.get(key).print();
          for (String key : ms_.keySet())
             ms_.get(key).print();
-        pprint("        action: " + sAction().getState());
+        pprint("[sattr] coco: " + sCoco().getState());
+        pprint("[sattr] celular: " + sCelular().getState());
+        pprint("[sattr] action: " + sAction().getState());
     }
 }
