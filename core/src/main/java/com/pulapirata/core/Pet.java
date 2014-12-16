@@ -383,11 +383,17 @@ public class Pet extends DevGame {
 
             // petSheet_.builder().add(Button.class, Style.BACKGROUND.is(Background.blank()));
             Root broot = iface_.createRoot(new AbsoluteLayout(), petSheet_);
+            Root sbroot = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
             broot.setSize(width(), 354);
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
             broot.layer.setDepth(UIDepth.Z_BUTTONS.getZ());
             layer_.addAt(broot.layer, 0, BUTTON_ORIGIN_Y); // position of buttons
+
+            sbroot.setSize(width(), 354);
+                    // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
+            sbroot.layer.setDepth(UIDepth.Z_SBUTTONS.getZ());
+            layer_.addAt(sbroot.layer, 0, BUTTON_ORIGIN_Y); // position of buttons
 
             final Group buttons = new Group(new AbsoluteLayout()).addStyles(
                 Style.BACKGROUND.is(Background.blank()));
@@ -590,7 +596,7 @@ public class Pet extends DevGame {
                         }
                     }).connectNotify(but.icon.slot());
                     // all secondary buttons are added; toggle visibility only
-                    broot.add(AbsoluteLayout.at(sbuttons_.get(bFinal), 0, 0, width(), 120));
+                    sbroot.add(AbsoluteLayout.at(sbuttons_.get(bFinal), 0, 0, width(), 120));
                     sbuttons_.get(bFinal).setVisible(false);
 
                     // callbacks for loading the images
