@@ -564,8 +564,6 @@ class PetWorld extends World {
                         java.lang.System.out.println("Key R pressed: u mean reload attributes file?");
                         break;
                       case EQUALS:
-
-                        break;
                       case PLUS:
                         if (attributesLoaded_)
                             setGameSpeed(beatsCoelhoDia_ / 2);
@@ -573,7 +571,6 @@ class PetWorld extends World {
                                 + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
                         break;
                       case MINUS:
-                        break;
                       case UNDERSCORE:
                         if (attributesLoaded_)
                             setGameSpeed(beatsCoelhoDia_ + beatsCoelhoDiaNormal_);
