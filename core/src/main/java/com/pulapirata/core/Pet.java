@@ -368,6 +368,7 @@ public class Pet extends DevGame {
 
         protected int numMainButts_ = 0;
         protected ArrayList< ArrayList<Button> > secondaryButtons_ = null;
+        final ArrayList<Group> sbuttons_ = new ArrayList<Group>(0);
 
         // Used for asset loading. We could also use an asset watcher as in
         // PeaLoader.java
@@ -390,6 +391,7 @@ public class Pet extends DevGame {
 
             final Group buttons = new Group(new AbsoluteLayout()).addStyles(
                 Style.BACKGROUND.is(Background.blank()));
+
 
             // TODO we could use TableLayout in the future but I dont trust it now;
             // I prefer pixel control for now.
@@ -541,7 +543,6 @@ public class Pet extends DevGame {
             /*-------------------------------------------------------------------------------*/
 
             numMainButts_ = imgButtSolto.size();
-            final ArrayList<Group> sbuttons = new ArrayList<Group>(0);
 
             secondaryButtons_ = new ArrayList< ArrayList<Button> >(numMainButts_);
 
@@ -565,7 +566,7 @@ public class Pet extends DevGame {
                 });
 
                 // add button b's secondary buttons
-                sbuttons.add(new Group(new AbsoluteLayout()).addStyles(
+                sbuttons_.add(new Group(new AbsoluteLayout()).addStyles(
                   Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
 
                 int numSecondaryButtons = imgButtSecondary.get(b).size();
@@ -577,7 +578,7 @@ public class Pet extends DevGame {
                     Image buttImage = imgButtSecondary.get(b).get(s);
                     Button sbut = new Button(Icons.image(buttImage));
                     secondaryButtons_.get(b).add(sbut);
-                    sbuttons.get(b).add(AbsoluteLayout.at(sbut,
+                    sbuttons_.get(b).add(AbsoluteLayout.at(sbut,
                       topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
 
                     but.selected().map(new Function <Boolean, Icon>() {
@@ -589,8 +590,8 @@ public class Pet extends DevGame {
                         }
                     }).connectNotify(but.icon.slot());
                     // all secondary buttons are added; toggle visibility only
-                    broot.add(AbsoluteLayout.at(sbuttons.get(bFinal), 0, 0, width(), 120));
-                    sbuttons.get(bFinal).setVisible(false);
+                    broot.add(AbsoluteLayout.at(sbuttons_.get(bFinal), 0, 0, width(), 120));
+                    sbuttons_.get(bFinal).setVisible(false);
 
                     // callbacks for loading the images
                     buttImage.addCallback(new Callback<Image> () {
@@ -613,15 +614,15 @@ public class Pet extends DevGame {
                 sel.selected.connect(new Slot<Element<?>>() {
                     @Override public void onEmit (Element<?> event) {
                         if (event == null) {
-                            for (Group sb : sbuttons)
+                            for (Group sb : sbuttons_)
                                 sb.setVisible(false);
                         } else {
                             for (int i=0; i < numMainButts_; ++i) {
                                 if (buttons.childAt(i) == (ToggleButton) event &&
-                                        sbuttons.get(i).childCount() != 0) {
-                                    sbuttons.get(i).setVisible(true);
+                                        sbuttons_.get(i).childCount() != 0) {
+                                    sbuttons_.get(i).setVisible(true);
                                 } else {
-                                    sbuttons.get(i).setVisible(false);
+                                    sbuttons_.get(i).setVisible(false);
                                 }
                             }
                         }
@@ -656,9 +657,11 @@ public class Pet extends DevGame {
                     if (trigg[b][s] == NOT_IMPLEMENTED)
                         continue;
                     final TriggerType t = trigg[b][s];
+                    final int but = b;
                     secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
                         public void onEmit() {
                             //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
+                            sbuttons_.get(but).setVisible(false);
                             if (world_.worldLoaded()) { // use asset manager
                                 world_.triggers().get(t).fire(a());
                             }
