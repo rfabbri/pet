@@ -236,15 +236,6 @@ class PetWorld extends World {
                 }
             });
 
-        keyboard().setListener(new Keyboard.Adapter() {
-            @Override public void onKeyDown (Keyboard.Event event) {
-                keyDown_.emit(event.key());
-            }
-            @Override public void onKeyUp (Keyboard.Event event) {
-                keyUp_.emit(event.key());
-            }
-        });
-
         createPet(width_/2.f, height_/2.f);
     }
 
@@ -570,14 +561,17 @@ class PetWorld extends World {
                       case R:
                         java.lang.System.out.println("Key R pressed: u mean reload attributes file?");
                         break;
-                      case PLUS:
                       case EQUALS:
+
+                        break;
+                      case PLUS:
                         if (attributesLoaded_)
                             setGameSpeed(beatsCoelhoDia_ / 2);
                         pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
                                 + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
                         break;
                       case MINUS:
+                        break;
                       case UNDERSCORE:
                         if (attributesLoaded_)
                             setGameSpeed(beatsCoelhoDia_ + beatsCoelhoDiaNormal_);

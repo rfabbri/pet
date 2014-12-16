@@ -22,11 +22,14 @@ import playn.core.Font;
 import playn.core.Sound;
 import playn.core.util.Callback;
 import playn.core.gl.GLContext;
+import playn.core.Key;
+import playn.core.Keyboard;
 
 import react.Function;
 import react.Functions;
 import react.UnitSlot;
 import react.Slot;
+import react.Signal;
 
 import tripleplay.ui.Element;
 import tripleplay.ui.Elements;
@@ -148,6 +151,7 @@ public class Pet extends Game.Default {
     /** Misc variables */
 
     protected Clock.Source clock_ = new Clock.Source(UPDATE_RATE);
+    public  final   Signal<Key> keyDown_ = Signal.create();
 
     /*-------------------------------------------------------------------------------*/
     /** Layers, groups and associated resources */
@@ -169,6 +173,83 @@ public class Pet extends Game.Default {
     /** Constructor */
     public Pet() {
         super(UPDATE_RATE);
+
+        keyDown_.connect(new Slot<Key>() {
+            @Override public void onEmit (Key key) {
+                pprint("[Petkey] keydown: " + key);
+                // switch (key) {
+                //   // TODO colocar estado walk_velocity_ na classe pet?
+                //   case LEFT:
+                //     if (pause_) return;
+                //     ps.flipRight();
+                //     velo_.x =  -WALK_VELOCITY; velo_.y = 0;
+                //     pprint("[key] LEFT press " + velo_.x + ", " + velo_.y);
+                //     break;
+                //   case RIGHT:
+                //     if (pause_) return;
+                //     ps.flipLeft();
+                //     velo_.x  =  WALK_VELOCITY;  velo_.y = 0;
+                //     pprint("[key] RIGHT press " + velo_.x + ", " + velo_.y);
+                //     break;
+                //   case UP:
+                //     if (pause_) return;
+                //     velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
+                //     pprint("[key] UP press " + velo_.x + ", " + velo_.y);
+                //     break;
+                //   case DOWN:
+                //     if (pause_) return;
+                //     velo_.x  =  0;  velo_.y = WALK_VELOCITY;
+                //     pprint("[key] DOWN press " + velo_.x + ", " + velo_.y);
+                //     break;
+                //   case SPACE:
+                //     java.lang.System.out.println("Key SPACE pressed: u mean jump?");
+                //     mainPet_.print();
+                //     break;
+                //   case C:
+                //     java.lang.System.out.println("Key C pressed: u mean taka dump?");
+                //     break;
+                //   case R:
+                //     java.lang.System.out.println("Key R pressed: u mean reload attributes file?");
+                //     break;
+                //   case EQUALS:
+
+                //     break;
+                //   case PLUS:
+                //     if (attributesLoaded_)
+                //         setGameSpeed(beatsCoelhoDia_ / 2);
+                //     pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
+                //             + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
+                //     break;
+                //   case MINUS:
+                //     break;
+                //   case UNDERSCORE:
+                //     if (attributesLoaded_)
+                //         setGameSpeed(beatsCoelhoDia_ + beatsCoelhoDiaNormal_);
+                //     pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
+                //             + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
+                //     break;
+                //   case F8:
+                //     pprint("You can also use Control-Z at a UNIX terminal to pause, then fg * to resume ");
+                //     pause_ = !pause_;
+                //     enableDisableSystemsAtPause();
+                //     pprint("[key] " + (pause_? "game paused" : "game resumed") );
+                //     break;
+                //   default: break;
+                // }
+            }
+        });
+
+        PlayN.keyboard().setListener(new Keyboard.Adapter() {
+            @Override public void onKeyDown (Keyboard.Event event) {
+                keyDown_.emit(event.key());
+                if (world_ != null && world_.worldLoaded())
+                    world_.keyDown_.emit(event.key());
+            }
+            @Override public void onKeyUp (Keyboard.Event event) {
+                if (world_ != null && world_.worldLoaded())
+                    world_.keyUp_.emit(event.key());
+            }
+        });
     }
 
     public void setUpdateRate(int updateRate) {
