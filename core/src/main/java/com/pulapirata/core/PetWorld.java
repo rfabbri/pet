@@ -22,7 +22,6 @@ import tripleplay.entity.System;
 import tripleplay.entity.World;
 import tripleplay.util.Randoms;
 
-import static com.pulapirata.core.Pet.UPDATE_RATE;
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.State;
 import com.pulapirata.core.utils.PetAttributesLoader;
@@ -57,6 +56,7 @@ class PetWorld extends World {
     public int numDroppings_;
     public int beatsWithTooManyDroppings_;
     public boolean pause_;
+    public Pet petGame_;  // ref to the game, specially to get attributes.
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -193,11 +193,12 @@ class PetWorld extends World {
         // basic time variables Pet.UPDATE_RATE and PetWorld.beatsCoelhoSegundo_.
     }
 
-    public PetWorld (GroupLayer layer, float width, float height) {
+    public PetWorld (GroupLayer layer, float width, float height, Pet petGame) {
         setGameSpeed(beatsCoelhoDia_);
         this.layer_  = layer;
         this.width_  = width;
         this.height_ = height;
+        this.petGame_ = petGame;
 
         attributesLoaded_ = false;
         triggersLoaded_ = false;
@@ -501,7 +502,8 @@ class PetWorld extends World {
                     } else {
                         beatsWithTooManyDroppings_ = 0;
                     }
-                    pprint("[poo] time with too much shit in room: " + beatsWithTooManyDroppings_*UPDATE_RATE/1000f + "s");
+                    pprint("[poo] time with too much shit in room: " +
+                            beatsWithTooManyDroppings_*petGame_.updateRate()/1000f + "s");
                 }
             }
         }

@@ -113,7 +113,7 @@ public class Pet extends Game.Default {
     /*-------------------------------------------------------------------------------*/
     /** Time data */
 
-    public static final int UPDATE_RATE = 100; // ms    // was: 100.
+    private static final int UPDATE_RATE = 100; // ms    // was: 100.
 
     public String idadeCoelhoDiasStr1() {
         if (world_ == null || !world_.worldLoaded())
@@ -177,65 +177,19 @@ public class Pet extends Game.Default {
         keyDown_.connect(new Slot<Key>() {
             @Override public void onEmit (Key key) {
                 pprint("[Petkey] keydown: " + key);
-                // switch (key) {
-                //   // TODO colocar estado walk_velocity_ na classe pet?
-                //   case LEFT:
-                //     if (pause_) return;
-                //     ps.flipRight();
-                //     velo_.x =  -WALK_VELOCITY; velo_.y = 0;
-                //     pprint("[key] LEFT press " + velo_.x + ", " + velo_.y);
-                //     break;
-                //   case RIGHT:
-                //     if (pause_) return;
-                //     ps.flipLeft();
-                //     velo_.x  =  WALK_VELOCITY;  velo_.y = 0;
-                //     pprint("[key] RIGHT press " + velo_.x + ", " + velo_.y);
-                //     break;
-                //   case UP:
-                //     if (pause_) return;
-                //     velo_.x  =  0;  velo_.y = -WALK_VELOCITY;
-                //     pprint("[key] UP press " + velo_.x + ", " + velo_.y);
-                //     break;
-                //   case DOWN:
-                //     if (pause_) return;
-                //     velo_.x  =  0;  velo_.y = WALK_VELOCITY;
-                //     pprint("[key] DOWN press " + velo_.x + ", " + velo_.y);
-                //     break;
-                //   case SPACE:
-                //     java.lang.System.out.println("Key SPACE pressed: u mean jump?");
-                //     mainPet_.print();
-                //     break;
-                //   case C:
-                //     java.lang.System.out.println("Key C pressed: u mean taka dump?");
-                //     break;
-                //   case R:
-                //     java.lang.System.out.println("Key R pressed: u mean reload attributes file?");
-                //     break;
-                //   case EQUALS:
-
-                //     break;
-                //   case PLUS:
-                //     if (attributesLoaded_)
-                //         setGameSpeed(beatsCoelhoDia_ / 2);
-                //     pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
-                //             + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
-                //     break;
-                //   case MINUS:
-                //     break;
-                //   case UNDERSCORE:
-                //     if (attributesLoaded_)
-                //         setGameSpeed(beatsCoelhoDia_ + beatsCoelhoDiaNormal_);
-                //     pprint("[key] speed = " + beatsCoelhoDia_ + "\t\t("
-                //             + (double)beatsCoelhoDiaNormal_/(double)beatsCoelhoDia_ + "x)");
-                //     break;
-                //   case F8:
-                //     pprint("You can also use Control-Z at a UNIX terminal to pause, then fg * to resume ");
-                //     pause_ = !pause_;
-                //     enableDisableSystemsAtPause();
-                //     pprint("[key] " + (pause_? "game paused" : "game resumed") );
-                //     break;
-                //   default: break;
-                // }
+                switch (key) {
+                  case LEFT_BRACKET:
+                    setUpdateRate(updateRate() * 2);
+                    pprint("[Petkey] update_rate = " + updateRate() + "\t\t("
+                            + (double)updateRate()/(double)UPDATE_RATE + "x)");
+                    break;
+                  case RIGHT_BRACKET:
+                    setUpdateRate(updateRate() / 2);
+                    pprint("[Petkey] update_rate = " + updateRate() + "\t\t("
+                            + (double)updateRate()/(double)UPDATE_RATE + "x)");
+                    break;
+                  default: break;
+                }
             }
         });
 
@@ -254,7 +208,7 @@ public class Pet extends Game.Default {
 
     public void setUpdateRate(int updateRate) {
         clock_.setUpdateRate(updateRate);
-        setUpdateRate(updateRate);
+        super.setUpdateRate(updateRate);
     }
 
     //--------------------------------------------------------------------------------
@@ -738,7 +692,7 @@ public class Pet extends Game.Default {
       worldLayer_.setDepth(UIDepth.Z_WORLD.getZ());
       // worldLayer_.setOrigin(0, WORLD_ORIGIN_Y);     // center of screen
       layer_.addAt(worldLayer_, 0, WORLD_ORIGIN_Y);
-      world_ = new PetWorld(worldLayer_, width(), WORLD_HEIGHT);
+      world_ = new PetWorld(worldLayer_, width(), WORLD_HEIGHT, this);
       bm_.makeButtons();
       /** Load messages */
       MessageLoader.CreateMessages(Messages.JSON_PATH,
