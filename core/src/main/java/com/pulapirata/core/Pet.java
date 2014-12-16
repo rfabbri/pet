@@ -90,7 +90,7 @@ public class Pet extends DevGame {
     // origin measured from topleft corner
     public static int STAT_HEIGHT = 120;
     public static int WORLD_ORIGIN_Y = STAT_HEIGHT;
-    public static int BUTTON_ORIGIN_Y = 442; // this includes the secondary buttons
+    public static int BUTTON_ORIGIN_Y = 438; // this includes the secondary buttons
     public static int MAIN_BUTTON_ORIGIN_Y = BUTTON_ORIGIN_Y+120;
     public static int WORLD_HEIGHT = MAIN_BUTTON_ORIGIN_Y-WORLD_ORIGIN_Y;
 
