@@ -100,7 +100,7 @@ public class Pet extends DevGame {
     public PetAttributes a() { return world_.mainPet(); }   // shortcut
 
     public enum UIDepth {
-        Z_WORLD(100), Z_BG(20), Z_BUTTONS(26), Z_STATBAR(22);
+        Z_WORLD(100), Z_BG(20), Z_BUTTONS(26), Z_SBUTTONS(120), Z_STATBAR(22);
         private final int z;
 
         UIDepth (int z) {
@@ -385,12 +385,12 @@ public class Pet extends DevGame {
             Root broot = iface_.createRoot(new AbsoluteLayout(), petSheet_);
             Root sbroot = iface_.createRoot(new AbsoluteLayout(), petSheet_);
 
-            broot.setSize(width(), 354);
+            broot.setSize(width(), 240);
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
             broot.layer.setDepth(UIDepth.Z_BUTTONS.getZ());
-            layer_.addAt(broot.layer, 0, BUTTON_ORIGIN_Y); // position of buttons
+            layer_.addAt(broot.layer, 0, MAIN_BUTTON_ORIGIN_Y); // position of buttons
 
-            sbroot.setSize(width(), 354);
+            sbroot.setSize(width(), 120);
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
             sbroot.layer.setDepth(UIDepth.Z_SBUTTONS.getZ());
             layer_.addAt(sbroot.layer, 0, BUTTON_ORIGIN_Y); // position of buttons
@@ -613,7 +613,7 @@ public class Pet extends DevGame {
                 }
 
                 Selector sel = new Selector(buttons, null);
-                broot.add(AbsoluteLayout.at(buttons, 0, 118, width(), 236));
+                broot.add(AbsoluteLayout.at(buttons, 0, 0, width(), 240));
 
                 // TODO: improve this part with a button -> index map so we don't go through
                 // all butts
