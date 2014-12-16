@@ -177,16 +177,30 @@ public class Pet extends Game.Default {
         keyDown_.connect(new Slot<Key>() {
             @Override public void onEmit (Key key) {
                 pprint("[Petkey] keydown: " + key);
+                double speedup;
                 switch (key) {
                   case LEFT_BRACKET:
-                    setUpdateRate(updateRate() * 2);
-                    pprint("[Petkey] update_rate = " + updateRate() + "\t\t("
-                            + (double)updateRate()/(double)UPDATE_RATE + "x)");
+                    speedup = (double)UPDATE_RATE/((double)updateRate()*2);
+                    if (speedup > 1  && speedup < 1.5)
+                        setUpdateRate(UPDATE_RATE);
+                    else
+                        setUpdateRate(updateRate() * 2);
+                    speedup = (double)UPDATE_RATE/((double)updateRate());
+                    pprint("[Petkey] update_rate = " + updateRate() + "\t\tspeed ("
+                            + speedup + "x)");
                     break;
                   case RIGHT_BRACKET:
-                    setUpdateRate(updateRate() / 2);
-                    pprint("[Petkey] update_rate = " + updateRate() + "\t\t("
-                            + (double)updateRate()/(double)UPDATE_RATE + "x)");
+                    speedup = (double)UPDATE_RATE/((double)updateRate()/2);
+                    if (updateRate() >= 4)
+                        if (speedup > 0.8 && speedup < 1) // clamp
+                            setUpdateRate(UPDATE_RATE);
+                        else
+                            setUpdateRate(updateRate() / 2);
+                    else
+                        pprint("[Petkey] max game speed reached - 1 update per 2 milisecond");
+                    speedup = (double)UPDATE_RATE/((double)updateRate());
+                    pprint("[Petkey] update_rate = " + updateRate() + "\t\tspeed ("
+                            + (double)UPDATE_RATE/(double)updateRate() + "x)");
                     break;
                   default: break;
                 }
