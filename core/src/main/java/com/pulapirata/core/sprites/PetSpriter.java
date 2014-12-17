@@ -25,37 +25,38 @@ public class PetSpriter extends CompositeSpriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
-    private final String prefix = "pet/sprites/Pingo/Bebe/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
-                "pingo_bebe_bebado_v2.png",
-                "pingo_bebe_chorando_v2.png",
-                "pingo_bebe_coma_alcoolico_v2.png",
-                "pingo_bebe_comendo_v2.png",
-                "pingo_bebe_dormindo_v2.png",
-                "pingo_bebe_doente_v2.png",
-                "pingo_bebe_morto_v2.png",
-                "pingo_bebe_piscando_v2.png",
-                "pingo_bebe_pulando_v2.png",
-                "pingo_bebe_triste_v2.png",
-                "pingo_bebe_vomitando_v2.png",
-                "pingo_bebe_varrendo_v2.png"
+                "pet/sprites/Pingo/Bebe/pingo_bebe_bebado_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_chorando_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_coma_alcoolico_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_comendo_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_dormindo_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_doente_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_morto_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_piscando_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_pulando_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_triste_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_vomitando_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_varrendo_v2.png",
+                "pet/sprites/overlays/questionmark.png"
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
-                "pingo_bebe_bebado_v2.json",
-                "pingo_bebe_chorando_v2.json",
-                "pingo_bebe_coma_alcoolico_v2.json",
-                "pingo_bebe_comendo_v2.json",
-                "pingo_bebe_dormindo_v2.json",
-                "pingo_bebe_doente_v2.json",
-                "pingo_bebe_morto_v2.json",
-                "pingo_bebe_piscando_v2.json",
-                "pingo_bebe_pulando_v2.json",
-                "pingo_bebe_triste_v2.json",
-                "pingo_bebe_vomitando_v2.json",
-                "pingo_bebe_varrendo_v2.json"
+                "pet/sprites/Pingo/Bebe/pingo_bebe_bebado_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_chorando_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_coma_alcoolico_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_comendo_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_dormindo_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_doente_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_morto_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_piscando_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_pulando_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_triste_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_vomitando_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_varrendo_v2.json",
+                "pet/sprites/overlays/questionmark.json"
         ));
 
     private final ArrayList<VisibleCondition> vc =
@@ -71,7 +72,8 @@ public class PetSpriter extends CompositeSpriter {
                 PULANDO,
                 TRISTE,
                 VOMITANDO,
-                VARRENDO
+                VARRENDO,
+                UNDETERMINED
         ));
 
     // Atualmente nao tem sprite antigo para estes:
@@ -102,8 +104,8 @@ public class PetSpriter extends CompositeSpriter {
 
     public PetSpriter() {
         for (int i = 0; i < jsons.size(); i++) {
-            String spriteFnames = prefix + images.get(i);
-            String jsonFnames   = prefix + jsons.get(i);
+            String spriteFnames = images.get(i);
+            String jsonFnames   = jsons.get(i);
             printd("[petspriter] Loading sprite file: " + spriteFnames + jsonFnames);
             Sprite s = SpriteLoader.getSprite(spriteFnames, jsonFnames);
             //System.out.println("sprite true? : " + sprite == null + "i : " + i + vc.size());
@@ -165,8 +167,7 @@ public class PetSpriter extends CompositeSpriter {
                 // or just print
                 case UNDETERMINED:
                     dprint("[petspriter.set] Error:  " + s + " visible condition shouldn't occur!");
-                    set(MORTO);  // ideally have a ? sprite for UNDETERMINED, but better hide this from users.
-                    return;
+                    break;
                 case COM_MOSQUITO:
                 case COM_STINKY_MOSQUITO:
                     System.out.println("[petspriter.set] mosquitim.. ");

@@ -397,40 +397,40 @@ public class PetAttributes {
         a2vis_.put(ActionState.GORFANDO, VisibleCondition.VOMITANDO);  // vomitando de vez em quando soltando vomito
         a2vis_.put(ActionState.TOMANDO_BANHO, VisibleCondition.NORMAL);  // por hora..
         a2vis_.put(ActionState.TOMANDO_REMEDIO, VisibleCondition.COMENDO);  // por hora.. parece mastigar remedio
-//        JOGANDO_BOLA, IGNORE
-//        JOGANDO_VIDEOGAME, IGNORE
-//        ASSITINDO_TV, IGNORE
-//        LENDO_QUADRINHOS, IGNORE
-//        LENDO_LIVRO, IGNORE
-//        ASSISTINDO_ANIME,
-//        ASSISTINDO_CINE_PRIVE,
-//        DESENHANDO,
-//        USANDO_CELULAR,
-//        USANDO_REDE_SOCIAL,
-//        JOGANDO_RPG,
-//        TOMANDO_BANHO,
-//        ESCOVANDO_DENTES,
-//        PASSANDO_PERFUME,
-//        FUMANDO,
-//        MASTURBANDO,
-//        SAINDO_DE_CASA,
-//        TOMANDO_GLICOSE,
-//        TOMANDO_REMEDIO,
-//        LEVANDO_CURATIVO,
-//        TOMANDO_VACINA,
-//        TOMANDO_ESTOMAZIL,
-//        TOMANDO_ENGOV,
-//        TOMANDO_VIAGRA,
-//        LEVANDO_CHINELADA,
-//        LEVANDO_GRITO,
-//        SENDO_CASTIGADO, CHORANDO,
-//        LEVANDO_CHICOTADA, CHORANDO,
-//        LIGANDO,
-//        CONVIDANDO_COLEGA,
-//        MEXENDO_CELULAR,
-//        FAZENDO_FESTA,
-//        BOOTY_CALLING,
-//        ESTUDANDO,
+        a2vis_.put(ActionState.JOGANDO_BOLA,  VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.JOGANDO_VIDEOGAME,  VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.ASSITINDO_TV,  VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.LENDO_QUADRINHOS,  VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.LENDO_LIVRO,  VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.ASSISTINDO_ANIME, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.ASSISTINDO_CINE_PRIVE, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.DESENHANDO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.USANDO_CELULAR, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.USANDO_REDE_SOCIAL, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.JOGANDO_RPG, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.TOMANDO_BANHO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.ESCOVANDO_DENTES, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.PASSANDO_PERFUME, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.FUMANDO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.MASTURBANDO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.SAINDO_DE_CASA, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.TOMANDO_GLICOSE, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.TOMANDO_REMEDIO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.LEVANDO_CURATIVO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.TOMANDO_VACINA, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.TOMANDO_ESTOMAZIL, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.TOMANDO_ENGOV, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.TOMANDO_VIAGRA, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.LEVANDO_CHINELADA, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.LEVANDO_GRITO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.SENDO_CASTIGADO, VisibleCondition.CHORANDO);
+        a2vis_.put(ActionState.LEVANDO_CHICOTADA, VisibleCondition.CHORANDO);
+        a2vis_.put(ActionState.LIGANDO, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.CONVIDANDO_COLEGA, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.MEXENDO_CELULAR, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.FAZENDO_FESTA, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.BOOTY_CALLING, VisibleCondition.UNDETERMINED);
+        a2vis_.put(ActionState.ESTUDANDO, VisibleCondition.UNDETERMINED);
 
 
         sNutricao_      = new PetAttributeState();
