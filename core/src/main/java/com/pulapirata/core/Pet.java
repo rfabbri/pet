@@ -115,7 +115,7 @@ public class Pet extends DevGame {
     /*-------------------------------------------------------------------------------*/
     /** Time data */
 
-    private static final int UPDATE_RATE = 1; // ms    // was: 100.
+    private static final int UPDATE_RATE = 100; // ms    // was: 100.
 
     public String idadeCoelhoDiasStr1() {
         if (world_ == null || !world_.worldLoaded())
@@ -669,10 +669,9 @@ public class Pet extends DevGame {
                             //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
                             sbuttons_.get(but).setVisible(false);
 
-			    //Fazendo a verificação de está de noite ou de dia.
-                            if (world_.worldLoaded() && (world_.idadeCoelhoHoras() - world_.idadeCoelhoDias()*24) > 8 ) { // use asset manager
-                                world_.triggers().get(t).fire(a());			    
-				System.out.println("FOI");
+                            //Fazendo a verificação de está de noite ou de dia.
+                            if (world_.worldLoaded() && world.hourOfDay() > 8 ) { // use asset manager
+                                world_.triggers().get(t).fire(a());
                             }
                         }
                     });
