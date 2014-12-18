@@ -670,7 +670,7 @@ public class Pet extends DevGame {
                             sbuttons_.get(but).setVisible(false);
 
                             //Fazendo a verificação de está de noite ou de dia.
-                            if (world_.worldLoaded() && world.hourOfDay() > 8 ) { // use asset manager
+                            if (world_.worldLoaded() && world_.hourOfDay() > 8 ) { // use asset manager
                                 world_.triggers().get(t).fire(a());
                             }
                         }

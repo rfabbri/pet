@@ -116,7 +116,8 @@ class PetWorld extends World {
     public int idadeCoelhoMinutos()
         { return (int)(((double)beat_ % beatsCoelhoHora_)/(beatsCoelhoHora_/60.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
-    public int hourOfDay() { idadeCoelhoHoras() - idadeCoelhoDias()*24; }
+    static public final int horarioInicial_ = 10; // o jogo comeca no horario 10am
+    public int hourOfDay() { return idadeCoelhoHoras() - idadeCoelhoDias()*24 + horarioInicial_; }
     public final int GAME_MIN_BEATS_COELHO_DIAS = 2*24*60*60;
 
 
@@ -430,6 +431,7 @@ class PetWorld extends World {
                     dprint("     >>>>>>>>>>>>  Current pet state");
                     if (print_status_) {
                         pet_.get(eid).print();
+                        pprint("[hora] (difere do tempo de vida)\t" + hourOfDay() + "h " + idadeCoelhoMinutos() + "min");
                     }
                     dprint("     <<<<<<<<<<<<  END Current pet state");
 //                        entity(eid).didChange(); // mover will render it.
