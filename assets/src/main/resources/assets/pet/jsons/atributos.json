@@ -30,7 +30,7 @@
         {"name": "superstar", "min": 81, "max": 100}
       ]
     },
-    {"name": "Higiene", "startValue": 30, "min": -20, "max": 100, "passive": -1, "passiveBeats": 0.1,
+    {"name": "Higiene", "startValue": 30, "min": -20, "max": 100, "passive": -1, "passiveBeats": 0.001,
       "States": [
         {"name": "imundo", "min": -20, "max": -1},
         {"name": "muito sujo", "min": 0, "max": 20},

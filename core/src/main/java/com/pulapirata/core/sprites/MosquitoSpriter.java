@@ -10,8 +10,8 @@ import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
 import static playn.core.PlayN.log;
-import com.pulapirata.core.PetAttributes.VisibleCondition;
-import static com.pulapirata.core.PetAttributes.VisibleCondition.*;
+import com.pulapirata.core.PetAttributes.State;
+import static com.pulapirata.core.PetAttributes.State.*;
 import static com.pulapirata.core.utils.Puts.*;
 
 /**
@@ -27,19 +27,22 @@ public class MosquitoSpriter extends CompositeSpriter {
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
                 "pingo_bebe_sujo_v2.png",
+                "pingo_bebe_muito_sujo_v2.png",
                 "pingo_bebe_muito_sujo_v2.png"
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
                 "pingo_bebe_sujo_v2.json",
+                "pingo_bebe_muito_sujo_v2.json",
                 "pingo_bebe_muito_sujo_v2.json"
         ));
 
-    private final ArrayList<VisibleCondition> vc =
-        new ArrayList<VisibleCondition>(Arrays.asList(
-                COM_MOSQUITO,
-                COM_STINKY_MOSQUITO
+    private final ArrayList<State> vc =
+        new ArrayList<State>(Arrays.asList(
+                SUJO,
+                MUITO_SUJO,
+                IMUNDO
         ));
 
     @Override
@@ -49,8 +52,8 @@ public class MosquitoSpriter extends CompositeSpriter {
 
     // all member animations(sprites) should have same atlas as source,
     // as built in PetSpriteLoader.java, and also the same layer
-    private EnumMap<VisibleCondition, Sprite> animMap_ = new EnumMap<VisibleCondition, Sprite> (VisibleCondition.class);
-    private VisibleCondition currentTipoMosquito_ = COM_MOSQUITO;
+    private EnumMap<State, Sprite> animMap_ = new EnumMap<State, Sprite> (State.class);
+    private State currentTipoMosquito_ = SUJO;
 
     /**
      * Copy constructor for sharing resources with a another preallocated
@@ -108,20 +111,20 @@ public class MosquitoSpriter extends CompositeSpriter {
         }
 
         // Error check of internal structures - ifndef NDEBUG
-        int n = VisibleCondition.values().length;
+        int n = State.values().length;
         boolean[] hasState = new boolean[n];
         for (int i = 0; i < vc.size(); ++i) {
             hasState[vc.get(i).ordinal()] = true;
         }
         for (int i = 0; i < n; ++i) {
             if (!hasState[i]) {
-                dprint("Warning: sprite file not specified for state " + VisibleCondition.values()[i]);
+                dprint("Warning: sprite file not specified for state " + State.values()[i]);
                 dprint("         make sure this is rendered some other way");
             }
         }
     }
 
-    void set(VisibleCondition s) {
+    void set(State s) {
         dprint("[mosquito] Requested TipoMosquito " + s);
 
         if (!hasLoaded())
@@ -130,8 +133,8 @@ public class MosquitoSpriter extends CompositeSpriter {
         Sprite newSprite = animMap_.get(s);
 
         if (newSprite == null) {
-            dprint("[mosquitospriter.set] Requested visibleCondition " + s);
-            dprint("[mosquitospriter.set] assuming without mosquito.");
+            dprint("[mosquitospriter.set] Requested mosquitos for state " + s);
+            dprint("[mosquitospriter.set]  assuming without mosquito.");
             currentSprite_.layer().setVisible(false);
             return;
         }
@@ -145,7 +148,7 @@ public class MosquitoSpriter extends CompositeSpriter {
 
     @Override
     public void set(int i) {
-        set(VisibleCondition.values()[i]);
+        set(State.values()[i]);
     }
 
     @Override

@@ -766,7 +766,7 @@ class PetWorld extends World {
                         case MOSQUITOS:
                             if (attributesLoaded_ && sprite_.get(eid).hasLoaded()) {
                                 MosquitoSpriter ms = (MosquitoSpriter) sprite_.get(eid);
-                                mainPet_.vis().connect(ms.slot());    // links mosquito sprite to pet visual condition
+                                mainPet_.sHigiene().connect(ms.slot());    // links mosquito sprite to pet visual condition
                                 radius_.set(eid, ms.boundingRadius());
                                 pos_.set(eid, pos_.getX(mainID_),
                                         pos_.getY(mainID_)+2*radius_.get(mainID_));

@@ -168,15 +168,15 @@ public class PetSpriter extends CompositeSpriter {
                 case UNDETERMINED:
                     dprint("[petspriter.set] Error:  " + s + " visible condition shouldn't occur!");
                     break;
-                case COM_MOSQUITO:
-                case COM_STINKY_MOSQUITO:
-                    System.out.println("[petspriter.set] mosquitim.. ");
-                    if (currentSprite_ == null)
-                        set(NORMAL);  // falback to normal or else keep sprite that was there before.
-                                      // the visible appearance will still be
-                                      // COM_MOSQUITOS, but we make it just look
-                                      // NORMAL for now
-                    return;
+                // case COM_MOSQUITO:
+                //  case COM_STINKY_MOSQUITO:
+                //      System.out.println("[petspriter.set] mosquitim.. ");
+                //      if (currentSprite_ == null)
+                //          set(NORMAL);  // falback to normal or else keep sprite that was there before.
+                //                        // the visible appearance will still be
+                //                        // COM_MOSQUITOS, but we make it just look
+                //                        // NORMAL for now
+                //      return;
                 case BRAVO:     // TODO: automatic fallback from an array ? this is just temporary anyway.
                 case IRRITADO:
                     System.out.println("[petspriter.set] Warning:  using fallback anim TRISTE for: " + s + ".");

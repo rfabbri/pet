@@ -49,8 +49,6 @@ public class PetAttributes {
      */
     public enum VisibleCondition {
         IGNORE,        // lowest prio - will usually be overriden by higher prio
-        COM_MOSQUITO,  // colocando mais baixa prioridade por hora, pra ignorar esta anim
-        COM_STINKY_MOSQUITO, // colocando mais baixa prioridade por hora, pra ignorar esta anim
         NORMAL,
         TRISTE,
         CHORANDO,
@@ -344,9 +342,9 @@ public class PetAttributes {
          s2vis_.put(State.POUCOS_AMIGOS, VisibleCondition.NORMAL);
          s2vis_.put(State.POPULAR, VisibleCondition.NORMAL);
          s2vis_.put(State.SUPERSTAR, VisibleCondition.NORMAL);
-        s2vis_.put(State.IMUNDO, VisibleCondition.COM_STINKY_MOSQUITO);
-         s2vis_.put(State.MUITO_SUJO, VisibleCondition.COM_MOSQUITO);
-         s2vis_.put(State.SUJO, VisibleCondition.COM_MOSQUITO);
+        s2vis_.put(State.IMUNDO, VisibleCondition.NORMAL); // low prio, reverts to other anim
+         s2vis_.put(State.MUITO_SUJO, VisibleCondition.NORMAL); // same comment
+         s2vis_.put(State.SUJO, VisibleCondition.NORMAL); // same
          s2vis_.put(State.LIMPO, VisibleCondition.NORMAL);
          s2vis_.put(State.MUITO_LIMPO, VisibleCondition.NORMAL);
         s2vis_.put(State.EXPULSO, VisibleCondition.NORMAL);
