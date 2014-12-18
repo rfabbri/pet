@@ -672,6 +672,8 @@ public class Pet extends DevGame {
                             //Fazendo a verificação de está de noite ou de dia.
                             if (world_.worldLoaded() && world_.hourOfDay() > 8 ) { // use asset manager
                                 world_.triggers().get(t).fire(a());
+                            } else {
+                                pprint("[button] buttons are blocked at night.");
                             }
                         }
                     });
