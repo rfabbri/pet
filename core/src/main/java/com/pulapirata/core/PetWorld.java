@@ -116,6 +116,7 @@ class PetWorld extends World {
     public int idadeCoelhoMinutos()
         { return (int)(((double)beat_ % beatsCoelhoHora_)/(beatsCoelhoHora_/60.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }
+    public int hourOfDay() { idadeCoelhoHoras() - idadeCoelhoDias()*24; }
     public final int GAME_MIN_BEATS_COELHO_DIAS = 2*24*60*60;
 
 

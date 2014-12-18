@@ -668,7 +668,9 @@ public class Pet extends DevGame {
                         public void onEmit() {
                             //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
                             sbuttons_.get(but).setVisible(false);
-                            if (world_.worldLoaded()) { // use asset manager
+
+                            //Fazendo a verificação de está de noite ou de dia.
+                            if (world_.worldLoaded() && world.hourOfDay() > 8 ) { // use asset manager
                                 world_.triggers().get(t).fire(a());
                             }
                         }
