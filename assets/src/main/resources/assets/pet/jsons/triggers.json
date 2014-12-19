@@ -1,6 +1,6 @@
 {"Triggers": [
     {"name": "Sopa de Cenoura", "action": "COMENDO", "duration": 3, "cost": 0,
-             "Modifiers": [{ "nutricao": 15 "higiene": -10, "intestino": 3 }],
+             "Modifiers": [{ "nutricao": 15, "higiene": -10, "intestino": 3 }],
              "AgeStage": [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "lock", "MEIA_IDADE": "lock", "TERCEIRA_IDADE": "lock", "ANCIAO": "unlock" }]
     },
     {"name": "Sopa de Bacon", "action": "COMENDO",  "duration": 3,
@@ -28,7 +28,7 @@
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
     },
     {"name": "Bombom de Licor", "action": "COMENDO", "duration": 3,
-             "Modifiers": [{ "nutricao": 5 "humor": 5 "social": 0, "higiene": -5, "estudo": 0, "saude": -2, "alcool": 10, "disciplina": -2, "sexualidade": 0, "fe": 0, "intestino": 0 }],
+             "Modifiers": [{ "nutricao": 5, "humor": 5, "social": 0, "higiene": -5, "estudo": 0, "saude": -2, "alcool": 10, "disciplina": -2, "sexualidade": 0, "fe": 0, "intestino": 0 }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
     },
     {"name": "Booty Call", "action": "BOOTY_CALLING", "duration": 1800,
@@ -52,7 +52,7 @@
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
     },
     {"name": "Leite", "action": "COMENDO", "duration": 3,
-             "Modifiers": [{ "nutricao": 20, "humor": 0, "higiene": -5, "saude": 0, "disciplina": 0, "intestino": 0 }],
+             "Modifiers": [{ "nutricao": 10, "humor": 0, "higiene": -5, "saude": 0, "disciplina": 0, "intestino": 0 }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "lock", "ADULTO": "lock", "MEIA_IDADE": "lock", "TERCEIRA_IDADE": "block", "ANCIAO": "unlock" }]
     },
     {"name": "Bola", "action": "JOGANDO_BOLA", "duration": 60,
