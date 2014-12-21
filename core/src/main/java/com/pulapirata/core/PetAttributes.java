@@ -50,6 +50,7 @@ public class PetAttributes {
     public enum VisibleCondition {
         IGNORE,        // lowest prio - will usually be overriden by higher prio
         NORMAL,
+        RESPIRANDO,    // pode ser parte de Normal.
         TRISTE,
         CHORANDO,
         IRRITADO,
@@ -60,6 +61,7 @@ public class PetAttributes {
         MUITO_MACHUCADO,
         BEBADO,
         DOENTE,
+        RESSACA,  // TODO: implement internal ressaca attribute logic and link it to visible condition
         NORMAL_COM_VOMITO,
         VOMITANDO,
         BEBADO_VOMITANDO,
@@ -69,7 +71,7 @@ public class PetAttributes {
         DORMINDO,
         VARRENDO,
 
-        //--- Maioria das acoes entram nesta prioridade
+        //---
         COMA,
         COMA_ALCOOLICO,
         MORTO,
@@ -339,7 +341,7 @@ public class PetAttributes {
          s2vis_.put(State.MUITO_ALEGRE, VisibleCondition.NORMAL);
         s2vis_.put(State.DEPRESSAO, VisibleCondition.CHORANDO);
          s2vis_.put(State.SOZINHO, VisibleCondition.TRISTE);
-         s2vis_.put(State.POUCOS_AMIGOS, VisibleCondition.NORMAL);
+         s2vis_.put(State.POUCOS_AMIGOS, VisibleCondition.RESPIRANDO); // sem motivo, so testando
          s2vis_.put(State.POPULAR, VisibleCondition.NORMAL);
          s2vis_.put(State.SUPERSTAR, VisibleCondition.NORMAL);
         s2vis_.put(State.IMUNDO, VisibleCondition.NORMAL); // low prio, reverts to other anim

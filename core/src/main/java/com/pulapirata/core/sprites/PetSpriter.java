@@ -42,7 +42,11 @@ public class PetSpriter extends CompositeSpriter {
                 "pet/sprites/Pingo/Bebe/pingo_bebe_triste_v2.png",
                 "pet/sprites/Pingo/Bebe/pingo_bebe_vomitando_v2.png",
                 "pet/sprites/Pingo/Bebe/pingo_bebe_varrendo_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_bravo_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_irritado_v2.png",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_ressaca_v2.png",
                 "pet/sprites/overlays/questionmark.png"
+                // TODO: melhorar animacao "NORMAL" compondo respiro+ piscada aleatoria pingo_bebe_respirando_v2.png
         ));
 
     private final ArrayList<String> jsonsBebe =
@@ -59,6 +63,9 @@ public class PetSpriter extends CompositeSpriter {
                 "pet/sprites/Pingo/Bebe/pingo_bebe_triste_v2.json",
                 "pet/sprites/Pingo/Bebe/pingo_bebe_vomitando_v2.json",
                 "pet/sprites/Pingo/Bebe/pingo_bebe_varrendo_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_bravo_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_irritado_v2.json",
+                "pet/sprites/Pingo/Bebe/pingo_bebe_ressaca_v2.json",
                 "pet/sprites/overlays/questionmark.json"
         ));
 
@@ -76,18 +83,11 @@ public class PetSpriter extends CompositeSpriter {
                 TRISTE,
                 VOMITANDO,
                 VARRENDO,
+                BRAVO,
+                IRRITADO,
+                RESSACA,
                 UNDETERMINED
         ));
-    // Atualmente nao tem sprite antigo para estes:
-    //        IRRITADO,
-    //        BRAVO,
-    //        DOENTE,
-    //        MACHUCADO,
-    //        MUITO_MACHUCADO,
-    //        COMA_ALCOOLICO,
-    //        COM_MOSQUITO,
-    //        COM_STINKY_MOSQUITO,
-    //        UNDETERMINED
     // Novo nao tem:
     //        MACHUCADO,
     //        MUITO_MACHUCADO,
@@ -106,9 +106,10 @@ public class PetSpriter extends CompositeSpriter {
                 "pet/sprites/Pingo/Crianca/pingo_crianca_irritado_v2.png",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_morto_v2.png",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_piscando_v2.png",
+                "pet/sprites/overlays/questionmark.png",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_respirando_v2.png",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_ressaca_v2.png",
-                "pet/sprites/Pingo/Crianca/pingo_crianca_triste_v2 copy.png",
+                "pet/sprites/Pingo/Crianca/pingo_crianca_triste_v2.png",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_varrendo_v2.png",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_vomitando_v2.png",
                 "pet/sprites/overlays/questionmark.png"
@@ -119,13 +120,15 @@ public class PetSpriter extends CompositeSpriter {
                 "pet/sprites/Pingo/Crianca/pingo_crianca_bebado_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_bravo_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_chorando_v2.json",
+                "pet/sprites/Pingo/Crianca/pingo_crianca_coma_alcoolico_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_comendo_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_doente_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_dormindo_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_irritado_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_morto_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_piscando_v2.json",
-                "pet/sprites/Pingo/Crianca/pingo_crianca_pulando_v2.json",
+                "pet/sprites/overlays/questionmark.json",
+                //"pet/sprites/Pingo/Crianca/pingo_crianca_pulando_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_respirando_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_ressaca_v2.json",
                 "pet/sprites/Pingo/Crianca/pingo_crianca_triste_v2.json",
@@ -137,68 +140,39 @@ public class PetSpriter extends CompositeSpriter {
     private final ArrayList<VisibleCondition> vcCrianca =
         new ArrayList<VisibleCondition>(Arrays.asList(
                 BEBADO,
+                BRAVO,
                 CHORANDO,
                 COMA_ALCOOLICO,
                 COMENDO,
-                DORMINDO,
                 DOENTE,
+                DORMINDO,
+                IRRITADO,
                 MORTO,
                 NORMAL,
                 PULANDO,
+                RESPIRANDO,
+                RESSACA,
                 TRISTE,
-                VOMITANDO,
                 VARRENDO,
+                VOMITANDO,
                 UNDETERMINED
         ));
 
     private final ArrayList<String> imagesAdolescente =
         new ArrayList<String>(Arrays.asList(
-                "pet/sprites/Pingo/Bebe/pingo_bebe_bebado_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_chorando_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_coma_alcoolico_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_comendo_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_dormindo_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_doente_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_morto_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_piscando_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_pulando_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_triste_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_vomitando_v2.png",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_varrendo_v2.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.png",
                 "pet/sprites/overlays/questionmark.png"
         ));
 
     private final ArrayList<String> jsonsAdolescente =
         new ArrayList<String>(Arrays.asList(
-                "pet/sprites/Pingo/Bebe/pingo_bebe_bebado_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_chorando_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_coma_alcoolico_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_comendo_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_dormindo_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_doente_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_morto_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_piscando_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_pulando_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_triste_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_vomitando_v2.json",
-                "pet/sprites/Pingo/Bebe/pingo_bebe_varrendo_v2.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.json",
                 "pet/sprites/overlays/questionmark.json"
         ));
 
     private final ArrayList<VisibleCondition> vcAdolescente =
         new ArrayList<VisibleCondition>(Arrays.asList(
                 BEBADO,
-                CHORANDO,
-                COMA_ALCOOLICO,
-                COMENDO,
-                DORMINDO,
-                DOENTE,
-                MORTO,
-                NORMAL,
-                PULANDO,
-                TRISTE,
-                VOMITANDO,
-                VARRENDO,
                 UNDETERMINED
         ));
 
@@ -294,7 +268,7 @@ public class PetSpriter extends CompositeSpriter {
             // Error check of internal structures - ifndef NDEBUG
             int n = VisibleCondition.values().length;
             boolean[] hasState = new boolean[n];
-            for (int i = 0; i < vc.size(); ++i) {
+            for (int i = 0; i < vc.get(a).size(); ++i) {
                 hasState[vc.get(a).get(i).ordinal()] = true;
             }
             for (int i = 0; i < n; ++i) {
