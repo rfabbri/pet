@@ -162,7 +162,23 @@ public class PetSpriter extends CompositeSpriter {
         new ArrayList<String>(Arrays.asList(
                 "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.png",
                 "pet/sprites/overlays/questionmark.png",
-                "pet/sprites/overlays/questionmark.png"
+                "pet/sprites/overlays/questionmark.png",
+pingo_adolescente_bebado.png
+pingo_adolescente_bravo.png
+pingo_adolescente_caminhando.png
+pingo_adolescente_chorando.png
+pingo_adolescente_comaalcoolico.png
+pingo_adolescente_comendo.png
+pingo_adolescente_doente.png
+pingo_adolescente_dormindo.png
+pingo_adolescente_irritado.png
+pingo_adolescente_machucado.png
+pingo_adolescente_morto.png
+pingo_adolescente_piscando.png
+pingo_adolescente_respirando.png
+pingo_adolescente_ressaca.png
+pingo_adolescente_triste.png
+pingo_adolescente_vomitando.png
         ));
 
     private final ArrayList<String> jsonsAdolescente =
@@ -170,6 +186,23 @@ public class PetSpriter extends CompositeSpriter {
                 "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.json",
                 "pet/sprites/overlays/questionmark.json",
                 "pet/sprites/overlays/questionmark.json"
+                // XXX
+pingo_adolescente_bebado.json
+pingo_adolescente_bravo.json
+pingo_adolescente_caminhando.json
+pingo_adolescente_chorando.json
+pingo_adolescente_comaalcoolico.json
+pingo_adolescente_comendo.json
+pingo_adolescente_doente.json
+pingo_adolescente_dormindo.json
+pingo_adolescente_irritado.json
+pingo_adolescente_machucado.json
+pingo_adolescente_morto.json
+pingo_adolescente_piscando.json
+pingo_adolescente_respirando.json
+pingo_adolescente_ressaca.json
+pingo_adolescente_triste.json
+pingo_adolescente_vomitando.json
         ));
 
     private final ArrayList<VisibleCondition> vcAdolescente =
