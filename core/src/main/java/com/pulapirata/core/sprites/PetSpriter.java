@@ -161,18 +161,21 @@ public class PetSpriter extends CompositeSpriter {
     private final ArrayList<String> imagesAdolescente =
         new ArrayList<String>(Arrays.asList(
                 "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.png",
+                "pet/sprites/overlays/questionmark.png",
                 "pet/sprites/overlays/questionmark.png"
         ));
 
     private final ArrayList<String> jsonsAdolescente =
         new ArrayList<String>(Arrays.asList(
                 "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.json",
+                "pet/sprites/overlays/questionmark.json",
                 "pet/sprites/overlays/questionmark.json"
         ));
 
     private final ArrayList<VisibleCondition> vcAdolescente =
         new ArrayList<VisibleCondition>(Arrays.asList(
                 BEBADO,
+                NORMAL,
                 UNDETERMINED
         ));
 
@@ -198,7 +201,7 @@ public class PetSpriter extends CompositeSpriter {
                 vcAdolescente
         ));
 
-    AgeStage age_ = AgeStage.BEBE;
+    AgeStage age_ = AgeStage.ADOLESCENTE;
 
     int totalNumSprites_ = -1;
 
@@ -323,6 +326,14 @@ public class PetSpriter extends CompositeSpriter {
                     System.out.println("[petspriter.set] Warning: anim not available for now. using fallback anim VOMITANDO for " + s + ".");
                     set(VOMITANDO);
                     return;
+                case NORMAL:
+                    System.out.println("[petspriter.set] Warning: not even normal anim available! probably testing.. using fallback anim UNDETERMINED for " + s + ".");
+                    set(UNDETERMINED);
+                    return;
+                case PULANDO:
+                    System.out.println("[petspriter.set] Warning: using fallback anim UNDETERMINED for " + s + ".");
+                    set(UNDETERMINED);
+                    return;
                 default:
                     dprinte("[petspriter.set] Error:  no fallback anim for: " + s + ".");
                     break;
@@ -334,7 +345,7 @@ public class PetSpriter extends CompositeSpriter {
             currentSprite_.layer().setVisible(false);
 
         currentVisibleCondition_ = s;
-        setCurrentSprite(newSprite, 2f);
+        setCurrentSprite(newSprite, 1f);
 //         currentSprite_.layer().setVisible(false); // XXX
     }
 
