@@ -11,9 +11,9 @@ import react.IntValue;
  */
 public class PetAttribute extends IntValue {
 
-    public PetAttribute(String name, int startVal, int min, int max, int passive, double passiveBeats) {
+    public PetAttribute(String name, int startVal, int min, int max, int passiveDay, int passiveNight, double passiveBeats) {
         super(startVal);
-        set(name, min, max, passive, passiveBeats);
+        set(name, min, max, passiveDay, passiveNight, passiveBeats);
         assert inv();
     }
 
@@ -22,7 +22,7 @@ public class PetAttribute extends IntValue {
      */
     public PetAttribute(String name) {
       super(-6969);
-      set(name, -696969, 696969, 6969, 9696);
+      set(name, -696969, 696969, 6969, 6969, 9696);
       assert inv();
     }
 
@@ -30,7 +30,8 @@ public class PetAttribute extends IntValue {
     public int min() { return min_; }
     public int max() { return max_; }
     public boolean inRange(int v) { return v >= min() && v <= max(); }
-    public int passive() { return passive_; }
+    public int passiveDay() { return passiveDay_; }
+    public int passiveNight() { return passiveNight_; }
     // the speed in 'beatsCoelhoHora', not an int as fractional counts matter
     // for time accuracy.
     public double passiveBeats() { return passiveBeats_; }
@@ -41,11 +42,12 @@ public class PetAttribute extends IntValue {
         assert inv();
     }
 
-    public void set(String name, int startVal, int min, int max, int passive, double passiveBeats) {
+    public void set(String name, int startVal, int min, int max, int passiveDay, int passiveNight, double passiveBeats) {
         name_ = name;
         min_ = min;
         max_ = max;
-        passive_ = passive;
+        passiveDay_ = passiveDay;
+	passiveNight_ = passiveNight;
         passiveBeats_ = passiveBeats;
         set(startVal);
     }
@@ -53,11 +55,12 @@ public class PetAttribute extends IntValue {
     /**
      * Sets everything except start value
      */
-    protected void set(String name, int min, int max, int passive, double passiveBeats) {
+    protected void set(String name, int min, int max, int passiveDay, int passiveNight, double passiveBeats) {
         name_ = name;
         min_ = min;
         max_ = max;
-        passive_ = passive;
+        passiveDay_ = passiveDay;
+	passiveNight_ = passiveNight;
         passiveBeats_ = passiveBeats;
     }
 
@@ -74,27 +77,43 @@ public class PetAttribute extends IntValue {
 
     public void sum(int v) { incrementClamp(v, min_, max_); }
     public void sub(int v) { sum(-v);  }
-    public void sumPassive() { sum(passive()); }
-    public void subPassive() { sub(passive()); }
+    public void sumPassiveDay() { sum(passiveDay()); }
+    public void sumPassiveNight() { sum(passiveNight()); }
+    public void subPassiveDay() { sub(passiveDay()); }
+    public void subPassiveNight() { sub(passiveNight()); } 
     public void setMin(int v) { min_ = v; assert inv(); }
     public void setMax(int v) { max_ = v; assert inv(); }
-    public void setPassive(int p) { passive_ = p; assert inv(); }
+    public void setPassiveDay(int p) { passiveDay_ = p; assert inv(); }    
+    public void setPassiveNight(int p) { passiveNight_ = p; assert inv(); }
     public void setPassiveBeats(double b) { passiveBeats_ = (b>1)? b:1; }
 
     /**
      * Updates attribute passively with time
      */
-    public void updatePassive(int beat) {
+    public void updatePassiveDay(int beat) {
         /*
         if (name().equals("Nutricao"))
         System.out.println(
-                "haha-passive: " + passive() + " passiveBeats:  " + passiveBeats() + " beat: " + beat
+                "haha-passive: " + passiveDay() + " passiveBeats:  " + passiveBeats() + " beat: " + beat
                 + " name: " + name() + " mod: " + (beat % passiveBeats())
                 );
         */
-        if (passive() != 0.0  &&  (int)(beat % passiveBeats()) == 0) {
-            sumPassive();
-        }
+        if (passiveDay() != 0.0 &&  (int)(beat % passiveBeats()) == 0) {
+            sumPassiveDay();
+        }	
+    }
+
+    public void updatePassiveNight(int beat) {
+        /*
+        if (name().equals("Nutricao"))
+        System.out.println(
+                "haha-passive: " + passiveNight() + " passiveBeats:  " + passiveBeats() + " beat: " + beat
+                + " name: " + name() + " mod: " + (beat % passiveBeats())
+                );
+        */
+        if (passiveNight() != 0.0 &&  (int)(beat % passiveBeats()) == 0) {
+            sumPassiveNight();
+        }	
     }
 
     public void print() {
@@ -107,6 +126,7 @@ public class PetAttribute extends IntValue {
     protected String name_;
     protected int min_;
     protected int max_;
-    protected int passive_;
+    protected int passiveNight_;
+    protected int passiveDay_;
     protected double passiveBeats_;
 }

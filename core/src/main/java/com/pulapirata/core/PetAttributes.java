@@ -597,10 +597,16 @@ public class PetAttributes {
     /**
      * Updates attributes passively with time
      */
-    public void passiveUpdate(int beat) {
+    public void passiveUpdateDay(int beat) {
         // for each attribute, sum passive.
         for (String key : m_.keySet())
-            m_.get(key).updatePassive(beat);
+            m_.get(key).updatePassiveDay(beat);
+    }
+
+    public void passiveUpdateNight(int beat) {
+        // for each attribute, sum passive.
+        for (String key : m_.keySet())
+            m_.get(key).updatePassiveNight(beat);
     }
 
     /**
