@@ -477,11 +477,16 @@ class PetWorld extends World {
      * 1) subclass from this PetWorld to have all internal pet updaters outside
      * 2) create a PetAttribute().update()
      */
+    // Passar um boolean para saber se eh noite, e fazer um if para atualizar os passives corretamente
     public final System petUpdater = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-                pet_.get(eid).passiveUpdate(beat_);
+		if ( (idadeCoelhoHoras() - idadeCoelhoDias()*24) > 8)
+		  pet_.get(eid).passiveUpdateDay(beat_);
+		else
+		  pet_.get(eid).passiveUpdateNight(beat_);
+
                 // other logic if-spaghetti goes here
             }
         }
