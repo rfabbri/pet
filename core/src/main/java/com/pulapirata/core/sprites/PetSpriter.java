@@ -296,7 +296,7 @@ public class PetSpriter extends CompositeSpriter {
                 vcMeia_Idade
         ));
 
-    AgeStage age_ = AgeStage.MEIA_IDADE;
+    AgeStage age_ = AgeStage.BEBE;
 
     int totalNumSprites_ = -1;
 
@@ -430,7 +430,8 @@ public class PetSpriter extends CompositeSpriter {
                     set(UNDETERMINED);
                     return;
                 default:
-                    dprinte("[petspriter.set] Error:  no fallback anim for: " + s + ".");
+                    System.out.println("[petspriter.set] Warning: using fallback anim UNDETERMINED for " + s + ".");
+                    // dprinte("[petspriter.set] Error:  no fallback anim for: " + s + ".");
                     break;
             }
         }

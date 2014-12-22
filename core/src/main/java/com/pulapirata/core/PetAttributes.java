@@ -286,6 +286,8 @@ public class PetAttributes {
     public IntValue vis() { return vis_; }
     public VisibleCondition visibleCondition() { return VisibleCondition.values()[vis_.get()]; }
 
+    boolean  blockedVisibleCondition_ = false;
+
     /*-------------------------------------------------------------------------------*/
     /** Misc Variables. */
 
@@ -522,7 +524,21 @@ public class PetAttributes {
         return sAtt(id).getState();
     }
     void setVisibleCondition(VisibleCondition v) {
+        if (blockedVisibleCondition_)
+            return;
+        setVisibleConditionUnblocked(v);
+    }
+
+    void setVisibleConditionUnblocked(VisibleCondition v) {
         vis_.update(v.ordinal());
+    }
+
+    void blockVisibleCondition() {
+        blockedVisibleCondition_ = true;
+    }
+
+    void unblockVisibleCondition() {
+        blockedVisibleCondition_ = false;
     }
 
     /**
@@ -535,6 +551,8 @@ public class PetAttributes {
      * states, not the visible state directly.
      */
     VisibleCondition determineVisibleCondition() {
+        if (blockedVisibleCondition_)
+            return visibleCondition();
         // priority
         // TODO: todos entre -20 e 0 tem prioridade mais alta que o resto.
 

@@ -593,13 +593,25 @@ class PetWorld extends World {
                         enableDisableSystemsAtPause();
                         pprint("[key] " + (pause_? "game paused" : "game resumed") );
                         break;
+                      case K0:
+                        // sprite test mode
+                        // - get current visible condition
+                        pet_.get(mainID_).blockVisibleCondition();
+                        pet_.get(mainID_).setVisibleConditionUnblocked(
+                                PetAttributes.VisibleCondition.values()[(pet_.get(mainID_).vis().get() + 1) % PetAttributes.VisibleCondition.values().length]);    // links sprite to animation
+                        // - get next one
+                        // - set next one
+                        break;
+                      case K9:
+                        pet_.get(mainID_).unblockVisibleCondition();
+                        break;
                       default: break;
                     }
                 }
             });
             keyUp_.connect(new Slot<Key>() {
                 @Override public void onEmit (Key key) {
-                    pprint("[key] keyup: " + key);
+                    dprint("[key] keyup: " + key);
                     switch (key) {
                       case LEFT:  velo_.x = 0; velo_.y = 0; break;
                       case RIGHT: velo_.x = 0; velo_.y = 0;  break;
