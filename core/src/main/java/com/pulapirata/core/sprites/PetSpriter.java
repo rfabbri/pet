@@ -225,6 +225,7 @@ public class PetSpriter extends CompositeSpriter {
     private final ArrayList<String> imagesMeia_Idade =
         new ArrayList<String>(Arrays.asList(
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_chorando.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_vomitando.png",
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_coma_alcoolico.png",
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_comendo.png",
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_machucado.png",
@@ -240,6 +241,7 @@ public class PetSpriter extends CompositeSpriter {
         new ArrayList<String>(Arrays.asList(
                 // "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_andando.json",
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_chorando.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_vomitando.json",
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_coma_alcoolico.json",
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_comendo.json",
                 "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_machucado.json",
@@ -254,6 +256,7 @@ public class PetSpriter extends CompositeSpriter {
     private final ArrayList<VisibleCondition> vcMeia_Idade =
         new ArrayList<VisibleCondition>(Arrays.asList(
                 CHORANDO,
+                BEBADO,
                 COMA_ALCOOLICO,
                 COMENDO,
                 MACHUCADO,
@@ -271,6 +274,7 @@ public class PetSpriter extends CompositeSpriter {
                 imagesBebe,
                 imagesCrianca,
                 imagesAdolescente,
+                imagesAdolescente,  // XXX no adult, just use adolescent for now
                 imagesMeia_Idade
         ));
 
@@ -279,6 +283,7 @@ public class PetSpriter extends CompositeSpriter {
                 jsonsBebe,
                 jsonsCrianca,
                 jsonsAdolescente,
+                jsonsAdolescente,
                 jsonsMeia_Idade
         ));
 
@@ -286,6 +291,7 @@ public class PetSpriter extends CompositeSpriter {
         new ArrayList< ArrayList<VisibleCondition> >(Arrays.asList(
                 vcBebe,
                 vcCrianca,
+                vcAdolescente,
                 vcAdolescente,
                 vcMeia_Idade
         ));
