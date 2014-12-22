@@ -161,54 +161,107 @@ public class PetSpriter extends CompositeSpriter {
     private final ArrayList<String> imagesAdolescente =
         new ArrayList<String>(Arrays.asList(
                 "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.png",
-                "pet/sprites/overlays/questionmark.png",
-                "pet/sprites/overlays/questionmark.png",
-pingo_adolescente_bebado.png
-pingo_adolescente_bravo.png
-pingo_adolescente_caminhando.png
-pingo_adolescente_chorando.png
-pingo_adolescente_comaalcoolico.png
-pingo_adolescente_comendo.png
-pingo_adolescente_doente.png
-pingo_adolescente_dormindo.png
-pingo_adolescente_irritado.png
-pingo_adolescente_machucado.png
-pingo_adolescente_morto.png
-pingo_adolescente_piscando.png
-pingo_adolescente_respirando.png
-pingo_adolescente_ressaca.png
-pingo_adolescente_triste.png
-pingo_adolescente_vomitando.png
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_bravo.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_caminhando.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_chorando.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_comaalcoolico.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_comendo.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_doente.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_dormindo.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_irritado.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_machucado.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_morto.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_piscando.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_respirando.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_ressaca.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_triste.png",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_vomitando.png",
+                "pet/sprites/overlays/questionmark.png"
         ));
 
     private final ArrayList<String> jsonsAdolescente =
         new ArrayList<String>(Arrays.asList(
                 "pet/sprites/Pingo/Adolescente/pingo_adolescente_bebado.json",
-                "pet/sprites/overlays/questionmark.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_bravo.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_caminhando.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_chorando.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_comaalcoolico.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_comendo.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_doente.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_dormindo.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_irritado.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_machucado.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_morto.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_piscando.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_respirando.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_ressaca.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_triste.json",
+                "pet/sprites/Pingo/Adolescente/pingo_adolescente_vomitando.json",
                 "pet/sprites/overlays/questionmark.json"
-                // XXX
-pingo_adolescente_bebado.json
-pingo_adolescente_bravo.json
-pingo_adolescente_caminhando.json
-pingo_adolescente_chorando.json
-pingo_adolescente_comaalcoolico.json
-pingo_adolescente_comendo.json
-pingo_adolescente_doente.json
-pingo_adolescente_dormindo.json
-pingo_adolescente_irritado.json
-pingo_adolescente_machucado.json
-pingo_adolescente_morto.json
-pingo_adolescente_piscando.json
-pingo_adolescente_respirando.json
-pingo_adolescente_ressaca.json
-pingo_adolescente_triste.json
-pingo_adolescente_vomitando.json
         ));
 
     private final ArrayList<VisibleCondition> vcAdolescente =
         new ArrayList<VisibleCondition>(Arrays.asList(
                 BEBADO,
+                BRAVO,
+                PULANDO,
+                CHORANDO,
+                COMA_ALCOOLICO,
+                COMENDO,
+                DOENTE,
+                DORMINDO,
+                IRRITADO,
+                MACHUCADO,
+                MORTO,
                 NORMAL,
+                RESPIRANDO,
+                RESSACA,
+                TRISTE,
+                VOMITANDO,
+                UNDETERMINED
+        ));
+
+
+    private final ArrayList<String> imagesMeia_Idade =
+        new ArrayList<String>(Arrays.asList(
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_chorando.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_coma_alcoolico.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_comendo.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_machucado.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_morto.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_piscando.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_respirando.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_varrendo.png",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_vomitando.png",
+                "pet/sprites/overlays/questionmark.png"
+        ));
+
+    private final ArrayList<String> jsonsMeia_Idade =
+        new ArrayList<String>(Arrays.asList(
+                // "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_andando.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_chorando.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_coma_alcoolico.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_comendo.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_machucado.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_morto.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_piscando.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_respirando.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_varrendo.json",
+                "pet/sprites/Pingo/Meia_Idade/pingo_meia_idade_vomitando.json",
+                "pet/sprites/overlays/questionmark.json"
+        ));
+
+    private final ArrayList<VisibleCondition> vcMeia_Idade =
+        new ArrayList<VisibleCondition>(Arrays.asList(
+                CHORANDO,
+                COMA_ALCOOLICO,
+                COMENDO,
+                MACHUCADO,
+                MORTO,
+                NORMAL,
+                RESPIRANDO,
+                VARRENDO,
+                VOMITANDO,
                 UNDETERMINED
         ));
 
@@ -217,24 +270,27 @@ pingo_adolescente_vomitando.json
         new ArrayList< ArrayList<String> >(Arrays.asList(
                 imagesBebe,
                 imagesCrianca,
-                imagesAdolescente
+                imagesAdolescente,
+                imagesMeia_Idade
         ));
 
     private final ArrayList< ArrayList<String> > jsons =
         new ArrayList< ArrayList<String> >(Arrays.asList(
                 jsonsBebe,
                 jsonsCrianca,
-                jsonsAdolescente
+                jsonsAdolescente,
+                jsonsMeia_Idade
         ));
 
     private final ArrayList< ArrayList<VisibleCondition > > vc =
         new ArrayList< ArrayList<VisibleCondition> >(Arrays.asList(
                 vcBebe,
                 vcCrianca,
-                vcAdolescente
+                vcAdolescente,
+                vcMeia_Idade
         ));
 
-    AgeStage age_ = AgeStage.ADOLESCENTE;
+    AgeStage age_ = AgeStage.MEIA_IDADE;
 
     int totalNumSprites_ = -1;
 
@@ -378,7 +434,7 @@ pingo_adolescente_vomitando.json
             currentSprite_.layer().setVisible(false);
 
         currentVisibleCondition_ = s;
-        setCurrentSprite(newSprite, 1f);
+        setCurrentSprite(newSprite, 2f);
 //         currentSprite_.layer().setVisible(false); // XXX
     }
 
