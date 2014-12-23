@@ -610,7 +610,8 @@ class PetWorld extends World {
                         pet_.get(mainID_).unblockVisibleCondition();
                         break;
                       case A:
-                        pet_.get(mainID_).sAge().updateState(PetAttributes.AgeStage.CRIANCA);
+                        PetAttributes.AgeStage a =  PetAttributes.AgeStage.values()[(pet_.get(mainID_).sAge().get() + 1) % PetAttributes.AgeStage.values().length];
+                        pet_.get(mainID_).sAge().updateState(a);
                         break;
                       default: break;
                     }
