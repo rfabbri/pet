@@ -275,6 +275,8 @@ public class PetSpriter extends CompositeSpriter {
                 imagesCrianca,
                 imagesAdolescente,
                 imagesAdolescente,  // XXX no adult, just use adolescent for now
+                imagesMeia_Idade,
+                imagesMeia_Idade,
                 imagesMeia_Idade
         ));
 
@@ -284,6 +286,8 @@ public class PetSpriter extends CompositeSpriter {
                 jsonsCrianca,
                 jsonsAdolescente,
                 jsonsAdolescente,
+                jsonsMeia_Idade,
+                jsonsMeia_Idade,
                 jsonsMeia_Idade
         ));
 
@@ -293,6 +297,8 @@ public class PetSpriter extends CompositeSpriter {
                 vcCrianca,
                 vcAdolescente,
                 vcAdolescente,
+                vcMeia_Idade,
+                vcMeia_Idade,
                 vcMeia_Idade
         ));
 

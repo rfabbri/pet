@@ -612,6 +612,7 @@ class PetWorld extends World {
                       case A:
                         PetAttributes.AgeStage a =  PetAttributes.AgeStage.values()[(pet_.get(mainID_).sAge().get() + 1) % PetAttributes.AgeStage.values().length];
                         pet_.get(mainID_).sAge().updateState(a);
+                        pprint("[key] Changed to age " + a);
                         break;
                       default: break;
                     }
