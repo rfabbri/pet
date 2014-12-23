@@ -452,7 +452,7 @@ public class PetAttributes {
         sAction_.updateState(ActionState.DEFAULT);
         sCoco_.updateState(TipoCoco.NORMAL);
         sCelular_.updateState(TipoCelular.NENHUM);
-        sAge_.updateState(TipoCelular.BEBE);
+        sAge_.updateState(AgeStage.BEBE);
 
         // intervals are set from json in PetAttributesLoader
 

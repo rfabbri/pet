@@ -453,6 +453,7 @@ public class PetSpriter extends CompositeSpriter {
 
     public void setClass(int i) {
         age_ = AgeStage.values()[i];
+        set(currentVisibleCondition_);
     }
 
     @Override

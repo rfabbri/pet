@@ -610,6 +610,7 @@ class PetWorld extends World {
                         pet_.get(mainID_).unblockVisibleCondition();
                         break;
                       case A:
+                        pet_.get(mainID_).sAge().updateState(PetAttributes.AgeStage.CRIANCA);
                         break;
                       default: break;
                     }
@@ -769,6 +770,7 @@ class PetWorld extends World {
                                 pet_.set(eid, mainPet_); // only 1 pet for now, but more are easily supported
                                 // ps.layer().setWidth(-ps.layer().width());
                                 pet_.get(eid).vis().connect(ps.slot());    // links sprite to animation
+                                pet_.get(eid).sAge().connect(ps.classSlot());    // links sprite to animation
                                 // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
                                 radius_.set(eid, ps.boundingRadius());
                                 loaded_.set(eid, LOADED);
