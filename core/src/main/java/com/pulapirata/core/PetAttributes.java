@@ -270,6 +270,8 @@ public class PetAttributes {
     public  PetAttributeEnum<TipoCoco> sCoco() { return sCoco_; }
     private PetAttributeEnum<TipoCelular> sCelular_ = new PetAttributeEnum<TipoCelular>();
     public  PetAttributeEnum<TipoCelular> sCelular() { return sCelular_; }
+    private PetAttributeEnum<AgeStage> sAge_ = new PetAttributeEnum<AgeStage>();
+    public  PetAttributeEnum<AgeStage> sAge() { return sAge_; }
 
     /*-------------------------------------------------------------------------------*/
     /** Logical appearance from inner state */
@@ -450,6 +452,7 @@ public class PetAttributes {
         sAction_.updateState(ActionState.DEFAULT);
         sCoco_.updateState(TipoCoco.NORMAL);
         sCelular_.updateState(TipoCelular.NENHUM);
+        sAge_.updateState(TipoCelular.BEBE);
 
         // intervals are set from json in PetAttributesLoader
 
@@ -629,6 +632,7 @@ public class PetAttributes {
             m_.get(key).print();
          for (String key : ms_.keySet())
             ms_.get(key).print();
+        pprint("[sattr] ageStage: " + sAge().getState());
         pprint("[sattr] coco: " + sCoco().getState());
         pprint("[sattr] celular: " + sCelular().getState());
         pprint("[sattr] action: " + sAction().getState());

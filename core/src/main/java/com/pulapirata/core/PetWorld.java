@@ -609,6 +609,8 @@ class PetWorld extends World {
                       case K9:
                         pet_.get(mainID_).unblockVisibleCondition();
                         break;
+                      case A:
+                        break;
                       default: break;
                     }
                 }
