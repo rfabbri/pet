@@ -432,7 +432,8 @@ public class PetSpriter extends CompositeSpriter {
                 default:
                     System.out.println("[petspriter.set] Warning: using fallback anim UNDETERMINED for " + s + ".");
                     // dprinte("[petspriter.set] Error:  no fallback anim for: " + s + ".");
-                    break;
+                    set(UNDETERMINED);
+                    return;
             }
         }
         dprint("[petspriter.set] requested " + s + " visible condition");

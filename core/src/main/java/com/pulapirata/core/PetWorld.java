@@ -529,6 +529,7 @@ class PetWorld extends World {
         public static final float WALK_VELOCITY = 0.05f; // 1f;
         // actually, use just accel
         public static final float ACCEL = 0.01f;
+        public int vcTest_ = 0;
 
         /* ctor */ {
             keyDown_.connect(new Slot<Key>() {
@@ -597,8 +598,11 @@ class PetWorld extends World {
                         // sprite test mode
                         // - get current visible condition
                         pet_.get(mainID_).blockVisibleCondition();
-                        pet_.get(mainID_).setVisibleConditionUnblocked(
-                                PetAttributes.VisibleCondition.values()[(pet_.get(mainID_).vis().get() + 1) % PetAttributes.VisibleCondition.values().length]);    // links sprite to animation
+//                        pet_.get(mainID_).setVisibleConditionUnblocked(
+//                                PetAttributes.VisibleCondition.values()[(pet_.get(mainID_).vis().get() + 1) % PetAttributes.VisibleCondition.values().length]);    // links sprite to animation
+                        PetAttributes.VisibleCondition v = PetAttributes.VisibleCondition.values()[(vcTest_++) % PetAttributes.VisibleCondition.values().length];
+                        pprint("[key] testing visible condition " + v);
+                        pet_.get(mainID_).setVisibleConditionUnblocked(v);    // links sprite to animation
                         // - get next one
                         // - set next one
                         break;
