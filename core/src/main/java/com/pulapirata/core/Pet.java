@@ -55,6 +55,7 @@ import tripleplay.ui.layout.AxisLayout;
 import static tripleplay.ui.layout.TableLayout.COL;
 import tripleplay.sound.SoundBoard;
 import tripleplay.sound.Clip;
+import tripleplay.sound.Loop;
 
 import com.pulapirata.core.DevGame;
 import com.pulapirata.core.DevClock;
@@ -65,6 +66,7 @@ import static com.pulapirata.core.Triggers.TriggerType.*;
 import com.pulapirata.core.Trigger;
 import com.pulapirata.core.PetWorld;
 import com.pulapirata.core.Messages;
+import com.pulapirata.core.PetAudio;
 import com.pulapirata.core.utils.MessageLoader;
 
 import static com.pulapirata.core.utils.Puts.*;
@@ -175,7 +177,27 @@ public class Pet extends DevGame {
 
     /*-------------------------------------------------------------------------------*/
     /** Audio */
-    SoundBoard musicSoundBoard_ = new SoundBoard();
+    /*
+    class PetAudio {
+        public static SoundBoard musicSoundBoard = new SoundBoard();
+        public static SoundBoard fxSoundBoard = new SoundBoard();
+        public static Clip burp = musicSoundBoard.getClip("pet/audio/fx/arroto_01");
+        public static Clip ding = musicSoundBoard.getClip("pet/audio/fx/ding");
+        public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/fx/ding");
+
+        private PetAudio() {
+//            burp = musicSoundBoard.getClip("pet/audio/fx/arroto_01");
+//            ding = musicSoundBoard.getClip("pet/audio/fx/ding");
+//            mainMusic = musicSoundBoard.getLoop("pet/audio/fx/ding");
+        }
+
+        public static void init() {
+            mainMusic.play();
+        }
+    }
+
+    public static PetAudio petAudio_ = new PetAudio();
+    */
 
     //--------------------------------------------------------------------------------
     /** Constructor */
@@ -742,8 +764,7 @@ public class Pet extends DevGame {
                   PlayN.log().error("Error loading messages : " + err.getMessage());
               }
           });
-      Clip mainMusic = musicSoundBoard_.getClip("pet/audio/fx/ding");
-      mainMusic.play();
+      PetAudio.init();
     }
 
     //--------------------------------------------------------------------------------

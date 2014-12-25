@@ -2,6 +2,7 @@ package com.pulapirata.core;
 import com.pulapirata.core.PetAttributes.ActionState;
 import com.pulapirata.core.Pet;
 import com.pulapirata.core.PetWorld;
+import com.pulapirata.core.PetAudio;
 import static com.pulapirata.core.utils.Puts.*;
 /**
  * Manages actions.
@@ -28,6 +29,13 @@ class Action {
         if (remaining_ <= 0) {
             remaining_ = 0;
             pa_.sAction().updateState(ActionState.DEFAULT);
+            switch (action_) {
+                case COMENDO:
+                    PetAudio.burp.play();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
