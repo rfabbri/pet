@@ -742,7 +742,7 @@ public class Pet extends DevGame {
                   PlayN.log().error("Error loading messages : " + err.getMessage());
               }
           });
-      Clip mainMusic = musicSoundBoard_.getClip("pet/audio/music/megadeth-8bit");
+      Clip mainMusic = musicSoundBoard_.getClip("pet/audio/fx/ding");
       mainMusic.play();
     }
 
