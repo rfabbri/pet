@@ -31,6 +31,7 @@ import react.UnitSlot;
 import react.Slot;
 import react.Signal;
 
+import tripleplay.util.Randoms;
 import tripleplay.ui.Element;
 import tripleplay.ui.Elements;
 import tripleplay.ui.Selector;
@@ -51,8 +52,9 @@ import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.TableLayout;
 import tripleplay.ui.layout.AbsoluteLayout;
 import tripleplay.ui.layout.AxisLayout;
-import tripleplay.util.Randoms;
 import static tripleplay.ui.layout.TableLayout.COL;
+import tripleplay.sound.SoundBoard;
+import tripleplay.sound.Clip;
 
 import com.pulapirata.core.DevGame;
 import com.pulapirata.core.DevClock;
@@ -170,6 +172,10 @@ public class Pet extends DevGame {
     ButtonManager bm_ = new ButtonManager();
 
     protected PetWorld world_;
+
+    /*-------------------------------------------------------------------------------*/
+    /** Audio */
+    SoundBoard musicSoundBoard_ = new SoundBoard();
 
     //--------------------------------------------------------------------------------
     /** Constructor */
@@ -736,6 +742,8 @@ public class Pet extends DevGame {
                   PlayN.log().error("Error loading messages : " + err.getMessage());
               }
           });
+      Clip mainMusic = musicSoundBoard_.getClip("pet/audio/music/megadeth-8bit");
+      mainMusic.play();
     }
 
     //--------------------------------------------------------------------------------
