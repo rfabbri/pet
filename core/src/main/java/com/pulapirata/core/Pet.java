@@ -823,6 +823,8 @@ public class Pet extends DevGame {
 
         if (statbarIface_ != null)
             statbarIface_.update(delta);
+
+        PetAudio.update(delta);
     }
 
     /**

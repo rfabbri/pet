@@ -24,9 +24,10 @@ import tripleplay.util.Randoms;
 
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.State;
+import com.pulapirata.core.Triggers;
+import com.pulapirata.core.PetAudio;
 import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.utils.TriggerLoader;
-import com.pulapirata.core.Triggers;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
 import com.pulapirata.core.sprites.DroppingSpriter;
@@ -773,6 +774,7 @@ class PetWorld extends World {
                                 // ps.layer().setWidth(-ps.layer().width());
                                 pet_.get(eid).vis().connect(ps.slot());    // links sprite to animation
                                 pet_.get(eid).sAge().connect(ps.classSlot());    // links sprite to animation
+                                pet_.get(eid).sAlcool().connect(PetAudio.stateSlot());  // links alcool state to sound
                                 // debugging sprites: ps.set(PetAttributes.VisibleCondition.BEBADO);
                                 radius_.set(eid, ps.boundingRadius());
                                 loaded_.set(eid, LOADED);

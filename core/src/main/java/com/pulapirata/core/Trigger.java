@@ -158,7 +158,7 @@ public class Trigger {
         public boolean modify(PetAttributes a) {
             for (AttributeID id : map_.keySet()) {  // for each possible attribute / modifier value
                 if (id == AttributeID.ACTION) {
-                    pprint("[modify] attribute action have no modifiers, currently ignored.");
+                    dprint("[modify] attribute action have no modifiers, currently ignored.");
                     continue;
                 }
 
@@ -166,12 +166,12 @@ public class Trigger {
                 /* Apply modifier to all attribute properties, eg., value, passive */
                 Modifier mod = map_.get(id);
                 if (mod == null) {
-                    pprint("[modify] no modifier for attribute " + id + ", using default");
+                    dprint("[modify] no modifier for attribute " + id + ", using default");
                     continue;
                 }
-                pprint("[modify] id " + id);
+                dprint("[modify] id " + id);
                 if (id == AttributeID.TIPO_COCO) {
-                    pprint("[modify] updating coco to id " + mod.get() +
+                    dprint("[modify] updating coco to id " + mod.get() +
                            " enum " + PetAttributes.TipoCoco.values()[mod.get()]);
                     a.sCoco().updateState(PetAttributes.TipoCoco.values()[mod.get()]);
                 } else {
