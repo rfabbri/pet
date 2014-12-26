@@ -49,6 +49,11 @@ class PetAudio {
                     case BEBADO:
                     case MUITO_BEBADO:
                         pprint("[audio] playing hickup");
+                        try {
+                            java.lang.Thread.sleep(500);                 //1000 milliseconds is one second.
+                        } catch(java.lang.InterruptedException ex) {
+                            java.lang.Thread.currentThread().interrupt();
+                        }
                         hickup.play();
                         break;
                     default:
