@@ -20,7 +20,7 @@ See also video tutorials from
 
 ## Authors
 
-Edson "Pesto" de Oliveira Jr. :: concept and art :: pulapirata.com
+Edson "Presto" de Oliveira Jr. :: concept and art :: pulapirata.com
 
 Ricardo Fabbri :: coding and framework conception :: www.lems.brown.edu/~rfabbri
 
