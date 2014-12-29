@@ -98,8 +98,10 @@ public class Trigger {
     public boolean fireIfAllowed(PetAttributes at, AgeStage a) {
         if (!enabled_)
             return false;
-        if (blackListed(a))
+        if (blackListed(a)) {
+            pprint("[trigger] trigger not allwed at AgeStage " + a);
             return false;
+        }
         fire(at);
         return true;
     }
