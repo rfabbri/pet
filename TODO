@@ -1,11 +1,20 @@
-== Doing ==
+# Doing
 
 https://github.com/rfabbri/pet/issues
 
 Our social activity feed (AA):
 http://aaserver.herokuapp.com/minimumClient/
 
-== Extras ==
+# Github Offline Issue Queue
+
+These are issues that should be filed online asap:
+- prestoppc: check new implementation of day/night issues to see if passiveBeats
+  or passiveDay/Night are the right solution, and to tune the parameters of
+  night
+-
+
+
+# Extras
 - crunch the PNG's for faster loading (reduce colors since we dont use many
   anyways)
 
