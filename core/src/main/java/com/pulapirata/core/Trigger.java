@@ -95,11 +95,11 @@ public class Trigger {
      * Pull the trigger.
      * And returns false if not allowed on an age.
      */
-    public boolean fireIfAllowed(PetAttributes at, AgeStage a) {
+    public boolean fireIfAllowed(PetAttributes at) {
         if (!enabled_)
             return false;
-        if (blackListed(a)) {
-            pprint("[trigger] trigger not allwed at AgeStage " + a);
+        if (blackListed(at.sAge().getState())) {
+            pprint("[trigger] trigger not allowed at AgeStage " + at.sAge().getState());
             return false;
         }
         fire(at);
