@@ -127,6 +127,7 @@ public class Pet extends DevGame {
     /*-------------------------------------------------------------------------------*/
 
     public PetAttributes a() { return world_.mainPet(); }   // shortcut
+    public PetWorld w() { return world_; }   // shortcut
 
     public enum UIDepth {
         Z_WORLD(100), Z_BG(20), Z_BUTTONS(26), Z_SBUTTONS(120), Z_STATBAR(22);
@@ -177,6 +178,8 @@ public class Pet extends DevGame {
 
     private boolean bgLoaded_ = false;
     private boolean printIniDbg_ = true;
+    public int numGlucose_ = 1;
+    public int dayGlucose_= 0;
 
     /*-------------------------------------------------------------------------------*/
     /** Misc variables */
@@ -724,7 +727,12 @@ public class Pet extends DevGame {
 
                             // Fazendo a verificação de está de noite ou de dia.
                             if (world_.worldLoaded() && world_.hourOfDay() > 8 ) { // use asset manager
-                                world_.triggers().get(t).fireIfAllowed(a());
+                                if (t == DAR_GLICOSE && numGlucose_ != 0) {
+                                    numGlucose_--;
+                                    dayGlucose_ = w().idadeCoelhoDias();
+                                    world_.triggers().get(t).fireIfAllowed(a());
+                                } else
+                                    world_.triggers().get(t).fireIfAllowed(a());
                             } else {
                                 pprint("[button] buttons are blocked at night.");
                             }
@@ -825,6 +833,12 @@ public class Pet extends DevGame {
                 }
 
                 world_.update(delta);
+
+                // restore doses of glucose daily
+                if (dayGlucose_ != w().idadeCoelhoDias()) {
+                    numGlucose_++;
+                    dayGlucose_ = w().idadeCoelhoDias();
+                }
             }
 
             if (messages_ != null) {
