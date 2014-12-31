@@ -145,7 +145,7 @@ public class Pet extends DevGame {
     /*-------------------------------------------------------------------------------*/
     /** Time data */
 
-    private static final int UPDATE_RATE = 100; // ms    // was: 100.
+    public static final int UPDATE_RATE = 100; // ms    // was: 100.
 
     public String idadeCoelhoDiasStr1() {
         if (world_ == null || !world_.worldLoaded())

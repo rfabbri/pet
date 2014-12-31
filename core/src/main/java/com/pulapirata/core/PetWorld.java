@@ -173,7 +173,7 @@ class PetWorld extends World {
 
     /*-------------------------------------------------------------------------------*/
     /** Minigames and Action Animations */
-    static public final Point banhoOut = new Point(940, 580);
+    static public final Point banhoOut = new Point(465, 165);
 
     /*-------------------------------------------------------------------------------*/
     /** Misc methods */
@@ -347,7 +347,7 @@ class PetWorld extends World {
 
     /** Updates sprite layers to interpolated position of entities on each paint() call */
     public final System spriteMover = new System(this, 0) {
-        public static final float MOSQUITO_VELOCITY = 0.06f;  // pixels per update
+        public static final float MOSQUITO_VELOCITY = 0.06f;  // pixels per ms
 
         @Override protected void paint (Clock clock, Entities entities) {
             float alpha = clock.alpha();
@@ -376,14 +376,18 @@ class PetWorld extends World {
                         //      map mask - shortest paths with obstacles using
                         //      distance transform
                         // - walk proportional to remaining action time
+                        pprint("[banho] pos " + pos_.getX(eid) + "," + pos_.getY(eid));
                         Vector v = new Vector(banhoOut.x - pos_.getX(eid),
                                               banhoOut.y - pos_.getY(eid));
                         if (Math.abs(v.x) < 1e-1f && Math.abs(v.y) < 1e-1f)
                             v.x = v.y = 0f;
-                        else
-                            v.scaleLocal(1.0f/(float)(triggers().get(Triggers.TriggerType.TOMAR_BANHO).action().remaining()*beatsCoelhoSegundo_));
+                        else {
+                            pprint("[banho] remaining: " + triggers().get(Triggers.TriggerType.TOMAR_BANHO).action().remaining());
+                            pprint("[banho] v length: " + v.length() + " beatsCoelhoSegs " + beatsCoelhoSegundo_);
+                            v.scaleLocal(1.0f/(float)(triggers().get(Triggers.TriggerType.TOMAR_BANHO).action().remaining()*beatsCoelhoSegundo_*Pet.UPDATE_RATE));
+                        }
                         vel_.set(eid, v);
-                        dprint("[banho] setting velocity " + v);
+                        pprint("[banho] setting velocity " + v);
                     }
                 }
 
