@@ -110,7 +110,7 @@ public class Trigger {
      * Returns false if trigger not allowed on age.
      */
     public boolean blackListed(AgeStage a) {
-        return (blackList_ & a.index()) == 0;
+        return (blackList_ & a.index()) != 0;
     }
 
     /**
