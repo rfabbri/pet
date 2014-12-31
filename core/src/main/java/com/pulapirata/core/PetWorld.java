@@ -384,7 +384,7 @@ class PetWorld extends World {
                         else {
                             pprint("[banho] remaining: " + triggers().get(Triggers.TriggerType.TOMAR_BANHO).action().remaining());
                             pprint("[banho] v length: " + v.length() + " beatsCoelhoSegs " + beatsCoelhoSegundo_);
-                            v.scaleLocal(1.0f/(float)(triggers().get(Triggers.TriggerType.TOMAR_BANHO).action().remaining()*beatsCoelhoSegundo_*Pet.UPDATE_RATE));
+                            v.scaleLocal(6.0f/(float)(triggers().get(Triggers.TriggerType.TOMAR_BANHO).action().remaining()*beatsCoelhoSegundo_*Pet.UPDATE_RATE));
                         }
                         vel_.set(eid, v);
                         pprint("[banho] setting velocity " + v);
