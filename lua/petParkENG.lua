@@ -6,22 +6,23 @@ PS: como faz pro petTime rastrear o horario do jogador?
 PS2: revisar se o goto funciona
 PS3: como adicionar o mod de atributos?
 
-petTime = ?????
 
-if petTime >= 08:00:00 or
-   petTime <= 12:00:00 then
+petTime = horaDoDia
+
+if petTime >= 08 or
+   petTime <= 12 then
    goto petPark1
 end
 
-if petTime >= 12:01:00 or
-   petTime <= 17:00:00 then
+if petTime > 12 or
+   petTime <= 17 then
    goto petPark2
 end
 
-if petTime >= 17:01:00 or
-   petTime <= 22:00:00 then
+if petTime > 17 or
+   petTime <= 22 then
    goto petPark3
-end
+end 
 --]]
 
 petName = 'Pingo' -- provisorio ate ter o codigo que o jogador nomeia o personagem
