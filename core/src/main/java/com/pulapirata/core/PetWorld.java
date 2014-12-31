@@ -482,10 +482,10 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
-		if ( (idadeCoelhoHoras() - idadeCoelhoDias()*24) > 8)
-		  pet_.get(eid).passiveUpdateDay(beat_);
-		else
-		  pet_.get(eid).passiveUpdateNight(beat_);
+            if ( (idadeCoelhoHoras() - idadeCoelhoDias()*24) > 8)
+              pet_.get(eid).passiveUpdateDay(beat_);
+            else
+              pet_.get(eid).passiveUpdateNight(beat_);
 
                 // other logic if-spaghetti goes here
             }
