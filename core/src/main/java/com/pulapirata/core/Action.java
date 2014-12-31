@@ -45,6 +45,8 @@ class Action {
     public int duration() { return duration_; }
     public void setDuration(int d) { duration_ = d; }
     private double remaining_ = duration_;
+    /** remaining time in coelhoSegundos */
+    public double remaining() { return remaining_; }
 
     public void update(int delta) {
         pprint(String.format("[action] tick... time remaining %.2g", + remaining_));

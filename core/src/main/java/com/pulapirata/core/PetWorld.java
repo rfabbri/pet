@@ -172,6 +172,10 @@ class PetWorld extends World {
     };
 
     /*-------------------------------------------------------------------------------*/
+    /** Minigames and Action Animations */
+    static public final Point banhoOut = new Point(940, 580);
+
+    /*-------------------------------------------------------------------------------*/
     /** Misc methods */
 
     public boolean worldLoaded() {
@@ -307,6 +311,14 @@ class PetWorld extends World {
                 }
                 */
                 pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
+
+                if (entity(eid).has(loaded_) && loaded_.get(eid) == LOADED) {
+                    PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+                    if (v.x > 0)
+                        ps.flipLeft();
+                    else
+                        ps.flipRight();
+                }
             }
         }
 
@@ -355,6 +367,26 @@ class PetWorld extends World {
         @Override protected void update (int delta, Entities entities) {
             for (int ii = 0, ll = entities.size(); ii < ll; ii++) {
                 int eid = entities.get(ii);
+
+                if (loaded_.get(eid) == LOADED) {
+                    if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.TOMANDO_BANHO) {
+                        // - compute path to banho
+                        //      - for now just straight line
+                        //      - need framework for shortest paths - must make a
+                        //      map mask - shortest paths with obstacles using
+                        //      distance transform
+                        // - walk proportional to remaining action time
+                        Vector v = new Vector(banhoOut.x - pos_.getX(eid),
+                                              banhoOut.y - pos_.getY(eid));
+                        if (Math.abs(v.x) < 1e-1f && Math.abs(v.y) < 1e-1f)
+                            v.x = v.y = 0f;
+                        else
+                            v.scaleLocal(1.0f/(float)(triggers().get(Triggers.TriggerType.TOMAR_BANHO).action().remaining()*beatsCoelhoSegundo_));
+                        vel_.set(eid, v);
+                        dprint("[banho] setting velocity " + v);
+                    }
+                }
+
                 if (beat_ % 2 != 0)  // sprite update rate
                     return;
                 if (loaded_.get(eid) == LOADED)
@@ -373,7 +405,7 @@ class PetWorld extends World {
                     else
                         ms.flipRight();
                     vel_.set(eid, v);
-                    dprint("[mosquito] setando velocidade " + v);
+                    dprint("[mosquito] setting velocity" + v);
                 }
             }
         }

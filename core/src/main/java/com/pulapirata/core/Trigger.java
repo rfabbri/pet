@@ -131,6 +131,7 @@ public class Trigger {
     private ActionState action_ = ActionState.DEFAULT; // internal pointer to the action
     public void setAction(ActionState a) { action_ = a; }
     private Action act_; // could be alist of action for queueing?
+    public Action action() { return act_; }
 
     /** action duration in CoelhoSegundos.
      * Initialized using default map from ActionState to duration. World will manage it. */
