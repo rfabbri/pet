@@ -67,6 +67,7 @@ public class Trigger {
         // - schedule Action
         act_ = new Action(action_, a);   // perhaps pass a
         act_.start(duration_);
+        PetAudio.botao.play();
         return true;
     }
 
