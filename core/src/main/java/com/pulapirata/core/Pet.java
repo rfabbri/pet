@@ -203,30 +203,6 @@ public class Pet extends DevGame {
 
     protected PetWorld world_;
 
-    /*-------------------------------------------------------------------------------*/
-    /** Audio */
-    /*
-    class PetAudio {
-        public static SoundBoard musicSoundBoard = new SoundBoard();
-        public static SoundBoard fxSoundBoard = new SoundBoard();
-        public static Clip burp = musicSoundBoard.getClip("pet/audio/fx/arroto_01");
-        public static Clip ding = musicSoundBoard.getClip("pet/audio/fx/ding");
-        public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/fx/ding");
-
-        private PetAudio() {
-//            burp = musicSoundBoard.getClip("pet/audio/fx/arroto_01");
-//            ding = musicSoundBoard.getClip("pet/audio/fx/ding");
-//            mainMusic = musicSoundBoard.getLoop("pet/audio/fx/ding");
-        }
-
-        public static void init() {
-            mainMusic.play();
-        }
-    }
-
-    public static PetAudio petAudio_ = new PetAudio();
-    */
-
     //--------------------------------------------------------------------------------
     /** Constructor */
     public Pet() {

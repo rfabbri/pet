@@ -60,8 +60,6 @@ class Action {
                 case COMENDO:
                     PetAudio.burp.play();
                     break;
-                default:
-                    break;
             }
         }
     }
@@ -75,6 +73,11 @@ class Action {
         pprint("[action] started " + action_ + " for duration " + duration_ + "s");
         remaining_ = duration_;
         pa_.sAction().updateState(action_);
+        switch (action_) {
+            case VARRENDO:
+                PetAudio.varrendo.play();
+                break;
+        }
 //        try {
 //            java.lang.Thread.sleep(1000);                 //1000 milliseconds is one second.
 //        } catch(java.lang.InterruptedException ex) {
