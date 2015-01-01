@@ -41,7 +41,7 @@ class PetAudio {
     public static Clip burp = fxSoundBoard.getClip("pet/audio/fx/arroto_01");
     public static Clip ding = fxSoundBoard.getClip("pet/audio/fx/ding");
     public static Clip hickup = fxSoundBoard.getClip("pet/audio/fx/soluco_01");
-    public static Loop varrendo = musicSoundBoard.getLoop("pet/audio/fx/varrendopet");
+    public static Loop varrendo = fxSoundBoard.getLoop("pet/audio/fx/varrendopet");
     public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/music/POL-two-fat-gangsters-short");
 //    public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/music/POL-snowy-hill-short");
 

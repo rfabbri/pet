@@ -774,6 +774,7 @@ public class Pet extends DevGame {
               }
           });
       PetAudio.init();
+      PetAudio.fxSoundBoard.volume.update(0.55f);
     }
 
     //--------------------------------------------------------------------------------
