@@ -437,14 +437,12 @@ public class PetAttributes {
         a2vis_.put(ActionState.USANDO_CELULAR, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.USANDO_REDE_SOCIAL, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.JOGANDO_RPG, VisibleCondition.UNDETERMINED);
-        a2vis_.put(ActionState.TOMANDO_BANHO, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.ESCOVANDO_DENTES, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.PASSANDO_PERFUME, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.FUMANDO, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.MASTURBANDO, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.SAINDO_DE_CASA, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.TOMANDO_GLICOSE, VisibleCondition.UNDETERMINED);
-        a2vis_.put(ActionState.TOMANDO_REMEDIO, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.LEVANDO_CURATIVO, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.TOMANDO_VACINA, VisibleCondition.UNDETERMINED);
         a2vis_.put(ActionState.TOMANDO_ESTOMAZIL, VisibleCondition.UNDETERMINED);
