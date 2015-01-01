@@ -468,6 +468,7 @@ class PetWorld extends World {
 
                             tDuracaoPuloAleatorio_ = (double)
                                 rando_.getNormal((float)tAverageDuracaoPuloAleatorio_, (float)(0.4*tAverageDuracaoPuloAleatorio_));
+                            PetAudio.pulo.play();
                         }
                     }
 
