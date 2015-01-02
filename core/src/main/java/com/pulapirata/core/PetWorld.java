@@ -175,7 +175,7 @@ class PetWorld extends World {
 
     /** floor outline */
     final static float [][] floor_v = new float [][] {
-        {0f,440f}, {0f,352f}, {113f, 238f}, {391f, 238f}, {439f, 190f}, {479f, 190f}, {479f,439f}
+        {0f,430f}, {0f,352f}, {113f, 238f}, {391f, 238f}, {439f, 190f}, {479f, 190f}, {479f,430f}
     };
 
     Area floor_;
