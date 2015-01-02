@@ -35,6 +35,8 @@ import pythagoras.f.FloatMath;
 import pythagoras.f.MathUtil;
 import pythagoras.f.Point;
 import pythagoras.f.Vector;
+import pythagoras.f.Area;
+import pythagoras.f.Path;
 
 import playn.core.*;
 import playn.core.util.Clock;
@@ -171,6 +173,13 @@ class PetWorld extends World {
         {0.7071f, -0.7071f}
     };
 
+    /** floor outline */
+    final static float [][] floor_v = new float [][] {
+        {0f,440f}, {0f,352f}, {113f, 238f}, {391f, 238f}, {439f, 190f}, {479f, 190f}, {479f,439f}
+    };
+
+    Area floor_;
+
     /*-------------------------------------------------------------------------------*/
     /** Minigames and Action Animations */
     static public final Point banhoOut = new Point(465, 165);
@@ -270,7 +279,14 @@ class PetWorld extends World {
                 }
             });
 
-        createPet(width_/2.f, height_/2.f);
+        createPet(width_/2.f, height_/2.f+100);
+
+        Path path = new Path();
+        path.moveTo(floor_v[0][0], floor_v[0][1]);
+        for (int i = 1; i < 7; i++)
+            path.lineTo(floor_v[i][0], floor_v[i][1]);
+        path.closePath();
+        floor_ = new Area(path);
     }
 
     // FIXME use enum
@@ -294,23 +310,32 @@ class PetWorld extends World {
     public final System logicalMover = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
             Point p = innerPos_;
+            Point op = innerOPos_;
             Vector v = innerVel_;
             for (int i = 0, ll = entities.size(); i < ll; i++) {
                 int eid = entities.get(i);
                 pos_.get(eid, p); // get our current pos
 
-                clampxy(p, radius_.get(eid));  // keep entity within screen dimensions
-                opos_.set(eid, p);  // copy clamped pos to opos
+                // clampxy(p, radius_.get(eid));  // keep entity within screen dimensions
                 vel_.get(eid, v).scaleLocal(delta); // turn velocity into delta pos
+
+                op.set(p.x, p.y);
 
                 /*
                 if (type_.get(eid) == MOSQUITOS) {
-                    dprint("[mover] velocidade scaled " + v);
-                    dprint("[mover] point " + p);
-                    dprint("[mover] new point " + p.x + v.x + ", " +  p.y + v.y);
+                */
+                    pprint("[mover] velocidade scaled " + v);
+                    pprint("[mover] point " + p);
+                    pprint("[mover] new point " + (p.x + v.x) + ", " +  (p.y + v.y));
+                    /*
                 }
                 */
-                pos_.set(eid, p.x + v.x, p.y + v.y); // add velocity (but don't clamp)
+
+                p.set(p.x + v.x, p.y + v.y);
+                if (!floor_.contains(p))
+                    continue;
+                opos_.set(eid, op.x, op.y);  // copy clamped pos to opos
+                pos_.set(eid, p.x, p.y); // add velocity (but don't clamp)
 
                 if (entity(eid).has(loaded_) && loaded_.get(eid) == LOADED) {
                     PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
@@ -327,6 +352,7 @@ class PetWorld extends World {
         }
 
         protected final Point  innerPos_ = new Point();
+        protected final Point  innerOPos_ = new Point();
         protected final Vector innerVel_ = new Vector();
     };
 
@@ -337,12 +363,16 @@ class PetWorld extends World {
         return (y > height_) ? (height_) : ((y < 0) ? (0) : y);
     }
 
-    private void clampxy(Point p, float r) {
+    private void clampxyRect(Point p, float r) {
         assert r < height_-4 : "radius must be small enough" ;
         assert r < width_-4  : "radius must be small enough" ;
 
         p.y = (p.y + r + 2 > height_) ? (height_ - r - 2) : ((p.y < r + 2) ? (r + 2) : p.y);
         p.x = (p.x + r + 2 > width_) ? (width_ - r - 2) : ((p.x < r + 2) ? (r + 2) : p.x);
+    }
+
+    private void clampxyPoly(Point p, float r) {
+
     }
 
     /** Updates sprite layers to interpolated position of entities on each paint() call */
