@@ -15,6 +15,7 @@ import playn.core.*;
 import playn.core.util.Clock;
 import playn.core.util.Callback;
 import static playn.core.PlayN.*;
+import playn.core.Sound;
 
 import tripleplay.entity.Component;
 import tripleplay.entity.Entity;
@@ -58,6 +59,8 @@ class PetWorld extends World {
     public boolean pause_;
     public Pet petGame_;  // ref to the game, specially to get attributes.
     private boolean print_status_ = false;
+    private Sound pooSound_ = assets().getSound("pet/sprites/arroto_01");
+
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -477,7 +480,7 @@ class PetWorld extends World {
                 int eid = entities.get(i);
                 dprint("[poo] beatsCoelhoSegundo_ " + beatsCoelhoSegundo_);
                 assert 5*beatsCoelhoSegundo_ > 1 : "imprecise poop simulation";
-                if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
+                if (beat_ % ((int)(50*beatsCoelhoSegundo_)) == 0) {
                     dprint("[poo] cagando");
                     // taka.. err.. dump
 
@@ -485,6 +488,8 @@ class PetWorld extends World {
                     // - decrease intestine
 
                     if (pet_.get(eid).intestino().val() > 0) {
+			pooSound_.play();
+			pprint("Caguei");			
                         // evacuate from intestine
                         pet_.get(eid).intestino().sub(1);
                         // create dropping on scenario
