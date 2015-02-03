@@ -581,6 +581,7 @@ class PetWorld extends World {
                     // - decrease intestine
 
                     if (pet_.get(eid).intestino().val() > 0) {
+		 	PetAudio.poo.play();
                         // evacuate from intestine
                         pet_.get(eid).intestino().sub(1);
                         // create dropping on scenario
