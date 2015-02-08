@@ -112,7 +112,7 @@ public class TriggerLoader {
                              //    - m.setPassivoDelta(attr, v);
                         }
                         // TODO read tipo coco here
-                        pprint("[triggerloader] todo: parse tipo coco tipo celular");
+                        dprint("[triggerloader] todo: parse tipo coco tipo celular");
                     }
                     triggers.get(triggerName).setModifiers(m);
 

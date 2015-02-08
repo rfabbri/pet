@@ -324,9 +324,9 @@ class PetWorld extends World {
                 /*
                 if (type_.get(eid) == MOSQUITOS) {
                 */
-                    pprint("[mover] velocidade scaled " + v);
-                    pprint("[mover] point " + p);
-                    pprint("[mover] new point " + (p.x + v.x) + ", " +  (p.y + v.y));
+                    dprint("[mover] velocidade scaled " + v);
+                    dprint("[mover] point " + p);
+                    dprint("[mover] new point " + (p.x + v.x) + ", " +  (p.y + v.y));
                     /*
                 }
                 */

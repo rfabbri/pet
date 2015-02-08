@@ -269,22 +269,22 @@ public class PetSpriter extends CompositeSpriter {
 
     private final ArrayList<String> jsonsAdulto =
         new ArrayList<String>(Arrays.asList(
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_bebado.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_bravo.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_caminhando.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_chorando.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_comaalcoolico.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_comendo.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_doente.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_dormindo.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_irritado.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_morto.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_piscando.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_respirando.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_ressaca.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_triste.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_varrendo.json",
-                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_vomitando.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_bebado.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_bravo.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_caminhando.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_chorando.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_comaalcoolico.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_comendo.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_doente.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_dormindo.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_irritado.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_morto.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_piscando.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_respirando.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_ressaca.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_triste.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_varrendo.json",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_vomitando.json",
                 "pet/sprites/overlays/questionmark.json"
         ));
 
