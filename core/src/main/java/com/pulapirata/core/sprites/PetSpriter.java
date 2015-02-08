@@ -246,6 +246,69 @@ public class PetSpriter extends CompositeSpriter {
                 UNDETERMINED
         ));
 
+    private final ArrayList<String> imagesAdulto =
+        new ArrayList<String>(Arrays.asList(
+                "pet/sprites/Pingo/Adulto/pingo_adulto_bebado.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_bravo.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_caminhando.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_chorando.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_comaalcoolico.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_comendo.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_doente.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_dormindo.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_irritado.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_morto.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_piscando.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_respirando.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_ressaca.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_triste.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_varrendo.png",
+                "pet/sprites/Pingo/Adulto/pingo_adulto_vomitando.png",
+                "pet/sprites/overlays/questionmark.png"
+        ));
+
+    private final ArrayList<String> jsonsAdulto =
+        new ArrayList<String>(Arrays.asList(
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_bebado.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_bravo.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_caminhando.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_chorando.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_comaalcoolico.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_comendo.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_doente.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_dormindo.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_irritado.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_morto.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_piscando.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_respirando.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_ressaca.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_triste.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_varrendo.json",
+                "pet-assets/sprites/Pingo/Adulto/pingo_adulto_vomitando.json",
+                "pet/sprites/overlays/questionmark.json"
+        ));
+
+    private final ArrayList<VisibleCondition> vcAdulto =
+        new ArrayList<VisibleCondition>(Arrays.asList(
+                BEBADO,
+                BRAVO,
+                PULANDO,
+                CHORANDO,
+                COMA_ALCOOLICO,
+                COMENDO,
+                DOENTE,
+                DORMINDO,
+                IRRITADO,
+                MORTO,
+                NORMAL,
+                RESPIRANDO,
+                RESSACA,
+                TRISTE,
+                VARRENDO,
+                VOMITANDO,
+                UNDETERMINED
+        ));
+
 
     private final ArrayList<String> imagesMeia_Idade =
         new ArrayList<String>(Arrays.asList(
@@ -299,9 +362,9 @@ public class PetSpriter extends CompositeSpriter {
                 imagesBebe,
                 imagesCrianca,
                 imagesAdolescente,
-                imagesAdolescente,  // XXX no adult, just use adolescent for now
+                imagesAdulto,
                 imagesMeia_Idade,
-                imagesMeia_Idade,
+                imagesMeia_Idade,  // XXX no terceira_idade/anciao, just use meia idade for now
                 imagesMeia_Idade
         ));
 
@@ -310,7 +373,7 @@ public class PetSpriter extends CompositeSpriter {
                 jsonsBebe,
                 jsonsCrianca,
                 jsonsAdolescente,
-                jsonsAdolescente,
+                jsonsAdulto,
                 jsonsMeia_Idade,
                 jsonsMeia_Idade,
                 jsonsMeia_Idade
@@ -321,7 +384,7 @@ public class PetSpriter extends CompositeSpriter {
                 vcBebe,
                 vcCrianca,
                 vcAdolescente,
-                vcAdolescente,
+                vcAdulto,
                 vcMeia_Idade,
                 vcMeia_Idade,
                 vcMeia_Idade
