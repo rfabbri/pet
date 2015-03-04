@@ -92,6 +92,7 @@ class PetWorld extends World {
     private boolean print_status_ = false;
     public final String tstScript_ = "lua/tst.lua";
     public LuaValue tstChunk_;
+    public Globals globals_;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -297,10 +298,10 @@ class PetWorld extends World {
         // Instantiate Lua Script Engine
 
         // create an environment to run in
-        Globals globals = JsePlatform.standardGlobals();
+        globals_ = JsePlatform.standardGlobals();
 
         // Use the convenience function on Globals to load a chunk.
-        tstChunk_ = globals.loadfile(tstScript_);
+        tstChunk_ = globals_.loadfile(tstScript_);
     }
 
     // FIXME use enum
@@ -676,7 +677,6 @@ class PetWorld extends World {
                         pprint("[key] DOWN press " + velo_.x + ", " + velo_.y);
                         break;
                       case SPACE:
-                        java.lang.System.out.println("Key SPACE pressed: u mean jump?");
                         mainPet_.print();
                         break;
                       case S:
@@ -687,6 +687,10 @@ class PetWorld extends World {
                         break;
                       case R:
                         java.lang.System.out.println("Key R pressed: u mean reload attributes file?");
+                        break;
+                      case L:
+                        pprint("Reloading lua scripts\n");
+                        tstChunk_ = globals_.loadfile(tstScript_);
                         break;
                       case EQUALS:
                       case PLUS:
