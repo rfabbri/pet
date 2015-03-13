@@ -63,6 +63,7 @@ import com.pulapirata.core.utils.TriggerLoader;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
 import com.pulapirata.core.sprites.DroppingSpriter;
+import com.pulapirata.core.sprites.VomitSpriter;
 import com.pulapirata.core.sprites.MosquitoSpriter;
 import static com.pulapirata.core.utils.Puts.*;
 
@@ -427,6 +428,11 @@ class PetWorld extends World {
                         vel_.set(eid, v);
                         pprint("[banho] setting velocity " + v);
                     }
+		    if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.COMENDO_BOMBOM_LICOR) {
+		      createVomit(pos_.getX(eid)-20, pos_.getY(eid)+5, pet_.get(eid).sVomito().getState());
+		      pprint(" bundaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		    }
+
                 }
 
                 if (beat_ % 2 != 0)  // sprite update rate
@@ -984,6 +990,28 @@ class PetWorld extends World {
         ds.set(shitType);
 
         return poo;
+    }
+
+    /**
+     * Creates a vomit sprite.
+     */
+    protected Entity createVomit(float x, float y, PetAttributes.TipoVomito vomitType) {
+        Entity vomit = create(true);
+        vomit.add(type_, sprite_, opos_, pos_, radius_, expires_, loaded_);
+
+        int id = vomit.id;
+        type_.set(id, VOMIT);
+        opos_.set(id, x, y);
+        pos_.set(id, x, y);
+        vel_.set(id, 0, 0);
+        expires_.set(id, beat_ + (int)(3*beatsCoelhoHora_));   // the vomit can automatically expire after some time..
+        loaded_.set(id, NOT_LOADED);
+
+        VomitSpriter vs = new VomitSpriter();
+        sprite_.set(id, vs);      // also queues sprite to be added by other systems on wasAdded()
+        vs.set(vomitType);
+
+        return vomit;
     }
 
     public void reset() {
