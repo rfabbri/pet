@@ -696,6 +696,9 @@ public class Pet extends DevGame {
                         continue;
                     final TriggerType t = trigg[b][s];
                     final int but = b;
+		    System.out.println("Valorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr de t:"+t);
+		    pprint("Valorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr de t:"+t);
+		    dprint("Valorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr de t:"+t);
                     secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
                         public void onEmit() {
                             //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
@@ -712,6 +715,9 @@ public class Pet extends DevGame {
                             } else {
                                 pprint("[button] buttons are blocked at night.");
                             }
+/*			    if (t == VARRENDO){
+			      //dprint("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+			    }*/
                         }
                     });
 
