@@ -49,9 +49,18 @@ import tripleplay.entity.System;
 import tripleplay.entity.World;
 import tripleplay.util.Randoms;
 
-import org.luaj.vm2.Globals;
+// import org.luaj.vm2.Globals;
+// Scripting
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
+import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import javax.script.SimpleBindings;
 
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.State;
@@ -92,7 +101,8 @@ class PetWorld extends World {
     private boolean print_status_ = false;
     public final String tstScript_ = "lua/tst.lua";
     public LuaValue tstChunk_;
-    public Globals globals_;
+//    public Globals globals_;
+    public LuaValue globals_;
 
     /*-------------------------------------------------------------------------------*/
     /** Types of entities */
@@ -301,7 +311,22 @@ class PetWorld extends World {
         globals_ = JsePlatform.standardGlobals();
 
         // Use the convenience function on Globals to load a chunk.
-        tstChunk_ = globals_.loadfile(tstScript_);
+//        tstChunk_ = globals_.loadfile(tstScript_);
+        ScriptEngineManager sem = new ScriptEngineManager();
+        ScriptEngine engine = sem.getEngineByExtension(".lua");
+        ScriptEngineFactory f = engine.getFactory();
+        pprint( "Engine name: " +f.getEngineName() );
+        pprint( "Engine Version: " +f.getEngineVersion() );
+        pprint( "LanguageName: " +f.getLanguageName() );
+        pprint( "Language Version: " +f.getLanguageVersion() );
+        String statement = f.getOutputStatement("\"BUCETA hello, world BUCETA\"");
+        pprint(statement);
+        engine.put("tod",hourOfDay());
+        try {
+            engine.eval("print(tod)");
+        } catch (ScriptException ex) {
+            ex.printStackTrace();
+        }
     }
 
     // FIXME use enum
@@ -541,7 +566,9 @@ class PetWorld extends World {
                         pet_.get(eid).print();
                         pprint("[hora] (difere do tempo de vida)\t" + hourOfDay() + "h " + idadeCoelhoMinutos() + "min");
                     }
-                    tstChunk_.call(LuaValue.valueOf(tstScript_));
+//                    tstChunk_.call(LuaValue.valueOf(tstScript_));
+                    globals_.get("dofile").call( LuaValue.valueOf(tstScript_) );
+
                     pprint("     <<<<<<<<<<<<  END Current pet state");
 //                        entity(eid).didChange(); // mover will render it.
                     // sprite_.get(eid).update(delta);
@@ -690,7 +717,8 @@ class PetWorld extends World {
                         break;
                       case L:
                         pprint("Reloading lua scripts\n");
-                        tstChunk_ = globals_.loadfile(tstScript_);
+                        // tstChunk_ = globals_.loadfile(tstScript_);
+                        globals_.get("dofile").call( LuaValue.valueOf(tstScript_) );
                         break;
                       case EQUALS:
                       case PLUS:
