@@ -296,7 +296,7 @@ class PetWorld extends World {
                 }
             });
 
-        createPet(width_/2.f, height_/2.f+100);
+        Entity pe = createPet(width_/2.f, height_/2.f+100);
 
         Path path = new Path();
         path.moveTo(floor_v[0][0], floor_v[0][1]);
@@ -321,9 +321,10 @@ class PetWorld extends World {
         pprint( "Language Version: " +f.getLanguageVersion() );
         String statement = f.getOutputStatement("\"BUCETA hello, world BUCETA\"");
         pprint(statement);
-        engine.put("tod",hourOfDay());
+        engine.put("pe", pe);
         try {
-            engine.eval("print(tod)");
+            engine.eval("print(pe.id)");
+            pprint("id java " + pe.id);
         } catch (ScriptException ex) {
             ex.printStackTrace();
         }
