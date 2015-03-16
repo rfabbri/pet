@@ -256,6 +256,17 @@ public class Pet extends DevGame {
                     pprint("[Petkey] update_rate = " + updateRate() + "\t\tspeed ("
                             + (double)UPDATE_RATE/(double)updateRate() + "x)");
                     break;
+                  case L:
+                    pprint("Reloading lua scripts\n");
+                    try {
+                        script_ = ((Compilable)engine_).compile(new FileReader("lua/main.lua"));
+                    } catch (ScriptException|IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    bindings_ = engine_.createBindings();
+                    bindings_.put("pet", this);
+                    break;
                   default: break;
                 }
             }
@@ -875,8 +886,6 @@ public class Pet extends DevGame {
         if (loaded()) {
             if (!scriptEngineInitialized_) {
                 scriptEngineInitialized_ = true;
-
-                // Example of compiled script that can be reused once compiled.
 
                 try {
                     script_ = ((Compilable)engine_).compile(new FileReader("lua/main.lua"));

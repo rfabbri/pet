@@ -91,7 +91,6 @@ class PetWorld extends World {
     public boolean pause_;
     public Pet petGame_;  // ref to the game, specially to get attributes.
     private boolean print_status_ = false;
-    public final String tstScript_ = "lua/tst.lua";
     public LuaValue tstChunk_;
 //    public Globals globals_;
     public LuaValue globals_;
@@ -296,14 +295,6 @@ class PetWorld extends World {
             path.lineTo(floor_v[i][0], floor_v[i][1]);
         path.closePath();
         floor_ = new Area(path);
-
-        // Instantiate Lua Script Engine
-
-        // create an environment to run in
-        globals_ = JsePlatform.standardGlobals();
-
-        // Use the convenience function on Globals to load a chunk.
-//        tstChunk_ = globals_.loadfile(tstScript_);
     }
 
     // FIXME use enum
@@ -538,15 +529,12 @@ class PetWorld extends World {
                     }
 
 //                        dprint("linker: visibleCondition = " + newvc);
-                    pprint("     >>>>>>>>>>>>  Current pet state");
                     if (print_status_) {
+                        pprint("     >>>>>>>>>>>>  Current pet state");
                         pet_.get(eid).print();
                         pprint("[hora] (difere do tempo de vida)\t" + hourOfDay() + "h " + idadeCoelhoMinutos() + "min");
+                        pprint("     <<<<<<<<<<<<  END Current pet state");
                     }
-//                    tstChunk_.call(LuaValue.valueOf(tstScript_));
-                    globals_.get("dofile").call( LuaValue.valueOf(tstScript_) );
-
-                    pprint("     <<<<<<<<<<<<  END Current pet state");
 //                        entity(eid).didChange(); // mover will render it.
                     // sprite_.get(eid).update(delta);
                 }
@@ -691,11 +679,6 @@ class PetWorld extends World {
                         break;
                       case R:
                         java.lang.System.out.println("Key R pressed: u mean reload attributes file?");
-                        break;
-                      case L:
-                        pprint("Reloading lua scripts\n");
-                        // tstChunk_ = globals_.loadfile(tstScript_);
-                        globals_.get("dofile").call( LuaValue.valueOf(tstScript_) );
                         break;
                       case EQUALS:
                       case PLUS:
