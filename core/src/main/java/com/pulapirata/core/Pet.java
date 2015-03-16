@@ -50,6 +50,16 @@ import playn.core.gl.GLContext;
 import playn.core.Key;
 import playn.core.Keyboard;
 
+// Lua script engine
+import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import javax.script.SimpleBindings;
+
 import react.Function;
 import react.Functions;
 import react.UnitSlot;
@@ -177,6 +187,8 @@ public class Pet extends DevGame {
     /** Pet attributes and info */
 
     private boolean bgLoaded_ = false;
+    private boolean scriptEngineInitialized_ = false;
+    public boolean loaded() { return world_ != null && world_.worldLoaded() && bgLoaded_ && bm_.hasLoaded(); }
     private boolean printIniDbg_ = true;
     public int numGlucose_ = 1;
     public int dayGlucose_= 0;
@@ -841,6 +853,27 @@ public class Pet extends DevGame {
             statbarIface_.update(delta);
 
         PetAudio.update(delta);
+
+        if (loaded() && !scriptEngineInitialized_) {
+            scriptEngineInitialized_ = true;
+
+            ScriptEngineManager sem = new ScriptEngineManager();
+            ScriptEngine engine = sem.getEngineByExtension(".lua");
+            ScriptEngineFactory f = engine.getFactory();
+            pprint( "Engine name: " +f.getEngineName() );
+            pprint( "Engine Version: " +f.getEngineVersion() );
+            pprint( "LanguageName: " +f.getLanguageName() );
+            pprint( "Language Version: " +f.getLanguageVersion() );
+            String statement = f.getOutputStatement("\"XANA hello, world \"");
+            pprint(statement);
+            engine.put("w", w());
+            try {
+                engine.eval("print(w:hourOfDay())");
+                pprint("java hod " + w().hourOfDay());
+            } catch (ScriptException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     /**

@@ -53,14 +53,6 @@ import tripleplay.util.Randoms;
 // Scripting
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
-import javax.script.Bindings;
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import javax.script.SimpleBindings;
 
 import com.pulapirata.core.PetAttributes;
 import com.pulapirata.core.PetAttributes.State;
@@ -296,7 +288,7 @@ class PetWorld extends World {
                 }
             });
 
-        Entity pe = createPet(width_/2.f, height_/2.f+100);
+        createPet(width_/2.f, height_/2.f+100);
 
         Path path = new Path();
         path.moveTo(floor_v[0][0], floor_v[0][1]);
@@ -312,22 +304,6 @@ class PetWorld extends World {
 
         // Use the convenience function on Globals to load a chunk.
 //        tstChunk_ = globals_.loadfile(tstScript_);
-        ScriptEngineManager sem = new ScriptEngineManager();
-        ScriptEngine engine = sem.getEngineByExtension(".lua");
-        ScriptEngineFactory f = engine.getFactory();
-        pprint( "Engine name: " +f.getEngineName() );
-        pprint( "Engine Version: " +f.getEngineVersion() );
-        pprint( "LanguageName: " +f.getLanguageName() );
-        pprint( "Language Version: " +f.getLanguageVersion() );
-        String statement = f.getOutputStatement("\"BUCETA hello, world BUCETA\"");
-        pprint(statement);
-        engine.put("pe", pe);
-        try {
-            engine.eval("print(pe.id)");
-            pprint("id java " + pe.id);
-        } catch (ScriptException ex) {
-            ex.printStackTrace();
-        }
     }
 
     // FIXME use enum
