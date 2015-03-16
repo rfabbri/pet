@@ -30,6 +30,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
+import java.io.FileReader;
+import java.io.IOException;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
@@ -200,6 +202,12 @@ public class Pet extends DevGame {
     public  final   Signal<Key> keyDown_ = Signal.create();
 
     /*-------------------------------------------------------------------------------*/
+    /** Lua Script engine */
+    protected ScriptEngine engine_;
+    protected CompiledScript script_;
+    protected Bindings bindings_;
+
+    /*-------------------------------------------------------------------------------*/
     /** Layers, groups and associated resources */
 
     private ImageLayer bgLayer_ = null;
@@ -264,6 +272,15 @@ public class Pet extends DevGame {
                     world_.keyUp_.emit(event.key());
             }
         });
+
+        /** Initialize the Lua script engine */
+        ScriptEngineManager sem = new ScriptEngineManager();
+        engine_ = sem.getEngineByExtension(".lua");
+        ScriptEngineFactory f = engine_.getFactory();
+        pprint( "[lua] Engine name: " +f.getEngineName() );
+        pprint( "[lua] Version: " +f.getEngineVersion() );
+        pprint( "[lua] LanguageName: " +f.getLanguageName() );
+        pprint( "[lua] Language Version: " +f.getLanguageVersion() );
     }
 
     public void setUpdateRate(int updateRate) {
@@ -854,23 +871,29 @@ public class Pet extends DevGame {
 
         PetAudio.update(delta);
 
-        if (loaded() && !scriptEngineInitialized_) {
-            scriptEngineInitialized_ = true;
+        // runs main script at every update
+        if (loaded()) {
+            if (!scriptEngineInitialized_) {
+                scriptEngineInitialized_ = true;
 
-            ScriptEngineManager sem = new ScriptEngineManager();
-            ScriptEngine engine = sem.getEngineByExtension(".lua");
-            ScriptEngineFactory f = engine.getFactory();
-            pprint( "Engine name: " +f.getEngineName() );
-            pprint( "Engine Version: " +f.getEngineVersion() );
-            pprint( "LanguageName: " +f.getLanguageName() );
-            pprint( "Language Version: " +f.getLanguageVersion() );
-            String statement = f.getOutputStatement("\"XANA hello, world \"");
-            pprint(statement);
-            engine.put("pet", this);
-            try {
-                engine.eval("print(pet:w():hourOfDay())");
-            } catch (ScriptException ex) {
-                ex.printStackTrace();
+                // Example of compiled script that can be reused once compiled.
+
+                try {
+                    script_ = ((Compilable)engine_).compile(new FileReader("lua/main.lua"));
+                } catch (ScriptException|IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                bindings_ = engine_.createBindings();
+                bindings_.put("pet", this);
+            }
+
+            if (scriptEngineInitialized_) {
+                try {
+                    script_.eval(bindings_);
+                } catch (ScriptException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
