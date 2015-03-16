@@ -868,8 +868,10 @@ public class Pet extends DevGame {
             pprint(statement);
             engine.put("w", w());
             try {
-                engine.eval("print(w:hourOfDay())");
-                pprint("java hod " + w().hourOfDay());
+                pprint("java hod " + w().tPuloAleatorio_);
+                engine.eval("w.tPuloAleatorio_ = 2");
+                engine.eval("print(w.tPuloAleatorio_)");
+                pprint("java hod " + w().tPuloAleatorio_);
             } catch (ScriptException ex) {
                 ex.printStackTrace();
             }
