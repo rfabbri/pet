@@ -24,4 +24,5 @@
 --
 
 print("HHSHSHHSHSHSHSHSHS")
-print("xanaxanaxanaxana")
+
+dofile("lua/tst.lua")
