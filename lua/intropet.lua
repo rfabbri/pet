@@ -5,7 +5,7 @@ io.write("Now it is your problem. Got it?\n");
 io.read();
 io.write("First thing, How are you going to name it?\n");
 petName = io.read();
-io.write( petName , "? Sounds good for a wirdo.\n");
+io.write( petName , "? Sounds good for a weirdo.\n");
 io.read();
 io.write("Second thing, How are you going to educate and create it?\n");
 io.read();

@@ -23,6 +23,16 @@
 -- It is called at (Pet.update() in Pet.java)
 --
 
-print("HHSHSHHSHSHSHSHSHS")
+print("[lua] Running Lua Scripts ---------------------------")
 
 dofile("lua/tst.lua")
+
+-- TODO run these in parallel
+-- TODO run these after some time
+
+-- if
+dofile("lua/petParkEng.lua")
+dofile("lua/petSchoolEng.lua")
+dofile("lua/petWorkEng.lua")
+
+print("[lua] Done running Lua Scripts")

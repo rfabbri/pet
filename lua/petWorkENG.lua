@@ -7,9 +7,9 @@ PS2: revisar se o goto funciona
 PS3: como adicionar o mod de atributos?
 --]]
 
-hourOfDay = 10 --tem q linkar com o horario do jogo
+hourOfDay = pet:w():hourOfDay() --tem q linkar com o horario do jogo
 
-petName = 'Pingo' -- provisorio ate ter o codigo que o jogador nomeia o personagem
+petName = '[work] Pingo' -- provisorio ate ter o codigo que o jogador nomeia o personagem
 
 math.randomseed(os.time())
 

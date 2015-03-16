@@ -1,4 +1,3 @@
-
 --[[Falta inserir a linha pra direcionar para
 petPark1, petPark2, petPark3 de acordo
 com o horario do jogador.
@@ -9,7 +8,7 @@ PS3: como adicionar o mod de atributos?
 
 hourOfDay = pet:w():hourOfDay() --tem q linkar com o horario do jogo
 
-petName = 'Pingo' -- provisorio ate ter o codigo que o jogador nomeia o personagem
+petName = '[park] Pingo' -- provisorio ate ter o codigo que o jogador nomeia o personagem
 
 math.randomseed(os.time())
 

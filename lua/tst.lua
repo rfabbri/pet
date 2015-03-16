@@ -4,7 +4,7 @@
 --local w = luajava.bindClass("com.pulapirata.core.PetWorld")
 --local w = luajava.bindClass("com.pulapirata.core.PetWorld")
 
-print "(|)(|)(|) pussy"
+print "[lua] test tst.lua"
 
 -- print ("Beat: ", w:beat_);
 -- print ("Idade (coelho minutos): ", w:idadeCoelhoMinutos());
