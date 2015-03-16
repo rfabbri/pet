@@ -866,12 +866,9 @@ public class Pet extends DevGame {
             pprint( "Language Version: " +f.getLanguageVersion() );
             String statement = f.getOutputStatement("\"XANA hello, world \"");
             pprint(statement);
-            engine.put("w", w());
+            engine.put("pet", this);
             try {
-                pprint("java hod " + w().tPuloAleatorio_);
-                engine.eval("w.tPuloAleatorio_ = 2");
-                engine.eval("print(w.tPuloAleatorio_)");
-                pprint("java hod " + w().tPuloAleatorio_);
+                engine.eval("print(pet:w():hourOfDay())");
             } catch (ScriptException ex) {
                 ex.printStackTrace();
             }
