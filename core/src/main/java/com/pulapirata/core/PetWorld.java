@@ -419,6 +419,9 @@ class PetWorld extends World {
                         vel_.set(eid, v);
                         pprint("[banho] setting velocity " + v);
                     }
+		    if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.TOMANDO_REMEDIO) {    
+		      pet_.get(eid).sVida().updateState(State.NORMAL);
+		    }
                 }
 
                 if (beat_ % 2 != 0)  // sprite update rate
@@ -596,10 +599,10 @@ class PetWorld extends World {
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
                 if (beat_ % 20 == 0) {  // every 20 beats (2 seconds), tests for too much shit
-                    if (numDroppings_ >= 10) {
+                    if (numDroppings_ >= 2) {
                         if (beat_ % 80 == 0)
                             pprint("[poo] WARNING: too much shit in room - getting sick!");
-                        if (beatsWithTooManyDroppings_ >= /*5*beatsCoelhoSegundo_*/ 6*beatsCoelhoHora_) {
+                        if (beatsWithTooManyDroppings_ >= 20*beatsCoelhoSegundo_ /*6*beatsCoelhoHora_*/) { //usei 20*beatsCoelhoSegundo para testar rapidamente
                             pprint("[poo] EVENT: too much shit in room for too long got bunny SICK!");
                             pet_.get(eid).sSaude().updateStateDeepMax(State.DOENTE);
                             beatsWithTooManyDroppings_ = 0;
