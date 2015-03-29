@@ -44,11 +44,7 @@ local Array = luajava.bindClass("java.lang.reflect.Array")
 for i = 0,  numKeys-1 do
   print("hAhA: " , Array:get(keys,i))
 end
-
-
-
-
-
+-- see enum.lua for an initial set of helper functions for enum + lua
 
 
 print " Done experimenting with enum interface for attributes check *** "
