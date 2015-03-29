@@ -31,8 +31,8 @@ dofile("lua/tst.lua")
 -- TODO run these after some time
 
 -- if
-dofile("lua/petParkEng.lua")
-dofile("lua/petSchoolEng.lua")
-dofile("lua/petWorkEng.lua")
+dofile("lua/petParkENG.lua")
+dofile("lua/petSchoolENG.lua")
+dofile("lua/petWorkENG.lua")
 
 print("[lua] Done running Lua Scripts")
