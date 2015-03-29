@@ -23,6 +23,34 @@ print("testicle: ", a:sNutricao():get(), type(a:sNutricao():get()))
 print("attr: ", a:nutricao())
 print("attr get: ", a:nutricao():get(), type(a:nutricao():get()))
 
+
+-- remains:
+--
+-- 1) loop over all available sAttributes
+--      - need to be done using map.
+
+
+-- k = a:sAtt()
+--print("haha: " , type (a:sAtt(k))
+print("num atributos com estado qualitativo: " , a.ms_:size())
+
+numKeys = a.ms_:size()
+
+keys = a.ms_:keySet():toArray()
+
+print("haha: " , type (keys))
+local Array = luajava.bindClass("java.lang.reflect.Array")
+
+for i = 0,  numKeys-1 do
+  print("hAhA: " , Array:get(keys,i))
+end
+
+
+
+
+
+
+
 print " Done experimenting with enum interface for attributes check *** "
 
 -- print ("Beat: ", w:beat_);
