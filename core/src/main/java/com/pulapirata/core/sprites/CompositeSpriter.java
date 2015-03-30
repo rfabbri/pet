@@ -95,7 +95,7 @@ public abstract class CompositeSpriter extends Spriter {
         };
     }
 
-    private boolean traversed(){
+    public boolean traversed(){
        return traversed_;
     }
 

@@ -60,6 +60,7 @@ import com.pulapirata.core.Triggers;
 import com.pulapirata.core.PetAudio;
 import com.pulapirata.core.utils.PetAttributesLoader;
 import com.pulapirata.core.utils.TriggerLoader;
+import com.pulapirata.core.sprites.CompositeSpriter;
 import com.pulapirata.core.sprites.Spriter;
 import com.pulapirata.core.sprites.PetSpriter;
 import com.pulapirata.core.sprites.DroppingSpriter;
@@ -626,10 +627,10 @@ class PetWorld extends World {
                     }
                 }
 
-                /*
                 // check for vomit animation and finalize it. perhaps do it
                 // reactively in the future
-                if (pet_.get(eid).visibleCondition() == State.VOMITING && sprite_.get(eid).traversed()) {
+                if (pet_.get(eid).visibleCondition() == PetAttributes.VisibleCondition.VOMITANDO
+                        && ((CompositeSpriter) (sprite_.get(eid))).traversed()) {
                         // make callback: when vomiting animation is over, switch back to
                         // default:
                         createVomit(
@@ -638,7 +639,6 @@ class PetWorld extends World {
                         pet_.get(eid).determineVisibleCondition();
                         // TODO set some sort of order? estimate offset from radius?
                 }
-                */
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
