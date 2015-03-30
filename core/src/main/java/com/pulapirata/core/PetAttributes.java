@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.EnumMap;
 import react.IntValue;
+import react.Slot;
 import playn.core.Json;
 import static playn.core.PlayN.log;
 import playn.core.util.Callback;
@@ -543,14 +544,14 @@ public class PetAttributes {
         // links Alcool state to Ressaca
         //sAlcool_.map().connect(ressaca.AlcoholSlot());
 
-        sAlcool_.map().connect(new Slot<Integer> () {
+        sAlcool_.connect(new Slot<Integer> () {
             @Override public void onEmit (Integer value) {
                 // if (value ==  State.COMA_ALCOOLICO.ordinal())
                 if (sAlcool_.getState() == State.COMA_ALCOOLICO) {
-                    if (ressaca_.get() == HOJE)
-                        ressaca_.set(HOJE_AMANHA);
+                    if (sRessaca_.getState() == State.HOJE)
+                        sRessaca_.updateStateDeepMax(State.HOJE_AMANHA);
                     else
-                        ressaca_.set(AMANHA);
+                        sRessaca_.updateStateDeepMax(State.AMANHA);
                 }
             }
         });

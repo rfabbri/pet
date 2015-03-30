@@ -617,15 +617,16 @@ class PetWorld extends World {
                     //  if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
                     //if (vomitCondition()) {
                     if (pet_.get(eid).sRessaca().getState() == State.HOJE ||
-                        pet_.get(eid).sRessaca().getState() == State.HOJE_AMANHA)
-                        pprint("[vomit] vomitando")
+                        pet_.get(eid).sRessaca().getState() == State.HOJE_AMANHA) {
+                        pprint("[vomit] vomitando");
                         PetAudio.vomit.play();
-                        pet_.get(eid).setVisibleCondition(PetAttributes.VisibleCondition.VOMITANDO)
+                        pet_.get(eid).setVisibleCondition(PetAttributes.VisibleCondition.VOMITANDO);
                         // hook to showing up of vomit TODO specific for 1 pet
                         waitingVomitAnimation_ = true;
                     }
                 }
 
+                /*
                 // check for vomit animation and finalize it. perhaps do it
                 // reactively in the future
                 if (pet_.get(eid).visibleCondition() == State.VOMITING && sprite_.get(eid).traversed()) {
@@ -633,12 +634,11 @@ class PetWorld extends World {
                         // default:
                         createVomit(
                                 pos_.getX(eid)-20, pos_.getY(eid)+5, pet_.get(eid).sVomito().getState());
-
                         waitingVomitAnimation_ = false;
                         pet_.get(eid).determineVisibleCondition();
                         // TODO set some sort of order? estimate offset from radius?
                 }
-
+                */
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
@@ -659,19 +659,20 @@ class PetWorld extends World {
                     dprint("[poo] time with too much shit in room: " +
                             beatsWithTooManyDroppings_*petGame_.updateRate()/1000f + "s");
 
+                    /*
                     // check for daychange
                     //  - manage ressaca
                     if (idadeCoelhoDias() != dia_) {
                         dia_ = idadeCoelhoDias();
                         // tomorrow is now today's hangover setting
-                        if (pet_.get(eid).sRessaca().get() == TOMORROW ||
-                            pet_.get(eid).sRessaca().get() == TODAY_TOMORROW);
+                        if (pet_.get(eid).sRessaca().get() == State.TOMORROW ||
+                            pet_.get(eid).sRessaca().get() == State.TODAY_TOMORROW)
                             pet_.get(eid).sRessaca().updateState(TODAY);
                         // or pet_.get(eid).ressaca().set(pet_.get(eid).ressaca().get() >> 1)
                     }
+                    */
                 }
             }
-            private int dia_ = 0;
         }
 
         @Override protected boolean isInterested (Entity entity) {
@@ -679,6 +680,7 @@ class PetWorld extends World {
         }
 
         private boolean waitingVomitAnimation_ = false;
+        private int dia_ = 0;
     };
 
     /**
