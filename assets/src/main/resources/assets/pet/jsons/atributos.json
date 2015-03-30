@@ -108,6 +108,13 @@
         ]
     },
     {"name": "Dinheiro", "startValue": 5, "min": 0, "max": 100, "passiveDay": 0, "passiveNight": 0,"passiveBeats": 0.0},
-    {"name": "Intestino", "startValue": 3, "comment originally": 3, "min": 0, "max": 1000000, "passiveDay": 0, "passiveNight": 0,"passiveBeats": 0.0}
+    {"name": "Intestino", "startValue": 3, "comment originally": 3, "min": 0, "max": 1000000, "passiveDay": 0, "passiveNight": 0,"passiveBeats": 0.0},
+    {"name": "Ressaca", "startValue": 0, "min": 0, "max": 3, "passiveDay": 0, "passiveNight": 0,"passiveBeats": 0.0,
+        "States": [
+          {"name": "normal", "min": 0, "max": 0}
+          {"name": "hoje", "min": 1, "max": 1},
+          {"name": "amanha", "min": 2, "max": 2}
+        ]
+    }
   ]
 }

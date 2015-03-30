@@ -126,7 +126,8 @@ public class PetAttributes {
         /** other types  */
         ACTION,
         TIPO_COCO,
-        TIPO_CELULAR
+        TIPO_CELULAR,
+        RESSACA
     }
 
     public enum State {
@@ -143,6 +144,7 @@ public class PetAttributes {
         ANTI_CRISTO, FIEL_FERVOROSO,                                                          				// Fe
                                                                                                             // Intestino
                                                                                                             // Sangue
+        HOJE, AMANHA,                                                                                       // Ressaca
         NORMAL,
         ONONOONO 																							// impossivel - invalido
         ;
@@ -252,9 +254,11 @@ public class PetAttributes {
     private PetAttribute dinheiro_;
     public  PetAttribute dinheiro() { return dinheiro_; }
     private PetAttribute intestino_;
-    public PetAttribute intestino() { return intestino_; }
+    public  PetAttribute intestino() { return intestino_; }
     private PetAttribute sangue_;
-    public PetAttribute sangue() { return sangue_; }
+    public  PetAttribute sangue() { return sangue_; }
+    private PetAttribute ressaca_;
+    public  PetAttribute ressaca() { return ressaca_; }
 
     /** attribute name to object map */
     public Map<String, PetAttribute> m_ = new HashMap<String, PetAttribute>();
@@ -294,6 +298,8 @@ public class PetAttributes {
     public  PetAttributeState<State> sSexualidade() { return sSexualidade_; }
     private PetAttributeState<State> sFe_;
     public  PetAttributeState<State> sFe() { return sFe_; }
+    public  PetAttributeState<State> sRessaca_;
+    public  PetAttributeState<State> sRessaca() { return sRessaca_; }
     private PetAttributeEnum<ActionState> sAction_ = new PetAttributeEnum<ActionState>();
     public  PetAttributeEnum<ActionState> sAction() { return sAction_; }
     private PetAttributeEnum<TipoCoco> sCoco_ = new PetAttributeEnum<TipoCoco>();
@@ -347,6 +353,7 @@ public class PetAttributes {
         intestino_      = new PetAttribute("INTESTINO");
         sangue_         = new PetAttribute("SANGUE");
         dinheiro_       = new PetAttribute("DINHEIRO");
+        ressaca_        = new PetAttribute("RESSACA");
 
         mapAttrib(nutricao());
         mapAttrib(humor());
@@ -362,6 +369,7 @@ public class PetAttributes {
         mapAttrib(intestino());
         mapAttrib(sangue());
         mapAttrib(dinheiro());
+        mapAttrib(ressaca());
 
         s2vis_.put(State.FAMINTO, VisibleCondition.CHORANDO);
          s2vis_.put(State.MUITA_FOME, VisibleCondition.CHORANDO);
@@ -425,6 +433,9 @@ public class PetAttributes {
          s2vis_.put(State.FIEL_FERVOROSO, VisibleCondition.NORMAL);
 		s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
         s2vis_.put(State.ONONOONO, VisibleCondition.NORMAL);
+        s2vis_.put(State.HOJE, VisibleCondition.RESSACA);
+        s2vis_.put(State.AMANHA, VisibleCondition.NORMAL);
+        s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
 
         a2vis_.put(ActionState.DEFAULT, VisibleCondition.NORMAL);
         a2vis_.put(ActionState.VARRENDO, VisibleCondition.VARRENDO);
@@ -478,12 +489,14 @@ public class PetAttributes {
         sVida_          = new PetAttributeState();
         sSexualidade_   = new PetAttributeState();
         sFe_            = new PetAttributeState();
+        sRessaca_       = new PetAttributeState();
 
         sAction_.updateState(ActionState.DEFAULT);
         sCoco_.updateState(TipoCoco.NORMAL);
         sVomito_.updateState(TipoVomito.NORMAL);
         sCelular_.updateState(TipoCelular.NENHUM);
         sAge_.updateState(AgeStage.BEBE);
+        sRessaca_.updateState(AgeStage.);
 
         // intervals are set from json in PetAttributesLoader
 
@@ -509,6 +522,8 @@ public class PetAttributes {
             mapAttrib(sSexualidade());
         sFe_.set(fe());
             mapAttrib(sFe());
+        sRessaca_.set(ressaca());
+            mapAttrib(sRessaca());
 
         sAtt_.put(AttributeID.NUTRICAO, sNutricao());
         dprint("[satr dbg]: " + sAtt_.get(AttributeID.NUTRICAO));
@@ -523,6 +538,22 @@ public class PetAttributes {
         sAtt_.put(AttributeID.VIDA, sVida());
         sAtt_.put(AttributeID.SEXUALIDADE, sSexualidade());
         sAtt_.put(AttributeID.FE, sFe());
+        sAtt_.put(AttributeID.RESSACA, sRessaca());
+
+        // links Alcool state to Ressaca
+        //sAlcool_.map().connect(ressaca.AlcoholSlot());
+
+        sAlcool_.map().connect(new Slot<Integer> () {
+            @Override public void onEmit (Integer value) {
+                // if (value ==  State.COMA_ALCOOLICO.ordinal())
+                if (sAlcool_.getState() == State.COMA_ALCOOLICO) {
+                    if (ressaca_.get() == TODAY)
+                        ressaca_.set(TODAY_TOMORROW);
+                    else
+                        ressaca_.set(TOMORROW);
+                }
+            }
+        });
     }
 
     /**

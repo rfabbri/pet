@@ -616,7 +616,7 @@ class PetWorld extends World {
                     //  changes when they occur.
                     //  if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
                     //if (vomitCondition()) {
-                    if (pet_.get(eid).ressaca() & TODAY)
+                    if (pet_.get(eid).sRessaca() == TODAY)
                         pprint("[vomit] vomitando")
                         PetAudio.vomit.play();
                         pet_.get(eid).setVisibleCondition(VOMITING)
@@ -663,7 +663,9 @@ class PetWorld extends World {
                     if (idadeCoelhoDias() != dia_) {
                         dia_ = idadeCoelhoDias();
                         // tomorrow is now today's hangover setting
-                        pet_.get(eid).ressaca().set(pet_.get(eid).ressaca().get() & TOMORROW);
+                        if (pet_.get(eid).sRessaca().get() == TOMORROW ||
+                            pet_.get(eid).sRessaca().get() == TODAY_TOMORROW);
+                            pet_.get(eid).sRessaca().updateState(TODAY);
                         // or pet_.get(eid).ressaca().set(pet_.get(eid).ressaca().get() >> 1)
                     }
                 }
