@@ -604,7 +604,7 @@ class PetWorld extends World {
                 }
                 // pprint("[poo] num droppings: " + numDroppings_);
 
-                assert 5*beatsCoelhoSegundo_ > 1 : "imprecise poop simulation";
+                assert 5*beatsCoelhoSegundo_ > 1 : "imprecise vomit simulation";
                 if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
                     // possible logic
                     //  - if pet leaves COMA_ALCOOLICO then he vomits until he's
@@ -614,14 +614,27 @@ class PetWorld extends World {
                     //  - no need to implement this reactively, as we'll be
                     //  testing quite unoften, unless we want to track state
                     //  changes when they occur.
-//                    if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
+                    //  if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
                     if (vomitCondition()) {
-                        PetAudio.vomit.play();
                         pprint("[vomit] vomitando")
+                        PetAudio.vomit.play();
+                        pet_.get(eid).setVisibleCondition(VOMITING)
+                        // hook to showing up of vomit
+                        waitingVomitAnimation_ = true;
+                    }
+                }
+
+                // check for vomit animation and finalize it. perhaps do it
+                // reactively in the future
+                if (pet_.get(eid).visibleCondition() == VOMITING && sprite_.get(eid).finalized()) {
+                        // make callback: when vomiting animation is over, switch back to
+                        // default:
                         createVomit(
                                 pos_.getX(eid)-20, pos_.getY(eid)+5, pet_.get(eid).sVomito().getState());
+
+                        waitingVomitAnimation_ = false;
+                        pet_.get(eid).determineVisibleCondition();
                         // TODO set some sort of order? estimate offset from radius?
-                    }
                 }
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
@@ -649,6 +662,7 @@ class PetWorld extends World {
             return type_.get(entity.id) == PET && loaded_.get(entity.id) == LOADED;
         }
 
+        private boolean waitingVomitAnimation_ = false;
     };
 
     /**
