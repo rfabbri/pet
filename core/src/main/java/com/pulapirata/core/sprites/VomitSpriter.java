@@ -51,24 +51,24 @@ public class VomitSpriter extends Spriter {
 //    public static String IMAGE = "pet/sprites/atlas.png";
 //    public static String JSON = "pet/sprites/atlas.json";
 
-    private final String prefix = "pet/sprites/dejetos/";
+    private final String prefix = "pet/sprites/";
     private final ArrayList<String> images =
         new ArrayList<String>(Arrays.asList(
-                  "dejetos_vomito.png",
-		  "dejetos_cocomole.png"
+                  "dejetos/dejetos_vomito.png",
+                  "overlays/questionmark.png"
         ));
 
     private final ArrayList<String> jsons =
         new ArrayList<String>(Arrays.asList(
-                  "dejetos_vomito.json",
-		  "dejetos_cocomole.json"
+                  "dejetos/dejetos_vomito.json",
+                  "overlays/questionmark.json"
         ));
 
 /*  Apenas sugestao, que assim como coco, pode haver tipos de vomitos (NORMAL, AGUADO, PEDAÇOS DE COMIDA ETC...) */
     private final ArrayList<TipoVomito> vc =
         new ArrayList<TipoVomito>(Arrays.asList(
                     NORMAL,
-		    AGUADO
+                    AGUADO
         ));
 
     // all member animations(sprites) should have same atlas as source,
