@@ -155,8 +155,7 @@ public class PetAttributes {
 
     public enum TipoVomito {
         NORMAL,
-	AGUADO
-        //Algum outro pode ser adicionado aqui.
+        AGUADO
     }
 
     public enum TipoCelular {
@@ -187,7 +186,6 @@ public class PetAttributes {
     }
 
     public enum ActionState {
-	COMENDO_BOMBOM_LICOR,
         DEFAULT,
         VARRENDO,
         JOGANDO_BOLA,
@@ -428,7 +426,6 @@ public class PetAttributes {
 		s2vis_.put(State.NORMAL, VisibleCondition.NORMAL);
         s2vis_.put(State.ONONOONO, VisibleCondition.NORMAL);
 
-        a2vis_.put(ActionState.COMENDO_BOMBOM_LICOR, VisibleCondition.COMENDO); // tentando solucionar a tarefa do plinio por aqui
         a2vis_.put(ActionState.DEFAULT, VisibleCondition.NORMAL);
         a2vis_.put(ActionState.VARRENDO, VisibleCondition.VARRENDO);
         a2vis_.put(ActionState.COMENDO, VisibleCondition.COMENDO);
@@ -484,7 +481,7 @@ public class PetAttributes {
 
         sAction_.updateState(ActionState.DEFAULT);
         sCoco_.updateState(TipoCoco.NORMAL);
-	sVomito_.updateState(TipoVomito.NORMAL); //TESTANDO
+        sVomito_.updateState(TipoVomito.NORMAL);
         sCelular_.updateState(TipoCelular.NENHUM);
         sAge_.updateState(AgeStage.BEBE);
 
@@ -673,8 +670,8 @@ public class PetAttributes {
          for (String key : ms_.keySet())
             ms_.get(key).print();
         pprint("[sattr] ageStage: " + sAge().getState());
-        pprint("[sattr] coco: " + sCoco().getState());        
-	pprint("[sattr] vomito: " + sVomito().getState());
+        pprint("[sattr] coco: " + sCoco().getState());
+        pprint("[sattr] vomito: " + sVomito().getState());
         pprint("[sattr] celular: " + sCelular().getState());
         pprint("[sattr] action: " + sAction().getState());
     }
