@@ -27,7 +27,7 @@
              "Modifiers": [{ "nutricao": -10, "humor": 20, "social": 0, "higiene": -10, "estudo": 0, "saude": 0, "alcool": 0, "disciplina": -5, "sexualidade": 5, "fe": 0, "intestino": 0 }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
     },
-    {"name": "Bombom de Licor", "action": "COMENDO_BOMBOM_LICOR", "duration": 3,
+    {"name": "Bombom de Licor", "action": "COMENDO", "duration": 3,
              "Modifiers": [{ "nutricao": 5, "humor": 5, "social": 0, "higiene": -5, "estudo": 0, "saude": -2, "alcool": 10, "disciplina": -2, "sexualidade": 0, "fe": 0, "intestino": 0 }],
              "AgeStage" : [{ "BEBE": "unlock", "CRIANCA": "unlock", "ADOLESCENTE": "unlock", "ADULTO": "unlock", "MEIA_IDADE": "unlock", "TERCEIRA_IDADE": "unlock", "ANCIAO": "unlock" }]
     },
