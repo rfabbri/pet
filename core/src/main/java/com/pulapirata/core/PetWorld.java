@@ -616,18 +616,19 @@ class PetWorld extends World {
                     //  changes when they occur.
                     //  if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
                     //if (vomitCondition()) {
-                    if (pet_.get(eid).sRessaca() == TODAY)
+                    if (pet_.get(eid).sRessaca().getState() == State.HOJE ||
+                        pet_.get(eid).sRessaca().getState() == State.HOJE_AMANHA)
                         pprint("[vomit] vomitando")
                         PetAudio.vomit.play();
-                        pet_.get(eid).setVisibleCondition(VOMITING)
-                        // hook to showing up of vomit
+                        pet_.get(eid).setVisibleCondition(PetAttributes.VisibleCondition.VOMITANDO)
+                        // hook to showing up of vomit TODO specific for 1 pet
                         waitingVomitAnimation_ = true;
                     }
                 }
 
                 // check for vomit animation and finalize it. perhaps do it
                 // reactively in the future
-                if (pet_.get(eid).visibleCondition() == VOMITING && sprite_.get(eid).finalized()) {
+                if (pet_.get(eid).visibleCondition() == State.VOMITING && sprite_.get(eid).traversed()) {
                         // make callback: when vomiting animation is over, switch back to
                         // default:
                         createVomit(

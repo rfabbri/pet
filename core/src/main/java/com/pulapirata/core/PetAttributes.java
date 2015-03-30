@@ -144,7 +144,7 @@ public class PetAttributes {
         ANTI_CRISTO, FIEL_FERVOROSO,                                                          				// Fe
                                                                                                             // Intestino
                                                                                                             // Sangue
-        HOJE, AMANHA,                                                                                       // Ressaca
+        HOJE, AMANHA, HOJE_AMANHA,                                                                          // Ressaca
         NORMAL,
         ONONOONO 																							// impossivel - invalido
         ;
@@ -496,7 +496,7 @@ public class PetAttributes {
         sVomito_.updateState(TipoVomito.NORMAL);
         sCelular_.updateState(TipoCelular.NENHUM);
         sAge_.updateState(AgeStage.BEBE);
-        sRessaca_.updateState(AgeStage.);
+        sRessaca_.updateState(State.NORMAL);
 
         // intervals are set from json in PetAttributesLoader
 
@@ -547,10 +547,10 @@ public class PetAttributes {
             @Override public void onEmit (Integer value) {
                 // if (value ==  State.COMA_ALCOOLICO.ordinal())
                 if (sAlcool_.getState() == State.COMA_ALCOOLICO) {
-                    if (ressaca_.get() == TODAY)
-                        ressaca_.set(TODAY_TOMORROW);
+                    if (ressaca_.get() == HOJE)
+                        ressaca_.set(HOJE_AMANHA);
                     else
-                        ressaca_.set(TOMORROW);
+                        ressaca_.set(AMANHA);
                 }
             }
         });
