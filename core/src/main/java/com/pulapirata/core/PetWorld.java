@@ -615,7 +615,8 @@ class PetWorld extends World {
                     //  testing quite unoften, unless we want to track state
                     //  changes when they occur.
                     //  if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
-                    if (vomitCondition()) {
+                    //if (vomitCondition()) {
+                    if (pet_.get(eid).ressaca() & TODAY)
                         pprint("[vomit] vomitando")
                         PetAudio.vomit.play();
                         pet_.get(eid).setVisibleCondition(VOMITING)
@@ -637,9 +638,11 @@ class PetWorld extends World {
                         // TODO set some sort of order? estimate offset from radius?
                 }
 
+
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
-                if (beat_ % 20 == 0) {  // every 20 beats (2 seconds), tests for too much shit
+                if (beat_ % 20 == 0) {  // every 20 beats (2 seconds)
+                    // test for too much shit
                     if (numDroppings_ >= 10) {
                         if (beat_ % 80 == 0)
                             pprint("[poo] WARNING: too much shit in room - getting sick!");
@@ -654,8 +657,18 @@ class PetWorld extends World {
                     }
                     dprint("[poo] time with too much shit in room: " +
                             beatsWithTooManyDroppings_*petGame_.updateRate()/1000f + "s");
+
+                    // check for daychange
+                    //  - manage ressaca
+                    if (idadeCoelhoDias() != dia_) {
+                        dia_ = idadeCoelhoDias();
+                        // tomorrow is now today's hangover setting
+                        pet_.get(eid).ressaca().set(pet_.get(eid).ressaca().get() & TOMORROW);
+                        // or pet_.get(eid).ressaca().set(pet_.get(eid).ressaca().get() >> 1)
+                    }
                 }
             }
+            private int dia_ = 0;
         }
 
         @Override protected boolean isInterested (Entity entity) {
