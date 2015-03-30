@@ -659,18 +659,16 @@ class PetWorld extends World {
                     dprint("[poo] time with too much shit in room: " +
                             beatsWithTooManyDroppings_*petGame_.updateRate()/1000f + "s");
 
-                    /*
                     // check for daychange
                     //  - manage ressaca
                     if (idadeCoelhoDias() != dia_) {
                         dia_ = idadeCoelhoDias();
                         // tomorrow is now today's hangover setting
-                        if (pet_.get(eid).sRessaca().get() == State.TOMORROW ||
-                            pet_.get(eid).sRessaca().get() == State.TODAY_TOMORROW)
-                            pet_.get(eid).sRessaca().updateState(TODAY);
+                        if (pet_.get(eid).sRessaca().getState() == State.AMANHA ||
+                            pet_.get(eid).sRessaca().getState() == State.HOJE_AMANHA)
+                            pet_.get(eid).sRessaca().updateState(State.HOJE);
                         // or pet_.get(eid).ressaca().set(pet_.get(eid).ressaca().get() >> 1)
                     }
-                    */
                 }
             }
         }
