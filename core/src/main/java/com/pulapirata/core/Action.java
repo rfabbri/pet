@@ -77,6 +77,10 @@ class Action {
             case VARRENDO:
                 PetAudio.varrendo.play();
                 break;
+	    case LEVANDO_CHINELADA:
+		PetAudio.slipper.play();
+                break;
+
         }
 //        try {
 //            java.lang.Thread.sleep(1000);                 //1000 milliseconds is one second.

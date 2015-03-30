@@ -428,8 +428,7 @@ class PetWorld extends World {
                         pprint("[banho] setting velocity " + v);
                     }
 		    if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.LEVANDO_CHINELADA) {
-		      PetAudio.slipper.play();
-		      //pet_.get(eid).sVida().updateState(State.DEPRESSAO); USAR ESTE PARA ALTERAR O ESTADO DO PINGO PARA CHORANDO, EM UMA PRÓXIMA TAREFA.
+			pet_.get(eid).sVida().updateState(State.DEPRESSAO);
 		    }
                 }
 
