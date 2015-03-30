@@ -428,11 +428,6 @@ class PetWorld extends World {
                         vel_.set(eid, v);
                         pprint("[banho] setting velocity " + v);
                     }
-		    if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.COMENDO_BOMBOM_LICOR) {
-		      createVomit(pos_.getX(eid)-20, pos_.getY(eid)+5, pet_.get(eid).sVomito().getState());
-		      pprint(" bundaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		    }
-
                 }
 
                 if (beat_ % 2 != 0)  // sprite update rate
