@@ -574,6 +574,8 @@ class PetWorld extends World {
 
     /**
      * Controls pet's crap load dropping from time to time.
+     *
+     * Includes shitting, vomiting, and any other crap
      */
     public final System evacuator = new System(this, 0) {
         @Override protected void update (int delta, Entities entities) {
@@ -581,8 +583,8 @@ class PetWorld extends World {
                 /* drop a shitload */
                 int eid = entities.get(i);
                 dprint("[poo] beatsCoelhoSegundo_ " + beatsCoelhoSegundo_);
-                assert 5*beatsCoelhoSegundo_ > 1 : "imprecise poop simulation";
-                if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
+                assert 11*beatsCoelhoSegundo_ > 1 : "imprecise poop simulation";
+                if (beat_ % ((int)(11*beatsCoelhoSegundo_)) == 0) {
                     dprint("[poo] cagando");
                     // taka.. err.. dump
 
@@ -597,10 +599,30 @@ class PetWorld extends World {
                         dprint("[poo] tipo coco no intestino " + pet_.get(eid).sCoco().getState());
                         createDropping(
                                 pos_.getX(eid)+20, pos_.getY(eid)+5, pet_.get(eid).sCoco().getState());
-                        // todo: set some sort of order? estimate offset from radius?
+                        // TODO set some sort of order? estimate offset from radius?
                     }
                 }
                 // pprint("[poo] num droppings: " + numDroppings_);
+
+                assert 5*beatsCoelhoSegundo_ > 1 : "imprecise poop simulation";
+                if (beat_ % ((int)(5*beatsCoelhoSegundo_)) == 0) {
+                    // possible logic
+                    //  - if pet leaves COMA_ALCOOLICO then he vomits until he's
+                    //  better than BEBADO.
+                    //  - need to perfect the way he vomits the day after
+                    //  - perhaps coma must stay that way until the next day?
+                    //  - no need to implement this reactively, as we'll be
+                    //  testing quite unoften, unless we want to track state
+                    //  changes when they occur.
+//                    if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
+                    if (vomitCondition()) {
+                        PetAudio.vomit.play();
+                        pprint("[vomit] vomitando")
+                        createVomit(
+                                pos_.getX(eid)-20, pos_.getY(eid)+5, pet_.get(eid).sVomito().getState());
+                        // TODO set some sort of order? estimate offset from radius?
+                    }
+                }
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
 
@@ -626,6 +648,7 @@ class PetWorld extends World {
         @Override protected boolean isInterested (Entity entity) {
             return type_.get(entity.id) == PET && loaded_.get(entity.id) == LOADED;
         }
+
     };
 
     /**
@@ -815,6 +838,7 @@ class PetWorld extends World {
                 dprint("[collider] collision!");
                 switch (type_.get(e1.id) | type_.get(e2.id)) {
                 case PET_DROPPING:
+                case PET_VOMIT:
                     dprint("[collider] pet-dropping!");
                     if (type_.get(e1.id) == PET) {
                         dprint("[collider] e1 == PET!");
@@ -824,7 +848,7 @@ class PetWorld extends World {
                             numDroppings_--;
                         }
                     } else {
-                        dprint("[collider] e1 == DROPPING!");
+                        dprint("[collider] e1 == DROPPING or VOMIT!");
                         if (pet_.get(e2.id).sAction().getState() == PetAttributes.ActionState.VARRENDO) {
                             pprint("[collider] destroying dropping!");
                             e1.destroy();
