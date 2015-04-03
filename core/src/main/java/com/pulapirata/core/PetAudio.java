@@ -50,6 +50,7 @@ class PetAudio {
     public static Loop cellPhone = fxSoundBoard.getLoop("pet/audio/fx/celularpet");
     public static Loop eating = fxSoundBoard.getLoop("pet/audio/fx/comendopet");
     public static Loop TV = fxSoundBoard.getLoop("pet/audio/fx/tvpet");
+    public static Loop socialNetwork = fxSoundBoard.getLoop("pet/audio/fx/pcpet");
     public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/music/POL-two-fat-gangsters-short");
 //    public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/music/POL-snowy-hill-short");
 
