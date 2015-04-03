@@ -47,6 +47,9 @@ class PetAudio {
     public static Loop coma = fxSoundBoard.getLoop("pet/audio/fx/comapet");
     public static Clip poo = fxSoundBoard.getClip("pet/audio/fx/pumpet");
     public static Clip slipper = fxSoundBoard.getClip("pet/audio/fx/chineladapet");
+    public static Loop cellPhone = fxSoundBoard.getLoop("pet/audio/fx/celularpet");
+    public static Loop eating = fxSoundBoard.getLoop("pet/audio/fx/comendopet");
+    public static Loop TV = fxSoundBoard.getLoop("pet/audio/fx/tvpet");
     public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/music/POL-two-fat-gangsters-short");
 //    public static Loop mainMusic = musicSoundBoard.getLoop("pet/audio/music/POL-snowy-hill-short");
 

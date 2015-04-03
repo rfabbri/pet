@@ -428,7 +428,14 @@ class PetWorld extends World {
                         pprint("[banho] setting velocity " + v);
                     }
 		    if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.LEVANDO_CHINELADA) {
+			//pet_.get(eid).sSaude().updateState(State.DOENTE);	DOENTE FUNCIONA!!
+			pet_.get(eid).sSaude().updateState(State.DEPRESSAO);		
 			pet_.get(eid).sVida().updateState(State.DEPRESSAO);
+			pet_.get(eid).sDisciplina().updateState(State.DEPRESSAO);
+			pet_.get(eid).sHumor().updateState(State.DEPRESSAO);
+			pet_.get(eid).sSocial().updateState(State.DEPRESSAO);
+
+
 		    }
                 }
 

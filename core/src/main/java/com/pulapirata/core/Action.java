@@ -80,6 +80,15 @@ class Action {
 	    case LEVANDO_CHINELADA:
 		PetAudio.slipper.play();
                 break;
+	    case LIGANDO:
+		PetAudio.cellPhone.play();
+		break;
+	    case COMENDO:
+		PetAudio.eating.play();
+		break;
+	    case ASSITINDO_TV:
+		PetAudio.TV.play();
+		break;
 
         }
 //        try {
