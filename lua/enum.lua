@@ -11,7 +11,6 @@ a=pet:a()
 -- the keys array holds the actual string keys.
 -- use the '#' operator to get the number of keys
 sAttributeKeys = function()
-
   numKeys = a.ms_:size()
 
   keys = a.ms_:keySet():toArray()
@@ -21,7 +20,7 @@ sAttributeKeys = function()
   attributeKeys = {}
   for i = 1,  numKeys do
     stringKeys[i] = Array:get(stringKeys, i-1)
-    attributeKeys[i] = a:ms_:sAtt(s)
+    attributeKeys[i] = a:sAtt(s)
   end
 
   return stringKeys, attributeKeys
