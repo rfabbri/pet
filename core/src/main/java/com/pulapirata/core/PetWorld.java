@@ -143,7 +143,7 @@ class PetWorld extends World {
     public int beat_ = 0; // total number of updates so far
     // the following is not final so that we can dynamically speedup the game if desired
     /** beats por 1 coelho dia. multiply by UPDATE_RATE to get ms */
-    static public final int beatsCoelhoDiaNormal_ = 864000 /* 864000 = 24h reais para UPDATE_RATE 100ms */;
+    static public final int beatsCoelhoDiaNormal_ = 864000/(24*30) /* 864000 = 24h reais para UPDATE_RATE 100ms */;
     static public int beatsCoelhoDia_ = beatsCoelhoDiaNormal_/* 864000 = 24h reais para UPDATE_RATE 100ms */;
 //    static public int beatsCoelhoDia_ = 24*10/*s*/*10 /* 1 coelhoHora = 10 human seconds */;
     static public double beatsCoelhoHora_;
@@ -616,7 +616,7 @@ class PetWorld extends World {
                     //  testing quite unoften, unless we want to track state
                     //  changes when they occur.
                     //  if (pet_.get(eid).sAlcool() == MUITO_BEBADO)
-                    //if (vomitCondition()) {
+                    //if (vomitCondition())
                     if (pet_.get(eid).sRessaca().getState() == State.HOJE ||
                         pet_.get(eid).sRessaca().getState() == State.HOJE_AMANHA) {
                         pprint("[vomit] vomitando");
