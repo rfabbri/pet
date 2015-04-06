@@ -89,7 +89,7 @@ class Action {
 	    case ASSITINDO_TV:
 		PetAudio.TV.play();
 		break;
-	    case MEXENDO_CELULAR: //USANDO_REDE_SOCIAL: /*Nao seria melhor <- ?*/
+	    case MEXENDO_CELULAR:
 		PetAudio.socialNetwork.play();
 		break;
 
