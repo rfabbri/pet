@@ -427,6 +427,13 @@ class PetWorld extends World {
                         vel_.set(eid, v);
                         pprint("[banho] setting velocity " + v);
                     }
+		    if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.LEVANDO_CHINELADA) {
+		      //tentando fazer ele chorar
+		      pet_.get(eid).sSocial().updateState(State.DEPRESSAO);
+		      pet_.get(eid).sNutricao().updateState(State.FAMINTO);
+		      pet_.get(eid).sAlcool().updateState(State.MUITO_BEBADO); //<---- este aqui funciona! deixa ele com visible condition de vomitando
+		    }
+
                 }
 
                 if (beat_ % 2 != 0)  // sprite update rate
