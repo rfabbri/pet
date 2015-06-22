@@ -57,6 +57,7 @@ class PetAudio {
     }
 
     public static void init() {
+        mainMusic.setVolume(0.1f);
         mainMusic.play();
         hickup.preload();
         burp.preload();
