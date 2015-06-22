@@ -441,7 +441,12 @@ public class Pet extends DevGame {
 
         protected int numMainButts_ = 0;
         protected ArrayList< ArrayList<Button> > secondaryButtons_ = null;
-        final ArrayList<Group> sbuttons_ = new ArrayList<Group>(0);
+
+        protected final Group buttons_ = new Group(new AbsoluteLayout()).addStyles(
+                Style.BACKGROUND.is(Background.blank()));
+
+        protected final ArrayList<Group> sbuttons_ = new ArrayList<Group>(0);
+        protected Selector sel_;
 
         // Used for asset loading. We could also use an asset watcher as in
         // PeaLoader.java
@@ -467,9 +472,6 @@ public class Pet extends DevGame {
                     // root.addStyles(Style.BACKGROUND.is(Background.solid(0xFF99CCFF)));
             sbroot.layer.setDepth(UIDepth.Z_SBUTTONS.getZ());
             layer_.addAt(sbroot.layer, 0, BUTTON_ORIGIN_Y); // position of buttons
-
-            final Group buttons = new Group(new AbsoluteLayout()).addStyles(
-                Style.BACKGROUND.is(Background.blank()));
 
 
             // TODO we could use TableLayout in the future but I dont trust it now;
@@ -631,7 +633,7 @@ public class Pet extends DevGame {
             for (int b = 0; b < numMainButts_; ++b) {
                 final int bFinal = b;
                 ToggleButton but = new ToggleButton (Icons.image(imgButtSolto.get(b)));
-                buttons.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
+                buttons_.add(AbsoluteLayout.at(but, topleft[b][0], topleft[b][1], 120, 120));
                 // callbacks for loading the images
                 imgButtSolto.get(b).addCallback(new Callback<Image> () {
                         @Override
@@ -643,7 +645,6 @@ public class Pet extends DevGame {
                             error(err);
                         }
                 });
-
 
                 but.selected().map(new Function <Boolean, Icon>() {
                     public Icon apply (Boolean selected) {
@@ -686,19 +687,19 @@ public class Pet extends DevGame {
                     });
                 }
 
-                Selector sel = new Selector(buttons, null);
-                broot.add(AbsoluteLayout.at(buttons, 0, 0, width(), 240));
+                sel_ = new Selector(buttons_, null);
+                broot.add(AbsoluteLayout.at(buttons_, 0, 0, width(), 240));
 
                 // TODO: improve this part with a button -> index map so we don't go through
                 // all butts
-                sel.selected.connect(new Slot<Element<?>>() {
+                sel_.selected.connect(new Slot<Element<?>>() {
                     @Override public void onEmit (Element<?> event) {
                         if (event == null) {
                             for (Group sb : sbuttons_)
                                 sb.setVisible(false);
                         } else {
                             for (int i=0; i < numMainButts_; ++i) {
-                                if (buttons.childAt(i) == (ToggleButton) event &&
+                                if (buttons_.childAt(i) == (ToggleButton) event &&
                                         sbuttons_.get(i).childCount() != 0) {
                                     sbuttons_.get(i).setVisible(true);
                                 } else {
@@ -741,7 +742,10 @@ public class Pet extends DevGame {
                     secondaryButtons_.get(b).get(s).clicked().connect(new UnitSlot() {
                         public void onEmit() {
                             //a().triggers(SOPA_DE_CENOURA).fire(a).fireIfAllowed(a, CRIANCA);   // TODO remover argumento redundante ou criar overload
-                            sbuttons_.get(but).setVisible(false);
+                            // sbuttons_.get(but).setVisible(false);
+//                            ((ToggleButton) buttons_.childAt(but)).click();
+                            // ((ToggleButton) buttons_.childAt(but)).selected().update(false);
+                            sel_.selected.update(null);
 
                             // Fazendo a verificação de está de noite ou de dia.
                             if (world_.worldLoaded() && world_.hourOfDay() > 8 ) { // use asset manager
