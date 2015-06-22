@@ -22,6 +22,12 @@
 -- This script is run by the Pet game at every update loop
 -- It is called at (Pet.update() in Pet.java)
 --
+verbose = 0
+
+if verbose == 0 then
+  oldprint=print
+  print = function() end
+end
 
 print("[lua] Running Lua Scripts ---------------------------")
 
@@ -36,3 +42,8 @@ dofile("lua/petSchoolENG.lua")
 dofile("lua/petWorkENG.lua")
 
 print("[lua] Done running Lua Scripts")
+
+if verbose == 0 then
+  -- restore print
+  print = oldprint
+end
