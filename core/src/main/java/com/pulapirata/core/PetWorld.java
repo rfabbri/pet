@@ -149,8 +149,14 @@ class PetWorld extends World {
     static public double beatsCoelhoHora_;
     static public double beatsCoelhoSegundo_;
     public int beatsMaxIdade_;
-    // TODO: colocar em pet attributes?
+
+    // TODO: colocar o seguinte em pet attributes?
+
+    // idade total em horas
     public int idadeCoelhoHoras() { return (int)((double)beat_ / ((double)beatsCoelhoDia_/24.)); }
+    // idade em horas sem contar dias
+    public int idadeCoelhoHoras24h()
+        { return (int)(((double)beat_ % beatsCoelhoDia_)/(beatsCoelhoDia_/24.)); }
     public int idadeCoelhoMinutos()
         { return (int)(((double)beat_ % beatsCoelhoHora_)/(beatsCoelhoHora_/60.)); }
     public int idadeCoelhoDias() { return beat_ / beatsCoelhoDia_; }

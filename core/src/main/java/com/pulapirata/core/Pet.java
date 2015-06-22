@@ -167,12 +167,12 @@ public class Pet extends DevGame {
         if (world_.idadeCoelhoDias() == 0)
             return String.format(
                   STAT_FILLER_1,
-                  world_.idadeCoelhoHoras(), world_.idadeCoelhoMinutos(),
+                  world_.idadeCoelhoHoras24h(), world_.idadeCoelhoMinutos(),
                   a().vida().val(),
                   a().vida().max());
         else
             return String.format(STAT_FILLER_1_DIAS,
-                  world_.idadeCoelhoDias(), world_.idadeCoelhoHoras(), world_.idadeCoelhoMinutos(),
+                  world_.idadeCoelhoDias(), world_.idadeCoelhoHoras24h(), world_.idadeCoelhoMinutos(),
                   a().vida().val(),
                   a().vida().max());
     }
