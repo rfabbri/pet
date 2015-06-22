@@ -168,6 +168,14 @@ class PetWorld extends World {
     public float tAverageSpacingPuloAleatorio_ = (float)tDuracaoPuloAleatorio_*40f;
     public double tProximoPuloAleatorio_ = tAverageSpacingPuloAleatorio_;
 
+    public void printTime() {
+        pprint("[time] beat_: " + beat_);
+        pprint(" idadeCoelhoHoras: " + idadeCoelhoHoras());
+        pprint(" idadeCoelhoMinutos: " + idadeCoelhoMinutos());
+        pprint(" idadeCoelhoDias: " + idadeCoelhoDias());
+        pprint(" hourOfDay: " + hourOfDay());
+    }
+
     /*-------------------------------------------------------------------------------*/
     /** Physics data */
 
@@ -534,7 +542,8 @@ class PetWorld extends World {
                     if (print_status_) {
                         pprint("     >>>>>>>>>>>>  Current pet state");
                         pet_.get(eid).print();
-                        pprint("[hora] (difere do tempo de vida)\t" + hourOfDay() + "h " + idadeCoelhoMinutos() + "min");
+                        pprint("[time] (difere do tempo de vida)\t" + hourOfDay() + "h " + idadeCoelhoMinutos() + "min");
+                        printTime();
                         pprint("     <<<<<<<<<<<<  END Current pet state");
                     }
 //                        entity(eid).didChange(); // mover will render it.
@@ -619,7 +628,7 @@ class PetWorld extends World {
                     //if (vomitCondition())
                     if (pet_.get(eid).sRessaca().getState() == State.HOJE ||
                         pet_.get(eid).sRessaca().getState() == State.HOJE_AMANHA) {
-                        pprint("[vomit] vomitando");
+                        pprint("[vomit] vomitando de ressaca");
                         PetAudio.vomit.play();
                         pet_.get(eid).setVisibleCondition(PetAttributes.VisibleCondition.VOMITANDO);
                         // hook to showing up of vomit TODO specific for 1 pet
@@ -638,6 +647,7 @@ class PetWorld extends World {
                         waitingVomitAnimation_ = false;
                         pet_.get(eid).determineVisibleCondition();
                         // TODO set some sort of order? estimate offset from radius?
+                        pprint("[vomit] creating DROPPING entity");
                 }
 
                 /* if more than 10 droppings for more than 6 hours, pets sick */
@@ -727,6 +737,11 @@ class PetWorld extends World {
                         break;
                       case S:
                         print_status_ = !print_status_;
+                        break;
+                      case D:
+                        pprint("[key] D: daychange");
+                        beat_ = (idadeCoelhoDias()+1)*beatsCoelhoDia_;
+                        printTime();
                         break;
                       case C:
                         java.lang.System.out.println("Key C pressed: u mean taka dump?");
@@ -909,6 +924,7 @@ class PetWorld extends World {
                     world.entity(eid).destroy();
                     if (type_.get(eid) == DROPPING) {
                         numDroppings_--;
+                        pprint("[expirer] numDroppings " + numDroppings_);
                         assert numDroppings_ >= 0;
                     }
                 }

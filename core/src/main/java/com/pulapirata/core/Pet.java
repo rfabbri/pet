@@ -119,6 +119,7 @@ public class Pet extends DevGame {
     protected  static final String STAT_ALERT_1 =
         "Pingo recebeu convite para ir a um aniversario de um colega na escola.";
     protected  static final String STAT_FILLER_1 = "Idade: %02d:%02d\n Vida: %d/%d\n";
+    protected  static final String STAT_FILLER_1_DIAS = "Idade: %dd %02d:%02dh\n Vida: %d/%d\n";
     protected  static final String STAT_FILLER_2 = "\nNutricao: %d/%d\n Grana: %d/%d";
     public Messages messages_;   // filled up by MessagesLoader
 
@@ -170,8 +171,8 @@ public class Pet extends DevGame {
                   a().vida().val(),
                   a().vida().max());
         else
-            return String.format(STAT_FILLER_1,
-                  world_.idadeCoelhoDias(), " dias",
+            return String.format(STAT_FILLER_1_DIAS,
+                  world_.idadeCoelhoDias(), world_.idadeCoelhoHoras(), world_.idadeCoelhoMinutos(),
                   a().vida().val(),
                   a().vida().max());
     }
