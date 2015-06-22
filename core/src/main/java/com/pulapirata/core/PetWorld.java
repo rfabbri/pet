@@ -683,7 +683,8 @@ class PetWorld extends World {
                         if (pet_.get(eid).sRessaca().getState() == State.AMANHA ||
                             pet_.get(eid).sRessaca().getState() == State.HOJE_AMANHA)
                             pet_.get(eid).sRessaca().updateState(State.HOJE);
-                        // or pet_.get(eid).ressaca().set(pet_.get(eid).ressaca().get() >> 1)
+                        if (pet_.get(eid).sRessaca().getState() == State.HOJE)
+                            pet_.get(eid).sRessaca().updateState(State.NORMAL);
                     }
                 }
             }
