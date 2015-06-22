@@ -644,6 +644,16 @@ public class Pet extends DevGame {
                         }
                 });
 
+
+                but.selected().map(new Function <Boolean, Icon>() {
+                    public Icon apply (Boolean selected) {
+                        if (selected)
+                            return Icons.image(imgButtApertado.get(bFinal));
+                        else
+                            return Icons.image(imgButtSolto.get(bFinal));
+                    }
+                }).connectNotify(but.icon.slot());
+
                 // add button b's secondary buttons
                 sbuttons_.add(new Group(new AbsoluteLayout()).addStyles(
                   Style.BACKGROUND.is(Background.solid(0x55FFFFFF))));
@@ -659,15 +669,6 @@ public class Pet extends DevGame {
                     secondaryButtons_.get(b).add(sbut);
                     sbuttons_.get(b).add(AbsoluteLayout.at(sbut,
                       topleftSecondary[s][0], topleftSecondary[s][1], 120, 120));
-
-                    but.selected().map(new Function <Boolean, Icon>() {
-                        public Icon apply (Boolean selected) {
-                            if (selected)
-                                return Icons.image(imgButtApertado.get(bFinal));
-                            else
-                                return Icons.image(imgButtSolto.get(bFinal));
-                        }
-                    }).connectNotify(but.icon.slot());
                     // all secondary buttons are added; toggle visibility only
                     sbroot.add(AbsoluteLayout.at(sbuttons_.get(bFinal), 0, 0, width(), 120));
                     sbuttons_.get(bFinal).setVisible(false);
