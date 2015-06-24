@@ -352,6 +352,27 @@ class PetWorld extends World {
                     else
                         ps.flipRight();
                 }
+                //Refinando Varrer
+                /*
+                if(pet_.get(e1.id).sAction().getState() == PetAttributes.ActionState.VARRENDO){
+                   // encontrar a sujeira mais proxima - DROPPING
+                   Point p2 = innerPos_;
+                   for (int j = 0; j < ll; j++) {
+                     int eid2 = entities.get(j);
+                     if (type_.get(eid) == DROPPING){
+                     //load?
+                          pos_.get(eid, p);
+                          pos_.get(eid2, p2); 
+ 
+
+                     } 
+
+              
+                }
+
+
+             */
+
             }
         }
 
@@ -407,6 +428,61 @@ class PetWorld extends World {
                 int eid = entities.get(ii);
 
                 if (loaded_.get(eid) == LOADED) {
+                   
+                   //Refinando Varrer
+                   //No for encontrar sujeira mais proxima, e setar fora dele a velocidade (Dropping varrendo?)
+                   if(type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.VARRENDO){
+                     float VELOCITY_VARRENDO= 0.5f; 
+                     // encontrar a sujeira mais proxima - DROPPING
+                     Point p1 = innerPos_;
+                     Point p2 = innerPos_;
+                     pos_.get(eid, p1);
+                     double distPetDropping = 0, distPetDroppingAux = 0;
+                     float dx, dy;
+                     int eidDroppingTarget = -1;
+                     boolean droppingFound = false; 
+                     for (int j = 0; j < ll; j++) {
+                        int eid2 = entities.get(j);
+                        if(type_.get(eid2) == DROPPING){
+                            //load?
+                            if(!droppingFound){
+                               eidDroppingTarget = eid2;
+                               pos_.get(eid2, p2); 
+                               droppingFound = true;
+                               distPetDropping = Math.sqrt(Math.pow((p2.x - p1.x)*1., 2.) + Math.pow(p2.y - p1.y, 2.)); 
+                            }else{
+                               pos_.get(eid2, p2);
+                               distPetDroppingAux = Math.sqrt(Math.pow((p2.x - p1.x)*1., 2.) + Math.pow(p2.y - p1.y, 2.)); 
+                               if(distPetDroppingAux < distPetDropping){
+                                 eidDroppingTarget = eid2;
+                                 distPetDropping = distPetDroppingAux;
+                               }
+                            }
+ 			    
+                           //v.x = JUMP_WALK_VELOCITY_VARRENDO*dx;//(Math.abs(p2.x - p1.x)) 
+                            //v.y = JUMP_WALK_VELOCITY_VARRENDO*dy;
+                         } 
+                       }
+                       if(droppingFound){
+                            assert eidDroppingTarget != -1;
+                            pos_.get(eidDroppingTarget, p2); 
+                            dx = (p2.x - p1.x); 
+                            dy = (p2.y - p1.y);
+                            Vector v = new Vector(dx, dy);
+			    if (Math.abs(v.x) < 1e-1f && Math.abs(v.y) < 1e-1f)
+				v.x = v.y = 0f;
+			    else
+                                v.normalizeLocal().scaleLocal(VELOCITY_VARRENDO);
+                            
+                            /*PetSpriter ps = (PetSpriter) sprite_.get(mainID_);
+                            if (v.x > 0)
+                                ps.flipLeft();
+                            else if(v.x < 0)
+                               ps.flipRight();
+                            vel_.set(eid, v);*/
+                       }
+                    }
+
                     if (type_.get(eid) == PET && pet_.get(eid).sAction().getState() == PetAttributes.ActionState.TOMANDO_BANHO) {
                         // - compute path to banho
                         //      - for now just straight line
@@ -936,8 +1012,8 @@ class PetWorld extends World {
         PetSpriter ps = new PetSpriter();   // the spriteLinker system links it to layer_
                                             // note: if many pets were available,
                                             // we'd alocate them contiguously
-        sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
 
+        sprite_.set(id, ps);      // also queues sprite to be added by other systems on wasAdded()
         // create overlays, invisible at first
         createMosquitos(x, y-25);
         return pet;
